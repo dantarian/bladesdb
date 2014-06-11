@@ -1,0 +1,67 @@
+<h1 class="alt">My Characters</h1>
+
+<h2 class="alt">Active Characters</h2>
+
+<%= render :partial => "characters", :object => @characters.select{|character| character.active? }, :locals => { :show_user => false, :show_state => false } %>
+
+<p>Characters in <em>italics</em> have not yet been approved.<br />Crossed-out characters have been rejected - click on their name then click on "Edit and Resubmit" to resubmit.</p>
+
+<h2 class="alt">Retired Characters</h2>
+
+<%= render :partial => "characters", :object => @characters.select{|character| character.retired? }, :locals => { :show_user => false, :show_state => false } %>
+
+<h2 class="alt">Dead Characters</h2>
+
+<%= render :partial => "characters", :object => @characters.select{|character| character.dead? }, :locals => { :show_user => false, :show_state => false } %>
+
+<h2 class="alt">Recycled Characters</h2>
+
+<%= render :partial => "characters", :object => @characters.select{|character| character.recycled? }, :locals => { :show_user => false, :show_state => false } %>
+
+<% if @characters.any?{|character| character.undeclared? } %>
+	<h2 class="alt">Undeclared Characters</h2>
+
+	<p>These are characters that have been entered in a debrief without having first been declared by you. Please confirm details as soon as possible.</p>
+
+	<table>
+		<thead>
+		  	<tr>
+			    <th>Name</th>
+				<th>Actions</th>
+		  	</tr>
+		</thead>
+		
+		<tbody>
+			<% @characters.select{|character| character.undeclared? }.each do |character| %>
+	  			<tr class="<%= cycle('odd', 'even') %>">
+					<td>
+					    <%= link_to character do %>
+					        <%=h character.name_and_title %>
+					    <% end %>
+					</td>
+					<td>
+						[ 
+							<%= link_to "Declare Character", declare_character_path(character.id), :method => :get, :remote => true %>
+						]
+					</td>
+	  			</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>
+
+<p align="right">
+    [ 
+        <%= link_to "New Character", new_character_path, :method => :get, :remote => true %>
+    | 
+        <%= link_to "Import Existing Character", import_new_character_path, :method => :get, :remote => true %> 
+    ]
+</p>
+<p>
+	Only use Import Existing Character to create a character that has previously existed and played in the system but does not appear in your Undeclared list. 
+	<ul>
+		<li>If you want to create a character with fewer DTs, create as New then request an adjustment.</li>
+		<li>If you want to create a character above rank 2.0, create as New then spend monster points.</li>
+		<li>If you want your character to join a Guild after rank 2.0, create as New with no Guild, spend monster points then request to join.</li>
+	</ul>
+</p>

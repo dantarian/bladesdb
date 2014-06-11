@@ -1,0 +1,88 @@
+<h1 class="alt">Profile</h1>
+
+<% is_owner = (@user == current_user) %>
+<% is_first_aider = current_user.is_first_aider? and not is_owner %>
+<% is_committee = current_user.is_committee? and not is_owner %>
+<% is_admin = current_user.is_admin? and not is_owner %>
+<% is_gm = @user.characters.to_a.any?{|character| current_user.is_gm_for?(character)} and not is_owner %>
+
+<ul class="fieldlist">
+	<%= display_user_field @user, "user_name" %>
+	<%= display_user_field @user, "login" if is_owner or is_admin %>
+	<%= display_user_field @user, "email" %>
+	<%= display_user_field @user, "joined_date" %>
+	<%= display_user_field @user, "roles" %>
+	<%= display_user_field @user, "mobile_number" if is_owner or is_committee or is_admin %>
+	<%= display_user_field @user, "emergency_contact" if is_owner or is_committee or is_first_aider or is_admin %>
+	<%= display_user_field @user, "medical_notes" if is_owner or is_committee or is_first_aider or is_admin %>
+	<%= display_user_field @user, "general_notes" %>
+</ul>
+<p></p>
+<p class="actions">
+	[ <%= link_to "Monster Points", monster_points_user_path(@user) %> ]
+</p>
+<div id="statistics">
+	<h2 class="alt">Statistics</h2>
+	<table>
+		<thead>
+			<th></th>
+			<th class="stats">Games Played</th>
+			<th class="stats">Games Monstered (GMed)</th>
+		</thead>
+		<tr>
+			<td class="rowlabel">This year</td>
+			<td class="stats"><%=h @user.games_played %></td>
+			<td class="stats"><%=h @user.games_monstered %> (<%=h @user.games_gmed %>)</td>
+		</tr>
+		<tr>
+			<td class="rowlabel">Ever</td>
+			<td class="stats"><%=h @user.games_played_ever %></td>
+			<td class="stats"><%=h @user.games_monstered_ever %> (<%=h @user.games_gmed_ever %>)</td>
+		</tr>
+	</table>		
+	<p></p>
+</div>
+<% if is_owner or is_committee or is_admin or is_gm %>
+<div id="last_ten_debrief_comments">
+	<h3 class="alt">Last 10 Debrief Comments</h3>
+	<table class="prestyled">
+		<thead>
+			<tr>
+				<th class="date">Date</th>
+				<th>Title</th>
+				<th>As</th>
+				<th>GM</th>
+				<th class="points">Bonus</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @user.last_ten_comments.to_a.each do |debrief| %>
+				<tr class="<%= cycle('odd', 'even') %>">
+					<td>
+						<%= debrief.game.start_date %>
+					</td>
+					<td>
+						<%= link_to debrief.game.title, game_path(debrief.game) %>
+					</td>
+					<td>
+						<%= debrief.character_id.nil? ? "Monster" : (link_to debrief.character.name_and_title, character_path(debrief.character)) %>
+					</td>
+					<td>
+						<% debrief.game.gamesmasters.order(:name).to_a.each do |gm| %>
+				            <%= gm.display_name(current_user) %><br />
+				        <% end %>
+					</td>
+					<td class="points">
+						<%= debrief.points_modifier %>
+					</td>
+				</tr>
+				<tr class="<%= current_cycle %>">
+					<td></td>
+					<td colspan="3"><%= RedCloth.new( "#{debrief.remarks}", [:filter_html] ).to_html.html_safe %></td>
+					<td></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<% end %>

@@ -1,0 +1,21 @@
+<% character = merge_character %>
+<tr id="record<%= character.id %>" class="<%= cycle('odd', 'even') %> <%= character.id == @primary ? "primary" : "" %> <%= character.id == @secondary ? "secondary" : "" %>">
+    <td><%= link_to h(character.name), edit_character_path(character) %></td>
+    <td><%=h user.name %></td>
+    <td><%=h user.email %></td>
+    <td>
+        
+    </td>
+    <% unless defined? hide_actions and hide_actions %>
+        <td class="actions">
+            <span class="unselected_actions">
+                [ <%= link_to_function "Select as primary character", "makePrimaryForMerge(#{character.id})" %> ]<br />
+                [ <%= link_to_function "Select as secondary character", "makeSecondaryForMerge(#{character.id})" %> ]
+            </span>
+            <span class="selected_actions">
+                [ <%= link_to_function "Deselect", "deselectForMerge(#{character.id})" %> ]
+            </span>
+        </td>
+    <% end %>
+</tr>
+

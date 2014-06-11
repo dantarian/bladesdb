@@ -1,0 +1,26 @@
+<tr>
+    <td><%= link_to h(user.name), user_path(user) %></td>
+    <td><%= mail_to user.email, user.email %></td>
+    <td><span class="hidden">.</span>
+    	<% if user.is_committee? %>
+			<%= image_tag "committee.png", { :alt => "Committee", :title => "Committee" } %>
+		<% end %>
+		<% if user.is_character_ref? %>
+			<%= image_tag "characterref.png", { :alt => "Character Ref", :title => "Character Ref" } %>
+		<% end %>
+		<% if user.is_experienced_gm? %>
+			<%= image_tag "experiencedgm.png", {:alt => "Experienced GM", :title => "Experienced GM" } %>
+		<% end %>
+		<% if user.is_first_aider? %>
+			<%= image_tag "firstaider.png", { :alt => "First Aider", :title => "First Aider" } %>
+		<% end %>
+		<% if user.is_insurance? %>
+			<%= image_tag "insurance.png", { :alt => "Insurance Responsible", :title => "Insurance Responsible" } %>
+		<% end %>
+    </td>
+    <% if current_user.is_admin? %>
+    	<td><%=h user.username %></td>
+        <td><%= render :partial => "user_actions", :object => user %></td>
+    <% end %>
+</tr>
+

@@ -1,0 +1,19 @@
+<%= form_for([:character, @death_threshold_adjustment], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Death Threshold adjustment request.", :message => "The following problems prevented your request from being saved:" %>
+
+	<ul class="form">
+		<li>
+			<%= f.label :declared_on %><br />
+			<%= f.datepicker :declared_on, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :maxDate => "#{Date.today}", :minDate => "#{@character.declared_on + 1.day}", :readonly => true %>
+		</li>
+		<li>
+			<%= f.label :change, "Number of DTs to add or remove" %><br />
+			<%= f.text_field :change %>
+		</li>
+		<li>
+			<%= f.label :reason %><br />
+			<%= f.text_field :reason %>
+		</li>
+	</ul>
+	
+<% end %>

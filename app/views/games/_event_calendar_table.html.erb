@@ -1,0 +1,26 @@
+<table id="eventcalendar" class="prestyled">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Title</th>
+			<th>GMs</th>
+			<th class="rank">Rank</th>
+			<% if current_user %>
+				<th class="summary">Attendance</th>
+			<% end %>
+			<th class="details">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% games.to_a.each do |game| %>
+			<tr id="gamesummaryrow<%= game.id %>" class="<%= cycle('odd', 'even') %>">
+                <%= render :partial => "game_summary", :locals => { :game => game } %>
+			</tr>
+			<% if (game.start_date >= Date.today) or not game.attendance_only %>
+    			<tr id="gamedetailsrow<%= game.id %>" class="gamedetails <%= current_cycle %>" style="display: none;">
+    				<td colspan="<%= current_user ? 6 : 5 %>" class="waiting"><%= fa_icon "spinner spin" %></td>
+    			</tr>
+    	    <% end %>
+		<% end %>
+	</tbody>
+</table>

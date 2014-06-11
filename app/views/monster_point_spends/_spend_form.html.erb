@@ -1,0 +1,38 @@
+<% if @monster_point_spend.monster_points_available_to_spend_on_character == 0 %>
+	<p>You have no monster points to spend on this character on the selected date.</p>
+<% else %>
+	<%= form_for([@character, @monster_point_spend], :remote => true) do |f| %>
+	    <%= f.error_messages :header_message => "Failed to save details of monster point spend.", :message => "The following problems prevented your data from being saved:" %>
+		
+		<%= hidden_field_tag :commit, "points" %>
+		
+		<span id="playedChar" class="hidden"><%= @monster_point_spend.character.played_before @monster_point_spend.spent_on %></span>
+		<ul class="form">
+			<li>
+				<%= f.label :spent_on %><br />
+				<%= @monster_point_spend.spent_on %>
+				<%= f.hidden_field :spent_on %>
+			</li>
+			<li>
+				<%= f.label nil, "Total monster points available on date of spend" %><br />
+				<span id="mpTotal"><%= @monster_point_spend.monster_points_available %></span>
+			</li>
+			<li>
+				<%= f.label nil, "Monster points available to spend on #{@monster_point_spend.character.name}" %><br />
+                <span id="mpAvailable"><%= @monster_point_spend.monster_points_available_to_spend_on_character %></span>
+			</li>
+			<li>
+				<%= f.label nil, "Rank on date of spend" %><br />
+                <span id="charRank"><%= @monster_point_spend.character_rank_before_spend %></span>
+			</li>
+			<li>
+				<%= f.label :character_points_gained, "Character Points to purchase" %><br />
+				<%= f.text_field :character_points_gained %>
+			</li>
+			<li>
+				<%= f.label :monster_points_spent, "Cost in Monster Points" %><br />
+				<span id="mpCost"><%= @monster_point_spend.monster_points_spent %></span>
+			</li>
+		</ul>
+	<% end %>
+<% end %>

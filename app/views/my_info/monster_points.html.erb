@@ -1,0 +1,82 @@
+<h1 class="alt">Monster Points</h1>
+
+<p>Current total: <%= @user.monster_points %></p>
+
+<table class="prestyled">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Event</th>
+			<th class="points">Points</th>
+			<th class="actions">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @user.monster_point_changes.each do |change| %>
+			<tr class="<%= cycle('odd', 'even') -%> <%= (change.provisional ? 'provisional' : '' ) -%> <%= (change.rejected ? 'rejected' : '' ) -%>" title="<%= change.approval -%>">
+				<td>
+					<% if change.provisional and current_user.is_character_ref? and @user != current_user %>
+						<span class="highlight">*</span>
+					<% end %>
+					<%= change.date %>
+				</td>
+				<td>
+					<% if change.source_object.class == Debrief %>
+						<%= link_to change.title, game_path(change.source_object.game) %>
+					<% else %>
+						<%= change.title %>
+					<% end %>
+				</td>
+				<td class="points"><%= change.points %></td>
+                <td class="actions">
+                    <% if change.provisional and current_user.is_character_ref? and @user != current_user %>
+                        <% if change.source_object.class == MonsterPointDeclaration %>
+                            [ 
+                                <%= link_to "Approve", approve_user_monster_point_declaration_path(@user, change.source_object.id), :method => :patch, :remote => true %> 
+                            | 
+                                <%= link_to "Reject", reject_user_monster_point_declaration_path(@user, change.source_object.id), :method => :patch, :remote => true %> 
+                            ]
+                        <% elsif change.source_object.class == MonsterPointAdjustment %>
+                            [ 
+                                <%= link_to "Approve", approve_user_monster_point_adjustment_path(@user, change.source_object.id), :method => :patch, :remote => true %> 
+                            | 
+                                <%= link_to "Reject", reject_user_monster_point_adjustment_path(@user, change.source_object.id), :method => :patch, :remote => true %> 
+                            ]
+                        <% end %>
+                    <% end %>
+                    <% if change.rejected and @user == current_user %>
+                        <% if change.source_object.class == MonsterPointDeclaration %>
+                            [
+                                <%= link_to "Update", edit_user_monster_point_declaration_path(@user, change.source_object.id), :method => :get, :remote => true %>
+                            ]
+                        <% end %>
+                    <% end %>
+                </td>
+			</tr>
+		<% end %>
+        <% if @user.monster_point_changes.length == 0 %>
+            <tr class="<%= cycle('odd', 'even') -%> provisional">
+                <td colspan="4">No monster point changes.</td>
+            </tr>
+        <% end %>
+	</tbody>
+</table>
+
+<% if @user == current_user %>
+    <p align="right">
+        [ 
+        <% if @user.monster_point_declaration.nil? %>
+            <%= link_to "Declare Monster Points", new_user_monster_point_declaration_path(@user.id), :method => :get, :remote => true %>
+            | 
+        <% end %>
+        <%= link_to "Request Monster Points Adjustment", new_user_monster_point_adjustment_path(@user.id), :method => :get, :remote => true %> 
+        ]
+    </p>
+    <p>
+    	Only use monster point declaration if you have played and spent monster points prior to October 2012 - otherwise all monster points will be automatically added to your account 
+    	as part of debriefing.
+    </p>
+    <p>
+    	Only use monster point adjustment to correct your monster point total in case of system error.
+    </p>
+<% end %>

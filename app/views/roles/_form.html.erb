@@ -1,0 +1,8 @@
+<%= form_for([@user, @roles], :as => :post, :url => user_roles_path, :action => :update, :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save roles", :message => "The following problems prevented your roles from being saved:" %>
+	
+	<ul class="form">
+		<%= render :partial => "role", :collection => (Role.all), :locals => { :user => @user, :f => f } %>
+	</ul>
+	
+<% end %>

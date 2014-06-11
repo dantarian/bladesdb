@@ -1,0 +1,18 @@
+<%= form_for(@board, :remote => true) do |f| %>
+  	<%= f.error_messages %>
+
+	<ul class="form">
+	  	<li>
+		    <%= f.label :name %><br />
+	    	<%= f.text_field :name %>
+	  	</li>
+	  	<li>
+	    	<%= f.label :blurb %><br />
+	    	<%= f.text_area :blurb %>
+	  	</li>
+	  	<li>
+		    <%= f.check_box :in_character %><%= f.label :in_character %> <%= f.collection_select :campaign_id, Campaign.all, :id, :name, { :prompt => "Not campaign-related" } %>
+		</li>
+	
+	</ul>
+<% end %>

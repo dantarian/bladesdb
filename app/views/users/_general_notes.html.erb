@@ -1,0 +1,12 @@
+<% set_content_for :name do %>
+    General Notes
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if is_owner or is_admin %>
+        [ <%= link_to "Edit", edit_general_notes_user_path(user), :method => :get, :remote => true %> ]
+    <% end %>
+<% end %>
+
+<%= RedCloth.new( "#{user.notes}", [:filter_html] ).to_html.html_safe %>
+<%= "&nbsp;".html_safe if user.notes.nil? or user.notes.strip.empty? %>

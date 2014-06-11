@@ -1,0 +1,51 @@
+<h1 class="alt">Sign up as a new user</h1>
+
+<h2 class="alt">Cookie Warning</h2>
+<p>
+    Please note that if you register and log in to this site, cookies will be set to record your logged-in state and to remember which
+    sidebar menu sections will be expanded. If you do not agree with this use of cookies, please do not register or log in.
+</p>
+<p>
+    Note that several major pieces of functionality will be unavailable to you if you disable cookies and/or JavaScript on this site.
+</p>
+
+<% @user.password = @user.password_confirmation = nil %>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+    <p>
+        <%= f.label :name, "Real name" %><br/>
+        <%= f.text_field :name, :autofocus => true %>
+    </p>
+
+    <p>
+        <%= f.label :username, 'Username' %><br/>
+        <%= f.text_field :username %>
+    </p>
+
+    <p>
+        <%= f.label :email, 'E-mail address' %><br/>
+        <%= f.text_field :email %>
+    </p>
+
+    <p>
+        <%= f.label :password, 'Password' %><br/>
+        <%= f.password_field :password %>
+    </p>
+
+    <p>
+        <%= f.label :password_confirmation, 'Confirm password' %><br/>
+        <%= f.password_field :password_confirmation %>
+    </p>
+
+    <p>
+        <%= label_tag "Please prove you are a human being (or at least humanoid)" %>
+        <%= recaptcha_tags %><br />
+    </p>
+
+    <p>
+        <%= f.submit 'Sign up' %>
+    </p>
+<% end -%>
+
+<%= render "devise/shared/links" %>

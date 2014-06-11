@@ -1,0 +1,14 @@
+<h1 class="alt">Change Password</h1>
+
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :patch }) do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :reset_password_token %>
+
+  <div><%= f.label :password, "New password" %><br />
+  <%= f.password_field :password, :autofocus => true %></div>
+
+  <div><%= f.label :password_confirmation, "Confirm new password" %><br />
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "Change Password" %></div>
+<% end %>

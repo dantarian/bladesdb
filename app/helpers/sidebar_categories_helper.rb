@@ -1,0 +1,2 @@
+module SidebarCategoriesHelper
+end

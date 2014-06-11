@@ -1,0 +1,47 @@
+<% message_title ||= "Message Text" %>
+<% button_text ||= nil %>
+<div id="messageform">
+	<%= form_for @message, :remote => true do |f| %>
+	  	<%= f.error_messages %>
+	
+		<%= f.hidden_field :user_id %>
+		<%= f.hidden_field :board_id %>
+		<%= f.hidden_field :request_uuid %>
+	
+	  	<ul class="form">
+	  		<li>
+		    	<%= f.label :message, message_title %><br />
+		        Click <%= link_to "here", "/pages/196", { :target => '_new' } %> to view formatting options. Raw HTML is prohibited.<br />
+		    	<%= f.text_area :message, :class => "messagearea" %>
+	  		</li>
+		</ul>
+		
+		<% if @message.board.in_character %>
+			<ul class="form">
+	  			<li>
+	  				Select one of your characters as whom to post, or type an NPC name into the field below.<br />
+	  				<div class="options_container">
+		  				<% if @message.user_id.nil? %>
+							<%= radio_button_tag(:radio_type, "character_id", :checked => true ) %><%= label_tag "radio_type_character_id", "Character" %><br />
+							<%= f.select :character_id, current_user.characters.order(:name).to_a.select{|character| character.state == "active"}.collect { |character| [character.name_and_title, character.id] }, {}, {:class => "switch_enabled"} %>
+						<% else %>
+							<%= radio_button_tag(:radio_type, "character_id", :checked => true ) %><%= label_tag "radio_type_character_id", "Character" %><br />
+							<%= f.select :character_id, @message.user.characters.order(:name).to_a.select{|character| character.state == "active"}.collect { |character| [character.name_and_title, character.id] }, {}, {:class => "switch_enabled"} %>
+						<% end %>
+					</div>
+					<div class="options_container">
+						<%= radio_button_tag(:radio_type, "name") %><%= label_tag "radio_type_name", "NPC Name or Scenery Description" %><br />
+						<%= f.text_field :name, :class => "switch_enabled", :disabled => true %>
+					</div>
+				</li>
+			</ul>
+		<% end %>
+			
+		<% if button_text %>
+		  	<p>
+		    	<%= f.submit button_text %>
+		  	</p>
+		<% end %>
+	
+	<% end %>
+</div>

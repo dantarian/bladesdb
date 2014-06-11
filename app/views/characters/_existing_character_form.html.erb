@@ -1,0 +1,82 @@
+<%= form_for(@character, :remote => true, :url => { :action => action }) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Character details", :message => "The following problems prevented your details from being saved:" %>
+	
+	<div class="hidden">
+		<%= check_box_tag "importing", "1", true %>
+	</div>
+	
+	<div class="fullwidthcolumn">
+		<ul class="form">
+			<li>
+				<%= f.label :declared_on, "Character Details Correct as of" %><br />
+                <%= f.datepicker :declared_on, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :readonly => true %><br />
+				<em>This date should not coincide with a game.</em>
+			</li>
+			
+			<li>
+				<%= f.label :name %><br />
+				<%= f.text_field :name, :class => "fullwidth" %>
+			</li>
+			
+			<li>
+				<%= f.label :state %><br />
+				<%= f.select :state, options_for_select([["Active", Character::Active], 
+													     ["Retired", Character::Retired], 
+													     ["Perm-Dead", Character::PermDead]], @character.state)%>
+			</li>
+		</ul>
+	</div>
+
+    <%= f.fields_for :guild_memberships do |guild_fields| %>
+        <%= guild_fields.hidden_field :declared_on %>
+    	<div class="multicolumnform">
+    		<div class="formcolumn">
+    			<ul class="form">
+    				<li>
+    					<%= f.label :race_id %><br/>
+    					<%= f.select :race_id, Race.all.collect { |race| [race.name, race.id] } %>
+    				</li>
+    
+    				<li>
+    					<%= f.label :title %><br/>
+    					<%= f.text_field :title, :class => "fullwidth" %><br />
+    					<em>Leave blank to use the default title for your guild.</em>
+    				</li>
+    
+    				<li>
+    					<%= guild_fields.label :guild_id %><br />
+    					<%= guild_fields.select :guild_id, Guild.all.collect { |guild| [guild.name, guild.id] }, { :include_blank => true }, { :id => "guild_selector" }  %>
+    				</li>
+    				
+    				<li>
+    					<%= guild_fields.label :guild_branch_id %><br />
+                        <%= guild_fields.select :guild_branch_id, GuildBranch.all.collect { |branch| [branch.name, branch.id] }, { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), :id => "guild_branch_selector" } %>
+    				</li>
+    			</ul>	
+    		</div>
+    		<div class="formcolumn">
+    			<ul class="form">
+    				<li>
+    					<%= f.label :starting_death_thresholds, "Death Thresholds Remaining" %><br />
+    					<%= f.text_field :starting_death_thresholds, :class => "fullwidth" %>
+    				</li>
+    				
+    				<li>
+    					<%= f.label :starting_points, "Character Point Total" %><br/>
+    					<%= f.text_field :starting_points, :class => "fullwidth" %>
+    				</li>
+    
+    				<li>
+    					<%= guild_fields.label :start_points, "Character Point Total at which you joined your current guild" %><br />
+    					<%= guild_fields.text_field :start_points, :class => "fullwidth" %>
+    				</li>
+    				
+    				<li>
+    					<%= f.label :starting_florins, "Money (in florins)" %><br/>
+    					<%= f.text_field :starting_florins, :class => "fullwidth" %>
+    				</li>
+    			</ul>
+    		</div>
+    	</div>
+    <% end %>
+<% end %>

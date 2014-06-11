@@ -1,0 +1,35 @@
+<%= form_for(@game, :remote => true, :url => { :action => action }) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Game details", :message => "The following problems prevented the Game from being saved:" %>
+	
+	<div class="hidden">
+		<%= f.collection_select :campaign_ids, Campaign.all, :id, :name, { :selected => @game.campaign_ids }, { :multiple => true, :name => 'game[campaign_ids][]' } %>
+		<%= f.collection_select :gamesmaster_ids, User.all, :id, :name, { :selected => @game.gamesmaster_ids }, { :multiple => true, :name => 'game[gamesmaster_ids][]' } %>
+	</div>
+	
+    <ul class="form">
+        <% fields.each do |field| %>
+            <li>
+                <% if field[:field_type] != "boolean" %>
+                    <%= f.label field[:field], field[:field_name] %><br />
+                <% end %>
+                <% if field[:field_type] == "text" %>
+                    <%= f.text_field field[:field] %>
+                <% elsif field[:field_type] == "text_area" %>
+                    Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+                    <%= f.text_area field[:field], :class => "messagearea" %>
+                <% elsif field[:field_type] == "date" %>
+                    <%= f.datepicker field[:field], :date_format => "dd M yyyy", :change_month => true, :change_year => true %>
+                <% elsif field[:field_type] == "boolean" %>
+                    <%= f.check_box field[:field] %>
+                    <%= f.label field[:field], field[:field_name] %>
+                <% else %>
+                    <strong>Error: Unknown field type.</strong>
+                <% end %>
+                <% if field[:notes] %>
+                    <br /><em><%= field[:notes] %></em>
+                <% end %>
+            </li>
+        <% end %>
+    </ul>
+    
+<% end %>

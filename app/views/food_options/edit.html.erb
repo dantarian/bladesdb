@@ -1,0 +1,20 @@
+<h1>Editing food_option</h1>
+
+<% form_for(@food_option) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :game %><br />
+    <%= f.text_field :game %>
+  </p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @food_option %> |
+<%= link_to 'Back', food_options_path %>

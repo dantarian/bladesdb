@@ -1,0 +1,23 @@
+<% fields ||= [] %>
+<div class="top_right_shadow">
+    <div class="bottom_left_shadow">
+        <div class="shadow">
+            <div class="dialog_frame">
+                <div class="dialog_header_bar">
+                    <div class="dialog_title">
+                        &nbsp;<%=h title %>
+                    </div>
+
+                    <div class="close_icon">
+                        <%= link_to_function image_tag("close.png", :border => 0, :size => "12x12" ), "$('dialog').fade(); $('fader').fade(); return false;" %>
+                    </div>
+                </div>
+
+                <div class="dialog_contents">
+                    <%= render :partial => partial, :locals => { :action => action, :fields => fields } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

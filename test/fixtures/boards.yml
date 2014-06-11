@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  in_character: false
+  blurb: MyText
+
+two:
+  name: MyString
+  in_character: false
+  blurb: MyText

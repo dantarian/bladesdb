@@ -1,0 +1,8 @@
+The application for:
+
+<%= @thing_approved.character.name %>
+
+to <%= @guild_change_details %> at rank <%= @thing_approved.start_rank %> was <%= (@thing_approved.approved ? "approved" : "rejected") %><%= @thing_approved.provisional ? " as a provisional guild member" : "" %> by <%=h @thing_approved.approved_by.name %>.
+
+Regards,
+The BathLARP website administrators

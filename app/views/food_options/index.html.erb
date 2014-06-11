@@ -1,0 +1,22 @@
+<h1>Listing food_options</h1>
+
+<table>
+  <tr>
+    <th>Game</th>
+    <th>Name</th>
+  </tr>
+
+<% @food_options.each do |food_option| %>
+  <tr>
+    <td><%=h food_option.game %></td>
+    <td><%=h food_option.name %></td>
+    <td><%= link_to 'Show', food_option %></td>
+    <td><%= link_to 'Edit', edit_food_option_path(food_option) %></td>
+    <td><%= link_to 'Destroy', food_option, data: { confirm: 'Are you sure?'}, :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New food_option', new_food_option_path %>

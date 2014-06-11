@@ -1,0 +1,288 @@
+/* Cancel the fancy-type paragraph indent. */
+p + p { 
+    text-indent: 0em;
+    margin-top: 0em;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:hover, a:focus, .ui-widget-content a, .ui-widget-content a:hover, .ui-widget-content a:focus {
+    color: #009;
+}
+
+.sidebarcategory h3 a:hover, .sidebarcategory h3 a:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+body {
+	background-color: #000000;
+	background-image: url(<%= asset_path 'parchment.jpg' %>);
+	background-repeat: repeat-y;
+	background-attachment: fixed;
+	background-position: center;
+    font-size: 8pt;
+}
+
+hr { 
+	color: #666666; 
+	background-color: #666666;
+}
+
+#sidebar {
+	background-image: url(<%= asset_path 'sidebar-bg.png' %>);
+}
+
+#inner-sidebar {
+	padding-right: 25px;
+}
+
+#sidebar-bottom { height: 17px; }
+
+label.shiftedlabel {
+    position: relative;
+    top: -3px;
+}
+
+div#menu {
+    margin-bottom: 1em;
+}
+
+div.sidebarcategory {
+}
+
+div.sidebarsection {
+    margin-bottom: 0.5em;
+}
+
+div.sidebarcategory h3 {
+    margin-bottom: 0.5em;
+}
+
+div.sidebarsection ul {
+    margin-bottom: 0;
+    margin-right: 0;
+    list-style-type: none;
+}
+
+textarea.fullwidtharea, textarea.messagearea {
+    width: 700px;
+}
+
+textarea.pagearea { height: 20em; }
+
+textarea.messagearea { height: 10em; }
+
+div.preview, p.errortext {
+    width: 700px;
+    background-image: url(<%= asset_path '30pc_trans.png' %>);
+    padding: 5px;
+}
+
+div.previewtitle {
+    width: 690px;
+    background-image: url(<%= asset_path '30pc_trans.png' %>);
+    padding-left: 10px;
+}
+
+div.entries {
+    margin-left: 2.5em;
+    border-left: solid 4px #aa0000;
+    padding-left: 0.5em;
+}
+
+div#fader {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: url(<%= asset_path '30pc_trans.png' %>);
+    z-index: 100;
+}
+
+div.top_right_shadow {
+    background: url(<%= asset_path 'shadow-tr.png' %>) right top no-repeat;
+}
+
+div.bottom_left_shadow {
+    background: url(<%= asset_path 'shadow-bl.png' %>) left bottom no-repeat;
+    padding-top: 4px;
+    padding-left: 4px;
+}
+
+div.shadow {
+    background: url(<%= asset_path 'shadow.png' %>) bottom right;
+}
+
+div.dialog_frame {
+    position: relative;
+    left: -4px;
+    top: -4px;
+    background-color: #ffffff;
+    border: solid 1px #555555;
+}
+
+div.dialog_title {
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 100%;
+    margin-right: 3em;
+    background-color: #aa0000;
+    color: #ffffff;
+}
+
+div.close_icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 0.3em;
+}
+
+div.dialog_contents {
+    padding: 1em;
+    padding-bottom: 0em;
+}
+
+p.form_buttons, p.form_actions, p.actions {
+    text-align: right;
+}
+
+div.errorExplanation, div.error {
+	padding:.8em;margin-bottom:1em;border:2px solid #ddd;
+	background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;
+}
+
+div.errorExplanation h2, div.error h2 {
+    font-size: 1.2em;
+}
+
+div.errorExplanation p, div.errorExplanation ul, div.error p, div.error ul {
+    margin-bottom: 0.2em;
+}
+
+div.field_with_errors {
+    display: inline;
+    background-color: #ffbbbb;
+}
+
+.request {
+    font-style: italic;
+	font-weight: bold;
+	color: red;
+}
+
+.restrict {
+	color: #993300;
+}
+
+:disabled { opacity: 0.5; }
+
+thead tr, tr.title { background: url(<%= asset_path 'trans_red.png' %>); color: #ffffff; }
+thead a, tr.title a { color: #ffffff; }
+tr.odd > td { background: url(<%= asset_path '30pc_trans.png' %>); }
+tr.even > td { background: url(<%= asset_path '45pc_trans.png' %>); }
+th.rank, td.rank { text-align: center; }
+th.details, td.details { text-align: center; }
+th.summary, td.summary { text-align: center; }
+th.points, td.points { text-align: right; }
+th.money, td.money { text-align: right; }
+th.actions, td.actions { text-align: right; text-decoration: none !important; }
+th.numeric, td.numeric { text-align: right; }
+th.deaths, td.deaths { text-align: right; }
+th.no_sort, td.no_sort { cursor: default !important; }
+td.highlight { border-top: thin solid black; border-bottom: thin solid black; font-weight: bold; }
+th.date { width: 15%; }
+th.stats, td.stats { width: 40%; text-align: right; }
+
+tr.provisional td, div.fieldcontents.provisional { font-style: italic; }
+tr.provisional td.actions, div.fieldcontents.provisional div.fieldactions { font-style: normal; }
+tr.rejected td { text-decoration: line-through; }
+
+ul.form { margin: 0; }
+ul.form li { list-style: none; margin-top: 1em; }
+ul.form li:first-child { margin-top: 0; }
+ul.form li p { margin-bottom: 0; }
+ul.form li ul.form { margin: 0; }
+
+img.calendar_date_select_popup_icon { position: relative; top: 0.4em; }
+
+div.multicolumnform { overflow: hidden; }
+div.formcolumn { width: 270px; padding-left: 5px; padding-right: 5px; float: left; }
+div.fullwidthcolumn { width: 550px; padding-left: 5px; padding-right: 5px; }
+div.formcolumn select[multiple="multiple"] { width: 225px; height: 5.6em; }
+
+p.attrib { font-weight: bold; }
+
+div.adminfunctions { text-align: right; }
+div.odd { background: url(<%= asset_path '30pc_trans.png' %>); }
+div.even { background: url(<%= asset_path '45pc_trans.png' %>); }
+
+div.message { padding: 0.5em; border-top: 1px solid #888888; border-bottom: 1px solid #888888; overflow: hidden; }
+div.message + div.message { border-top: none; }
+div.edited_by { float: left; }
+
+.hidden { display: none; }
+
+table.game_applications th, table.game_applications td { vertical-align: top; }
+
+div#dialog input[type="text"].fullwidth, div#dialog select { width: 100%; }
+div#dialog input[type="text"].datepicker { width: 85%; }
+div#dialog select.timepicker { width: 3em; }
+
+div.column { width: 50%; float: left; }
+
+ul.fieldlist { padding: 0; margin: 0; }
+li.fieldline { list-style: none; overflow: hidden; position: relative; }
+li.fieldline.odd { background: url(<%= asset_path '30pc_trans.png' %>); }
+li.fieldline.even { background: url(<%= asset_path '45pc_trans.png' %>); }
+div.fieldlabel { text-align: right; background: url(<%= asset_path 'trans_red.png' %>); color: #ffffff; font-weight: bold; width: 12em; position: absolute; padding: 0.5em; top: 0; bottom: 0; }
+li.fieldline.even div.fieldlabel { background: url(<%= asset_path 'trans_red_pale.png' %>); }
+div.fieldcontents { padding: 0.5em; padding-left: 13.5em; }
+div.fieldactions { float: right; text-align: right; padding-left: 1em; }
+
+span.highlight { color: red; background-color: transparent; }
+
+ul.debriefs > li { list-style: none; overflow: hidden; position: relative; }
+ul.debriefs > li+li { margin-top: 1em; }
+ul.debriefs div.actions { float: right; text-align: right; padding-left: 1em; }
+div.debriefcomments { font-style: italic; }
+div.debriefcomments p:last-child, div.fieldcontents p:last-child { margin: 0; }
+
+table.primary .unselected_actions, table.secondary .unselected_actions { display: none; }
+table.source .selected_actions, table.source .primary, table.source .secondary { display: none; }
+
+table.userMergeTable th.login, table.userMergeTable td.login { width: 15%; }
+table.userMergeTable th.name, table.userMergeTable td.name { width: 20%; }
+table.userMergeTable th.email, table.userMergeTable td.email { width: 30%; }
+table.userMergeTable th.status, table.userMergeTable td.status { width: 10%; }
+table.userMergeTable th.actions, table.userMergeTable td.actions { width: 25%; }
+
+table.suppresslinebreaks td { white-space: nowrap; }
+table.suppresslinebreaks td.multiline { white-space: normal; }
+
+span.attendancenotes { font-style: italic; padding-left: 2em; }
+
+td.totalrow { border-top: thin solid black; border-bottom: thin solid black; font-weight: bold; }
+
+td.rowlabel { font-weight: bold; }
+
+.ui-dialog-titlebar { padding: .2em .4em !important; }
+.ui-dialog-titlebar button.ui-state-default { border: none; background: none; }
+.ui-dialog-titlebar button.ui-state-hover { background-color: #aa3333; }
+.ui-dialog-titlebar .ui-icon { background-image: url(<%= asset_path 'jqueryui/ui-icons_ffffff_256x240.png' %>); }
+.ui-dialog-buttonpane .progressbar { margin-top: 0.6em; margin-left: 0.6em; margin-right: 0.2em; }
+
+td a.show_hide_next_row { display: block; width: 100%; height: 100%; }
+td a i.fa { font-size: 1.4em; color: black; }
+td a:hover i.fa { color: #666; }
+
+td.waiting { text-align: center }
+
+div.playerslist span.ratios, div.playerslist span.actions { padding-left: 1em; }

@@ -1,0 +1,159 @@
+<div id="gamedetails<%= game.id %>" class="gamedetails">
+    <% if game.is_debriefable? and not game.is_debrief_finished? %>
+        <p><em>Awaiting debrief.</em></p>
+    <% end %>
+    <% if game.has_notes? %>
+        <p><%=h game.notes %></p>
+    <% end %>
+    <% unless game.is_debriefable? %>
+        <p><strong>Meet at:</strong> <%= game.formatted_meet_time %> <strong>Start at:</strong> <%= game.formatted_start_time %></p>
+        <% if !game.attendance_only and game.can_view_applications? current_user %>
+            <p>
+                There are <%= game.game_applications.size %> application(s) to run this game.
+                <% if game.game_applications.size > 0 %>
+                    [ <%= link_to "View applications", game_game_applications_path(game) %> ]
+                <% end %>
+            </p>
+        <% end %>
+    <% end %>
+    <% if game.has_ic_brief? or game.has_ooc_brief? or game.is_editable_by? current_user %>
+        <div id="briefs<%= game.id %>">
+            <% if !game.attendance_only and (game.has_ic_brief? or (!game.is_debrief_finished? and game.is_editable_by? current_user)) %>
+                <h3 class="alt">IC Brief</h3>
+                <% if game.has_ic_brief? %>
+                    <div>
+                        <%= RedCloth.new( game.ic_brief, [:filter_html] ).to_html.html_safe %>
+                    </div>
+                <% end %>
+                <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+                    <p>
+                        [ <%= link_to "Edit IC brief", edit_ic_brief_game_path(game), :method => :get, :remote => true %> ]
+                    </p>
+                <% end %>
+            <% end %>
+            <% if game.has_ooc_brief? or (!game.is_debrief_finished? and game.is_editable_by? current_user) %>
+                <h3 class="alt">OOC Brief</h3>
+                <% if game.has_ooc_brief? %>
+                    <div>
+                        <%= RedCloth.new( game.ooc_brief, [:filter_html] ).to_html.html_safe %>
+                    </div>
+                <% end %>
+                <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+                    <p>
+                        [ <%= link_to "Edit OOC brief", edit_ooc_brief_game_path(game), :method => :get, :remote => true %> ]
+                    </p>
+                    <%unless game.is_debrief_started? %>
+                        <p class="form_actions">
+                            [ <%= link_to "Publish briefs", publish_briefs_game_path(game), :method => :patch, data: { confirm: "Post to the Briefs board to tell people that the briefs for this game have been updated?" }, :remote => true %> ]
+                        </p>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </div>
+    <% end %>
+    <% if !game.is_debrief_finished? and not (game.is_debrief_started? and game.is_editable_by?(current_user)) %>
+    	<% if game.open || game.attendance_only %>
+    	    <% if game.attendance_only %>
+    	    	<h3 class="alt">Attending (<%= game.attendances.count %>)</h3>
+       			<table class="attending prestyled">
+    				<thead>
+    					<tr>
+    						<th>Name</th>
+							<th class="action"></th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<%= render :partial => "games/game_attendance", collection: game.attendances %>
+    				</tbody>
+    			</table>
+    	    <% else %>
+    	    	<h3 class="alt">Player Requests (<%= game.characters.count %>)</h3>
+    			<table class="players prestyled">
+    				<thead>
+    					<tr>
+    						<th class="name">Name</th>
+    						<th class="character">Character</th>
+						    <% if game.gamesmasters.include?(current_user)%>
+	    						<th class="ratio" title="Play:Monster ratio">P : M</th>
+	    					<% end %>
+							<th class="action"></th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<%= render partial: "games/game_attendance", collection: game.confirmed_player_attendances %>
+    					<%= render partial: "games/game_attendance", collection: game.prioritised_player_attendances %>
+    					<%= render partial: "games/game_attendance", collection: game.requested_player_attendances %>
+    					<%= render partial: "games/game_attendance", collection: game.rejected_player_attendances %>
+    				</tbody>
+    			</table>
+    			
+				<h3 class="alt">Monsters (<%= game.monsters.count%>)</h3>
+    			<table class="monsters prestyled">
+    				<thead>
+    					<tr>
+    						<th>Name</th>
+							<th class="action"></th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<%= render :partial => "games/game_attendance", collection: game.monstering_attendances %>
+    				</tbody>
+    			</table>
+        	<% end %>
+
+			<h3 class="alt">Not Attending</h3>
+			<table class="notattending prestyled">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th class="action"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<%= render :partial => "games/game_attendance", collection: game.non_attendances %>
+				</tbody>
+			</table>
+        			
+    		<% if current_user && !(game.is_gm? current_user) && !game.is_debriefable? && current_user.is_normal? %>
+    		
+                <% if !game.game_attendances.exists?( :user_id => current_user.id ) and game.attendance_only %>
+                    <p>
+                        [ <%= link_to "Set attendance status", new_game_game_attendance_path(game), :method => :get, :remote => true %> ]
+                    </p>
+                <% elsif !game.game_attendances.exists?( :user_id => current_user.id ) %>
+                    <p>
+                        [ <%= link_to "Set playing status", new_game_game_attendance_path(game), :method => :get, :remote => true %> ]
+                    </p>
+                <% elsif current_user.attendance_for(game).undecided? and game.attendance_only %>
+                    <p>
+                        [ <%= link_to "Set attendance status", edit_game_game_attendance_path(game, current_user.attendance_for(game)), :method => :get, :remote => true %> ]
+                    </p>
+                <% elsif current_user.attendance_for(game).undecided? %>
+                    <p>
+                        [ <%= link_to "Set playing status", edit_game_game_attendance_path(game, current_user.attendance_for(game)), :method => :get, :remote => true %> ]
+                    </p>
+    			<% end %>
+    		<% end %>
+    	<% else %>
+    		<p><i>This game is not yet open to player applications.</i></p>
+    	<% end %>
+    	<% if current_user and (current_user.is_admin_or_committee? or (game.is_debriefable? and game.is_editable_by? current_user)) %>
+        	<p class="form_actions">
+        	    [ 
+        	        <% first_action = true -%>
+                    <% if game.is_debriefable? and game.is_editable_by? current_user %>
+        	            <%= link_to "Debrief", start_debrief_game_path(game), :method => :get, :remote => true %>
+        	            <% first_action = false -%>
+                    <% end %>
+                    <% if current_user.is_admin_or_committee? %>
+                        <%= "|" unless first_action %>
+                        <%= link_to "Delete Game", game_path(game), :method => :delete, data: { confirm: "Are you sure you want to permanently delete this Game?" }, :remote => true %>
+                    <% end %>
+        	    ]
+        	</p>
+        <% end %>
+    <% end %>
+    <% if game.is_debrief_finished? or (game.is_debrief_started? and game.is_editable_by? current_user) %>
+        <%= render :partial => "games/debrief", :locals => { :game => game } %>
+    <% end %>
+</div>

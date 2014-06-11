@@ -1,0 +1,20 @@
+<div class="category" id="category<%= category.id %>_and_entries">
+    <div id="category<%= category.id %>">
+        <%= link_to image_tag( "move_up.png", :border => 0, :size => "10x10" ), move_up_sidebar_category_path( category.id ), :method => :patch, :remote => true %>
+        <%= link_to image_tag( "move_down.png", :border => 0, :size => "10x10" ), move_down_sidebar_category_path( category.id ), :method => :patch, :remote => true %>
+        <h4 class="alt" style="display: inline;"><%= category.name %></h4>
+        [
+            <% if category.editable %>
+                <%= link_to "Edit", edit_sidebar_category_path( category.id ), :method => :get, :remote => true %> |
+                <%= link_to "Delete", sidebar_category_path( category.id ), :method => :delete, data: { confirm: 'Are you sure you wish to delete this category and its entries?' }, :remote => true %> |
+            <% end %>
+            <%= link_to "Add entry", new_sidebar_entry_path( :category_id => category.id ), :method => :get, :remote => true %>
+        ]
+    </div>
+    <div class="entries" id="entries<%= category.id %>">
+        <% category.sidebar_entries.sort_by { |entry| entry.order }.each do |entry| %>
+            <%= render :partial => "sidebars/show_entry_for_editing", :locals => { :entry => entry } %>
+        <% end %>
+    </div>
+</div>
+

@@ -1,0 +1,27 @@
+<h1 class="alt">All Members</h1>
+
+<h2 class="alt">Active Members (<%= @users.count{|user| user.is_normal? } %>)</h2>
+
+<%= render :partial => "users", :object => @users.select{|user| user.is_normal? }, :locals => { table_id: "active" } %>
+
+<h2 class="alt">Web-Only Members</h2>
+
+<%= render :partial => "users", :object => @users.select{|user| user.is_webonly? }, :locals => { table_id: "webonly" } %>
+
+<% if current_user.is_admin_or_committee? %>
+	<h2 class="alt">Pending Members</h2>
+	<%= render :partial => "users", :object => @users.select{|user| user.pending? or (user.active? and !user.approved?) }, :locals => { table_id: "pending" } %>
+	
+	<h2 class="alt">Suspended Members</h2>
+	<%= render :partial => "users", :object => @users.select{|user| user.suspended? }, :locals => { table_id: "suspended" } %>
+	
+	<h2 class="alt">Deleted Members</h2>
+	<%= render :partial => "users", :object => @users.select{|user| user.deleted? }, :locals => { table_id: "deleted" } %>
+	
+	<h2 class="alt">GM-Created Members</h2>
+	<%= render :partial => "users", :object => @users.select{|user| user.passive? }, :locals => { table_id: "gm-created" } %>
+<% end %>
+
+<% if current_user.is_admin?%>
+    <p class="actions">[ <%= link_to "Merge users", merge_select_users_users_path %> ]</p>
+<% end %>

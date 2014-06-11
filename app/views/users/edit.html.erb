@@ -1,0 +1,14 @@
+<h1 class="alt">Edit <%= h @user.name %></h1>
+
+<%= error_messages_for :user %>
+
+<% form_for @user do |f| %>
+    <%= label_tag :name, "Real name:" %><br />
+    <%= f.text_field :name %><br />
+    <%= label_tag :login, "Username:" %><br />
+    <%= f.text_field :login %><br />
+    <%= label_tag :email, "E-mail address:" %><br />
+    <%= f.text_field :email %><br />
+    <%= submit_tag "Update" %>
+<% end %>
+

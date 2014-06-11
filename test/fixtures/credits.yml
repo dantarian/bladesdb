@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  transaction: 
+  character: 
+  other_recipient: MyString
+
+two:
+  transaction: 
+  character: 
+  other_recipient: MyString

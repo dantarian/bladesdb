@@ -1,0 +1,30 @@
+<h1 class="alt">Log In</h1>
+
+<%= form_for(resource, :as => resource_name, :url => user_session_path) do |f| %>
+  <p>
+    <%= f.label :username, "Username" %><br />
+    <%= f.text_field :username, :autofocus => true %><br />
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+    <br/>
+
+    <% if devise_mapping.rememberable? -%>
+      <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+    <% end -%>
+  </p>
+
+  <p><%= f.submit "Sign in" %></p>
+<% end %>
+
+<p>
+<%= render "devise/shared/links" %>
+</p>
+
+<h2 class="alt">Cookie Warning</h2>
+<p>
+    Please note that if you log in to this site, cookies will be set to record your logged-in state and to remember which
+    sidebar menu sections will be expanded. If you do not agree with this use of cookies, please do not log in.
+</p>
+<p>
+    Note that several major pieces of functionality will be unavailable to you if you disable cookies and/or JavaScript on this site.
+</p>

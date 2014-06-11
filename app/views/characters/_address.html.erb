@@ -1,0 +1,12 @@
+<% set_content_for :name do %>
+    Address
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if is_owner or is_ref_for_character and not character.recycled? %>
+        [ <%= link_to "Edit", edit_address_character_path(character), :method => :get, :remote => true %> ]
+    <% end %>
+<% end %>
+
+<%= RedCloth.new( "#{character.address}", [:filter_html] ).to_html.html_safe %>
+<%= "&nbsp;".html_safe if character.address.nil? or character.address.strip.empty? %>

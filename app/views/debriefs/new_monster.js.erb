@@ -1,0 +1,5 @@
+<% if @withname %>
+	<%= render_dialog "debriefs/monster", "Add Monster - #{@debrief.user.display_name(current_user)}", "Select", "create" %>
+<% else %>
+	<%= render_dialog "debriefs/monster", "Add Monster", "Select", "create" %>
+<% end %>

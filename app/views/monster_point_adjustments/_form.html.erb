@@ -1,0 +1,19 @@
+<%= form_for([:user, @monster_point_adjustment], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Monster Point adjustment request.", :message => "The following problems prevented your request from being saved:" %>
+
+	<ul class="form">
+		<li>
+			<%= f.label :declared_on %><br />
+			<%= f.datepicker :declared_on, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :maxDate => "#{Date.today}", :readonly => true %>
+		</li>
+		<li>
+			<%= f.label :points, "Number of points to add or remove" %><br />
+			<%= f.text_field :points %>
+			<p><em>Enter a positive number to add and a<br /> negative number to remove points.</em></p>
+		</li>
+		<li>
+			<%= f.label :reason %><br />
+			<%= f.text_field :reason %>
+		</li>
+	</ul>
+<% end %>

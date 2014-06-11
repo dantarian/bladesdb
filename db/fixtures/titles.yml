@@ -1,0 +1,198 @@
+lance_corporal:
+  id: 1
+  guild_id: 1
+  name: Lance Corporal
+  points: 100
+    
+corporal:
+  id: 2
+  guild_id: 1
+  name: Corporal
+  points: 200
+    
+sergeant:
+  id: 3
+  guild_id: 1
+  name: Sergeant
+  points: 450
+    
+lead_sergeant:
+  id: 4
+  guild_id: 1
+  name: Lead Sergeant
+  points: 750
+    
+master_sergeant:
+  id: 5
+  guild_id: 1
+  name: Master Sergeant
+  points: 1000
+    
+sergeant_major:
+  id: 6
+  guild_id: 1
+  name: Sergeant Major
+  points: 1250
+    
+circle_wizard:
+  id: 7
+  guild_id: 2
+  name: Wizard
+  points: 0
+    
+circle_high_wizard:
+  id: 8
+  guild_id: 2
+  name: High Wizard
+  points: 200
+    
+circle_arch_wizard:
+  id: 9
+  guild_id: 2
+  name: Arch Wizard
+  points: 500
+    
+towers_wizard:
+  id: 10
+  guild_id: 3
+  name: Wizard
+  points: 0
+    
+towers_high_wizard:
+  id: 11
+  guild_id: 3
+  name: High Wizard
+  points: 200
+    
+towers_arch_wizard:
+  id: 12
+  guild_id: 3
+  name: Arch Wizard
+  points: 500
+    
+paladin:
+  id: 13
+  guild_id: 4
+  name: Paladin
+  points: 0
+    
+bladesinger:
+  id: 14
+  guild_id: 5
+  name: Bladesinger
+  points: 0
+    
+gladiator:
+  id: 15
+  guild_id: 6
+  name: Gladiator
+  points: 0
+    
+champion:
+  id: 16
+  guild_id: 6
+  name: Champion
+  points: 150
+    
+guardian:
+  id: 17
+  guild_id: 7
+  name: Guardian
+  points: 0
+    
+marshal:
+  id: 18
+  guild_id: 8
+  name: Marshal
+  points: 0
+   
+judge:
+  id: 19
+  guild_id: 9
+  name: Judge
+  points: 0
+    
+master:
+  id: 20
+  guild_id: 10
+  name: Master
+  points: 0
+    
+high_master:
+  id: 21
+  guild_id: 10
+  name: High Master
+  points: 150
+    
+great_master:
+  id: 22
+  guild_id: 10
+  name: Great Master
+  points: 450
+    
+grand_master:
+  id: 23
+  guild_id: 10
+  name: Grand Master
+  points: 900
+    
+seeker:
+  id: 24
+  guild_id: 11
+  name: Seeker
+  points: 0
+    
+healer:
+  id: 25
+  guild_id: 12
+  name: Healer
+  points: 0
+    
+humacti:
+  id: 26
+  guild_id: 13
+  name: Humacti
+  points: 0
+    
+artificer:
+  id: 27
+  guild_id: 15
+  name: Artificer
+  points: 0
+    
+apprentice:
+  id: 28
+  guild_id: 16
+  name: Apprentice
+  points: 0
+    
+dark_brother:
+  id: 29
+  guild_id: 18
+  name: Dark Brother
+  points: 0
+    
+acolyte:
+  id: 30
+  guild_id: 23
+  name: Acolyte
+  points: 0
+    
+druid:
+  id: 31
+  guild_id: 23
+  name: Druid
+  points: 100
+    
+hierophant:
+  id: 32
+  guild_id: 23
+  name: Hierophant
+  points: 1000
+    
+illuminati:
+  id: 33
+  guild_id: 14
+  name: Illuminati
+  points: 0
+  

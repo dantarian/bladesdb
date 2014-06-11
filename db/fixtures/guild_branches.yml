@@ -1,0 +1,20 @@
+guards:
+  id: 1
+  guild_id: 1
+  name: Guards
+  
+pathfinders:
+  id: 2
+  guild_id: 1
+  name: Pathfinders
+  
+wardens:
+  id: 3
+  guild_id: 1
+  name: Wardens
+  
+archers:
+  id: 4
+  guild_id: 1
+  name: Archers
+  

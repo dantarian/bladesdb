@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  board: 
+  user: 
+  name: MyString
+  email: MyString
+  message: MyText
+  approved: false
+  character: 
+  last_edited_by: 
+  deleted: false
+
+two:
+  board: 
+  user: 
+  name: MyString
+  email: MyString
+  message: MyText
+  approved: false
+  character: 
+  last_edited_by: 
+  deleted: false

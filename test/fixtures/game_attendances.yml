@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user: 
+  want_food: false
+  food_option: 
+  character: 
+  attend_status: 
+  confirmation_status: 
+
+two:
+  user: 
+  want_food: false
+  food_option: 
+  character: 
+  attend_status: 
+  confirmation_status: 

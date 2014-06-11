@@ -1,0 +1,17 @@
+<% set_content_for :name do %>
+    Login
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if is_owner or is_admin %>
+        [
+            <%= link_to "Edit", edit_login_user_path(user), :method => :get, :remote => true %> 
+            <% if is_owner %>
+                |
+                <%= link_to "Change password", edit_user_registration_path %>
+            <%end%>
+        ]
+    <% end %>
+<% end %>
+
+<%=h user.username %>

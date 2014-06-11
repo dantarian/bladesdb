@@ -1,0 +1,5 @@
+<% if @character.user == current_user %>
+    <%= render_dialog "form", "Request Death Threshold Adjustment", "Request" %>
+<% else %>
+    <%= render_dialog "form", "Make Death Threshold Adjustment", "Save" %>
+<% end %>

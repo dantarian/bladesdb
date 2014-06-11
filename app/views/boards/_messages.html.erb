@@ -1,0 +1,15 @@
+<div id="messages">
+	<% if @messages.empty? %>
+		<p><em>No messages found.</em></p>
+	<% else %>
+		<%= render :partial => "boardpage" %>
+		
+		<% @messages.each do |message| %>
+			<%= render :partial => "messages/message", :locals => { :message => message } %>
+		<% end %>
+
+		<p></p>
+		<%= render :partial => "boardpage" %>
+
+	<% end %>
+</div>

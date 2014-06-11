@@ -1,0 +1,48 @@
+<p>
+  <b>Board:</b>
+  <%=h @message.board %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @message.user %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @message.name %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @message.email %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%=h @message.message %>
+</p>
+
+<p>
+  <b>Approved:</b>
+  <%=h @message.approved %>
+</p>
+
+<p>
+  <b>Character:</b>
+  <%=h @message.character %>
+</p>
+
+<p>
+  <b>Last edited by:</b>
+  <%=h @message.last_edited_by %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%=h @message.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>

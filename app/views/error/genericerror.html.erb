@@ -1,0 +1,22 @@
+<h1 class="alt"><%=h @status %> Error</h1>
+
+<p>You appear to be trying to do something you shouldn't or access a page that doesn't exist.</p>
+
+<p>If this isn't the case, please could you log onto the <%= link_to "BathLARP Bug Tracker", "http://bugs.bathlarp.pencethren.org", { :target => '_new' } %> 
+	and raise a new Support request, explaining what you did to get this error and copying in the text below.</p>
+	
+<p class="errortext">
+	<code>
+		<%=h DateTime.now %>
+		<% unless @exception.nil? %>
+		    <br />
+		    <%=h @exception %>
+		<% end %>
+                <% unless @trace.nil? %>
+		        <% @trace.each do |line| %>
+			        <br />
+			        <%=h line %>
+		        <% end %>
+                <% end %>
+	</code>
+</p>

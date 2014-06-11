@@ -1,0 +1,2 @@
+$("#dialog").dialog("close");
+$("#eventcalendar").replaceWith('<%= j render :partial => "games/event_calendar_table", :locals => { :games => @games } %>');

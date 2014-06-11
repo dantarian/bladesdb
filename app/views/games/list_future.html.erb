@@ -1,0 +1,25 @@
+<h1 class="alt">Event Calendar</h1>
+
+<%= render :partial => "event_calendar_table", :locals => { :games => @games } %>
+
+<% if current_user and current_user.is_admin_or_committee? %>
+    <p class="actions">[ <%= link_to "Add game", new_game_path, :method => :get, :remote => true %> ]</p>
+<% end %>
+
+<h2 class="alt">Applying for Games</h2>
+
+<p>If you want to apply to run a game, click the Show link for the date you want and click Apply to Run. In your application, please include the approximate rank bracket and 
+	if there are any reasons why it needs to be that specific date (presence of a particular player etc.). In general, we will try to get back to you within two weeks of the committee 
+	seeing your application.</p>
+	
+<p>The GMs for the yearly campaign get first call on game slots, so long as they make their request for the term/semester at least one month before the end of the previous term/semester,
+	 and if emergency slots are needed then the committee will make arrangements on a case by case basis.</p>
+	 
+<p>If two GMs apply for the same slot, the choice will be made on roughly the following guidelines:</p>
+<ol>
+	<li>Specific (good) reason for that date given.</li>
+	<li>Rank bracket.</li>
+	<li>Number of games already run by the GM this year.</li>
+	<li>Number of games in ongoing plot already run this term (not including mini-campaigns).</li>
+	<li>Outstanding debriefs.</li>
+</ol>

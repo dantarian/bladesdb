@@ -1,0 +1,7 @@
+<% unless @no_dialog %>
+	$("#dialog").dialog("close");
+<% end %>
+$("#gamesummaryrow<%= @game.id %>").html('<%= j render :partial => "games/game_summary", :locals => { :game => @game, :shown => true } %>');
+$("#gamedetailsrow<%= @game.id %>").html('<%= j render :partial => "games/game_detail", :locals => { :game => @game } %>');
+$("#gamedetailsshow<%= @game.id %>").html('<%= j render :partial => "games/game", :locals => { :game => @game } %>');
+updateShowDetailsActions("gamedetailsrow<%= @game.id %>", "show_details_<%= @game.id %>", "hide_details_<%= @game.id %>");

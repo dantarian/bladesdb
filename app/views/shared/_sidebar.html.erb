@@ -1,0 +1,22 @@
+<div id="sessionpanel">
+    <p class="small">
+        <% if user_signed_in? %>
+            Logged in as <%=h current_user.username %> ::
+            <%= link_to 'Log out', destroy_user_session_path, :method => :delete %>
+			<br />
+			You have <%=h current_user.monster_points %> monster points.
+			<br />
+			Your current P:M ratio is <%=h current_user.games_played %>:<%=h current_user.games_monstered %>.
+			<%= hidden_field_tag "logged_in", true %>
+        <% else %>
+            Not logged in ::
+            <%= link_to 'Login', new_user_session_path %> ::
+            <%= link_to "Register", new_user_registration_path %>
+            <%= hidden_field_tag "logged_in", false %>
+        <% end %> 
+    </p>
+</div>
+
+<%= render :partial => "shared/admin_notifications" %>
+<%= render :partial => "sidebars/show" %>
+

@@ -1,0 +1,5 @@
+<h1 class="alt">Manage Message Boards</h1>
+
+<%= render :partial => "admin_boards_list" %>
+
+<p align="right">[ <%= link_to "Add board", new_board_path, :method => :get, :remote => true %> ]</p>

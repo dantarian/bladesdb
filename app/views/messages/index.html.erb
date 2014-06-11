@@ -1,0 +1,36 @@
+<h1>Listing messages</h1>
+
+<table>
+  <tr>
+    <th>Board</th>
+    <th>User</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Message</th>
+    <th>Approved</th>
+    <th>Character</th>
+    <th>Last edited by</th>
+    <th>Deleted</th>
+  </tr>
+
+<% @messages.each do |message| %>
+  <tr>
+    <td><%=h message.board %></td>
+    <td><%=h message.user %></td>
+    <td><%=h message.name %></td>
+    <td><%=h message.email %></td>
+    <td><%=h message.message %></td>
+    <td><%=h message.approved %></td>
+    <td><%=h message.character %></td>
+    <td><%=h message.last_edited_by %></td>
+    <td><%=h message.deleted %></td>
+    <td><%= link_to 'Show', message %></td>
+    <td><%= link_to 'Edit', edit_message_path(message) %></td>
+    <td><%= link_to 'Destroy', message, data: { confirm: 'Are you sure?' }, :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New message', new_message_path %>

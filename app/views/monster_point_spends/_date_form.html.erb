@@ -1,0 +1,12 @@
+<%= form_for([@character, @monster_point_spend], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save date of monster point spend.", :message => "The following problems prevented your data from being saved:" %>
+
+	<ul class="form">
+		<%= hidden_field_tag :commit, "date" %>
+		<li>
+			<%= f.label :spent_on %><br />
+			<%= f.datepicker :spent_on, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :maxDate => "#{Date.today}", :minDate => "#{earliest_allowed_date(@character, @monster_point_spend)}", :readonly => true, :value => @monster_point_spend.spent_on.to_s %><br />
+			<em>This date should not coincide with a game, and should be after<br/>your last monster points spend or character points adjustment.</em>
+		</li>
+	</ul>
+<% end %>

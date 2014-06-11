@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <link rel="icon" type="image/png" href="<%= asset_path 'favicon.png' %>" />
+        <%= csrf_meta_tag %>
+		<%= javascript_include_tag 'application' %>
+		<%= stylesheet_link_tag 'application' %>
+		<% if @content_for_title %>
+			<title>BathLARP - <%= yield :title %></title>
+		<% else %>
+			<title>BathLARP</title>
+		<% end %>
+        <%= yield :head %>
+    </head>
+    <body>
+        <div class="container">
+
+            <!-- Page banner -->
+
+            <div id="banner" class="span-24 last">
+                <p align="center">
+                    <a href="/" border="0">
+                        <%= image_tag "SwordSketchTransparentSmall.png" %><%= image_tag "bathlarp.png" %>
+                    </a>
+                </p>
+            </div>
+
+            <!-- Sidebar -->
+            
+            <div id="sidebar" class="span-6">
+                <div id="sidebar-top" class="span-6 last">
+                    <%= image_tag "sidebar-top.png" %>
+                </div>
+                <div id="leftborder" class="span-1">
+                    &nbsp;
+                </div>
+                <div class="span-5 last">
+                    <%= render(:partial => "shared/sidebar") %>
+                </div>
+                <div id="sidebar-bottom" class="span-6 last">
+                    <%= image_tag "sidebar-bottom.png" %>
+                </div>
+            </div>
+
+            <!-- Content -->
+
+            <div id="content-space" class="span-18 last">
+                <!-- Show any warnings, errors or other messages. -->
+                <% if flash[ :notice ] %>
+                    <div class="success"><%= flash[ :notice ] %></div>
+                <% end %>
+                <% if flash[ :warning ] %>
+                    <div class="notice"><%= flash[ :warning ] %></div>
+                <% end %>
+                <% if flash[ :alert ] %>
+                    <div class="notice"><%= flash[ :alert ] %></div>
+                <% end %>
+                <% if flash[ :error ] %>
+                    <div class="error"><%= flash[ :error ] %></div>
+                <% end %>
+
+                <%= yield %>
+            </div>
+
+            <!-- Footer -->
+
+            <div id="footer" class="span-12 push-12 alt small last" align="right">
+                <p>
+                    Site design is copyright &copy; Warren Jones 2009-<%= Time.now.strftime("%Y") %><br/>
+                    If you spot any bugs or have an idea for a new feature, please visit <a href="http://bugs.bathlarp.pencethren.org">our bug tracker</a>.
+                </p>
+            </div>
+
+        </div>
+        <div id="fader" style="display: none;"></div>
+        <div id="dialog" style="display: none;"></div>
+    </body>
+</html>
+

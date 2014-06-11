@@ -1,0 +1,25 @@
+human:
+  id: 1
+  name: Human
+  death_thresholds: 10
+  
+elf:
+  id: 2
+  name: Elf
+  death_thresholds: 3
+  
+half_elf:
+  id: 3
+  name: Half Elf
+  death_thresholds: 6
+  
+half_orc:
+  id: 4
+  name: Half Orc
+  death_thresholds: 7
+  
+half_ogre:
+  id: 5
+  name: Half Ogre
+  death_thresholds: 7
+  

@@ -1,0 +1,58 @@
+<%= form_for @transaction, :remote => true do |f| %>
+    <%= f.error_messages :header_message => "Failed to save money transfer", :message => "The following problems prevented the money transfer from being saved:<br/" %>
+
+    <%= hidden_field_tag :transfer_from, @transfer_from %>
+
+    <ul class="form">
+        <li>
+            <%= f.label :value, "Amount to transfer (in florins)" %><br />
+            <%= f.text_field :value %>
+        </li>
+        <li>
+            <%= f.label :description, "Description" %><br />
+            <%= f.text_field :description %>
+        </li>
+        <%= f.fields_for :debit do |df| %>
+            <% if @transfer_from %>
+                <li>
+                    <p>
+                        <%= df.label :character_id, "From" %><br />
+                        <%= df.hidden_field :character_id %>
+                        <%=h @transaction.debit.character.name_and_title %>
+                    </p>
+                </li>
+            <% else %>
+                <li class="radiocontainer">
+                    <%= radio_button_tag "from", "character", !@from_other, :class => "radiocontroller" %><%= df.label :character_id, "From character" %><br />
+                    <%= df.select :character_id, Character.order(:name).collect {|character| [character.name_and_title, character.id] }, {}, { :class => "radiocontrolled", :disabled => @from_other } %><br />
+                </li>
+                <li class="radiocontainer">
+                    <%= radio_button_tag "from", "other", @from_other, :class => "radiocontroller" %><%= df.label :other_source, "From other source" %><br />
+                    <%= df.text_field :other_source, :class => "radiocontrolled", :disabled => !@from_other %>
+                </li>
+            <% end %>
+        <% end %>
+        <%= f.fields_for :credit do |cf| %>
+            <% if @transfer_from %>
+                <li class="radiocontainer">
+                    <%= radio_button_tag "to", "character", !@to_other, :class => "radiocontroller" %><%= cf.label :character_id, "To character" %><br />
+                    <%= cf.select :character_id, Character.all(:order => "name ASC").reject{|character|
+                            character.user == current_user
+                        }.collect {|character| [character.name_and_title, character.id] }, {}, { :class => "radiocontrolled", :disabled => @to_other } %><br />
+                </li>
+                <li class="radiocontainer">
+                    <%= radio_button_tag "to", "other", @to_other, :class => "radiocontroller" %><%= cf.label :other_recipient, "To other recipient" %><br />
+                    <%= cf.text_field :other_recipient, :class => "radiocontrolled", :disabled => !@to_other %>
+                </li>
+            <% else %>
+                <li>
+                    <p>
+                        <%= cf.label :character_id, "To" %><br />
+                        <%= cf.hidden_field :character_id %>
+                        <%=h @transaction.credit.character.name_and_title %>
+                    </p>
+                </li>
+            <% end %>
+        <% end %>
+    </ul>
+<% end %>

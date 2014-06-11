@@ -1,0 +1,3 @@
+<td colspan="<%= if current_user then 6 else 5 end %>">
+	<%= render :partial => "games/game", :locals => { :game => game } %>
+</td>

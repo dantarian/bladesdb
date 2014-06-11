@@ -1,0 +1,13 @@
+<p>
+  <b>Game:</b>
+  <%=h @food_option.game %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @food_option.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_food_option_path(@food_option) %> |
+<%= link_to 'Back', food_options_path %>

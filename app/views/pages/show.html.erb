@@ -1,0 +1,10 @@
+<% content_for :title do %>
+<%= @page.title %>
+<% end %>
+
+<h1 class="alt"><%= @page.title %></h1>
+<%= @page.get_content %>
+
+<% if user_signed_in? and @page.editable_by? current_user %>
+    <p align="right">[ <%= link_to 'Edit page', edit_page_path(@page) %> ]</p>
+<% end %>

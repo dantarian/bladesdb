@@ -1,0 +1,17 @@
+<%= form_for([:character, @guild_membership], :remote => true, :url => { :action => "create_guild_branch_change" }, :html => { :method => :post }) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Guild Change", :message => "The following problems prevented your Guild Branch Change from being saved:" %>
+    
+    <ul class="form">
+        <li>
+            <%= f.hidden_field :guild_id %>
+            <%= f.label :guild_id %><br />
+            <%= @guild_membership.guild.name %>
+        </li>
+        
+        <li>
+            <%= f.label :guild_branch_id %><br />
+            <%= f.select :guild_branch_id, GuildBranch.all.collect { |branch| [branch.name, branch.id] }, { :include_blank => true }, { :disabled => ( @guild_membership.guild.nil? || @guild_membership.guild.guild_branches.empty? ) } %>
+        </li>
+    </ul>
+    
+<% end %>

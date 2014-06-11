@@ -1,0 +1,12 @@
+<% set_content_for :name do %>
+    GM Notes
+<% end %>
+
+<% set_content_for :actions do %>
+    <% unless is_owner or character.recycled? %>
+        [ <%= link_to "Edit", edit_gm_notes_character_path(character), :method => :get, :remote => true %> ]
+    <% end %>
+<% end %>
+
+<%= RedCloth.new( "#{character.gm_notes}", [:filter_html] ).to_html.html_safe %>
+<%= "&nbsp;".html_safe if character.gm_notes.nil? or character.gm_notes.strip.empty? %>

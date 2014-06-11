@@ -1,0 +1,6 @@
+<li>
+	<%= f.fields_for(role, :index => role.rolename) do |rf| %>
+		<%= rf.check_box :hasrole, :checked => user.has_role?(role.rolename) %>
+		<%= rf.label :hasrole, role.rolename %>
+	<% end %>
+</li>

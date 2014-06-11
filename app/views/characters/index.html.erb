@@ -1,0 +1,41 @@
+<h1 class="alt">Characters</h1>
+
+<% if @showall %>
+	<p>[ <%= link_to "Show active characters", characters_path %> ]</p>
+	
+	<h2 class="alt">Live Characters</h2>
+
+	<%= render :partial => "characters", :object => @characters.select{|character| character.active? }, :locals => { :show_user => true, :show_state => false } %>
+	
+	<h2 class="alt">Retired Characters</h2>
+	
+	<%= render :partial => "characters", :object => @characters.select{|character| character.retired? }, :locals => { :show_user => true, :show_state => false } %>
+	
+	<h2 class="alt">Dead Characters</h2>
+	
+	<%= render :partial => "characters", :object => @characters.select{|character| character.dead? }, :locals => { :show_user => true, :show_state => false } %>
+	
+	<% if current_user.is_admin_or_character_ref?%>
+		<h2 class="alt">Recycled Characters</h2>
+		
+		<%= render :partial => "characters", :object => @characters.select{|character| character.recycled? }, :locals => { :show_user => true, :show_state => false } %>
+		
+		<h2 class="alt">Undeclared Characters</h2>
+		
+		<%= render :partial => "characters", :object => @characters.select{|character| character.undeclared? }, :locals => { :show_user => true, :show_state => false, :all_undeclared => true } %>
+	<% end %>
+
+<% else %>
+	<p>[ <%= link_to "Show all characters", show_all_characters_path %> ]</p>
+	
+	<h2 class="alt">Active Characters</h2>
+
+	<%= render :partial => "characters", :object => @characters.select{|character| character.currently_active? }, :locals => { :show_user => true, :show_state => false } %>
+	
+<% end %>
+
+<p>
+    Characters in <em>italics</em> have not yet been approved.<br />
+    Crossed-out characters have been rejected.<br />
+    <%= "Approval status is visible only for your own characters." unless current_user.is_character_ref? %>
+</p>

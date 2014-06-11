@@ -1,0 +1,11 @@
+<% set_content_for :name do %>
+    Name
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if is_owner or is_admin %>
+        [ <%= link_to "Edit", edit_user_name_user_path(user), :remote => true, :method => :get %> ]
+    <% end %>
+<% end %>
+
+<%=h user.name %>

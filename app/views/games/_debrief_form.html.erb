@@ -1,0 +1,28 @@
+<%= form_for(@game, :remote => true, :url => { :action => action }) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Debrief details", :message => "The following problems prevented the Debrief from being saved:" %>
+    
+    <div class="hidden">
+        <%= f.collection_select :campaign_ids, Campaign.all, :id, :name, { :selected => @game.campaign_ids }, { :multiple => true, :name => 'game[campaign_ids][]' } %>
+        <%= f.collection_select :gamesmaster_ids, User.all, :id, :name, { :selected => @game.gamesmaster_ids }, { :multiple => true, :name => 'game[gamesmaster_ids][]' } %>
+    </div>
+    
+    <ul class="form">
+        <li>
+            <%= f.label :title, "Game title" %><br />
+            <%= f.text_field :title %>
+        </li>
+        <li>
+            <%= f.label :player_points_base, "Player Points" %><br />
+            <%= f.text_field :player_points_base %>
+        </li>
+        <li>
+            <%= f.label :monster_points_base, "Monster Points" %><br />
+            <%= f.text_field :monster_points_base %>
+        </li>
+        <li>
+            <%= f.label :player_money_base, "Danger Pay (florins)" %><br />
+            <%= f.text_field :player_money_base %>
+        </li>
+    </ul>
+
+<% end %>

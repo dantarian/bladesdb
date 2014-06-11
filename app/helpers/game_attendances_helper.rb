@@ -1,0 +1,2 @@
+module GameAttendancesHelper
+end

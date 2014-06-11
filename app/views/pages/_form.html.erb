@@ -1,0 +1,25 @@
+<%= form_for(@page) do |f| %>
+    <%= f.error_messages %>
+
+    <p>
+        <%= f.label :title, "Page title:" %><br />
+        This will appear at the top of the page. Plain text.<br />
+        <%= f.text_field :title, :size => 50 %><br />
+        <%= f.label :content, "Page content:" %><br />
+        Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+        <%= f.text_area :content, :class => 'fullwidtharea pagearea' %><br />
+        <%= f.check_box :show_to_non_users %><%= f.label :show_to_non_users, "Allow non-users to view this page" %><br />
+    </p>
+    <p>
+        <%= f.submit 'Preview' %><%= f.submit 'Save' %>
+    </p>
+<% end %>
+
+<% if @preview == true %>
+    <div class="preview">
+        <div class="previewtitle"><h2 class="alt">Preview</h2></div>
+        <h1 class="alt"><%= @page.title %></h1>
+        <%= @page.get_content %>
+    </div>
+<% end %>
+

@@ -1,0 +1,7 @@
+Dear <%=h @user.name %>,
+
+Your play request for <%= @attendance.game.title.nil? ? "Untitled" : @attendance.game.title %> on <%=h @attendance.game.start_date.to_s %> has been <%=h @state %>; if you have any further questions, please contact the GMs directly.
+
+Regards,
+The BathLARP website administrators
+

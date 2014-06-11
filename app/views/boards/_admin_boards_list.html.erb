@@ -1,0 +1,18 @@
+<div id="admin_boards_list">
+	<% if @boards.empty? %>
+		<p><i>No boards found.</i></p>
+	<% else %>
+		<table>
+			<thead>
+				<tr>
+					<th>Board Name</th>
+					<th>Messages</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%= render partial: :board, collection: @boards %>
+			</tbody>
+		</table>
+	<% end %>
+</div>

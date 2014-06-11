@@ -1,0 +1,81 @@
+<% set_content_for :name do %>
+    Guild
+<% end %>
+
+<% set_content_for :actions do %>
+    <% unless character.recycled? %>
+        <% if is_owner %>
+            [ 
+            <% if character.guild.nil? %>
+                <%= link_to "Join guild", new_character_guild_membership_path(character), method: :get, remote: true %>
+            <% else %>
+                <%= link_to "Leave guild", leave_new_character_guild_membership_path(character), method: :post, remote: true, data: { confirm: "Are you sure you want to leave your guild?" } %>
+                |
+                <%= link_to "Change guild", new_character_guild_membership_path(character), method: :get, remote: true %>
+                <% if @character.guild.has_branches? %> 
+                    | <%= link_to "Change branch", branch_change_new_character_guild_membership_path(character), method: :get, remote: true %>
+                <% end %>
+            <% end %>
+            <% if character.approved and not character.outstanding_guild_membership_request.nil? %>
+                | <%= link_to "Cancel guild change", character_guild_membership_path(character, character.outstanding_guild_membership_request.id), method: :delete, remote: true, data: { confirm: "Are you sure you want to cancel your request to change guilds?" } %>
+            <% end %>
+            ]
+        <% elsif is_ref_for_character and not character.outstanding_guild_membership_request.nil? %>
+            [
+                <%= link_to "Approve change", approve_character_guild_membership_path(character, character.outstanding_guild_membership_request), method: :patch, remote: true %>
+                |
+                <%= link_to "Approve change (provisional member)", provisionally_approve_character_guild_membership_path(character, character.outstanding_guild_membership_request), method: :patch, remote: true %>
+                |
+                <%= link_to "Reject change", reject_character_guild_membership_path(character, character.outstanding_guild_membership_request), method: :patch, remote: true %>
+            ]
+        <% elsif is_ref_for_character and not character.current_guild_membership.guild.nil? %>
+            [
+            <% if character.current_guild_membership.approved %>
+                <% if character.current_guild_membership.provisional %>
+                    <%= link_to "Make full member", make_full_new_character_guild_membership_path(character), method: :post, remote: true %> | 
+                <% end %>
+                <%= link_to "Eject from guild", eject_new_character_guild_membership_path(character), method: :post, remote: true, data: { confirm: "Are you sure you want to eject #{character.name} from their guild?" } %>
+                <% if character.guild && character.guild.has_branches? %>
+                | <%= link_to "Change branch", branch_change_new_character_guild_membership_path(character), method: :get, remote: true %>
+                <% end %>
+            <% else %>
+                <%= link_to "Approve change", approve_character_guild_membership_path(character, character.current_guild_membership), method: :patch, remote: true %>
+                |
+                <%= link_to "Approve change (provisional member)", provisionally_approve_character_guild_membership_path(character, character.current_guild_membership), method: :patch, remote: true %>
+                |
+                <%= link_to "Reject change", reject_character_guild_membership_path(character, character.current_guild_membership), method: :patch, remote: true %>
+            <% end %>
+            ]
+        <% end %>
+    <% end %>
+<% end %>
+
+<% if character.guild.nil? %>
+    No guild
+<% else %>
+    <%= character.current_guild_membership.full_guild_name %>
+    <% if character.current_guild_membership.provisional %>
+        (provisional)
+    <% end %>
+<% end %>
+(since rank <%= character.current_guild_membership.start_rank %>)
+
+<% unless character.outstanding_guild_membership_request.nil? %>
+    <br/>(Application to
+    <% if character.outstanding_guild_membership_request.guild.nil? %>
+        leave <%= character.user == current_user ? "your" : "their" %> guild
+    <% else %>
+        <% if character.guild.nil? or character.current_guild_membership == character.outstanding_guild_membership_request %>
+            join the
+        <% else %>
+            move to the
+        <% end %>
+        <%= character.outstanding_guild_membership_request.full_guild_name %>
+    <% end %>
+    at rank <%= character.outstanding_guild_membership_request.start_rank %>
+    <% if character.outstanding_guild_membership_request.rejected? %>
+        was rejected by <%= mail_to character.outstanding_guild_membership_request.approved_by.email, character.outstanding_guild_membership_request.approved_by.display_name(current_user) %>.)
+    <% else %>
+        is pending approval.)
+    <% end %>
+<% end %>

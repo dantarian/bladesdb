@@ -1,0 +1,6 @@
+<% if @debrief.character.nil? %>
+	<%= render_dialog "debriefs/player", "Add Player", "Select", "create" %>
+<% else %>
+	<%= render_dialog "debriefs/player", "Add Character - #{@debrief.character.name_and_title}", "Select", "create" %>
+<% end %>
+

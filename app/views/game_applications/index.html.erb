@@ -1,0 +1,26 @@
+<h1 class="alt">Game Applications</h1>
+
+<p>The following people have applied to run the game on <%= @game.date_range %>. Applications are listed in order of date, earliest first.</p>
+
+<p>Please note that approving an application will only set the named applicant as GM - additional GMs must be added manually.</p>
+
+<table class="game_applications">
+	<thead>
+  		<tr>
+		    <th>Applicant</th>
+		    <th>Supporting Comments</th>
+			<th>Actions</th>
+  		</tr>
+	</thead>
+	<tbody>
+		<% @game_applications.each do |game_application| %>
+			<tr class="<%= cycle('odd', 'even') %>">
+			    <td><%=h game_application.user.display_name(current_user) %></td>
+			    <td><%= RedCloth.new( game_application.details, [:filter_html] ).to_html.html_safe %></td>
+				<td>[ <%= link_to "Approve", approve_game_game_application_url(@game, game_application), :method => :patch %> ]</td>
+		  	</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<p align="right">[ <%= link_to 'Back', event_calendar_path %> ]</p>

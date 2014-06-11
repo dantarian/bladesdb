@@ -1,0 +1,245 @@
+<h1 class="alt">Character Ref Approval Requests</h1>
+
+<% if @character_requests.length > 0 %>
+    <h2 class="alt">Character Requests</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Name</th>
+                <th>Race</th>
+                <th>Guild</th>
+                <th class="numeric">Rank</th>
+                <th class="numeric">Death Thresholds</th>
+                <th class="actions">State</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @character_requests.each do |character| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=h character.user.name %></td>
+                    <td>
+                        <%= link_to character do %>
+                            <%=h character.name_and_title %>
+                        <% end %>
+                    </td>
+                    <td><%=h character.race.name %></td>
+                    <td><%=h character.full_guild_name %></td>
+                    <td class="numeric"><%=h character.rank %></td>
+                    <td class="numeric"><%=h character.death_thresholds %></td>
+                    <td class="actions"><%=h character.state_readable %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<% reset_cycle %>
+
+<% if @provisional_guild_memberships.length > 0 %>
+    <h2 class="alt">Provisional Guild Memberships</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Character</th>
+                <th>Guild</th>
+                <th class="numeric">Games Played in Guild</th>
+                <th class="numeric">Points Earned in Guild</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @provisional_guild_memberships.each do |membership| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=h membership.character.user.name %></td>
+                    <td><%=link_to membership.character.name, membership.character %></td>
+                    <td><%=h membership.full_guild_name %></td>
+                    <td class="numeric"><%= membership.character.games_played_since(membership.declared_on) %></td>
+                    <td class="numeric"><%= membership.character.points_earned_since(membership.declared_on) %></td>
+                    <td class="actions">
+                        [ <%= link_to "Make full member", make_full_new_character_guild_membership_path(membership.character), :method => :post, :remote => true  %> ]<br/>
+                        [ <%= link_to "Eject from guild", eject_new_character_guild_membership_path(membership.character), :method => :post, :remote => true %> ]
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<% reset_cycle %>
+
+<% if @guild_change_requests.length > 0 %>
+    <h2 class="alt">Guild Change Requests</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Character</th>
+                <th>Current Guild</th>
+                <th>New Guild</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @guild_change_requests.each do |request| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=h request.character.user.name %></td>
+                    <td><%=link_to request.character.name, request.character %></td>
+                    <td>
+                        <% if request.character.full_guild_name != request.full_guild_name %>
+                            <%=h request.character.full_guild_name %>
+                        <% end %>
+                    </td>
+                    <td><%=h request.full_guild_name %></td>
+                    <td class="actions">
+                        [ <%= link_to "Approve guild change", approve_character_guild_membership_path(request.character, request), :method => :patch, :remote => true %> ]<br/>
+                        [ <%= link_to "Approve as provisional guild member", provisionally_approve_character_guild_membership_path(request.character, request), :method => :patch, :remote => true %> ]<br/>
+                        [ <%= link_to "Reject guild change", reject_character_guild_membership_path(request.character, request), :method => :patch, :remote => true %> ]
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<% reset_cycle %>
+
+<% if @character_point_adjustments.length > 0 %>
+    <h2 class="alt">Character Point Adjustment Requests</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Character</th>
+                <th>Date</th>
+                <th>Reason</th>
+                <th class="numeric">Adjustment</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @character_point_adjustments.each do |adjustment| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=h adjustment.character.user.name %></td>
+                    <td>
+                        <%= link_to adjustment.character do %>
+                            <%=h adjustment.character.name_and_title %>
+                        <% end %>
+                    </td>
+                    <td><%=h adjustment.declared_on %></td>
+                    <td><%=h adjustment.reason %></td>
+                    <td class="numeric"><%= (adjustment.points >= 0 ? "+" : "") %><%=h adjustment.points %></td>
+                    <td class="actions">
+                        [ <%= link_to "Approve", approve_character_character_point_adjustment_path(adjustment.character, adjustment), :method => :patch, :remote => true %> ]<br/>
+                        [ <%= link_to "Reject", reject_character_character_point_adjustment_path(adjustment.character, adjustment), :method => :patch, :remote => true %> ] 
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<% reset_cycle %>
+
+<% if @monster_point_declarations.length > 0 %>
+    <h2 class="alt">Monster Point Declarations</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Date</th>
+                <th class="numeric">Points</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @monster_point_declarations.each do |declaration| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=link_to declaration.user.name, monster_points_user_path(declaration.user) %></td>
+                    <td><%=h declaration.declared_on %></td>
+                    <td class="numeric"><%=h declaration.points %></td>
+                    <td class="actions">
+                        [ <%= link_to "Approve", approve_user_monster_point_declaration_path(declaration.user), :method => :patch, :remote => true %> ]<br/>
+                        [ <%= link_to "Reject", reject_user_monster_point_declaration_path(declaration.user), :method => :patch, :remote => true %> ]
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<% reset_cycle %>
+
+<% if @monster_point_adjustments.length > 0 %>
+    <h2 class="alt">Monster Point Adjustment Requests</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Date</th>
+                <th>Reason</th>
+                <th class="numeric">Adjustment</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @monster_point_adjustments.each do |adjustment| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=link_to adjustment.user.name, monster_points_user_path(adjustment.user) %></td>
+                    <td><%=h adjustment.declared_on %></td>
+                    <td><%=h adjustment.reason %></td>
+                    <td class="numeric"><%= (adjustment.points >= 0 ? "+" : "") %><%=h adjustment.points %></td>
+                    <td class="actions">
+                        [ <%= link_to "Approve", approve_user_monster_point_adjustment_path(adjustment.user, adjustment), :method => :patch, :remote => true %> ]<br/> 
+                        [ <%= link_to "Reject", reject_user_monster_point_adjustment_path(adjustment.user, adjustment), :method => :patch, :remote => true %> ]
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<% reset_cycle %>
+
+<% if @death_threshold_adjustments.length > 0 %>
+    <h2 class="alt">Death Threshold Adjustment Requests</h2>
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Character</th>
+                <th>Date</th>
+                <th>Reason</th>
+                <th class="numeric">Adjustment</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @death_threshold_adjustments.each do |adjustment| %>
+                <tr class="<%= cycle('odd', 'even') %>">
+                    <td><%=h adjustment.character.user.name %></td>
+                    <td>
+                        <%= link_to adjustment.character do %>
+                            <%=h adjustment.character.name_and_title %>
+                        <% end %>
+                    </td>
+                    <td><%=h adjustment.declared_on %></td>
+                    <td><%=h adjustment.reason %></td>
+                    <td class="numeric"><%= (adjustment.change >= 0 ? "+" : "") %><%=h adjustment.change %></td>
+                    <td class="actions">
+                        [ <%= link_to "Approve", approve_character_death_threshold_adjustment_path(adjustment.character, adjustment), :method => :patch, :remote => true %> ]<br/> 
+                        [ <%= link_to "Reject", reject_character_death_threshold_adjustment_path(adjustment.character, adjustment), :method => :patch, :remote => true %> ]
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>

@@ -1,0 +1,1 @@
+MONEY_BASE = 10

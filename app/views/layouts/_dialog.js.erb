@@ -1,0 +1,23 @@
+$("#dialog").html("<%=j yield %>");
+$("#dialog form").submit( function(event) {
+        var dialog = $("#dialog").parent(".ui-dialog");
+        dialog.find(".ui-dialog-buttonset").find("button").prop("disabled", "disabled");
+        if (dialog.find(".progressbar").length == 0) {
+            dialog.find(".ui-dialog-buttonpane").append('<div class="progressbar" style="display:none;"></div>');
+        }
+        dialog.find(".progressbar").progressbar({value: false}); 
+        dialog.find(".progressbar").fadeIn();
+});
+$("#dialog").dialog({
+    title: "<%=j title %>",
+    buttons: [{text: "<%=j button %>", click: function(event) {
+        event.preventDefault();
+        $("#dialog").find("form").submit();
+        return false; 
+    } }],
+    width: "auto",
+    modal: true,
+    resizable: true,
+    show: "fade",
+    hide: "fade"
+});

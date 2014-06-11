@@ -1,0 +1,13 @@
+<%= form_for([@game_application.game, @game_application], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save application details", :message => "The following problems prevented your details from being saved:" %>
+
+	<%= f.hidden_field :user_id %>
+	<%= f.hidden_field :game_id %>
+
+	<p>You are applying to run the game on <%= @game_application.game.date_range %>.</p>
+	<p>
+		<%= f.label :details, "Please enter any supporting details for your application." %><br/>
+        Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+		<%= f.text_area :details %>
+	</p>
+<% end %>

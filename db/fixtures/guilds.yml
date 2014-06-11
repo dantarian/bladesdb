@@ -1,0 +1,124 @@
+defenders:
+  name: Defenders
+  id: 1
+  tithe_percentage: 0
+    
+circle:
+  name: Circle
+  id: 2
+  tithe_percentage: 10
+
+towers:
+  name: Towers
+  id: 3
+  tithe_percentage: 10
+      
+paladins:
+  name: Paladins
+  id: 4
+  tithe_percentage: 10
+      
+bladesingers:
+  name: Bladesingers
+  id: 5
+  tithe_percentage: 10
+      
+gladiators:
+  name: Gladiators
+  id: 6
+  tithe_percentage: 10
+      
+temple_of_balance:
+  name: Temple of Balance
+  id: 7
+  tithe_percentage: 10
+      
+temple_of_justice:
+  name: Temple of Justice
+  id: 8
+  tithe_percentage: 10
+      
+temple_of_order:
+  name: Temple of Order
+  id: 9
+  tithe_percentage: 10
+      
+temple_of_might:
+  name: Temple of Might
+  id: 10
+  tithe_percentage: 10
+      
+temple_of_freedom:
+  name: Temple of Freedom
+  id: 11
+  tithe_percentage: 10
+      
+temple_of_life:
+  name: Temple of Life
+  id: 12
+  tithe_percentage: 10
+      
+humacti:
+  name: Humacti
+  id: 13
+  tithe_percentage: 10
+      
+illuminati:
+  name: Illuminati
+  id: 14
+  tithe_percentage: 10
+
+artificers:
+  name: Artificers
+  id: 15
+  tithe_percentage: 10
+      
+artisans:
+  name: Artisans
+  id: 16
+  tithe_percentage: 20
+      
+shadowmasters:
+  name: Shadow Masters
+  id: 17
+  tithe_percentage: 10
+
+temple_of_death:
+  name: Temple of Death
+  id: 18
+  tithe_percentage: 10
+      
+temple_of_chaos:
+  name: Temple of Chaos
+  id: 19
+  tithe_percentage: 10
+      
+temple_of_anarchy:
+  name: Temple of Anarchy
+  id: 20
+  tithe_percentage: 10
+      
+darkblades:
+  name: Dark Blades
+  id: 21
+  tithe_percentage: 10
+      
+brethren:
+  name: Brethren
+  id: 22
+  tithe_percentage: 20
+      
+druids:
+  name: Druids
+  id: 23
+  tithe_percentage: 0
+      
+amazons:
+  name: Amazons
+  id: 24
+  tithe_percentage: 0
+      
+barbarians:
+  name: Barbarians
+  id: 25
+  tithe_percentage: 0

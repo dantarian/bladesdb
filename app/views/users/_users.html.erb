@@ -1,0 +1,16 @@
+<table class="sortable prestyled" id="<%= table_id %>">
+	<thead>
+	    <tr>
+	        <th>Name</th>
+	        <th>E-mail</th>
+    	    <th class="no_sort">Roles</th>
+    	    <% if current_user.is_admin? %>
+    	        <th>Login</th>
+    	        <th class="no_sort">Admin</th>
+    	    <% end %>
+	    </tr>
+	</thead>
+	<tbody>
+        <%= render :partial => users %>
+    </tbody>
+</table>

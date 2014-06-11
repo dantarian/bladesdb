@@ -1,0 +1,64 @@
+<%= form_for([@game, @debrief], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save debrief", :message => "The following problems prevented the debrief from being saved:" %>
+    
+    <%= hidden_field_tag :debrief_type, "Player" %>
+    
+    <% if @debrief.user.nil? %>
+        <%= hidden_field_tag :user_selected, "false" %>
+        <%= hidden_field_tag :character_selected, "false" %>
+        <ul class="form">
+            <li>
+                <%= f.label :user_id, "Select User, or #{link_to 'Create New User', new_player_new_game_user_path(@game), :method => :get, :remote => true}".html_safe %><br />
+                <%= f.select :user_id, User.order(:name).select{|user|
+                        (user.deleted_at.nil? && (user.is_normal? || user.is_recent?))
+                    }.collect { |user| [user.name, user.id] } %>
+            </li>
+        </ul>
+    <% elsif @debrief.character.nil? %>
+        <%= hidden_field_tag :user_selected, "false" %>
+        <%= hidden_field_tag :character_selected, "true" %>
+        <%= f.hidden_field :user_id %>
+        <ul class="form">
+            <li>
+                <%= f.label :character_id, "Select Character, or #{link_to 'Create New Character', new_player_new_game_user_character_path(@game, @debrief.user), :method => :get, :remote => true}".html_safe %><br />
+                <%= f.select :character_id, @debrief.user.characters.order(:name).reject{|character|
+                        @game.player_debriefs.any? {|debrief| debrief.character == character }
+                    }.collect { |character| [character.name_and_title, character.id] } %>
+            </li>
+        </ul>
+    <% else %>
+        <%= hidden_field_tag :user_selected, "true" %>
+        <%= hidden_field_tag :character_selected, "true" %>
+        <%= f.hidden_field :user_id %>
+        <%= f.hidden_field :character_id %>
+        <ul class="form">
+            <li>
+                <%= f.label :base_points, "Base Points (if different to Player Base)" %><br />
+                <%= f.text_field :base_points %>
+            </li>
+            <li>
+                <%= f.label :deaths, "Deaths" %><br />
+                <%= f.text_field :deaths %>
+            </li>
+            <li>
+                <%= f.label :points_modifier, "Bonus Points" %><br />
+                <%= f.text_field :points_modifier %>
+            </li>
+            <li>
+                <%= f.label :money_modifier, "Pay Adjustment" %><br />
+                <%= f.text_field :money_modifier %>
+            </li>
+            <li>
+                <%= f.label :remarks, "Comments" %><br />
+                <%= f.text_area :remarks %>
+            </li>
+            <%= f.fields_for :character do |cf| %>
+            	<%= cf.hidden_field :id %>
+            <li>
+                <%= cf.label :gm_notes, "GM Notes" %><br />
+                <%= cf.text_area :gm_notes %>
+            </li>
+            <% end %>
+        </ul>
+    <% end %>
+<% end %>

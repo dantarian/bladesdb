@@ -1,0 +1,27 @@
+<% show_user ||= false %>
+<% show_state &&= true %>
+<% all_undeclared ||= false %>
+
+<table class="suppresslinebreaks sortable prestyled">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <% if show_user %>
+                <th>Player</th>
+            <% end %>
+            <% unless all_undeclared %>
+                <th>Race</th>
+                <th>Guild</th>
+                <th class="numeric defaultColumn descending">Rank</th>
+                <th class="numeric"><abbr title="Death Thresholds">DTs</abbr></th>
+            <% end %>
+            <% if show_state %>
+                <th>State</th>
+            <% end %>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <%= render :partial => characters, :locals => { :show_user => show_user, :show_state => show_state, :all_undeclared => all_undeclared } %>
+    </tbody>
+</table>

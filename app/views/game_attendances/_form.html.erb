@@ -1,0 +1,48 @@
+<%= form_for([@game_attendance.game, @game_attendance], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save attendance details", :message => "The following problems prevented your details from being saved:" %>
+
+	<%= f.hidden_field :user_id %>
+	<%= f.hidden_field :game_id %>
+
+	<p>
+		<%= label_tag :state, "Status" %><br />
+		<% if @game_attendance.game.attendance_only %>
+            <%= select_tag :state, options_for_select([["Attending", "attending"], 
+                                                       ["Not attending", "not_attending"]], @game_attendance.attend_state) %>
+		<% elsif @game_attendance.user.characters.empty? %>
+			<%= select_tag :state, options_for_select([["Undecided", "undecided"], 
+													   ["Monster", "monstering"], 
+													   ["Not attending", "not_attending"]], @game_attendance.attend_state) %>
+		<% else %>
+			<%= select_tag :state, options_for_select([["Undecided", "undecided"], 
+													   ["Play", "playing"], 
+	                              					   ["Monster", "monstering"], 
+ 													   ["Not attending", "not_attending"]], @game_attendance.attend_state) %>
+		<% end %>
+	</p>
+	
+	<% if !@game_attendance.user.characters.empty? %>
+		<p>
+			<%= f.label :character_id %><br/>
+			<%= f.select :character_id, current_user.characters.all.select{|c| c.active? }.sort{|c1,c2| c1.points <=> c2.points}.collect{|c| [c.title_name_and_rank(:unescaped => true), c.id]}, {:include_blank => true}, {:disabled => (!@game_attendance.playing?)} %>
+		</p>
+	<% end %>
+		
+	<% if @game_attendance.game.food %>
+		<p>
+		    <%= f.label :want_food %>
+		    <%= f.check_box :want_food %>
+		</p>
+	
+		<p>
+		    <%= f.label :food_option %><br/>
+		    <%= f.text_field :food_option %>
+		</p>
+	<% end %>
+	
+	<p>
+	    <%= f.label :notes %><br/>
+	    <%= f.text_field :notes %>
+	</p>
+	
+<% end %>

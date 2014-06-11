@@ -1,0 +1,2 @@
+$("#applicationlinks<%= @game.id %>").replaceWith('<%= j render :partial => "games/game_application_links", :locals => { :game => @game, :application => @game_application } %>');
+$("#gamedetailsrow<%= @game.id %>").html('<%= j render :partial => "games/game_detail", :locals => { :game => @game } %>');

@@ -1,0 +1,37 @@
+<% form_for(@character, :remote => true, :url => { :action => action }) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Guild details", :message => "The following problems prevented your details from being saved:" %>
+	
+	<div class="hidden">
+		<%= check_box_tag "importing", "1", true %>
+	</div>
+	
+	<ul class="form">
+		<li>
+			<%= f.label :guild_id %><br />
+			<%= f.select :guild_id, Guild.all.collect { |guild| [guild.name, guild.id] }, :include_blank => true %>
+		</li>
+		
+		<li>
+			<%= f.label :branch_id %><br />
+			<%= f.select :branch_id, GuildBranch.all.collect { |branch| [branch.name, branch.id] }, { :include_blank => true }, { :disabled => ( @character.guild.nil? || @character.guild.guild_branches.empty? ) } %>
+		</li>
+
+		<li>
+			<%= f.label :guild_start_points, "Character Point Total at which guild change occurred" %><br />
+			<%= f.text_field :guild_start_points, :class => "fullwidth" %><br />
+			<em>This should be point at which you became a full (not provisional) guild member.</em>
+		</li>
+	</ul>
+	
+    <p class="form_buttons">
+        <%= submit_tag "Save Character" %>
+    </p>
+	
+	<%= observe_field "character_guild_id", :function => "
+		if (value == '1') { // Defenders
+			$('character_branch_id').enable();
+		} else {
+			$('character_branch_id').disable();
+		}
+	" %>
+<% end %>

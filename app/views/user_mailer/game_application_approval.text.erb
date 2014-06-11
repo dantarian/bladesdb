@@ -1,0 +1,10 @@
+Dear <%=h @thing_approved.user.name %>,
+
+The Committee has <%= (@thing_approved.approved ? "approved" : "rejected") %> your game application for <%=h @thing_approved.game.start_date.to_s%>. Have fun!
+
+The details of the <%= (@thing_approved.approved ? "approved" : "rejected") %> application are:
+
+<%=h @thing_approved.details %>
+
+Regards,
+The Committee

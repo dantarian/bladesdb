@@ -1,0 +1,28 @@
+administrator:
+  id: 1
+  rolename: administrator
+  
+committee:
+  id: 2
+  rolename: committee
+  
+characterref:
+  id: 3
+  rolename: characterref
+  
+firstaider:
+  id: 4
+  rolename: firstaider
+  
+experiencedgm:
+  id: 5
+  rolename: experiencedgm
+  
+insurance:
+  id: 6
+  rolename: insurance
+  
+webonly:
+  id: 7
+  rolename: webonly
+  

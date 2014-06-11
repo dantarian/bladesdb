@@ -1,0 +1,31 @@
+<% user = merge_user %>
+<tr id="record<%= user.id %>" class="<%= cycle('odd', 'even') %> <%= user.id == @primary ? "primary" : "" %> <%= user.id == @secondary ? "secondary" : "" %>">
+    <td><%= link_to h(user.username), edit_user_path(user) %></td>
+    <td><%=h user.name %></td>
+    <td><%=h user.email %></td>
+    <td>
+        <% if user.passive? or user.pending? %>
+            Inactive
+        <% elsif user.deleted? %>
+            Deleted
+        <% elsif user.approved_at.blank? %>
+            Awaiting approval
+        <% elsif user.active? %>
+            Active
+        <% elsif user.suspended? %>
+            Suspended
+        <% end %>
+    </td>
+    <% unless defined? hide_actions and hide_actions %>
+        <td class="actions">
+            <span class="unselected_actions">
+                [ <%= link_to_function "Select as primary user", "makePrimaryForMerge(#{user.id})" %> ]<br />
+                [ <%= link_to_function "Select as secondary user", "makeSecondaryForMerge(#{user.id})" %> ]
+            </span>
+            <span class="selected_actions">
+                [ <%= link_to_function "Deselect", "deselectForMerge(#{user.id})" %> ]
+            </span>
+        </td>
+    <% end %>
+</tr>
+

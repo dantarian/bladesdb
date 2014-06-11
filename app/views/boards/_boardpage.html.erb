@@ -1,0 +1,17 @@
+<p class="boardpage">
+	Displaying posts <%= ((@page - 1) * 30) + 1 %> to <%= [@page * 30, @board.messages.size].min %> of 
+	<%= @board.messages.size %>. 
+	<% if @board.last_page > 1 %>
+		[ 
+		<% if @page > 1 %>
+			<%= link_to "Newer posts", board_path(:id => @board.id, :page => @page - 1) %>
+		<% end %>
+		<% if @page > 1 && @page < @board.last_page %>
+		|
+		<% end %>
+		<% if @page < @board.last_page %>
+			<%= link_to "Older posts", board_path(:id => @board.id, :page => @page + 1) %>
+		<% end %>
+		]			
+	<% end %>
+</p>

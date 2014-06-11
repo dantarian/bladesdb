@@ -1,0 +1,10 @@
+<%= form_for([@game, @user, @character], :url => { :action => "create_player" }, :method => :patch, :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save user", :message => "The following problems prevented the user from being saved:" %>
+    
+    <ul class="form">
+        <li>
+            <%= f.label :name, "Name" %><br />
+            <%= f.text_field :name %>
+        </li>
+    </ul>
+<% end %>

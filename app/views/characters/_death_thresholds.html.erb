@@ -1,0 +1,15 @@
+<% set_content_for :name do %>
+    Death Thresholds
+<% end %>
+
+<% set_content_for :actions do %>
+    <% unless character.recycled? %>
+        <% if is_owner %>
+            [ <%= link_to "Request adjustment", new_character_death_threshold_adjustment_path(character), :method => :get, :remote => true %> ]
+        <% elsif is_ref_for_character %>
+            [ <%= link_to "Adjust", new_character_death_threshold_adjustment_path(character), :method => :get, :remote => true %> ]
+        <% end %>
+    <% end %>
+<% end %>
+
+<%= character.death_thresholds %>

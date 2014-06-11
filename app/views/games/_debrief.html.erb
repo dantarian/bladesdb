@@ -1,0 +1,201 @@
+<% show_briefs ||= false %>
+<% if show_briefs %>
+    <% if game.has_notes? %>
+        <p><%= game.notes %></p>
+    <% end %>
+
+    <% if game.has_ic_brief? or (!game.is_debrief_finished? and game.is_editable_by? current_user) %>
+        <h3 class="alt">IC Brief</h3>
+        <% if game.has_ic_brief? %>
+            <div id="ic_brief_<%= game.id %>">
+                <%= RedCloth.new( game.ic_brief, [:filter_html] ).to_html.html_safe %>
+            </div>
+        <% end %>
+        <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+        <p>
+            [ <%= link_to "Edit IC brief", edit_ic_brief_game_path(game), :method => :get, :remote => true %> ]
+        </p>
+        <% end %>
+    <% end %>
+    
+    <% if game.has_ooc_brief? or (!game.is_debrief_finished? and game.is_editable_by? current_user) %>
+        <h3 class="alt">OOC Brief</h3>
+        <% if game.has_ooc_brief? %>
+            <div id="ooc_brief_<%= game.id %>">
+                <%= RedCloth.new( game.ooc_brief, [:filter_html] ).to_html.html_safe %>
+            </div>
+        <% end %>
+        <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+        <p>
+            [ <%= link_to "Edit OOC brief", edit_ooc_brief_game_path(game), :method => :get, :remote => true %> ]
+        </p>
+        <% end %>
+    <% end %>
+<% end %>
+
+<% if game.has_ic_debrief? or (!game.is_debrief_finished? and game.is_editable_by? current_user) %>
+    <h3 class="alt">IC Debrief</h3>
+    <% if game.has_ic_debrief? %>
+        <div id="ic_debrief_<%= game.id %>">
+            <%= RedCloth.new( game.ic_debrief, [:filter_html] ).to_html.html_safe %>
+        </div>
+    <% end %>
+    <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+    <p>
+        [ <%= link_to "Edit IC debrief", edit_ic_debrief_game_path(game), :method => :get, :remote => true %> ]
+    </p>
+    <% end %>
+<% end %>
+
+<% if game.has_ooc_debrief? or (!game.is_debrief_finished? and game.is_editable_by? current_user) %>
+    <h3 class="alt">OOC Debrief</h3>
+    <% if game.has_ooc_debrief? %>
+        <div id="ooc_debrief_<%= game.id %>">
+            <%= RedCloth.new( game.ooc_debrief, [:filter_html] ).to_html.html_safe %>
+        </div>
+    <% end %>
+    <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+        <p>
+            [ <%= link_to "Edit OOC debrief", edit_ooc_debrief_game_path(game), :method => :get, :remote => true %> ]
+        </p>
+    <% end %>
+<% end %>
+
+<h3 class="alt">GMs</h3>
+<% if !game.is_debrief_finished? and game.is_editable_by? current_user and game.gm_points_available > 0 %>
+    <p><em>There are <%= game.gm_points_available %> GM points available for allocation.</em></p>
+<% end %>
+<% if !game.is_debrief_finished? and game.is_editable_by? current_user and game.gm_points_available < 0 %>
+    <p><strong><em>Warning: You have allocated <%= -game.gm_points_available %> more GM points than are available.</em></strong></p>
+<% end %>
+<ul class="debriefs">
+    <% game.gm_debriefs.includes(:user).to_a.each do |debrief| %>
+        <li>
+            <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+                <div class="actions">
+                    [
+                        <%= link_to "Edit", edit_gm_game_debrief_path(game, debrief), method: :get, remote: true %>
+                        |
+                        <%= link_to "Remove", game_debrief_path(game, debrief), method: :delete, remote: true, data: { confirm: "Are you sure you want to delete this GM debrief?" } %>
+                    ]
+                </div>
+            <% end %>
+            <div>
+                <strong><%= debrief.user.display_name(current_user) %></strong>: <%= debrief.points %>
+                (Base 
+                <%= debrief.base_points.nil? ? game.monster_points_base : debrief.base_points %>
+                <%= (debrief.points_modifier.nil? or debrief.points_modifier >= 0) ? "+" : "-" %>
+                <%= debrief.points_modifier || 0 %> GM points)
+            </div>
+            <% if !debrief.remarks.nil? and !debrief.remarks.empty? %>
+                <div class="debriefcomments">
+                    <%= RedCloth.new( debrief.remarks, [:filter_html] ).to_html.html_safe %>
+                </div>
+            <% end %>
+        </li>
+    <% end %>
+</ul>
+<% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+    <p>[ <%= link_to "Add GM", new_gm_new_game_debrief_path(game), method: :get, remote: true %> ]</p>
+<% end %>
+
+<h3 class="alt">Players - Base <%= game.player_points_base %> - Base Pay <%= money_for_display(game.player_money_base) %></h3>
+<ul class="debriefs">
+    <% game.player_debriefs.includes(:user, :character).to_a.each do |debrief| %>
+        <li>
+            <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+                <div class="actions">
+                    [
+                        <%= link_to "Edit", edit_player_game_debrief_path(game, debrief), method: :get, remote: true %>
+                        |
+                        <%= link_to "Remove", game_debrief_path(game, debrief), method: :delete, remote: true, data: { confirm: "Are you sure you want to delete this player debrief?" } %>
+                    ]
+                </div>
+            <% end %>
+            <div>
+                <strong>
+                    <%= debrief.user.display_name(current_user) %> - 
+                    <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+                        <%= link_to character_path(debrief.character) do %>
+                            <%=h debrief.character.name_and_title %>
+                        <% end %>
+                    <% else %>
+                        <%=h debrief.character.name_and_title %>
+                    <% end %>
+                    <% unless debrief.base_points.nil? %>
+                        [Base <%= debrief.base_points %>]
+                    <% end %>
+                    <% unless (debrief.points_modifier || 0) == 0 %>
+                        <%= "+" if debrief.points_modifier > 0 -%><%= debrief.points_modifier %>
+                    <% end %>
+                </strong>
+                
+                <% unless (debrief.money_modifier || 0) == 0 %>
+                    Total Pay <%= money_for_display(game.player_money_base + debrief.money_modifier) %>
+                <% end %>
+                <% unless (debrief.deaths || 0) == 0 %>
+                    <%= "-" unless (debrief.money_modifier || 0) == 0 %>
+                    <%= debrief.deaths > 0 ? "Lost" : "Gained" %> <%= debrief.deaths.abs %> DT<%= "s" unless debrief.deaths.abs == 1 %>
+                <% end %>
+            </div>
+            <% if !debrief.remarks.nil? and !debrief.remarks.empty? %>
+                <div class="debriefcomments">
+                    <%= RedCloth.new( debrief.remarks, [:filter_html] ).to_html.html_safe %>
+                </div>
+            <% end %>
+        </li>
+    <% end %>
+</ul>
+<% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+    <p>[ <%= link_to "Add Character", new_player_new_game_debrief_path(game), method: :get, remote: true %> ]</p>
+<% end %>
+
+<h3 class="alt">Monsters - Base <%= game.monster_points_base %></h3>
+<ul class="debriefs">
+    <% game.monster_debriefs.includes(:user).to_a.each do |debrief| %>
+        <li>
+            <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+                <div class="actions">
+                    [
+                        <%= link_to "Edit", edit_monster_game_debrief_path(game, debrief), method: :get, remote: true %>
+                        |
+                        <%= link_to "Remove", game_debrief_path(game, debrief), method: :delete, remote: true, data: { confirm: "Are you sure you want to delete this monster debrief?" } %>
+                    ]
+                </div>
+            <% end %>
+            <div>
+                <strong>
+                    <%= debrief.user.nil? ? "Deleted User" : debrief.user.display_name(current_user) %>
+                    <% unless debrief.base_points.nil? %>
+                        [Base <%= debrief.base_points %>]
+                    <% end %>
+                    <% unless (debrief.points_modifier || 0) == 0 %>
+                        <%= "+" if debrief.points_modifier > 0 -%><%= debrief.points_modifier %>
+                    <% end %>
+                </strong>
+                <% if !debrief.remarks.nil? and !debrief.remarks.empty? %>
+                    <div class="debriefcomments">
+                        <%= RedCloth.new( debrief.remarks, [:filter_html] ).to_html.html_safe %>
+                    </div>
+                <% end %>
+            </div>
+        </li>
+    <% end %>
+</ul>
+<% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
+    <p>[ <%= link_to "Add Monster", new_monster_new_game_debrief_path(game), method: :get, remote: true %> ]</p>
+<% end %>
+
+<% if game.is_editable_by? current_user %>
+    <div class="adminfunctions">
+        [
+            <% if game.is_debrief_finished? %>
+                <%= link_to "Reopen Debrief", reopen_debrief_game_path(game), method: :patch, remote: true %>
+            <% else %>
+                <%= link_to "Edit Base Points", edit_game_path(game), method: :get, remote: true %> 
+                |
+                <%= link_to "Finish Debrief", finish_debrief_game_path(game), method: :patch, remote: true %>
+            <% end %>
+        ]
+    </div>
+<% end %>

@@ -1,0 +1,4 @@
+<% unless @no_dialog%>
+	$("#dialog").dialog("close");
+<% end %>
+$("#all_categories").html('<%= j render :partial => "sidebars/show_categories_for_editing", :locals => { :categories => @categories } %>');

@@ -1,0 +1,15 @@
+<% set_content_for :name do %>
+    Name
+<% end %>
+
+<% set_content_for :actions do %>
+    <% unless character.recycled? %>
+        <% if character.undeclared? and is_owner %>
+            [ <%= link_to "Declare Character", declare_character_path(character.id), :method => :get, :remote => true %> ]
+        <% elsif is_owner or (current_user.is_character_ref? and not is_owner) %>
+            [ <%= link_to "Edit", edit_name_character_path(character), :method => :get, :remote => true %> ]
+        <% end %>
+    <% end %>
+<% end %>
+
+<%=h character.name_and_title %>

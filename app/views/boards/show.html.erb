@@ -1,0 +1,22 @@
+<h1 class="alt"><%=h @board.name %></h1>
+
+<p class="alt">
+	<strong>Disclaimer:</strong> All messages posted to this board are the opinions of their originators, and do not necessarily 
+	represent the opinions of BathLARP, the committee or the webmasters. If you have a complaint about anything posted 
+	on this board, please e-mail <%= mail_to "committee@pencethren.org" %>.
+</p>
+
+<% if !@board.blurb.nil? %>
+	<div class="boardblurb">
+		<%= RedCloth.new( @board.blurb, [:filter_html] ).to_html.html_safe %>
+	</div>
+<% end %>
+
+<hr/>
+
+<% if @board.open? && current_user.approved? && !current_user.has_role?("webonly") %>
+	<%= render :partial => "messages/form", :locals => { :message_title => "Post message", :button_text => "Post" } %>
+	<hr />
+<% end %>
+
+<%= render :partial => "messages" %>

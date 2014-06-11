@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  character: 
+  monster_points_spent: 1
+  spent_on: 2010-03-14
+  character_points_gained: 1
+
+two:
+  character: 
+  monster_points_spent: 1
+  spent_on: 2010-03-14
+  character_points_gained: 1

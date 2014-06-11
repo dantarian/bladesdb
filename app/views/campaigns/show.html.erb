@@ -1,0 +1,23 @@
+<p>
+  <b>Name:</b>
+  <%=h @campaign.name %>
+</p>
+
+<p>
+  <b>Current:</b>
+  <%=h @campaign.current %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @campaign.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @campaign.end_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_campaign_path(@campaign) %> |
+<%= link_to 'Back', campaigns_path %>

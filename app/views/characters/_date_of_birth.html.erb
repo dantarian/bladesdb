@@ -1,0 +1,12 @@
+<% set_content_for :name do %>
+    Date of Birth
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if is_owner or is_ref_for_character and not character.recycled? %>
+        [ <%= link_to "Edit", edit_date_of_birth_character_path(character), :method => :get, :remote => true %> ]
+    <% end %>
+<% end %>
+
+<%= character.formatted_date_of_birth %>
+<%= "&nbsp;".html_safe if character.formatted_date_of_birth.nil? or character.formatted_date_of_birth.strip.empty? %>

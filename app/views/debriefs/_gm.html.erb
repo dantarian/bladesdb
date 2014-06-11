@@ -1,0 +1,34 @@
+<%= form_for([@game, @debrief], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save debrief", :message => "The following problems prevented the debrief from being saved:" %>
+    
+    <%= hidden_field_tag :debrief_type, "GM" %>
+    
+    <% if @debrief.user.nil? %>
+        <%= hidden_field_tag :user_selected, "false" %>
+        <ul class="form">
+            <li>
+                <%= f.label :user_id, "Select User, or #{link_to 'Create New User', new_gm_new_game_user_path(@game), :method => :get, :remote => true}".html_safe %><br />
+                <%= f.select :user_id, User.order(:name).select{|user|
+                        (user.deleted_at.nil? && (user.is_normal? || user.is_recent?)) and !@game.is_gm? user and !@game.monster_debriefs.any? {|debrief| debrief.user == user }
+                    }.collect { |user| [user.name, user.id] } %>
+            </li>
+        </ul>
+    <% else %>
+        <%= hidden_field_tag :user_selected, "true" %>
+        <%= f.hidden_field :user_id %>
+        <ul class="form">
+            <li>
+                <%= f.label :base_points, "Base Points (if different to Monster Base)" %><br />
+                <%= f.text_field :base_points %>
+            </li>
+            <li>
+                <%= f.label :points_modifier, "GM Points" %><br />
+                <%= f.text_field :points_modifier %>
+            </li>
+            <li>
+                <%= f.label :remarks, "Comments" %><br />
+                <%= f.text_area :remarks %>
+            </li>
+        </ul>
+    <% end %>
+<% end %>

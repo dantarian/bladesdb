@@ -1,0 +1,9 @@
+<li>
+    <%= link_to entry.name, entry.get_target %>
+    <% if entry.sidebar_entries.count > 0 %>
+        <ul>
+        	<%= render :partial => "sidebars/entry", collection: entry.sidebar_entries %>
+        </ul>
+    <% end %>
+</li>
+

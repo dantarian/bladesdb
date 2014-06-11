@@ -1,0 +1,70 @@
+<% readonly ||= false %>
+<% columns = 0 %>
+
+<tr class="<%= cycle("odd", "even", name: :attendances) %>">
+	<td class="<%= game_attendance.playing? ? "name" : "" %>">
+		<% columns += 1 %>
+		<em><%= game_attendance.player_status %></em>
+		<% if game_attendance.game.is_user_profile? current_user %>
+		    <%= link_to game_attendance.user.display_name(current_user), user_path(game_attendance.user) %>
+		<% else %>
+			<%= game_attendance.user.display_name(current_user) %>
+	    <% end %>
+	</td>
+	
+	<% if game_attendance.playing? %>
+		<td class="character">
+			<% columns += 1 %>
+			<% if game_attendance.game.is_editable_by? current_user %>
+			    <%= link_to game_attendance.character.title_name_and_rank, character_path(game_attendance.character) %>
+			<% else %>
+	    		<%= game_attendance.character.title_name_and_rank %>
+	        <% end %>
+		</td>
+		
+	    <% if game_attendance.game.gamesmasters.include?(current_user)%>
+			<td class="ratio">
+				<% columns += 1 %>
+		    	<%= game_attendance.user.games_played %> : <%= game_attendance.user.games_monstered %>
+			</td>
+		<% end %>
+	<% end %>
+	
+    <% columns += 1 %>
+	<% if current_user == game_attendance.user %>
+		<td class="actions">
+			[ <%= link_to "Change playing status", edit_game_game_attendance_path(game_attendance.game, game_attendance), :method => :get, :remote => true %> ]
+		</td>
+	<% elsif game_attendance.game.gamesmasters.include?(current_user) && game_attendance.playing? %>
+		<td class="actions">
+			[
+			<% if game_attendance.confirmed? %>
+				<%= link_to "Unconfirm", clear_confirm_state_game_game_attendance_path(game_attendance.game, game_attendance), :method => :patch, :remote => true %>
+			<% else %>
+				<%= link_to "Confirm", confirm_game_game_attendance_path(game_attendance.game, game_attendance), :method => :patch, :remote => true %>
+			<% end %>
+			|
+			<% if game_attendance.prioritised? %>
+				<%= link_to "Deprioritise", clear_confirm_state_game_game_attendance_path(game_attendance.game, game_attendance), :method => :patch, :remote => true %>
+			<% else %>
+				<%= link_to "Prioritise", prioritise_game_game_attendance_path(game_attendance.game, game_attendance), :method => :patch, :remote => true %>
+			<% end %>
+			|
+			<% if game_attendance.rejected? %>
+				<%= link_to "Unreject", clear_confirm_state_game_game_attendance_path(game_attendance.game, game_attendance), :method => :patch, :remote => true %>
+			<% else %>
+				<%= link_to "Reject",  reject_game_game_attendance_path(game_attendance.game, game_attendance), :method => :patch, :remote => true %>
+			<% end %>
+			]
+		</td>
+	<% else %>
+		<td class="action"></td>
+	<% end %>
+</tr>
+<% unless game_attendance.notes.nil? or game_attendance.notes.empty? %>
+	<tr class="<%= current_cycle :attendances %>">
+		<td colspan="<%= columns %>">
+			<span class="attendancenotes"><%= game_attendance.notes %></span>
+		</td>
+	</tr>
+<% end %>

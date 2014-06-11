@@ -1,0 +1,34 @@
+<% unless user_actions.passive? or user_actions.pending? %>
+    [
+    <% if user_actions.deleted? %>
+        <%= link_to "Undelete", undelete_user_path(user_actions.id), :method => :patch %>
+        |
+        <%= link_to "Purge", purge_user_path(user_actions.id), :method => :delete %>
+    <% elsif user_actions.approved_at.blank? %>
+        <%= link_to "Approve", approve_user_path(user_actions.id), :method => :patch %>
+        |
+        <%= link_to "Reject", user_path(user_actions.id), :method => :delete %>
+    <% else %>
+        <% if user_actions.suspended? %>
+            <%= link_to "Unsuspend", unsuspend_user_path(user_actions.id), :method => :patch %>
+        <% else %>
+            <%= link_to "Suspend", suspend_user_path(user_actions.id), :method => :patch %>
+        <% end %>
+        |
+        <%= link_to "Delete", user_path(user_actions.id), :method => :delete %>
+    <% end %>
+    | <%= link_to "Edit roles", user_roles_path(user_actions.id), :method => :get, :remote => true %>
+    ]
+<% end %>
+<% if user_actions.pending? %>
+    [
+    <%= link_to "Resend activation", resend_activation_user_path(user_actions.id), :method => :post %>
+    |
+    <%= link_to "Delete", user_path(user_actions.id), :method => :delete %>
+    ]
+<% end %>
+<% if user_actions.passive? %>
+    [
+    <%= link_to "Delete", user_path(user_actions.id), :method => :delete %>
+    ]
+<% end %>

@@ -1,0 +1,22 @@
+<% set_content_for :name do %>
+    State
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if state_actions(character).size > 0 %>
+        [
+            <%= 
+                state_actions(character).map { |action| 
+                    link_to action[:name], action[:url], method: action[:method], remote: true, data: { confirm: action[:confirm] }
+                }.join(" | ").html_safe
+            %>
+        ]
+    <% end %>
+<% end %>
+
+<%= character.state_readable %>
+<% if character.approved.nil? %>
+    (Not yet approved)
+<% elsif not character.approved %>
+    (Rejected by <%= mail_to character.approved_by.email, character.approved_by.display_name(current_user) %>)
+<% end %>

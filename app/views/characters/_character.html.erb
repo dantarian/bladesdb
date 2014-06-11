@@ -1,0 +1,20 @@
+<% show_character_status = (current_user.is_character_ref? or character.user == current_user) %>
+<tr class="<%= (show_character_status and character.approved == false ? 'rejected' : '') -%>  <%= show_character_status and character.is_provisional? ? "provisional" : "" -%>">
+    <td class="multiline">
+        <%= link_to character do %>
+            <%=h character.name_and_title %>
+        <% end %>
+    </td>
+    <% if show_user %>
+        <td><%=h character.user.display_name current_user %></td>
+    <% end %>
+    <% unless all_undeclared %>
+        <td><%=h character.race.name %></td>
+        <td><%=h character.full_guild_name %></td>
+        <td class="numeric"><%=h character.rank %></td>
+        <td class="numeric"><%=h character.death_thresholds %></td>
+    <% end %>
+    <% if show_state %>
+        <td><%=h character.state_readable %></td>
+    <% end %>
+</tr>

@@ -1,0 +1,31 @@
+<%= form_for(@character, :url => { :action => action }, :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save character", :message => "The following problems prevented the character from being saved:" %>
+	
+	<ul class="form">
+		<% fields.each do |field| %>
+	  		<li>
+	  			<% if field[:field_type] != "boolean" %>
+			    	<%= f.label field[:field], field[:field_name] %><br />
+				<% end %>
+				<% if field[:field_type] == "text" %>
+					<%= f.text_field field[:field] %>
+				<% elsif field[:field_type] == "text_area" %>
+			        Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+					<%= f.text_area field[:field], :class => "messagearea" %>
+				<% elsif field[:field_type] == "date" %>
+                    <%= f.datepicker field[:field], :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :yearRange => "c-50:c+50", :maxDate => "#{Date.today}", :readonly => true, :value => @character.send(field[:field]).to_s  %>
+				<% elsif field[:field_type] == "boolean" %>
+					<%= f.check_box field[:field] %>
+					<%= f.label field[:field], field[:field_name] %>
+				<% elsif field[:field_type] == "guild_branch_select" %>
+					<%= f.select field[:field], GuildBranch.all.collect { |branch| [branch.name, branch.id] }, { :include_blank => false } %>
+				<% else %>
+					<strong>Error: Unknown field type.</strong>
+				<% end %>
+				<% if field[:notes] %>
+					<br /><em><%= field[:notes] %></em>
+				<% end %>
+	  		</li>
+		<% end %>
+	</ul>
+<% end %>

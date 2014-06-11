@@ -1,0 +1,18 @@
+<h1 class="alt">Change Password</h1>
+
+<%= form_tag user_account_path( current_user ), :method => :patch do %>
+    <p>
+        <%= label_tag :old_password, "Old password:" %><br />
+        <%= password_field_tag :old_password, @old_password %>
+    </p>
+    <p>
+        <%= label_tag :password, "New password:" %><br />
+        <%= password_field_tag :password, nil %><br />
+        <%= label_tag :password_confirmation, "Confirm new password:" %><br />
+        <%= password_field_tag :password_confirmation, nil %>
+    </p>
+    <p>
+        <%= submit_tag "Change password" %>
+    </p>
+<% end %>
+

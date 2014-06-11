@@ -1,0 +1,164 @@
+<h1 class="alt">Character Sheet</h1>
+
+<% is_owner = (@character.user == current_user) %>
+<% is_ref = current_user.is_character_ref? and not is_owner %>
+<% is_gm_for_character = current_user.is_gm_for? @character %>
+
+<ul class="fieldlist">
+    <%= display_character_field @character, "character_name" %>
+    <%= display_character_field @character, "player_name" unless is_owner %>
+    <% unless @character.undeclared? %>
+        <%= display_character_field @character, "state" %>
+        <%= display_character_field @character, "race" %>
+        <%= display_character_field @character, "death_thresholds" %>
+        <%= display_character_field @character, "guild" %>
+        <%= display_character_field @character, "rank" %>
+        <%= display_character_field @character, "money" if is_owner or is_ref %>
+        <%= display_character_field @character, "biography" %>
+        <%= display_character_field @character, "date_of_birth" if is_owner or is_ref or @character.date_of_birth_public %>
+        <%= display_character_field @character, "address" %>
+        <%= display_character_field @character, "notes" if is_owner or is_ref or is_gm_for_character %>
+        <%= display_character_field @character, "gm_notes" if is_owner or is_ref or is_gm_for_character %>
+    <% end %>
+</ul>
+
+<br/>
+
+<% if @character.user == current_user or current_user.is_admin_or_character_ref? or is_gm_for_character %>
+	<h2 class="alt">Character History</h2>
+
+	<% reset_cycle %>	
+
+	<table class="prestyled">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Title</th>
+				<th class="points">Points</th>
+				<th class="deaths">Deaths</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% index = 0 %>
+			<% @character.events.each do |event| %>
+				<% index  += 1 %>
+				<tr class="<%= cycle('odd', 'even') %> <%= (event.provisional ? 'provisional' : '' ) -%> <%= (event.rejected ? 'rejected' : '') -%> <%= (event.historical ? 'historical' : '') -%>">
+					<td>
+						<% if event.provisional and current_user.is_character_ref? and @character.user != current_user %>
+							<span class="highlight">*</span>
+						<% end %>
+						<%= event.date %>
+					</td>
+					<td>
+					    <% if event.source_object.class == Debrief %>
+					        <%= link_to event.title, game_path(event.source_object.game) %>
+					    <% else %>
+					        <%= event.title %>
+					    <% end %>
+					</td>
+					<td class="points"><%= event.points %></td>
+					<td class="deaths">
+						<% if event.deaths != 0 %>
+							<%= event.deaths %>
+						<% end %>
+					</td>
+					<td class="actions">
+						<% if !event.comment.nil? && !event.comment.blank? %>
+					    	<%= link_to fa_icon(:eye), "#", class: "show_hide_next_row" %>
+						<% end %>
+					</td>
+				</tr>
+				<% if !event.comment.nil? && !event.comment.blank? %>
+					<tr id="history_comments_<%= index %>" class="<%= current_cycle %>" style="display: none;">
+						<td colspan="4"><%= RedCloth.new( "#{event.comment}", [:filter_html] ).to_html.html_safe %></td>
+						<td class="actions">
+							<% if event.provisional and current_user.is_character_ref? and @character.user != current_user %>
+								<% if event.source_object.class == DeathThresholdAdjustment %>
+									[ 
+										<%= link_to "Approve", approve_character_death_threshold_adjustment_path(@character, event.source_object), :method => :patch, :remote => true %> 
+									| 
+										<%= link_to "Reject", reject_character_death_threshold_adjustment_path(@character, event.source_object), :method => :patch, :remote => true %> 
+									]
+								<% elsif event.source_object.class == CharacterPointAdjustment %>
+									[ 
+										<%= link_to "Approve", approve_character_character_point_adjustment_path(@character, event.source_object), :method => :patch, :remote => true %> 
+									| 
+										<%= link_to "Reject", reject_character_character_point_adjustment_path(@character, event.source_object), :method => :patch, :remote => true %> 
+									]
+								<% end %>
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+
+	<% if current_user.is_character_ref? and @character.user != current_user %>
+		<p><span class="highlight">*</span> Awaiting approval</p>
+	<% end %>
+
+	<% if @character.user == current_user or current_user.is_admin_or_character_ref? or is_gm_for_character %>
+	<h2 class="alt">Money</h2>
+
+    <% reset_cycle %>   
+
+    <table class="prestyled">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th class="numeric">Incoming</th>
+                <th class="numeric">Outgoing</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% index = 0 %>
+            <% @character.money_events.each do |event| %>
+                <% index  += 1 %>
+                <tr class="<%= cycle('odd', 'even') %> <%= (event.provisional ? 'provisional' : '' ) -%> <%= (event.rejected ? 'rejected' : '') -%> <%= (event.historical ? 'historical' : '') -%>">
+                    <td>
+                        <% if event.provisional and current_user.is_character_ref? and @character.user != current_user %>
+                            <span class="highlight">*</span>
+                        <% end %>
+                        <%= event.date %>
+                    </td>
+                    <td><%=h event.other_party %></td>
+                    <td class="numeric">
+                        <% if event.source_object.class == Debit or event.money == 0 %>
+                            -
+                        <% else %>
+                            <%= money_for_display(event.money.abs) %>
+                        <% end %>
+                    </td>
+                    <td class="numeric">
+                        <% if event.source_object.class == Debit %>
+                            <%= money_for_display(event.money.abs) %>
+                        <% elsif event.source_object.class == Debrief and event.tax > 0 %>
+                            <%= money_for_display(event.tax) %>
+                        <% else %>
+                            -
+                        <% end %>
+                    </td>
+                    <td class="actions">
+                        <% if !event.comment.nil? && !event.comment.blank? %>
+					    	<%= link_to fa_icon(:eye), "#", class: "show_hide_next_row" %>
+                        <% end %>
+                    </td>
+                </tr>
+                <% if !event.comment.nil? && !event.comment.blank? %>
+                    <tr id="money_comments_<%= index %>" class="<%= current_cycle %>" style="display: none;">
+                        <td colspan="5"><%= event.comment %></td>
+                    </tr>
+                <% end %>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+<% end %>
+
+<% if @character.user == current_user %>
+	<p align="right">[ <%= link_to 'Back', my_characters_path %> ]</p>
+<% end %>

@@ -1,0 +1,15 @@
+<h1 class="alt">Past Games</h1>
+
+<h2 class="alt">Year</h2>
+
+<ul>
+    <% for year in Game.years %>
+        <% if year == @selected_year %>
+            <li><strong><%= "#{year} - #{year + 1}" %></strong></li>
+        <% else %>
+            <li><%= link_to "#{year} - #{year + 1}", past_games_path(year) %></li>
+        <% end %>
+    <% end %>
+</ul>
+
+<%= render :partial => "event_calendar_table", :locals => { :games => @games } %>

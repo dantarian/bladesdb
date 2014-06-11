@@ -1,0 +1,14 @@
+<tr id="board<%= board.id %>" class="<%= cycle('odd', 'even') %>">
+	<td>
+		<%= link_to fa_icon("arrow-up"), move_up_board_path(board), remote: true, method: :patch %>&nbsp;
+		<%= link_to fa_icon("arrow-down"), move_down_board_path(board), remote: true, method: :patch %>&nbsp;
+		<%=h board.name %>
+	</td>
+	<td><%= board.messages.size %></td>
+	<td>
+		[ 
+			<%= link_to "Edit", edit_board_path(board), remote: true, method: :get %> |
+	        <%= link_to "Delete", board, data: { confirm: "This will destroy all messages that have been posted to this board. Are you sure?" }, remote: true, method: :delete %>
+		]
+	</td>
+</tr>

@@ -1,0 +1,14 @@
+<%= form_for([:user, @monster_point_declaration], :remote => true, :url => user_monster_point_declaration_path) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Monster Point declaration.", :message => "The following problems prevented your declaration from being saved:" %>
+
+	<ul class="form">
+		<li>
+			<%= f.label :declared_on %><br />
+			<%= f.datepicker :declared_on, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :maxDate => "#{Date.today}", :readonly => true %>
+		</li>
+		<li>
+			<%= f.label :points %><br />
+			<%= f.text_field :points %>
+		</li>
+	</ul>
+<% end %>

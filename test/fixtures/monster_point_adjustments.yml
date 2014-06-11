@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user: 
+  points: 1
+  reason: MyString
+  declared_on: 2010-01-30
+  approved_by: 
+  approved_on: 2010-01-30 15:26:56
+  approved: false
+
+two:
+  user: 
+  points: 1
+  reason: MyString
+  declared_on: 2010-01-30
+  approved_by: 
+  approved_on: 2010-01-30 15:26:56
+  approved: false

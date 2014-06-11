@@ -1,0 +1,7 @@
+<li id="<%= "#{content_for :name}".gsub(/(\W)/, '').underscore %>" class="fieldline <%= cycle('odd', 'even') %>">
+    <div class="fieldlabel"><%= content_for :name %></div>
+    <div class="fieldcontents">
+        <div class="fieldactions"><%= content_for :actions %></div>
+        <%= yield %>
+    </div>
+</li>

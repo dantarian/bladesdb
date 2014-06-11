@@ -1,0 +1,11 @@
+<% set_content_for :name do %>
+    Email
+<% end %>
+
+<% set_content_for :actions do %>
+    <% if is_owner or is_admin %>
+        [ <%= link_to "Edit", edit_email_user_path(user), :method => :get,  :remote => true %> ]
+    <% end %>
+<% end %>
+
+<%= mail_to user.email, user.email %>

@@ -1,0 +1,42 @@
+<td><%= game.date_range(:twoline => true) %></td>
+<td>
+    <% if game.is_editable? and game.is_editable_by? current_user %>
+        <%= link_to "#{h game.game_title}", edit_game_path(game), :method => :get, :remote => true %>
+    <% else %>
+        <%=h game.game_title %>
+    <% end %>
+</td>
+<td>
+    <% if game.gamesmasters.empty? %>
+        <em>
+            Unassigned 
+            <% unless game.game_applications.empty? %>
+                (<%=h game.game_applications.size %> app<%= "s" if game.game_applications.size != 1 %>)
+            <% end %>
+        </em>
+        <% if game.start_date > Date.today && current_user && current_user.approved? && !game.attendance_only && current_user.is_normal? %> 
+            <%= render :partial => "games/game_application_links", :locals => { :game => game, :application => game.application_for_user(current_user) } %>
+        <% end %>
+    <% else %>
+        <% game.gamesmasters.order(:name).to_a.each do |gm| %>
+            <%= gm.display_name(current_user) %><br />
+        <% end %>
+    <% end %>
+</td>
+<td class="rank">
+    <% if game.attendance_only %>
+        -
+    <% else %>
+        <%=h game.rank_bracket %>
+    <% end %>
+</td>
+<% if current_user %>
+    <td id="attendancesummarycell<%= game.id %>" class="summary">
+        <%= render :partial => "games/game_attendance_summary", :locals => { :game => game } %>
+    </td>
+<% end %>
+<td class="details">
+    <% if (game.start_date >= Date.today) or not game.attendance_only %>
+    	<%= link_to fa_icon(:eye), game, class: "show_hide_next_row", remote: true %>
+    <% end %>
+</td>

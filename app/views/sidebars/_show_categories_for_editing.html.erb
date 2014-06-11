@@ -1,0 +1,6 @@
+<% categories.each do |category| %>
+    <%= render :partial => "sidebars/show_category_for_editing", :locals => { :category => category } %>
+<% end %>
+<div id="new_category">
+    [ <%= link_to "Add category", new_sidebar_category_path, :method => :get, :remote => true %> ]
+</div> 
