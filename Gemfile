@@ -47,7 +47,7 @@ gem 'schema_plus', '~> 1.4.1'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 # To use debugger
 #gem 'debugger'
