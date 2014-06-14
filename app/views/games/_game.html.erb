@@ -42,7 +42,7 @@
                     <p>
                         [ <%= link_to "Edit OOC brief", edit_ooc_brief_game_path(game), :method => :get, :remote => true %> ]
                     </p>
-                    <%unless game.is_debrief_started? %>
+                    <% unless game.is_debriefable? %>
                         <p class="form_actions">
                             [ <%= link_to "Publish briefs", publish_briefs_game_path(game), :method => :patch, data: { confirm: "Post to the Briefs board to tell people that the briefs for this game have been updated?" }, :remote => true %> ]
                         </p>
@@ -51,7 +51,7 @@
             <% end %>
         </div>
     <% end %>
-    <% if !game.is_debrief_finished? and not (game.is_debrief_started? and game.is_editable_by?(current_user)) %>
+    <% if !game.is_debriefable? %>
     	<% if game.open || game.attendance_only %>
     	    <% if game.attendance_only %>
     	    	<h3 class="alt">Attending (<%= game.attendances.count %>)</h3>
@@ -137,7 +137,8 @@
     	<% else %>
     		<p><i>This game is not yet open to player applications.</i></p>
     	<% end %>
-    	<% if current_user and (current_user.is_admin_or_committee? or (game.is_debriefable? and game.is_editable_by? current_user)) %>
+    <% end %>
+    <% if current_user and (current_user.is_admin_or_committee? or (game.is_debriefable? and game.is_editable_by? current_user)) %>
         	<p class="form_actions">
         	    [ 
         	        <% first_action = true -%>
@@ -151,7 +152,6 @@
                     <% end %>
         	    ]
         	</p>
-        <% end %>
     <% end %>
     <% if game.is_debrief_finished? or (game.is_debrief_started? and game.is_editable_by? current_user) %>
         <%= render :partial => "games/debrief", :locals => { :game => game } %>

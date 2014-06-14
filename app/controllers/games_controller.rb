@@ -11,7 +11,7 @@ class GamesController < ApplicationController
     # GET /games.xml
     def index
         @selected_year = (params[:year] || Game.current_year).to_i
-        @games = Game.where("start_date >= ? and start_date < ?", Date.new(@selected_year, 10, 1), [Date.today, Date.new(@selected_year+1, 10, 1)].min).order(:start_date).includes(:gamesmasters)
+        @games = Game.where("start_date >= ? and start_date <= ?", Date.new(@selected_year, 10, 1), [Date.today, Date.new(@selected_year+1, 10, 1)].min).order(:start_date).includes(:gamesmasters)
 
         respond_to do |format|
             format.html # index.html.erb
@@ -46,7 +46,9 @@ class GamesController < ApplicationController
     
     def next_game
         @game = Game.future_games.first()
-        
+        if @game.is_debriefable?
+            @game = Game.future_games.second()
+        end
         respond_to do |format|
             format.html { render :show }
         end
@@ -59,8 +61,8 @@ class GamesController < ApplicationController
         @game = Game.new
         # Default the date to the next free Sunday.
         @game.start_date = Game.next_free_sunday
-        @game.meet_time = Time.parse("11:00")
-        @game.start_time = Time.parse("12:00")
+        @game.meet_time = Time.parse("11:00").strftime('%H:%M')
+        @game.start_time = Time.parse("12:00").strftime('%H:%M')
 
         respond_to do |format|
             format.js
@@ -104,6 +106,9 @@ class GamesController < ApplicationController
         params[:game][:campaign_ids] ||= []
         params[:game][:gamesmaster_ids] ||= []
         @game = Game.new(game_create_params)
+        
+        @game.meet_time.strftime('%H:%M')
+        @game.start_time.strftime('%H:%M')
      
         if @game.save
             @games = Game.future_games

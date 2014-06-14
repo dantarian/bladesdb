@@ -1,9 +1,9 @@
 <td><%= game.date_range(:twoline => true) %></td>
 <td>
     <% if game.is_editable? and game.is_editable_by? current_user %>
-        <%= link_to "#{h game.game_title}", edit_game_path(game), :method => :get, :remote => true %>
+        <%= link_to "#{game.game_title}", edit_game_path(game), :method => :get, :remote => true %>
     <% else %>
-        <%=h game.game_title %>
+        <%= game.game_title %>
     <% end %>
 </td>
 <td>
