@@ -119,7 +119,7 @@ class GuildMembershipsController < ApplicationController
         end
         
         def check_current_guild_membership_provisional
-            unless @character.guild_memberships..where(approved: true).last.provisional
+            unless @character.guild_memberships.where(approved: true).last.provisional
                 flash[:error] = "#{@character.name}'s current guild membership is not provisional."
                 reload_page
             end
@@ -140,7 +140,7 @@ class GuildMembershipsController < ApplicationController
         
         def attempt_save_without_dialog(success_message, failure_message)
             if @guild_membership.save
-                UserMailer.guild_change_approval(guild_membership).deliver
+                UserMailer.guild_change_approval(@guild_membership).deliver
                 flash[:notice] = success_message
             else
                 flash[:error] = failure_message + @guild_membership.errors.full_messages.to_sentence

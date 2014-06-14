@@ -89,6 +89,7 @@ class GameApplicationsController < ApplicationController
         # @game_application defined by check_application_owner().
         @game = @game_application.game
         @game_application.destroy
+        UserMailer.game_application_withdrawn(@game_application).deliver
         @game_application = nil
         
         render :update_game

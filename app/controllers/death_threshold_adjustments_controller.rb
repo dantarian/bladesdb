@@ -110,7 +110,7 @@ class DeathThresholdAdjustmentsController < ApplicationController
             if @death_threshold_adjustment.is_provisional?
                 (state ? @death_threshold_adjustment.approve(current_user) : @death_threshold_adjustment.reject(current_user))
                 if @death_threshold_adjustment.save
-                    UserMailer.death_threshold_adjustment_approval(death_threshold_adjustment).deliver
+                    UserMailer.death_threshold_adjustment_approval(@death_threshold_adjustment).deliver
                     flash[:notice] = "Death Threshold adjustment #{state ? "approved" : "rejected"}."
                 else
                     flash[:error] = "Death Threshold adjustment #{state ? "approval" : "rejection"} failed."
