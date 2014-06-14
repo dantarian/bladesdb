@@ -61,6 +61,11 @@ class UserMailer < ActionMailer::Base
         app_made(application)
     end
     
+    def game_application_withdrawn(application)
+        setup_email(application.user)
+        app_made(application)
+    end
+    
     def game_application_approval(application)
         setup_email(application.user)
         @subject += "Game Application #{application.game.start_date.to_s} "

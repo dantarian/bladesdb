@@ -104,7 +104,7 @@ class MonsterPointDeclarationsController < ApplicationController
             if @monster_point_declaration.is_provisional?
                 (state ? @monster_point_declaration.approve(current_user) : @monster_point_declaration.reject(current_user))
                 if @monster_point_declaration.save
-                    UserMailer.monster_point_declaration_approval(monster_point_declaration).deliver
+                    UserMailer.monster_point_declaration_approval(@monster_point_declaration).deliver
                     flash[:notice] = success_message
                     reload_page
                 else

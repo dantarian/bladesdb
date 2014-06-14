@@ -104,7 +104,7 @@ class MonsterPointAdjustmentsController < ApplicationController
             if @monster_point_adjustment.is_provisional?
                 (state ? @monster_point_adjustment.approve(current_user) : @monster_point_adjustment.reject(current_user))
                 if @monster_point_adjustment.save
-                    UserMailer.monster_point_adjustment_approval(monster_point_adjustment).deliver
+                    UserMailer.monster_point_adjustment_approval(@monster_point_adjustment).deliver
                     flash[:notice] = success_message
                     reload_page
                 else
