@@ -51,7 +51,7 @@
             <% end %>
         </div>
     <% end %>
-    <% if !game.is_debriefable? %>
+    <% if !game.is_debrief_started? %>
     	<% if game.open || game.attendance_only %>
     	    <% if game.attendance_only %>
     	    	<h3 class="alt">Attending (<%= game.attendances.count %>)</h3>
@@ -138,7 +138,7 @@
     		<p><i>This game is not yet open to player applications.</i></p>
     	<% end %>
     <% end %>
-    <% if current_user and (current_user.is_admin_or_committee? or (game.is_debriefable? and game.is_editable_by? current_user)) %>
+    <% if current_user and (current_user.is_admin_or_committee? or (game.is_debriefable? and game.is_editable_by? current_user) and !game.is_debrief_started?) %>
         	<p class="form_actions">
         	    [ 
         	        <% first_action = true -%>
