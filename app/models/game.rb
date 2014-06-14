@@ -51,7 +51,7 @@ class Game < ActiveRecord::Base
     auto_strip_attributes :title, :ic_brief, :ooc_brief, :ic_debrief, :ooc_debrief, :notes
     
     def self.future_games
-        Game.where("games.start_date >= ?", Date.today).order(:start_date)
+        Game.where("(games.start_date >= ?)", Date.today).order(:start_date)
     end
     
     def game_title
