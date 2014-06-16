@@ -47,7 +47,8 @@ gem 'schema_plus', '~> 1.4.1'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+gem 'capistrano', require: false, group: :development
+gem 'capistrano-rvm'
 
 # To use debugger
 #gem 'debugger'
@@ -58,6 +59,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'foreman'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
 end
 
 group :test do
