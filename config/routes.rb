@@ -43,6 +43,7 @@ Blades::Application.routes.draw do
       patch :finish_debrief
       patch :reopen_debrief
       patch :publish_briefs
+      get :first_aid_report
     end
 
     collection do
@@ -223,10 +224,8 @@ Blades::Application.routes.draw do
       patch :update_email
       get :edit_mobile_number
       patch :update_mobile_number
-      get :edit_emergency_contact
-      patch :update_emergency_contact
-      get :edit_medical_notes
-      patch :update_medical_notes
+      get :edit_emergency_details
+      patch :update_emergency_details
       get :edit_general_notes
       patch :update_general_notes
       patch :enable

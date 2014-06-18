@@ -7,6 +7,7 @@
         <%= csrf_meta_tag %>
 		<%= javascript_include_tag 'application' %>
 		<%= stylesheet_link_tag 'application' %>
+		<%= stylesheet_link_tag 'print', media: 'print' %>
 		<% if @content_for_title %>
 			<title>BathLARP - <%= yield :title %></title>
 		<% else %>
@@ -19,7 +20,7 @@
 
             <!-- Page banner -->
 
-            <div id="banner" class="span-24 last">
+            <div id="banner" class="span-24 last non-printing">
                 <p align="center">
                     <a href="/" border="0">
                         <%= image_tag "SwordSketchTransparentSmall.png" %><%= image_tag "bathlarp.png" %>
@@ -29,7 +30,7 @@
 
             <!-- Sidebar -->
             
-            <div id="sidebar" class="span-6">
+            <div id="sidebar" class="span-6 non-printing">
                 <div id="sidebar-top" class="span-6 last">
                     <%= image_tag "sidebar-top.png" %>
                 </div>
@@ -66,7 +67,7 @@
 
             <!-- Footer -->
 
-            <div id="footer" class="span-12 push-12 alt small last" align="right">
+            <div id="footer" class="span-12 push-12 alt small last non-printing" align="right">
                 <p>
                     Site design is copyright &copy; Warren Jones 2009-<%= Time.now.strftime("%Y") %><br/>
                     If you spot any bugs or have an idea for a new feature, please visit <a href="http://bugs.bathlarp.pencethren.org">our bug tracker</a>.

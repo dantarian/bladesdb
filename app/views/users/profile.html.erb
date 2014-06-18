@@ -4,7 +4,7 @@
 <% is_first_aider = current_user.is_first_aider? and not is_owner %>
 <% is_committee = current_user.is_committee? and not is_owner %>
 <% is_admin = current_user.is_admin? and not is_owner %>
-<% is_gm = @user.characters.to_a.any?{|character| current_user.is_gm_for?(character)} and not is_owner %>
+<% is_gm = (@user.characters.to_a.any?{|character| current_user.is_gm_for?(character)} or current_user.is_gm_for?(@user)) and not is_owner %>
 
 <ul class="fieldlist">
 	<%= display_user_field @user, "user_name" %>
@@ -13,8 +13,10 @@
 	<%= display_user_field @user, "joined_date" %>
 	<%= display_user_field @user, "roles" %>
 	<%= display_user_field @user, "mobile_number" if is_owner or is_committee or is_admin %>
-	<%= display_user_field @user, "emergency_contact" if is_owner or is_committee or is_first_aider or is_admin %>
-	<%= display_user_field @user, "medical_notes" if is_owner or is_committee or is_first_aider or is_admin %>
+	<%= display_user_field @user, "emergency_contact" if is_owner or is_committee or is_first_aider or is_admin or is_gm %>
+	<%= display_user_field @user, "medical_notes" if is_owner or is_committee or is_first_aider or is_admin or is_gm %>
+	<%= display_user_field @user, "food_notes" if is_owner or is_committee or is_first_aider or is_admin or is_gm %>
+	<%= display_user_field @user, "emergency_last_updated_date" if is_owner or is_committee or is_first_aider or is_admin or is_gm %>
 	<%= display_user_field @user, "general_notes" %>
 </ul>
 <p></p>

@@ -4,7 +4,7 @@
 
 <% set_content_for :actions do %>
     <% if is_owner or is_admin %>
-        [ <%= link_to "Edit", edit_medical_notes_user_path(user), :method => :get, :remote => true %> ]
+        [ <%= link_to "Edit", edit_emergency_details_user_path(user), :method => :get, :remote => true %> ]
     <% end %>
 <% end %>
 

@@ -1,0 +1,14 @@
+<h1 class="alt"><%= @game.game_title %> - <%= @game.start_date %></h1>
+	
+<h2 class="alt">Players</h2>
+
+	<%= render partial: "games/first_aid_record", collection: @game.players.order(:name) %>
+	
+<h2 class="alt">GMs and Monsters</h2>
+
+	<%= render partial: "games/first_aid_record", collection: @game.monsters.order(:name) %>
+	
+
+<p class="form_actions non-printing">
+	[ <%= link_to "Print Report", '#', onclick: "printpage()" %> ]
+</p>

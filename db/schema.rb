@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140212184719) do
+ActiveRecord::Schema.define(version: 20140614193414) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -394,6 +394,8 @@ ActiveRecord::Schema.define(version: 20140212184719) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "food_notes"
+    t.datetime "emergency_last_updated"
     t.index ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
     t.index ["email"], :name => "index_users_on_email"
     t.index ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true

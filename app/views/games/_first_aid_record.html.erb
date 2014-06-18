@@ -1,0 +1,28 @@
+<h3 class="alt"><%= first_aid_record.name %> - last updated <%= first_aid_record.emergency_last_updated %></h3>
+
+<h4>Emergency contact:</h4>
+<p>
+	<% unless first_aid_record.contact_name.blank? or first_aid_record.contact_number.blank?%>
+    	<%= first_aid_record.contact_name %> on <%= first_aid_record.contact_number %> 
+    <% else %>
+    	<%= first_aid_record.name %> has no emergency contact.
+    <% end %>
+</p>
+
+<h4>Medical notes:</h4>
+<p>
+	<% unless first_aid_record.medical_notes.blank? %>
+		<%= RedCloth.new( first_aid_record.medical_notes, [:filter_html] ).to_html.html_safe %>
+	<% else %>
+		<%= first_aid_record.name %> has no medical notes.
+	<% end %>
+</p>
+
+<h4>Food notes:</h4>
+<p>
+	<% unless first_aid_record.food_notes.blank? %>
+		<%= RedCloth.new( first_aid_record.food_notes, [:filter_html] ).to_html.html_safe %>
+	<% else %>
+		<%= first_aid_record.name %> has no food notes.
+	<% end %>
+</p>
