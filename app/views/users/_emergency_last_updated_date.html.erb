@@ -6,4 +6,6 @@
 
 <% end %>
 
-<%=h user.emergency_last_updated.to_s(:long) %>
+<% unless user.emergency_last_updated.blank? %>
+	<%=h user.emergency_last_updated.to_s(:long) %>
+<% end %>

@@ -121,6 +121,16 @@ Given(/^(my|their?) contact number is "(.*?)"$/) do |actor, value|
   end
 end
 
+Given(/^(my|their?) food notes are "(.*?)"$/) do |actor, value|
+  if actor == "my"
+    @user.food_notes = value
+    @user.save
+  else
+    @other_user.food_notes = value
+    @other_user.save
+  end
+end
+
 Given(/^(my|their?) medical notes are "(.*?)"$/) do |actor, value|
   if actor == "my"
     @user.medical_notes = value
@@ -138,6 +148,18 @@ Given(/^(my|their?) general notes are "(.*?)"$/) do |actor, value|
   else
     @other_user.notes = value
     @other_user.save
+  end
+end
+
+Given(/^I have never updated my emergency details$/) do
+  # Do nothing.
+end
+
+Given(/^I last updated my emergency details "(.*?)"$/) do |updated|
+  if updated == "yesterday"
+    @user.emergency_last_updated = Date.today - 1.day
+  elsif updated == "four months ago"
+    @user.emergency_last_updated = Date.today - 4.months
   end
 end
 

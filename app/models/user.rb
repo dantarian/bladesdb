@@ -246,7 +246,7 @@ class User < ActiveRecord::Base
     end
     
     def needs_medical_update? 
-        self.contact_name.blank? or self.contact_number.blank? or self.medical_notes.blank? or self.food_notes.blank? or (self.emergency_last_updated < (Date.today - 3.months))
+        self.is_normal? and (self.contact_name.blank? or self.contact_number.blank? or self.medical_notes.blank? or self.food_notes.blank? or self.emergency_last_updated.nil? or (self.emergency_last_updated < (Date.today - 3.months)))
     end
     
     def games_gmed

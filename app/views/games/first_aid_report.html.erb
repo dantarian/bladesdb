@@ -1,14 +1,27 @@
-<h1 class="alt"><%= @game.game_title %> - <%= @game.start_date %></h1>
+<% if current_user and (current_user.is_admin_or_committee? or current_user.is_first_aider? or @game.is_editable_by? current_user and !@game.is_debrief_started?) %>
+<h1 class="alt">First Aid Report for <%= @game.game_title %> - <%= @game.start_date %></h1>
 	
-<h2 class="alt">Players</h2>
+<div id="gms">	
+	<h2 class="alt">GMs</h2>
+
+	<%= render partial: "games/first_aid_record", collection: @game.gamesmasters.order(:name) %>
+</div>	
+
+<div id="players">
+	<h2 class="alt">Players</h2>
 
 	<%= render partial: "games/first_aid_record", collection: @game.players.order(:name) %>
-	
-<h2 class="alt">GMs and Monsters</h2>
+</div>
+
+<div id="monsters">	
+	<h2 class="alt">Monsters</h2>
 
 	<%= render partial: "games/first_aid_record", collection: @game.monsters.order(:name) %>
-	
+</div>	
 
 <p class="form_actions non-printing">
 	[ <%= link_to "Print Report", '#', onclick: "printpage()" %> ]
 </p>
+<% else %>
+	<p>Please let a webadmin know how you accessed this page - ta!</p>
+<% end %>

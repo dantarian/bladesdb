@@ -6,5 +6,5 @@
 <%= @page.get_content %>
 
 <% if user_signed_in? and @page.editable_by? current_user %>
-    <p align="right">[ <%= link_to 'Edit page', edit_page_path(@page) %> ]</p>
+    <p align="right" class="non-printing">[ <%= link_to 'Edit page', edit_page_path(@page) %> ]</p>
 <% end %>

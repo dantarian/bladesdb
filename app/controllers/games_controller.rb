@@ -2,7 +2,7 @@ class GamesController < ApplicationController
     before_filter :authenticate_user!, :except => [ :index, :list_future ]
     before_filter :check_admin_or_committee_role, :only => [ :new, :create, :destroy ]
     before_filter :find_game, :except => [ :index, :list_future, :new, :create, :outstanding_debriefs, :next_game ]
-    before_filter :check_can_edit, :except => [ :index, :list_future, :new, :create, :destroy, :show, :outstanding_debriefs, :next_game ]
+    before_filter :check_can_edit, :except => [ :index, :list_future, :new, :create, :destroy, :show, :outstanding_debriefs, :next_game, :first_aid_report ]
     before_filter :check_ajax, :except => [ :index, :list_future, :show, :outstanding_debriefs, :next_game, :first_aid_report ]
     before_filter :check_game_not_closed, :except => [ :index, :list_future, :new, :create, :reopen_debrief, :show, :outstanding_debriefs, :next_game ]
     before_filter :check_gm_points_not_overspent, :only => [ :finish_debrief ]

@@ -138,7 +138,7 @@
     		<p><i>This game is not yet open to player applications.</i></p>
     	<% end %>
     <% end %>
-    <% if current_user and (current_user.is_admin_or_committee? or (game.is_debriefable? and game.is_editable_by? current_user) and !game.is_debrief_started?) %>
+    <% if current_user and (current_user.is_admin_or_committee? or current_user.is_first_aider? or game.is_editable_by? current_user and !game.is_debrief_started?) %>
         	<p class="form_actions">
         	    [ 
         	        <% first_action = true -%>
@@ -149,6 +149,7 @@
                     <% if game.is_debriefable? and game.is_editable_by? current_user %>
                     	<%= "|" unless first_action %>
         	            <%= link_to "Debrief", start_debrief_game_path(game), :method => :get, :remote => true %>
+        	            <% first_action = false -%>
                     <% end %>
                     <% if current_user.is_admin_or_committee? %>
                         <%= "|" unless first_action %>
