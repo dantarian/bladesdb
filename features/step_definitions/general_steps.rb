@@ -100,3 +100,9 @@ end
 Then(/^the "(?:.*?)" with the name "(.*?)" does not have the "(.*?)" marker$/) do |name, marker|
   page.find_link(name).first(:xpath,".//..//..").has_no_xpath?(".//img[@title='#{marker}']")
 end
+
+Then(/^there will be a "(.*?)" message in the sidebar$/) do |message|
+  if message == "medical details"
+    page.find("div.admin_notifications").should have_content("Your medical details")
+  end
+end

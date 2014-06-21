@@ -14,6 +14,18 @@ Given(/^I go to their profile page$/) do
   visit user_path(@other_user)
 end
 
+Given(/^I go to the Event Calendar/) do
+  visit event_calendar_path
+end
+
+Given(/^I go to the Next Game page/) do
+  visit next_game_path
+end
+
+Given(/^I go to the game page/) do
+  visit game_path(@game)
+end
+
 When(/^I go to the registration page$/) do
   visit new_user_registration_path
 end
@@ -45,3 +57,8 @@ Then(/^I am on the "(.*?)" profile page for "(.*?)"$/) do |actor, name|
   page.find("li#name").find("div.fieldcontents").should have_content(name)
 end
 
+Then(/^I go to the First Aid Report for the game$/) do
+  page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+  page.find("h1").should have_content("First Aid Report")
+  page.find("h1").should have_content(@game.title)
+end

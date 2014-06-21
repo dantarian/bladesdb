@@ -66,3 +66,10 @@
         </div>
     <% end %>
 <% end %>
+<% if current_user and current_user.needs_medical_update? %>
+    <div class="admin_notifications"
+        <p>
+            Your medical details <%= link_to "need updating", edit_emergency_details_user_path(current_user), :method => :get, :remote => true %>.
+        </p>
+    </div>
+<% end %>

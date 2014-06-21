@@ -5,25 +5,30 @@ Feature: User
   Users can edit their Mobile Number.
   Users can edit their Emergency Contact Name and Number.
   Users can edit their Medical Notes.
+  Users can edit their Food Notes.
   Users can edit their General Notes.
   Users can change their own password.
   Users can view the profile pages of others.
   Users cannot edit another user’s Login, Name and Email.
   Users cannot view or edit another user’s Mobile Number.
   Users cannot view or edit another user’s Emergency Contact Name and Number.
-  Users cannot view or edit  another user’s Medical Notes.
+  Users cannot view or edit another user’s Medical Notes.
+  Users cannot view or edit another user’s Food Notes.
   Users cannot edit another user’s General Notes.
   Users cannot change another user’s password.
   An Administrator user can edit another user’s Login, Name and Email.
   An Administrator user can view and edit any user’s Mobile Number.
   An Administrator user can view and edit any user’s Emergency Contact Name and Number.
   An Administrator user can view and edit any user’s Medical Notes.
+  An Administrator user can view and edit any user’s Food Notes.
   An Administrator user can edit any user’s General Notes.
   A Committee user can view any user’s Mobile Number.
   A Committee user can view any user’s Emergency Contact Name and Number.
   A Committee user can view any user’s Medical Notes.
+  A Committee user can view any user’s Food Notes.
   A First Aider user can view any user’s Emergency Contact Name and Number.
   A First Aider user can view any user’s Medical Notes.
+  A First Aider user can view any user’s Food Notes.
 
   Scenario: Viewing own profile page
     Given I am logged in
@@ -38,6 +43,7 @@ Feature: User
     And I can see my "Mobile Number" field
     And I can see my "Emergency Contact" field
     And I can see my "Medical Notes" field
+    And I can see my "Food Notes" field
     And I can see my "General Notes" field
     And I can see my "Statistics" section
     And I can see my "Last Ten Debrief Comments" section
@@ -72,6 +78,7 @@ Feature: User
     And I can see their "Mobile Number" field
     And I can see their "Emergency Contact" field
     And I can see their "Medical Notes" field
+    And I can see their "Food Notes" field
     And I can see their "General Notes" field
     And I can see their "Statistics" section
     And I can see their "Last Ten Debrief Comments" section
@@ -91,6 +98,7 @@ Feature: User
     And I can see their "Mobile Number" field
     And I can see their "Emergency Contact" field
     And I can see their "Medical Notes" field
+    And I can see their "Food Notes" field
     And I can see their "General Notes" field
     And I can see their "Statistics" section
     And I can see their "Last Ten Debrief Comments" section
@@ -110,6 +118,7 @@ Feature: User
     And I can see their "Roles" field
     And I can see their "Emergency Contact" field
     And I can see their "Medical Notes" field
+    And I can see their "Food Notes" field
     And I can see their "General Notes" field
     And I can see their "Statistics" section
     And there are no "Edit" links
@@ -135,12 +144,14 @@ Feature: User
     And I am a GM for the game
     And the character is a player on the game
     When I go to their profile page
-    Then I take a screenshot
-    And I can see their "Name" field
+    Then I can see their "Name" field
     And I can see their "Name" is "Alice Smith"
     And I can see their "Email" field
     And I can see their "Joined Date" field
     And I can see their "Roles" field
+    And I can see their "Emergency Contact" field
+    And I can see their "Medical Notes" field
+    And I can see their "Food Notes" field
     And I can see their "General Notes" field
     And I can see their "Statistics" section
     And I can see their "Last Ten Debrief Comments" section
@@ -327,7 +338,7 @@ Feature: User
     When I go to my profile page
     Then I can see my "Emergency Contact" field
     When I click on the "Edit" link for "Emergency Contact"
-    Then an "Edit Emergency Contact" dialogue opens
+    Then an "Edit Emergency Details" dialogue opens
     When I fill in "Contact Name" with "Bob Jones"
     And I fill in "Contact Number" with "07827 123456"
     And I click the "Save" button
@@ -335,7 +346,7 @@ Feature: User
     And I can see my "Emergency Contact" is "Bob Jones 07827 123456"
 
   @javascript
-  Scenario: User editing another user’s Emergency Contact  Name and Number - Administrator
+  Scenario: User editing another user’s Emergency Contact Name and Number - Administrator
     Given I am logged in
     And I am an "Administrator" user
     And there is another user
@@ -345,7 +356,7 @@ Feature: User
     When I go to their profile page
     Then I can see their "Emergency Contact" field
     When I click on the "Edit" link for "Emergency Contact"
-    Then an "Edit Emergency Contact" dialogue opens
+    Then an "Edit Emergency Details" dialogue opens
     When I fill in "Contact Name" with "Bob Jones"
     And I fill in "Contact Number" with "07827 123456"
     And I click the "Save" button
@@ -359,7 +370,7 @@ Feature: User
     When I go to my profile page
     Then I can see my "Medical Notes" field
     When I click on the "Edit" link for "Medical Notes"
-    Then an "Edit Medical Notes" dialogue opens
+    Then an "Edit Emergency Details" dialogue opens
     When I fill in "Medical Notes" with "Bees."
     And I click the "Save" button
     Then a success message is displayed saying "User profile updated."
@@ -375,11 +386,40 @@ Feature: User
     When I go to their profile page
     Then I can see their "Medical Notes" field
     When I click on the "Edit" link for "Medical Notes"
-    Then an "Edit Medical Notes" dialogue opens
+    Then an "Edit Emergency Details" dialogue opens
     When I fill in "Medical Notes" with "Bees."
     And I click the "Save" button
     Then a success message is displayed saying "User profile updated for Alice Smith."
     And I can see their "Medical Notes" are "Bees."
+
+  @javascript
+  Scenario: User editing own Medical Notes
+    Given I am logged in
+    And my food notes are "Fish!"
+    When I go to my profile page
+    Then I can see my "Food Notes" field
+    When I click on the "Edit" link for "Medical Notes"
+    Then an "Edit Emergency Details" dialogue opens
+    When I fill in "Food Notes" with "Bees."
+    And I click the "Save" button
+    Then a success message is displayed saying "User profile updated."
+    And I can see my "Food Notes" are "Bees."
+
+  @javascript
+  Scenario: User editing another user’s Food Notes - Administrator
+    Given I am logged in
+    And I am an "Administrator" user
+    And there is another user
+    And their name is "Alice Smith"
+    And their food notes are "Fish!"
+    When I go to their profile page
+    Then I can see their "Food Notes" field
+    When I click on the "Edit" link for "Food Notes"
+    Then an "Edit Emergency Details" dialogue opens
+    When I fill in "Food Notes" with "Bees."
+    And I click the "Save" button
+    Then a success message is displayed saying "User profile updated for Alice Smith."
+    And I can see their "Food Notes" are "Bees."
 
   @javascript
   Scenario: User editing own General Notes

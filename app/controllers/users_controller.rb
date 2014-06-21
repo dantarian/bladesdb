@@ -17,10 +17,8 @@ class UsersController < ApplicationController
                                         :update_email,
                                         :edit_mobile_number, 
                                         :update_mobile_number,
-                                        :edit_emergency_contact, 
-                                        :update_emergency_contact,
-                                        :edit_medical_notes, 
-                                        :update_medical_notes,
+                                        :edit_emergency_details, 
+                                        :update_emergency_details,
                                         :edit_general_notes, 
                                         :update_general_notes]
     before_filter :login_prohibited, :only => [:create]
@@ -83,34 +81,6 @@ class UsersController < ApplicationController
         flash[:notice] = "Activation e-mail resent."
         redirect_to users_path
     end
-
-    #def edit
-    #    if current_user.is_admin_or_committee?
-    #        @user = User.find( params[:id] )
-    #    else
-    #        @user = current_user
-    #    end
-    #end
-
-    #def update
-    #    if (@user != current_user) && current_user.is_admin_or_committee?
-    #        @user = User.find( params[:id] )
-    #        if @user.update_attributes( params[:user] )
-    #            flash[ :notice ] = "User profile updated for #{@user.name}."
-    #            redirect_to :action => 'edit', :id => @user.id
-    #        else
-    #            render :action => 'edit'
-    #        end
-    #    else
-    #        @user = User.find( current_user )
-    #        if @user.update_attributes( params[:user] )
-    #            flash[ :notice ] = "User profile updated."
-    #            redirect_to :action => 'profile'
-    #        else
-    #            render :action => 'profile'
-    #        end
-    #    end
-    #end
     
     def edit_user_name
         respond_to { |format| format.js }
@@ -144,20 +114,12 @@ class UsersController < ApplicationController
         update_user :edit_mobile_number
     end
     
-    def edit_emergency_contact
+    def edit_emergency_details
         respond_to { |format| format.js }
     end
     
-    def update_emergency_contact
-        update_user :edit_emergency_contact
-    end
-    
-    def edit_medical_notes
-        respond_to { |format| format.js }
-    end
-    
-    def update_medical_notes
-        update_user :edit_medical_notes
+    def update_emergency_details
+        update_user :edit_emergency_details
     end
     
     def edit_general_notes
@@ -333,7 +295,8 @@ class UsersController < ApplicationController
     private
         
         def update_user(failure_target)
-            if @user.update_attributes(params.require(:user).permit(:name, :username, :email, :notes, :medical_notes, :mobile_number, :contact_name, :contact_number))
+            @user.emergency_last_updated = DateTime.now
+            if @user.update_attributes(params.require(:user).permit(:name, :username, :email, :notes, :medical_notes, :food_notes, :emergency_last_updated, :mobile_number, :contact_name, :contact_number))
                 if (@user != current_user) && current_user.is_admin_or_committee?
                    flash[ :notice ] = "User profile updated for #{@user.name}."
                 else

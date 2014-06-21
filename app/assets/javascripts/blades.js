@@ -184,6 +184,10 @@ function monster_point_cost() {
     return total;
 }
 
+function printpage() {
+  window.print();
+};
+
 $(function () {
 	$("div.sidebarcategory h3 a").click(function (event) {
 		$(this).closest("div.sidebarcategory").find(".sidebarsection").toggle();

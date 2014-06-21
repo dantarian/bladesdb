@@ -1,5 +1,5 @@
 <% set_content_for :name do %>
-    Emergency Contact
+    Food Notes
 <% end %>
 
 <% set_content_for :actions do %>
@@ -8,7 +8,5 @@
     <% end %>
 <% end %>
 
-<%=h user.contact_name %>
-<br />
-<%=h user.contact_number %>
-&nbsp;
+<%= RedCloth.new( "#{user.food_notes}", [:filter_html] ).to_html.html_safe %>
+<%= "&nbsp;".html_safe if user.food_notes.nil? or user.food_notes.strip.empty? %>

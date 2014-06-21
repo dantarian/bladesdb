@@ -207,18 +207,28 @@ class User < ActiveRecord::Base
         is_admin? || is_committee? || is_character_ref?
     end
     
-    def is_gm_for?( character )
-        unless character.is_a? Character
-            raise ArgumentError "Attempted to check the GM for an entity that is not a Character."
-        end
+    def is_gm_for?( character_or_user )
         is_gm = false
-        unless character.user == self
-            self.mastered_games.select{|game| !game.is_debrief_finished?}.each do |game|
-                if game.has_character? character
-                    is_gm = true
-                    break
+        if character_or_user.is_a? Character
+            unless character_or_user.user == self
+                self.mastered_games.select{|game| !game.is_debrief_finished?}.each do |game|
+                    if game.has_character? character_or_user
+                        is_gm = true
+                        break
+                    end
                 end
             end
+        elsif character_or_user.is_a? User
+            unless character_or_user == self
+                self.mastered_games.select{|game| !game.is_debrief_finished?}.each do |game|
+                    if game.users.include?(character_or_user)
+                        is_gm = true
+                        break
+                    end
+                end
+            end
+        else
+            raise ArgumentError "Attempted to check the GM for an entity that is not a Character nor a User."
         end
         return is_gm
     end
@@ -233,6 +243,10 @@ class User < ActiveRecord::Base
 
     def approved?
         !self.approved_at.blank?
+    end
+    
+    def needs_medical_update? 
+        self.is_normal? and (self.contact_name.blank? or self.contact_number.blank? or self.medical_notes.blank? or self.food_notes.blank? or self.emergency_last_updated.nil? or (self.emergency_last_updated < (Date.today - 3.months)))
     end
     
     def games_gmed
