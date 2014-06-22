@@ -31,8 +31,13 @@ Then(/^(I|they?) have an? "(.*?)" record that says "(.*?)"$/) do |actor, field, 
   else
     id = @other_user.id
   end
-  page.find("div#record#{id}").find("div.#{field.gsub(/(\W)/, '').underscore}").find("h4").should have_content(field)
-  page.find("div#record#{id}").find("div.#{field.gsub(/(\W)/, '').underscore}").find("p").should have_content(value)
+  if field == "Last Updated"
+    page.find("div#record#{id}").find("p.record_header").should have_content(field)
+    page.find("div#record#{id}").find("p.record_header").should have_content(value)
+  else
+    page.find("div#record#{id}").find("div.#{field.gsub(/(\W)/, '').underscore}").find("span").should have_content(field)
+    page.find("div#record#{id}").find("div.#{field.gsub(/(\W)/, '').underscore}").find("div.record_content").find("p").should have_content(value)
+  end
 end
 
 def create_game(opts = {})
