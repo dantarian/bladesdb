@@ -108,9 +108,9 @@ class UserMailer < ActionMailer::Base
         @subject += "Game Application #{application.game.start_date.to_s}"
         @application = application
         if application.updated_at.nil?
-            @response_date = application.created_at.to_date + 14.days
+            @response_date = [application.created_at.to_date + 14.days, application.game.start_date - 1.days].min
         else
-            @response_date = application.updated_at.to_date + 14.days
+            @response_date = [application.updated_at.to_date + 14.days, application.game.start_date - 1.days].min
         end
         mail(to: @recipients, subject: @subject)
     end
