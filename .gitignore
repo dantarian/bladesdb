@@ -3,6 +3,7 @@ capybara-*.html
 .rspec
 /log/*.log
 /db/*.sqlite3*
+/public/assets
 /public/system
 /coverage
 /tmp
