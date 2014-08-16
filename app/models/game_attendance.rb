@@ -1,8 +1,9 @@
 class GameAttendance < ActiveRecord::Base
     belongs_to :game
     belongs_to :user
-    belongs_to :food_option
     belongs_to :character
+    
+    has_many :food_choice
   
     before_validation :remove_character_if_not_playing
     
@@ -14,7 +15,7 @@ class GameAttendance < ActiveRecord::Base
     validates_inclusion_of :confirm_state, :in => ["requested", "priority", "confirmed", "rejected"], :if => :playing?
     validates_presence_of :character_id, :if => :playing?, :message => "^You must select a character if you are down to play."
     
-    auto_strip_attributes :notes
+    auto_strip_attributes :notes, :food_notes
     
     UNDECIDED = "undecided"
     NOT_ATTENDING = "not_attending"
@@ -116,11 +117,7 @@ class GameAttendance < ActiveRecord::Base
     
     # If the character ID changes, change confirmation status back to "requested".
     def character_id=(new_character_id)
-        logger.debug("Character ID is being called.")
         if (new_character_id != nil) && (self.character_id.to_i != new_character_id.to_i)
-            logger.debug(self.character_id)
-            logger.debug(new_character_id)
-            logger.debug("If block is being called.")
             self.confirm_state = REQUESTED
         end
         write_attribute(:character_id, new_character_id)

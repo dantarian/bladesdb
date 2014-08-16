@@ -1,85 +1,62 @@
 class FoodOptionsController < ApplicationController
-  # GET /food_options
-  # GET /food_options.xml
-  def index
-    @food_options = FoodOption.all
+    before_filter :check_ajax
+    before_filter :find_food_options, :except => [:new, :create]
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @food_options }
+    def new
+        @food_option = FoodOption.new
+        @food_option.game_id = params[:game_id]
+    
+        respond_to do |format|
+            format.js
+        end
     end
-  end
-
-  # GET /food_options/1
-  # GET /food_options/1.xml
-  def show
-    @food_option = FoodOption.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @food_option }
+  
+    def edit
+        respond_to do |format|
+            format.js
+        end
     end
-  end
-
-  # GET /food_options/new
-  # GET /food_options/new.xml
-  def new
-    @food_option = FoodOption.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @food_option }
-    end
-  end
-
-  # GET /food_options/1/edit
-  def edit
-    @food_option = FoodOption.find(params[:id])
-  end
-
-  # POST /food_options
-  # POST /food_options.xml
-  def create
-    @food_option = FoodOption.new(params[:food_option])
-
-    respond_to do |format|
+  
+    def create
+      @food_option = FoodOption.new(food_option_params)
+      
       if @food_option.save
-        flash[:notice] = 'FoodOption was successfully created.'
-        format.html { redirect_to(@food_option) }
-        format.xml  { render :xml => @food_option, :status => :created, :location => @food_option }
+          @close_dialog = true
+          update_game_display
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @food_option.errors, :status => :unprocessable_entity }
+          respond_to do |format|
+              format.js { render :new }
+          end
       end
     end
-  end
-
-  # PUT /food_options/1
-  # PUT /food_options/1.xml
-  def update
-    @food_option = FoodOption.find(params[:id])
-
-    respond_to do |format|
-      if @food_option.update_attributes(params[:food_option])
-        flash[:notice] = 'FoodOption was successfully updated.'
-        format.html { redirect_to(@food_option) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @food_option.errors, :status => :unprocessable_entity }
-      end
+  
+    def update
+  
+        if @gfood_option.update_attributes(food_option_params)
+            @close_dialog = true
+            update_game_display
+        else
+            respond_to do |format|
+                format.js { render :edit }
+            end
+        end
     end
-  end
-
-  # DELETE /food_options/1
-  # DELETE /food_options/1.xml
-  def destroy
-    @food_option = FoodOption.find(params[:id])
-    @food_option.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(food_options_url) }
-      format.xml  { head :ok }
+  
+    def destroy
+      @food_option.destroy
+      update_game_display
     end
-  end
+  
+    protected
+        def food_option_params
+            params.require(:food_option).permit(:game_id, :name, :food_category_id, :food_sub_category_id)
+        end
+        
+        def find_food_option
+            @food_option = FoodOption.find(params[:id])
+        end
+        
+        def update_game_display
+            render :update_game
+        end
 end

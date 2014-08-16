@@ -106,10 +106,7 @@ class GamesController < ApplicationController
         params[:game][:campaign_ids] ||= []
         params[:game][:gamesmaster_ids] ||= []
         @game = Game.new(game_create_params)
-        
-        @game.meet_time.strftime('%H:%M')
-        @game.start_time.strftime('%H:%M')
-     
+
         if @game.save
             @games = Game.future_games
             render :update_calendar
@@ -216,7 +213,7 @@ class GamesController < ApplicationController
     protected
     
         def game_create_params
-            params.require(:game).permit(:title, :lower_rank, :upper_rank, :ic_brief, :ooc_brief, :start_date, :end_date, :meet_time, :start_time, :food, :open, :notes, :non_stats, :attendance_only, {:campaign_ids => []}, {:gamesmaster_ids => []} )
+            params.require(:game).permit(:title, :lower_rank, :upper_rank, :ic_brief, :ooc_brief, :start_date, :end_date, :meet_time, :start_time, :food_notes, :open, :notes, :non_stats, :attendance_only, {:campaign_ids => []}, {:gamesmaster_ids => []} )
         end
         
         def game_debrief_params

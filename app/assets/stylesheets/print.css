@@ -29,7 +29,7 @@ blockquote {margin:1.5em;padding:1em;font-style:italic;font-size:.9em;}
 a:link, a:visited {text-decoration:none;color:#000000;}
 .non-printing {display: none !important;}
 
-div.first_aid_record { border: solid 1px #666; margin: 1em; padding: 1em; }
-p.first_aid_record_header { font-weight:bold; }
-div.first_aid_section { margin-left: 2em; }
-span.first_aid_section_header { font-style: italic; }
+div.report_record { border: solid 1px #666; margin: 1em; padding: 1em; }
+p.record_header { font-weight:bold; }
+div.record_section { margin-left: 2em; }
+span.record_section_header { font-style: italic; }

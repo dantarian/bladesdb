@@ -2,7 +2,7 @@ class Game < ActiveRecord::Base
     include Rails.application.routes.url_helpers # Slightly nasty, but necessary to get the game URL for the boards post.
   
     has_and_belongs_to_many :gamesmasters, :class_name => "User", :join_table => :games_masters
-    has_many :food_options
+    # has_many :food_options
     has_and_belongs_to_many :campaigns
     has_many :debriefs
     has_many :game_applications
@@ -38,7 +38,7 @@ class Game < ActiveRecord::Base
     validate :start_date_must_be_before_end_date
     validate :start_date_must_be_reasonable
     validate :meet_time_must_be_before_start_time
-    validates_inclusion_of :food, :in => [true, false]
+    # validates_inclusion_of :food, :in => [true, false]
     validates_inclusion_of :open, :in => [true, false]
     validates_inclusion_of :debrief_started, :in => [true, false]
     validates_presence_of :player_points_base, :if => :is_debrief_started?

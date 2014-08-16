@@ -27,18 +27,6 @@
 			<%= f.select :character_id, current_user.characters.all.select{|c| c.active? }.sort{|c1,c2| c1.points <=> c2.points}.collect{|c| [c.title_name_and_rank(:unescaped => true), c.id]}, {:include_blank => true}, {:disabled => (!@game_attendance.playing?)} %>
 		</p>
 	<% end %>
-		
-	<% if @game_attendance.game.food %>
-		<p>
-		    <%= f.label :want_food %>
-		    <%= f.check_box :want_food %>
-		</p>
-	
-		<p>
-		    <%= f.label :food_option %><br/>
-		    <%= f.text_field :food_option %>
-		</p>
-	<% end %>
 	
 	<p>
 	    <%= f.label :notes %><br/>
