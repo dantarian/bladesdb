@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20140704191703) do
     t.string   "title"
     t.string   "state",                     default: "active",     null: false
     t.text     "notes"
-    t.date     "declared_on",               default: '2014-07-08', null: false
+    t.date     "declared_on",               default: '2010-04-19', null: false
     t.integer  "approved_by_id"
     t.date     "approved_on"
     t.boolean  "approved"

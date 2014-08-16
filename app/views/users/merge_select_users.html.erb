@@ -34,7 +34,7 @@
     </tbody>
 </table>
 
-<% form_tag merge_select_data_users_path, :method => :post do %>
+<%= form_tag merge_select_data_users_path, :method => :post do %>
     <%= hidden_field_tag :primary, @primary %>
     <%= hidden_field_tag :secondary, @secondary %>
     <p class="actions"><%= submit_tag "Merge selected users" %></p>
