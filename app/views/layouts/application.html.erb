@@ -5,14 +5,15 @@
         <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
         <link rel="icon" type="image/png" href="<%= asset_path 'favicon.png' %>" />
         <%= csrf_meta_tag %>
-		<%= javascript_include_tag 'application' %>
-		<%= stylesheet_link_tag 'application' %>
-		<%= stylesheet_link_tag 'print', media: 'print' %>
-		<% if @content_for_title %>
-			<title>BathLARP - <%= yield :title %></title>
-		<% else %>
-			<title>BathLARP</title>
-		<% end %>
+	<%= javascript_include_tag 'application' %>
+	<%= stylesheet_link_tag 'application', media: 'all' %>
+	<%= stylesheet_link_tag 'application', media: 'screen, projection' %>
+        <%= stylesheet_link_tag 'application', media: 'print' %>
+	<% if @content_for_title %>
+		<title>BathLARP - <%= yield :title %></title>
+	<% else %>
+		<title>BathLARP</title>
+	<% end %>
         <%= yield :head %>
     </head>
     <body>
