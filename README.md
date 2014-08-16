@@ -18,8 +18,7 @@ foreman start -f Procfile.dev -e development.env
 If you don't, then you can create a blank database containing only the basic seed values using:
 
 ```
-rake db:create
-rake db:migrate
+rake db:setup
 ```
  
 # Testing

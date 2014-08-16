@@ -46,3 +46,9 @@ Feature: Food
     And I fill in "Food Description" with "Sausages"
     And I click the "Save" button
     
+  Scenario: A user can select not to have food on a game with a caterer
+	Given I am logged in
+	And there is a game
+	And there is a caterer for the game
+	When I go to the game page
+	

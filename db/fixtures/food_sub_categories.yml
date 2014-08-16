@@ -1,0 +1,39 @@
+breakfast:
+  id: 1
+  description: Breakfast
+  
+lunch:
+  id: 2
+  description: Lunch
+  
+dinner:
+  id: 3
+  description: Dinner
+  
+snack:
+  id: 4
+  description: Snack
+  
+midnight snack:
+  id: 5
+  description: Midnight snack
+  
+buffet:
+  id: 6
+  description: Buffet
+ 
+starter:
+  id: 7
+  description: Starter
+  
+main:
+  id: 8
+  description: Main
+  
+dessert:
+  id: 9
+  description: Dessert
+
+other:
+  id: 10
+  description: Other

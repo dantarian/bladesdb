@@ -1,0 +1,23 @@
+all:
+  id: 1
+  description: All
+  
+friday:
+  id: 2
+  description: Friday
+  
+saturday:
+  id: 3
+  description: Saturday
+  
+sunday:
+  id: 4
+  description: Sunday
+  
+ic_meal:
+  id: 5
+  description: IC meal
+  
+other:
+  id: 6
+  description: Other

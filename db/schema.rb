@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140614193414) do
+ActiveRecord::Schema.define(version: 20140704191703) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -54,6 +54,12 @@ ActiveRecord::Schema.define(version: 20140614193414) do
     t.datetime "updated_at"
   end
 
+  create_table "caterers", id: false, force: true do |t|
+    t.integer "game_id", null: false
+    t.integer "user_id", null: false
+    t.index ["game_id", "user_id"], :name => "index_caterers_on_game_id_and_user_id"
+  end
+
   create_table "character_point_adjustments", force: true do |t|
     t.integer  "character_id",   null: false
     t.integer  "points",         null: false
@@ -84,7 +90,7 @@ ActiveRecord::Schema.define(version: 20140614193414) do
     t.string   "title"
     t.string   "state",                     default: "active",     null: false
     t.text     "notes"
-    t.date     "declared_on",               default: '2010-04-19', null: false
+    t.date     "declared_on",               default: '2014-07-08', null: false
     t.integer  "approved_by_id"
     t.date     "approved_on"
     t.boolean  "approved"
@@ -150,7 +156,6 @@ ActiveRecord::Schema.define(version: 20140614193414) do
     t.date     "end_date"
     t.time     "meet_time"
     t.time     "start_time"
-    t.boolean  "food",                default: false, null: false
     t.boolean  "open",                default: true,  null: false
     t.string   "notes"
     t.datetime "created_at"
@@ -158,6 +163,8 @@ ActiveRecord::Schema.define(version: 20140614193414) do
     t.boolean  "debrief_started",     default: false, null: false
     t.boolean  "non_stats",           default: false, null: false
     t.boolean  "attendance_only",     default: false, null: false
+    t.string   "food_notes"
+    t.datetime "food_cutoff"
     t.index ["start_date"], :name => "index_games_on_start_date"
   end
 
@@ -199,11 +206,30 @@ ActiveRecord::Schema.define(version: 20140614193414) do
     t.index ["transaction_id"], :name => "index_debits_on_transaction_id", :unique => true
   end
 
+  create_table "food_categories", force: true do |t|
+    t.string "description", null: false
+  end
+
+  create_table "food_choices", force: true do |t|
+    t.integer "food_options_id"
+    t.integer "game_attendances_id"
+    t.index ["food_options_id"], :name => "index_food_choices_on_food_options_id"
+    t.index ["game_attendances_id"], :name => "index_food_choices_on_game_attendances_id"
+  end
+
   create_table "food_options", force: true do |t|
-    t.integer  "game_id",    null: false
-    t.string   "name",       null: false
+    t.integer  "game_id",              null: false
+    t.string   "name",                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "food_category_id"
+    t.integer  "food_sub_category_id"
+    t.index ["food_category_id"], :name => "index_food_options_on_food_category_id"
+    t.index ["food_sub_category_id"], :name => "index_food_options_on_food_sub_category_id"
+  end
+
+  create_table "food_sub_categories", force: true do |t|
+    t.string "description", null: false
   end
 
   create_table "game_applications", force: true do |t|
@@ -215,16 +241,16 @@ ActiveRecord::Schema.define(version: 20140614193414) do
   end
 
   create_table "game_attendances", force: true do |t|
-    t.integer  "game_id",        null: false
-    t.integer  "user_id",        null: false
+    t.integer  "game_id",       null: false
+    t.integer  "user_id",       null: false
     t.boolean  "want_food"
-    t.integer  "food_option_id"
     t.integer  "character_id"
-    t.string   "attend_state",   null: false
+    t.string   "attend_state",  null: false
     t.string   "confirm_state"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "notes"
+    t.string   "food_notes"
     t.index ["game_id"], :name => "index_game_attendances_on_game_id"
   end
 

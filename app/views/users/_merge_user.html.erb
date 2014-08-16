@@ -1,6 +1,6 @@
 <% user = merge_user %>
 <tr id="record<%= user.id %>" class="<%= cycle('odd', 'even') %> <%= user.id == @primary ? "primary" : "" %> <%= user.id == @secondary ? "secondary" : "" %>">
-    <td><%= link_to h(user.username), edit_user_path(user) %></td>
+    <td><%= link_to h(user.username), user_path(user) %></td>
     <td><%=h user.name %></td>
     <td><%=h user.email %></td>
     <td>

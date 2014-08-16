@@ -113,6 +113,6 @@ class GameAttendancesController < ApplicationController
         end
         
         def game_attendance_params
-            params.require(:game_attendance).permit(:game_id, :user_id, :want_food, :food_option_id, :character_id, :attend_state, :notes)
+            params.require(:game_attendance).permit(:game_id, :user_id, :want_food, :food_notes, :character_id, :attend_state, :notes)
         end
 end

@@ -1,8 +1,8 @@
-<div id="record<%= first_aid_record.id %>" class="first_aid_record">
+<div id="record<%= first_aid_record.id %>" class="report_record">
 	<p class="record_header"><%= first_aid_record.name %> - Last Updated: <%= first_aid_record.emergency_last_updated.blank? ? "Never" : first_aid_record.emergency_last_updated.to_s(:long) %></p>
 	
-	<div class="first_aid_section emergency_contact">
-		<p><span class="first_aid_section_header">Emergency Contact: </span>
+	<div class="record_section emergency_contact">
+		<p><span class="record_section_header">Emergency Contact: </span>
 		<% unless first_aid_record.contact_name.blank? or first_aid_record.contact_number.blank?%>
 			<div class="record_content">
 	    		<p><%= first_aid_record.contact_name %> on <%= first_aid_record.contact_number %></p> 
@@ -12,8 +12,8 @@
 	    <% end %>
 	</div>
 	
-	<div class="first_aid_section medical_notes">
-		<p><span class="first_aid_section_header">Medical Notes: </span>
+	<div class="record_section medical_notes">
+		<p><span class="record_section_header">Medical Notes: </span>
 		<% unless first_aid_record.medical_notes.blank? %>
 			<div class="record_content">
 				<%= RedCloth.new( first_aid_record.medical_notes, [:filter_html] ).to_html.html_safe %>
@@ -23,8 +23,8 @@
 		<% end %>
 	</div>
 	
-	<div class="first_aid_section food_notes">
-		<p><span class="first_aid_section_header">Food Notes: </span>
+	<div class="record_section food_notes">
+		<p><span class="record_section_header">Food Notes: </span>
 		<% unless first_aid_record.food_notes.blank? %>
 			<div class="record_content">
 				<%= RedCloth.new( first_aid_record.food_notes, [:filter_html] ).to_html.html_safe %>
