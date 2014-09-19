@@ -106,7 +106,7 @@ class DeathThresholdAdjustmentsController < ApplicationController
             end
         end
         
-        def approve_or_reject_adjustment(state, success_message, failure_message)
+        def approve_or_reject_adjustment(state)
             if @death_threshold_adjustment.is_provisional?
                 (state ? @death_threshold_adjustment.approve(current_user) : @death_threshold_adjustment.reject(current_user))
                 if @death_threshold_adjustment.save

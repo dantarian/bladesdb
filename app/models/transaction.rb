@@ -10,12 +10,21 @@ class Transaction < ActiveRecord::Base
     validates_numericality_of :value, :only_integer => true, :greater_than => 0
     validates_presence_of :description
     validate :creditor_has_enough_money
+    validate :character_declared_before_transaction
     
     auto_strip_attributes :description
     
     def creditor_has_enough_money
         unless debit.character.nil? or value.nil? or value == ""
-            errors.add(:value, "cannot be more money than the character has available") if debit.character.money < value
+            errors.add(:value, "cannot be more money than the character has available") if debit.character.money_on(transaction_date) < value
+        end
+    end
+    
+    def character_declared_before_transaction
+        unless debit.character.nil? or value.nil? or value == ""
+            if debit.character.declared_on > transaction_date
+                errors.add(:value, "cannot be before the character was declared") 
+            end
         end
     end
 end

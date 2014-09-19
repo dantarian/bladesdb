@@ -127,8 +127,10 @@
                     </td>
                     <td><%=h event.other_party %></td>
                     <td class="numeric">
-                        <% if event.source_object.class == Debit or event.money == 0 %>
+                        <% if event.source_object.class == Debit %>
                             -
+                        <% elsif (event.loot || 0) > 0 %>
+                        	<%= money_for_display(event.money.abs + event.loot) %>
                         <% else %>
                             <%= money_for_display(event.money.abs) %>
                         <% end %>
@@ -137,7 +139,13 @@
                         <% if event.source_object.class == Debit %>
                             <%= money_for_display(event.money.abs) %>
                         <% elsif event.source_object.class == Debrief and event.tax > 0 %>
-                            <%= money_for_display(event.tax) %>
+                        	<% if (event.loot || 0) < 0 %>
+                            	<%= money_for_display(event.tax + event.loot.abs) %>
+                            <% else %>
+                            	<%= money_for_display(event.tax) %>
+                            <% end %>
+                        <% elsif event.source_object.class == Debrief and (event.loot || 0) < 0 %>
+                        	<%= money_for_display(event.loot.abs) %>
                         <% else %>
                             -
                         <% end %>

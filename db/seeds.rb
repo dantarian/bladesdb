@@ -30,7 +30,7 @@ FoodSubCategory.create(id: 10, description: "Other") unless FoodSubCategory.exis
 Guild.create(id: 1, name: "Defenders", tithe_percentage: 0) unless Guild.exists?(1)
 Guild.create(id: 2, name: "Circle", tithe_percentage: 10) unless Guild.exists?(2)
 Guild.create(id: 3, name: "Towers", tithe_percentage: 10) unless Guild.exists?(3)
-Guild.create(id: 4, name: "Paladins", tithe_percentage: 50) unless Guild.exists?(4)
+Guild.create(id: 4, name: "Paladins", tithe_percentage: 10) unless Guild.exists?(4)
 Guild.create(id: 5, name: "Bladesingers", tithe_percentage: 10) unless Guild.exists?(5)
 Guild.create(id: 6, name: "Gladiators", tithe_percentage: 10) unless Guild.exists?(6)
 Guild.create(id: 7, name: "Temple of Balance", tithe_percentage: 10) unless Guild.exists?(7)
