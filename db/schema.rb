@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704191703) do
+ActiveRecord::Schema.define(version: 20140919201337) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20140704191703) do
     t.string   "title"
     t.string   "state",                     default: "active",     null: false
     t.text     "notes"
-    t.date     "declared_on",               default: '2014-07-08', null: false
+    t.date     "declared_on",               default: '2010-04-19', null: false
     t.integer  "approved_by_id"
     t.date     "approved_on"
     t.boolean  "approved"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20140704191703) do
     t.integer  "deaths"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "loot"
     t.index ["character_id"], :name => "index_debriefs_on_character_id"
     t.index ["game_id"], :name => "index_debriefs_on_game_id"
     t.index ["user_id"], :name => "index_debriefs_on_user_id"

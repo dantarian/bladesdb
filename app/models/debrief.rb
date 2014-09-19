@@ -10,7 +10,7 @@ class Debrief < ActiveRecord::Base
     validates_numericality_of :points_modifier, :only_integer => true, :allow_nil => true
     validates_numericality_of :money_modifier, :only_integer => true, :allow_nil => true
     validates_numericality_of :deaths, :only_integer => true, :allow_nil => true
-    validate :max_one_gm_or_monster_debrief, :max_one_player_debrief, :base_points_less_than_or_equal_to_game_base
+    validate :max_one_gm_or_monster_debrief, :max_one_player_debrief, :base_points_less_than_or_equal_to_game_base, :danger_pay_non_negative
     
     after_destroy :delete_gm, :if => :is_gm_debrief?
     
@@ -73,5 +73,13 @@ class Debrief < ActiveRecord::Base
         
         def delete_gm
             game.gamesmasters.delete(user)
+        end
+        
+        def danger_pay_non_negative
+            if is_player_debrief?
+                if !money.nil? && money < 0
+                    errors.add(:money_modifier, "cannot reduce danger pay below zero florins")
+                end
+            end
         end
 end

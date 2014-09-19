@@ -220,7 +220,7 @@ class Character < ActiveRecord::Base
     end
     
     def money_on(date)
-        money_events.select { |event| !event.provisional and !event.rejected and !event.historical and event.date <= date }.inject(0) { |sum, event| sum + event.taxed_money }
+        money_events.select { |event| !event.provisional and !event.rejected and !event.historical and event.date <= date }.inject(0) { |sum, event| sum + event.taxed_money + (event.loot || 0) }
     end
         
     def formatted_date_of_birth
@@ -432,7 +432,8 @@ class Character < ActiveRecord::Base
                     event = MoneyEvent.new
                     event.date = debrief.game.start_date
                     event.money = debrief.money
-                    event.other_party = "Danger Pay"
+                    event.loot = debrief.loot
+                    event.other_party = "Danger Pay + In-Game Transactions"
                     event.comment = debrief.game.game_title
                     event.provisional = false
                     event.rejected = false
@@ -513,7 +514,7 @@ class Character < ActiveRecord::Base
     end
 
     class MoneyEvent < Event
-        attr_accessor :money, :other_party, :tax_rate
+        attr_accessor :money, :other_party, :tax_rate, :loot
         
         def taxed_money
             money - tax

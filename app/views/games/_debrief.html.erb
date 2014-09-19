@@ -133,8 +133,14 @@
                 <% unless (debrief.money_modifier || 0) == 0 %>
                     Total Pay <%= money_for_display(game.player_money_base + debrief.money_modifier) %>
                 <% end %>
+                <% unless (debrief.loot || 0) == 0 %>
+                	<% if game.is_editable_by? current_user || debrief.character.user == current_user %>
+                		<%= "-" unless (debrief.money_modifier || 0) == 0 %>
+                		Total Fines/Loot <%= money_for_display(debrief.loot) %>
+                	<% end %> 
+                <% end %>
                 <% unless (debrief.deaths || 0) == 0 %>
-                    <%= "-" unless (debrief.money_modifier || 0) == 0 %>
+                    <%= "-" unless (debrief.money_modifier || debrief.loot || 0) == 0 %>
                     <%= debrief.deaths > 0 ? "Lost" : "Gained" %> <%= debrief.deaths.abs %> DT<%= "s" unless debrief.deaths.abs == 1 %>
                 <% end %>
             </div>

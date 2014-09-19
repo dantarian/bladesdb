@@ -1,5 +1,5 @@
 <%= form_for @transaction, :remote => true do |f| %>
-    <%= f.error_messages :header_message => "Failed to save money transfer", :message => "The following problems prevented the money transfer from being saved:<br/" %>
+    <%= f.error_messages :header_message => "Failed to save money transfer", :message => "The following problems prevented the money transfer from being saved:" %>
 
     <%= hidden_field_tag :transfer_from, @transfer_from %>
 
@@ -11,6 +11,10 @@
         <li>
             <%= f.label :description, "Description" %><br />
             <%= f.text_field :description %>
+        </li>
+        <li>
+            <%= f.label :transaction_date, "Date" %><br />
+            <%= f.datepicker :transaction_date, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :readonly => true, :value => @transaction.transaction_date.to_s %>
         </li>
         <%= f.fields_for :debit do |df| %>
             <% if @transfer_from %>

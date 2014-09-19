@@ -87,7 +87,7 @@ class DebriefsController < ApplicationController
         end
         
         def debrief_player_params
-            params.require(:debrief).permit(:game_id, :user_id, :character_id, :base_points, :points_modifier, :remarks, :money_modifier, :deaths, :character_attributes => [:id, :gm_notes])
+            params.require(:debrief).permit(:game_id, :user_id, :character_id, :base_points, :points_modifier, :remarks, :money_modifier, :loot, :deaths, :character_attributes => [:id, :gm_notes])
         end
         
         def find_game

@@ -10,7 +10,6 @@ class TransactionsController < ApplicationController
         @to_other = false
         @transfer_from = true
         @transaction = Transaction.new
-        @transaction.transaction_date = Date.today
         @transaction.build_debit
         @transaction.debit.character = @character
         @transaction.build_credit
@@ -23,7 +22,6 @@ class TransactionsController < ApplicationController
         @from_other = false
         @transfer_from = false
         @transaction = Transaction.new
-        @transaction.transaction_date = Date.today
         @transaction.build_debit
         @transaction.build_credit
         @transaction.credit.character = @character
@@ -40,7 +38,6 @@ class TransactionsController < ApplicationController
             permission_denied
         else
             @transaction = Transaction.new(transaction_params)
-            @transaction.transaction_date = Date.today
             
             if @transaction.save
                 character = Character.find(@transfer_from ? @transaction.debit.character : @transaction.credit.character)
@@ -76,6 +73,6 @@ class TransactionsController < ApplicationController
         end
         
         def transaction_params
-            params.require(:transaction).permit(:transaction_date, :value, :description, :credit_attributes => [:transaction_id, :character_id, :other_recipient], :debit_attributes => [:transaction_id, :character_id, :other_recipient])
+            params.require(:transaction).permit(:transaction_date, :value, :description, :credit_attributes => [:transaction_id, :character_id, :other_recipient], :debit_attributes => [:transaction_id, :character_id, :other_source])
         end
 end
