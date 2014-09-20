@@ -62,6 +62,12 @@ class ApplicationController < ActionController::Base
             end
         end
         
+        def check_committee_role
+            unless current_user and current_user.is_committee?
+                permission_denied
+            end
+        end
+        
         def check_active_member
             unless current_user and current_user.approved?
                 permission_denied

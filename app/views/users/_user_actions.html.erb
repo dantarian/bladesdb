@@ -2,9 +2,11 @@
     [
     <% if user_actions.deleted? %>
         <%= link_to "Undelete", undelete_user_path(user_actions.id), :method => :patch %>
-        |
-        <%= link_to "Purge", purge_user_path(user_actions.id), :method => :delete %>
-    <% elsif user_actions.approved_at.blank? %>
+        <% if current_user.is_admin? %>
+	        |
+	        <%= link_to "Purge", purge_user_path(user_actions.id), :method => :delete %>
+        <% end %>
+    <% elsif user_actions.approved_at.blank? && current_user.is_admin? %>
         <%= link_to "Approve", approve_user_path(user_actions.id), :method => :patch %>
         |
         <%= link_to "Reject", user_path(user_actions.id), :method => :delete %>

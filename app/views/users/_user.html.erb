@@ -20,6 +20,8 @@
     </td>
     <% if current_user.is_admin? %>
     	<td><%=h user.username %></td>
+    <% end %>
+    <% if current_user.is_admin_or_committee? %>
         <td><%= render :partial => "user_actions", :object => user %></td>
     <% end %>
 </tr>
