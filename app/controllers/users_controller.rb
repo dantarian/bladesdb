@@ -22,7 +22,8 @@ class UsersController < ApplicationController
                                         :edit_general_notes, 
                                         :update_general_notes]
     before_filter :login_prohibited, :only => [:create]
-    before_filter :check_administrator_role, :only => [:destroy, :approve, :suspend, :unsuspend, :undelete, :purge, :edit, :resend_activation, :merge]
+    before_filter :check_administrator_role, :only => [:purge, :merge]
+    before_filter :check_admin_or_committee_role, :only => [:destroy, :approve, :suspend, :unsuspend, :undelete, :edit, :resend_activation]
     before_filter :check_active_member, :only => [:index]
     before_filter :check_self_or_character_ref_role, :only => [:monster_points]
     before_filter :authenticate_user!, :only => [:show, :new_gm, :new_player, :new_monster, :create_gm, :create_player, :create_monster]
