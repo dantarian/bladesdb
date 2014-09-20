@@ -116,12 +116,14 @@ Blades::Application.routes.draw do
       get :edit_bio
       get :edit_date_of_birth
       get :edit_notes
+      get :edit_player_notes
       get :edit_gm_notes
       get :edit_address
       patch :update_name
       patch :update_bio
       patch :update_date_of_birth
       patch :update_notes
+      patch :update_player_notes
       patch :update_gm_notes
       patch :update_address
       patch :reactivate

@@ -10,11 +10,13 @@ class CharactersController < ApplicationController
                             :edit_date_of_birth, 
                             :edit_address, 
                             :edit_notes, 
+                            :edit_player_notes,
                             :update,
                             :update_bio,
                             :update_date_of_birth,
                             :update_address,
                             :update_notes,
+                            :update_player_notes,
                             :edit_rejected,
                             :update_rejected, 
                             :reactivate, 
@@ -74,6 +76,10 @@ class CharactersController < ApplicationController
     end
     
     def edit_notes
+        respond_to {|format| format.js }
+    end
+    
+    def edit_player_notes
         respond_to {|format| format.js }
     end
     
@@ -144,6 +150,10 @@ class CharactersController < ApplicationController
     
     def update_notes
         update_character(params.require(:character).permit(:notes), :edit_notes)
+    end
+    
+    def update_player_notes
+        update_character(params.require(:character).permit(:player_notes), :edit_notes)
     end
     
     def update_gm_notes

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919201337) do
+ActiveRecord::Schema.define(version: 20140920161742) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -98,6 +98,8 @@ ActiveRecord::Schema.define(version: 20140919201337) do
     t.datetime "updated_at"
     t.integer  "branch_id"
     t.text     "gm_notes"
+    t.text     "player_notes"
+    t.boolean  "preferred_character",       default: false,        null: false
     t.index ["user_id"], :name => "index_characters_on_user_id"
   end
 
