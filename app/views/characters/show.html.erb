@@ -167,6 +167,12 @@
     <% end %>
 <% end %>
 
+<ul class="fieldlist">
+    <% unless @character.undeclared? %>
+        <%= display_character_field @character, "player_notes" if is_owner %>
+    <% end %>
+</ul>
+
 <% if @character.user == current_user %>
 	<p align="right">[ <%= link_to 'Back', my_characters_path %> ]</p>
 <% end %>

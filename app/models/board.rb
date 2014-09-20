@@ -41,11 +41,11 @@ class Board < ActiveRecord::Base
     end
     
     def closed?
-        campaign && campaign.finished?
+        closed == true
     end
     
     def open?
-        !closed?
+        closed == false
     end
     
     def last_page

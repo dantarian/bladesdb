@@ -2,6 +2,7 @@
 	<% if @boards.empty? %>
 		<p><i>No boards found.</i></p>
 	<% else %>
+		<h2 class="alt">Open Boards</h2>
 		<table>
 			<thead>
 				<tr>
@@ -11,7 +12,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<%= render partial: :board, collection: @boards %>
+				<%= render partial: :board, collection: @boards.open_boards %>
+			</tbody>
+		</table>
+		<h2 class="alt">Closed Boards</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Board Name</th>
+					<th>Messages</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%= render partial: :board, collection: @boards.closed_boards %>
 			</tbody>
 		</table>
 	<% end %>
