@@ -7,6 +7,11 @@
 	<td><%= board.messages.size %></td>
 	<td>
 		[ 
+			<% unless board.closed? %>
+				<%= link_to "Close", switch_open_or_closed_board_path(board), remote: true, method: :patch %> |
+			<% else %>
+				<%= link_to "Open", switch_open_or_closed_board_path(board), remote: true, method: :patch %> |
+			<% end %>
 			<%= link_to "Edit", edit_board_path(board), remote: true, method: :get %> |
 	        <%= link_to "Delete", board, data: { confirm: "This will destroy all messages that have been posted to this board. Are you sure?" }, remote: true, method: :delete %>
 		]

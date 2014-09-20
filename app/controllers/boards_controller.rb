@@ -134,6 +134,13 @@ class BoardsController < ApplicationController
         redirect_to boards_path
     end
     
+    def switch_open_or_closed
+        selected_board = Board.find( params[:id] )
+        selected_board.closed = !selected_board.closed
+        selected_board.save
+        update_boards
+    end
+    
     private
         def board_params
             params.require(:board).permit(:name, :blurb, :in_character, :campaign_id)

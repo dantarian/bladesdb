@@ -17,6 +17,7 @@ Blades::Application.routes.draw do
     member do
       patch :move_up
       patch :move_down
+      patch :switch_open_or_closed
     end
     
     collection do

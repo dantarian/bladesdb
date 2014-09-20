@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140920161742) do
+ActiveRecord::Schema.define(version: 20140920170546) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140920161742) do
     t.integer  "campaign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "closed",       default: false, null: false
   end
 
   create_table "campaign_games_masters", id: false, force: true do |t|
