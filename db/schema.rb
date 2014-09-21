@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140920170546) do
+ActiveRecord::Schema.define(version: 20140921093800) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -349,6 +349,8 @@ ActiveRecord::Schema.define(version: 20140920170546) do
     t.string   "rolename"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "admin_only", default: false, null: false
+    t.boolean  "system",     default: false, null: false
   end
 
   create_table "sidebar_categories", force: true do |t|

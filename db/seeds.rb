@@ -82,13 +82,13 @@ Race.create(id: 4, name: "Half Orc", death_thresholds: 7) unless Race.exists?(4)
 Race.create(id: 5, name: "Half Ogre", death_thresholds: 7) unless Race.exists?(5)
 
 # Roles
-Role.create(id: 1, rolename: "administrator") unless Role.exists?(1)
-Role.create(id: 2, rolename: "committee") unless Role.exists?(2)
-Role.create(id: 3, rolename: "characterref") unless Role.exists?(3)
-Role.create(id: 4, rolename: "firstaider") unless Role.exists?(4)
+Role.create(id: 1, rolename: "administrator", admin_only: true, system: true) unless Role.exists?(1)
+Role.create(id: 2, rolename: "committee", admin_only: true, system: true) unless Role.exists?(2)
+Role.create(id: 3, rolename: "characterref", admin_only: true, system: true) unless Role.exists?(3)
+Role.create(id: 4, rolename: "firstaider", system: true) unless Role.exists?(4)
 Role.create(id: 5, rolename: "experiencedgm") unless Role.exists?(5)
 Role.create(id: 6, rolename: "insurance") unless Role.exists?(6)
-Role.create(id: 7, rolename: "webonly") unless Role.exists?(7)
+Role.create(id: 7, rolename: "webonly", system: true) unless Role.exists?(7)
 
 # Sidebar Categories
 unless SidebarCategory.exists?
