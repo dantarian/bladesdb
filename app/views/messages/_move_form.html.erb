@@ -8,7 +8,7 @@
 	  	<ul class="form">
 	  		<li>
 		    	<%= f.label :board_id, "Board" %><br />
-                <%= f.select :board_id, Board.all.collect{|board| [board.name, board.id]} %>
+                <%= f.select :board_id, Board.where(closed: false).collect{|board| [board.name, board.id]} %>
 	  		</li>
 		</ul>
 			
