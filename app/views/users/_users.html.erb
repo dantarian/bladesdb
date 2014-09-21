@@ -6,6 +6,8 @@
     	    <th class="no_sort">Roles</th>
     	    <% if current_user.is_admin? %>
     	        <th>Login</th>
+    	    <% end %>
+    	     <% if current_user.is_admin_or_committee? %>
     	        <th class="no_sort">Admin</th>
     	    <% end %>
 	    </tr>
