@@ -54,7 +54,7 @@
 				Last edited by <%=h message.last_edited_by.display_name(current_user) %> on <%= message.display_edited_time %>.
 			</div>
 		<% end %>
-		<% if current_user.is_admin_or_committee? or (current_user == message.user && !current_user.has_role?("webonly")) %>
+		<% if (current_user.is_admin_or_committee? or (current_user == message.user && !current_user.has_role?("webonly"))) && message.board.open? %>
 			<div class="adminfunctions">
 				[ <%= link_to "Edit", edit_message_path(message), :method => :get, :remote => true %> | 
 				  <%= link_to "Move", move_message_path(message), :method => :get, :remote => true %> |
