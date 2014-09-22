@@ -33,14 +33,12 @@
 		<thead>
 			<tr>
 				<th>Board Name</th>
-				<th>Unread Messages</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% Board.closed_boards.sort_by {|board| board.order }.each do |board| %>
 				<tr class="<%= cycle('odd', 'even') %>">
 					<td><%= link_to (h board.name), board %></td>
-					<td><%= board.unread_messages(current_user) %></td>
 				</tr>
 			<% end %>
 		</tbody>
