@@ -9,6 +9,7 @@ class Debrief < ActiveRecord::Base
     validates_numericality_of :base_points, :only_integer => true, :greater_than_or_equal_to => 0, :allow_nil => true
     validates_numericality_of :points_modifier, :only_integer => true, :allow_nil => true
     validates_numericality_of :money_modifier, :only_integer => true, :allow_nil => true
+    validates_numericality_of :loot, :only_integer => true, :allow_nil => true
     validates_numericality_of :deaths, :only_integer => true, :allow_nil => true
     validate :max_one_gm_or_monster_debrief, :max_one_player_debrief, :base_points_less_than_or_equal_to_game_base, :danger_pay_non_negative
     
@@ -29,7 +30,7 @@ class Debrief < ActiveRecord::Base
     end
     
     def money
-        unless character.nil?
+        unless character.nil? or game.player_money_base.nil?
             game.player_money_base + (money_modifier || 0)
         end
     end
@@ -77,7 +78,7 @@ class Debrief < ActiveRecord::Base
         
         def danger_pay_non_negative
             if is_player_debrief?
-                if !money.nil? && money < 0
+                if !money.nil? && (money < 0)
                     errors.add(:money_modifier, "cannot reduce danger pay below zero florins")
                 end
             end

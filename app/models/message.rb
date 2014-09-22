@@ -12,7 +12,7 @@ class Message < ActiveRecord::Base
     validates_presence_of :request_uuid
     validates_absence_of :character_id, :unless => :ic_board?
     validates_absence_of :name, :unless => :ic_board?
-    validates :board_is_open
+    validate :board_is_open
     
     auto_strip_attributes :name, :message
     
@@ -39,7 +39,7 @@ class Message < ActiveRecord::Base
     protected
     
         def board_is_open
-            unless message.board.open?
+            unless self.board.open?
               errors.add(:board_id, "must be an open board")
             end
         end
