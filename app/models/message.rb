@@ -39,8 +39,6 @@ class Message < ActiveRecord::Base
     protected
     
         def board_is_open
-            unless self.board.open?
-              errors.add(:board_id, "must be an open board")
-            end
+            errors.add(:board_id, "must be an open board") unless self.board.open?
         end
 end
