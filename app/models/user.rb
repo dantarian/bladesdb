@@ -111,6 +111,18 @@ class User < ActiveRecord::Base
     def after_confirmation
         self.activate!
     end
+    
+    def active_for_authentication?
+        super && (self.active? || self.pending?)
+    end
+
+    def inactive_message
+        if self.suspended?
+            :suspended
+        else
+            super
+        end
+    end
 
     def email=(value)
         write_attribute :email, (value ? value.downcase : nil)
