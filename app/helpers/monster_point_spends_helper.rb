@@ -1,5 +1,5 @@
 module MonsterPointSpendsHelper
-    def earliest_allowed_date(character, monster_point_spend)
+    def monster_point_spend_earliest_allowed_date(character, monster_point_spend)
         if monster_point_spend && monster_point_spend.id
             last_mp_spend = character.monster_point_spends.where.not(id: monster_point_spend.id).order(:spent_on).last
         else
