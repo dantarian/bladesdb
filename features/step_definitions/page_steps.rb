@@ -2,7 +2,7 @@ Given(/^a restricted page$/) do
   @page = Page.create(title: "Restricted Page", content: "Hello World!", show_to_non_users: false)
 end
 
-Given(/^I am on the home page$/) do
+Given(/^I go to the home page$/) do
   visit root_path
 end
 
@@ -44,6 +44,10 @@ end
 
 Then(/^the login page is displayed$/) do
   current_path.should == new_user_session_path
+end
+
+Then(/^the merge users page is displayed$/) do
+  current_path.should == merge_select_users_users_path
 end
 
 Then(/^I am on the "(.*?)" profile page for "(.*?)"$/) do |actor, name|
