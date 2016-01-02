@@ -37,9 +37,20 @@ end
 Given(/^(I am|they are?) an? "(.*?)" user$/) do |actor,rolename|
   rolename.downcase!
   if actor == "I am"
+    @user = create_user(state: :approved) if @user.nil?
     @user.roles << Role.find_by(rolename: rolename)
   else
+    @other_user = create_user(state: :approved) if @other_user.nil?
     @other_user.roles << Role.find_by(rolename: rolename)
+  end
+end
+
+Given(/^(I am|they are?) a user who is (.*?)$/) do |actor, state|
+  state.downcase!
+  if actor == "I am"
+    @user = create_user(state: state.to_sym) if @user.nil?
+  else
+    @other_user = create_user(state: state.to_sym) if @other_user.nil?
   end
 end
 
@@ -182,10 +193,13 @@ end
 def create_user(opts = {})
   user = User.new(username: opts[:username] || "testuser", name: opts[:name] || "Test User", email: opts[:email] || "test@mail.com", password: opts[:password] || "Passw0rd", password_confirmation: opts[:password_confirmation] || opts[:password] || "Passw0rd")
   user.save
-  if (opts[:state] == :confirmed) || (opts[:state] == :approved)
-      confirm_user(user)
-    if (opts[:state] == :approved)
+  if (opts[:state] == :confirmed) || (opts[:state] == :approved) || (opts[:state] == :suspended)
+    confirm_user(user)
+    if (opts[:state] == :approved) || (opts[:state] == :suspended)
       approve_user(user)
+      if (opts[:state] == :suspended)
+        suspend_user(user)
+      end
     end
   end
   user
@@ -200,6 +214,12 @@ end
 
 def approve_user(user)
   user.approve
+  user.save
+  user
+end
+
+def suspend_user(user)
+  user.suspend
   user.save
   user
 end

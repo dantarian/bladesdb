@@ -2,14 +2,18 @@
 module ApplicationHelper
 
     def money_for_display(amount)
-        groats = (amount / MONEY_BASE).floor
-        florins = amount % MONEY_BASE
-        if (amount.abs < MONEY_BASE)
-            "#{amount}f"
+        sign = ""
+        sign = "-" if amount < 0 
+        groats = (amount.abs / MONEY_BASE).floor
+        florins = amount.abs % MONEY_BASE
+        if amount == 0
+            "0g"
+        elsif (amount.abs < MONEY_BASE)
+            "#{sign}#{florins}f"
         elsif florins == 0
-            "#{groats}g"
+            "#{sign}#{groats}g"
         else
-            "#{groats}g #{florins}f"
+            "#{sign}#{groats}g #{florins}f"
         end
     end
     

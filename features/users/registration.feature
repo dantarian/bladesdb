@@ -8,14 +8,14 @@ Feature: Registration
 
   Scenario: Attempt to access restricted page without being signed in
     Given a restricted page
-    And I am on the home page
+    And I go to the home page
     And I am not logged in
     When I go to the page
     Then the home page is displayed
     And an error message is displayed saying "You must be logged in to view that page."
 
   Scenario: Register account
-    Given I am on the home page
+    Given I go to the home page
     And I am not logged in
     When I go to the registration page
     And I fill in "Real name" with "Test User"
