@@ -9,6 +9,14 @@
     Note that several major pieces of functionality will be unavailable to you if you disable cookies and/or JavaScript on this site.
 </p>
 
+<h2 class="alt">Registration</h2>
+<p>
+	By registering for this website you agree to abide by the BathLARP Code of Conduct and the Website Terms and Conditions.
+</p>
+<p>
+	You must be 18 or older to be a member of BathLARP unless you are a student member of Blades.
+</p>
+
 <% @user.password = @user.password_confirmation = nil %>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>

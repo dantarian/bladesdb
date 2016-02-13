@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-    default from: "no-reply@bathlarp.pencethren.org"
+    default from: "no-reply@pencethren.org"
 
     def user_approval(user)
         setup_email(user)
@@ -94,9 +94,9 @@ class UserMailer < ActionMailer::Base
     def approval(thing_approved)
         @recipients += case thing_approved.class.name
         when "GameApplication"
-            ["committee@bathlarp.pencethren.org"]
+            ["committee@pencethren.org"]
         else
-            ["characterrefs@bathlarp.pencethren.org"]
+            ["characterrefs@pencethren.org"]
         end
         @thing_approved = thing_approved
         @subject += (thing_approved.approved ? "Approved" : "Rejected")
@@ -104,13 +104,13 @@ class UserMailer < ActionMailer::Base
     end
     
     def app_made(application)
-        @recipients += ["committee@bathlarp.pencethren.org"]
+        @recipients += ["committee@pencethren.org"]
         @subject += "Game Application #{application.game.start_date.to_s}"
         @application = application
-        if application.updated_at.nil?
-            @response_date = [application.created_at.to_date + 14.days, application.game.start_date - 1.days].min
+        if (application.game.start_date - 1.months) > Date.today
+            @response_date = application.game.start_date - 1.months
         else
-            @response_date = [application.updated_at.to_date + 14.days, application.game.start_date - 1.days].min
+            @response_date = application.game.start_date - 1.days
         end
         mail(to: @recipients, subject: @subject)
     end
