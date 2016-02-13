@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class BoardsController < ApplicationController
     before_filter :check_admin_or_committee_role, :only => [:admin, :new, :create, :update, :destroy ]
     before_filter :authenticate_user!, :only => [:index, :show]
@@ -33,7 +35,7 @@ class BoardsController < ApplicationController
         @message = Message.new
         @message.board_id = @board.id
         @message.user_id = current_user.id
-        @message.request_uuid = `uuidgen`.strip
+        @message.request_uuid = SecureRandom.uuid
 
         # Update last visit.
         current_user.visit(@board)

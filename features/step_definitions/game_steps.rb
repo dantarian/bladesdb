@@ -1,6 +1,24 @@
 Given(/^there is a game$/) do
-  @game = create_game
+  @game = GameTestHelper.create_game
 end
+
+Given(/^the user is a GM for the game$/) do
+  GameTestHelper.add_gamesmaster @user, :to => @game
+end
+
+Given(/^the game is in the future$/) do
+  GameTestHelper.set_date Date.today + 7.days, :of => @game
+end
+
+Given(/^the game is in the past$/) do
+  GameTestHelper.set_date Date.today - 7.days, :of => @game
+end
+
+Given(/^the game has been debriefed$/) do
+  pending
+end
+
+# Everything below this point is deprecated
 
 Given(/^(I am|they are?) a GM for the game$/) do |actor|
   if actor == "I am"

@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Game < ActiveRecord::Base
     include Rails.application.routes.url_helpers # Slightly nasty, but necessary to get the game URL for the boards post.
   
@@ -198,21 +200,13 @@ class Game < ActiveRecord::Base
             characters.member? character
         end
     end
-    
+
     def post_brief(current_user)
-        board_post = Board.find(Board::BRIEFS).messages.build
-        board_post.message = "Brief updated for the game \"#{h game_title}\":#{game_path(self)} on #{start_date}."
-        board_post.user = current_user
-        board_post.request_uuid = `uuidgen`.strip
-        board_post.save!
+        make_boards_post(current_user, Board::BRIEFS, "Brief updated")
     end
         
     def post_debrief(current_user)
-        board_post = Board.find(Board::DEBRIEFS).messages.build
-        board_post.message = "Debrief published for the game \"#{h game_title}\":#{game_path(self)} on #{start_date}."
-        board_post.user = current_user
-        board_post.request_uuid = `uuidgen`.strip
-        board_post.save!
+        make_boards_post(current_user, Board::DEBRIEFS, "Debrief published")
     end
     
     def is_editable?
@@ -296,5 +290,13 @@ class Game < ActiveRecord::Base
                 attendance = game_attendances.where(user_id: gm.id).first
                 attendance.destroy if attendance
             end
+        end
+
+        def make_boards_post(current_user, board, message_start)
+            board_post = Board.find(board).messages.build
+            board_post.message = "#{message_start} for the game \"#{h game_title}\":#{game_path(self)} on #{start_date}."
+            board_post.user = current_user
+            board_post.request_uuid = SecureRandom.uuid
+            board_post.save!
         end
 end

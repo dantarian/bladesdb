@@ -1,3 +1,15 @@
+Given(/^there is a user$/) do
+  @user = UserTestHelper.create_user
+  UserTestHelper.confirm(@user)
+  UserTestHelper.approve(@user)
+end
+
+Given(/^the user is logged in$/) do
+  LoginPage.visit_page.and.login_as @user
+end
+
+# Everything below this point is deprecated!
+
 Given(/^I am not logged in$/) do
   page.find("div#sessionpanel").should have_content("Not logged in")
 end
