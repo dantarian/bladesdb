@@ -36,6 +36,7 @@ gem 'dynamic_form'
 gem 'font-awesome-rails'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'schema_plus', '~> 1.4.1'
+gem 'mail_form'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

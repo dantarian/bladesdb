@@ -1,0 +1,30 @@
+<h1 class='alt'>Club emails</h1>
+<div id="emailform">
+	<%= form_for @email, url: committee_contact_path do |f| %>
+	  	<%= f.error_messages %>
+	
+	  	<ul class="form">
+	  		<li>
+	  			<strong>Who do you want to email?</strong><br />
+	  			<%= radio_button_tag(:radio_type, "current_members", :checked => true ) %><%= label_tag "radio_type_current_members", "Current members" %><br />
+	  			<%= radio_button_tag(:radio_type, "webonly_members") %><%= label_tag "radio_type_webonly_members", "Web-only members" %><br />
+	  			<%= radio_button_tag(:radio_type, "experienced_gms") %><%= label_tag "radio_type_experienced_gms", "Experienced GMs" %><br />
+	  			<%= radio_button_tag(:radio_type, "first_aiders") %><%= label_tag "radio_type_first_aiders", "First Aiders" %><br />
+	  			<%= radio_button_tag(:radio_type, "insurance_responsibles") %><%= label_tag "radio_type_insurance_responsibles", "Insurance Responsibles" %>
+	  		</li>
+	  		<li>
+		    	<%= f.label :subject %><br />
+		    	<%= f.text_field :subject %>
+		    </li>
+		    <li>
+		    	<%= f.label :message %><br />
+		    	<%= f.text_area :message, :class => "messagearea" %>
+	  		</li>
+		</ul>
+			
+	  	<p>
+	    	<%= f.submit "Send email" %>
+	  	</p>
+	
+	<% end %>
+</div>
