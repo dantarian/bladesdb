@@ -14,13 +14,11 @@ Feature: Posting boards messages from games
     And there is a Briefs board
     When the user publishes the brief for the game
     Then a Brief Published message appears on the Briefs board
-    And the message includes a link to the game
 
   Scenario: GM publishes debrief for a game when the game is finalised
     Given the game is in the past
-    And the game has been debriefed
+    And the game debrief has been started
     And there is a Debriefs board
     When the user publishes the debrief for the game
     Then a Debrief Published message appears on the Debriefs board
-    And the message includes a link to the game
 

@@ -11,8 +11,8 @@ class LoginPage < BladesDBPage
     end
 
     def login_with_credentials(username, password)
-        fill_in "Username", with: @user.username
-        fill_in "Password", with: @user.password
+        fill_in "Username", with: username
+        fill_in "Password", with: password
         click_button "Sign in"
         HomePage.new
     end

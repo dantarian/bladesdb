@@ -3,7 +3,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environments/test')
 require 'cucumber/rails/world'
 require 'email_spec/cucumber'
-Cucumber::Rails::World.use_transactional_fixtures
+Cucumber::Rails::World.use_transactional_fixtures = true
 
 #Seed the DB
 ActiveRecord::FixtureSet.reset_cache  
