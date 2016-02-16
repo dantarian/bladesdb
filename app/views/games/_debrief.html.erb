@@ -198,6 +198,8 @@
             <% if game.is_debrief_finished? %>
                 <%= link_to "Reopen Debrief", reopen_debrief_game_path(game), method: :patch, remote: true %>
             <% else %>
+            	<%= link_to "Send Email", new_game_gm_contact_path(game), :method => :get %>
+            	|
                 <%= link_to "Edit Base Points", edit_game_path(game), method: :get, remote: true %> 
                 |
                 <%= link_to "Finish Debrief", finish_debrief_game_path(game), method: :patch, remote: true %>

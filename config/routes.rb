@@ -97,6 +97,9 @@ Blades::Application.routes.draw do
         end 
       end
     end
+    
+    resource :gm_contact, :except => [ :show, :edit, :update, :index, :destroy ]
+    
   end
 
   resources :characters do
@@ -260,7 +263,7 @@ Blades::Application.routes.draw do
     end
   end
 
-  resource :committee_contact, :gm_contact, :except => [ :show, :edit, :update, :index, :destroy ]
+  resource :committee_contact, :except => [ :show, :edit, :update, :index, :destroy ]
   
   root :to => "pages#home"
 

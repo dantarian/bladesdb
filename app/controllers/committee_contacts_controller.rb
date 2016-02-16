@@ -9,6 +9,7 @@ class CommitteeContactsController < ApplicationController
         @email = ContactForm.new(email_params)
         @email.from_user = "committee@pencethren.org"
         @email.to_user = "committee@pencethren.org"
+        @email.subject = "[BathLARP] " + @email.subject
         
         users = User.includes(:roles).to_a
         
