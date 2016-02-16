@@ -142,7 +142,12 @@
         	<p class="form_actions">
         	    [ 
         	        <% first_action = true -%>
+        	        <% if !game.is_debriefable? and game.is_editable_by? current_user %>
+        	        	<%= link_to "Send Email", new_game_gm_contact_path(game), :method => :get %>
+        	        	<% first_action = false -%>
+        	        <% end %>
         	        <% if !game.is_debriefable? and (game.is_editable_by? current_user or current_user.is_admin_or_committee? or current_user.is_first_aider?) %>
+        	        	<%= "|" unless first_action %>
         	        	<%= link_to "First Aid Report", first_aid_report_game_path(game), :method => :get, :target => "_blank" %>
         	        	<% first_action = false -%>
         	        <% end %>

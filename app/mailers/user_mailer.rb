@@ -107,11 +107,6 @@ class UserMailer < ActionMailer::Base
         @recipients += ["committee@pencethren.org"]
         @subject += "Game Application #{application.game.start_date.to_s}"
         @application = application
-        if (application.game.start_date - 1.months) > Date.today
-            @response_date = application.game.start_date - 1.months
-        else
-            @response_date = application.game.start_date - 1.days
-        end
         mail(to: @recipients, subject: @subject)
     end
     
