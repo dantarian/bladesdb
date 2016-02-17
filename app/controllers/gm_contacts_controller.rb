@@ -19,6 +19,7 @@ class GmContactsController < ApplicationController
             when "monsters" then @game.monsters.all.collect(&:email).join(", ")
             when "players" then @game.players.all.collect(&:email).join(", ")
             when "everybody" then @game.monsters.all.collect(&:email).join(", ") + ", " + @game.players.all.collect(&:email).join(", ")
+            when "attendees" then @game.attendees.all.collect(&:email).join(", ")
             else "committee@pencethren.org"
         end
         
