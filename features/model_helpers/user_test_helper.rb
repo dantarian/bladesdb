@@ -25,6 +25,6 @@ module UserTestHelper
   def suspend(user)
     user.suspend
     user.save
-  end
+  end  
 end
 

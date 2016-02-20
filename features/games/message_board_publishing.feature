@@ -7,14 +7,16 @@ Feature: Posting boards messages from games
     Given there is a user
     And the user is logged in
     And there is a game
-    And the user is the GM for the game
+    And the user is a GM for the game
 
+  @javascript
   Scenario: GM can publish the briefs for a game
     Given the game is in the future
     And there is a Briefs board
     When the user publishes the brief for the game
     Then a Brief Published message appears on the Briefs board
 
+  @javascript
   Scenario: GM publishes debrief for a game when the game is finalised
     Given the game is in the past
     And the game debrief has been started

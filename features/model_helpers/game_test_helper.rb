@@ -10,13 +10,14 @@ module GameTestHelper
     game
   end
 
-  def add_gamesmaster(gamesmaster, to)
+  def add_gamesmaster(gamesmaster, to: nil)
     to.gamesmasters << gamesmaster
   end
 
-  def set_date(date, of)
+  def set_date(date, of: nil)
     of.start_date = date
     of.save
+    of
   end
   
   def start_debriefing(game)
@@ -26,5 +27,6 @@ module GameTestHelper
     game.monster_points_base = 5
     game.player_money_base = 10
     game.save
+    game
   end
 end

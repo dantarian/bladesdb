@@ -1,15 +1,11 @@
 module BoardTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
   
-  def create_board(opts = {})
-    board = nil
-    if opts[:id]
-      board = Board.new(id: opts[:id],
-                        title: opts[:title] || "New Board")
+  def create_board(id: nil, name: nil)
+    if id
+      Board.find_or_create_by(id: id, name: name || "New Board", order: 1)
     else
-      board = Board.new(title: opts[:title] || "New Board")
+      Board.find_or_create_by(name: name || "New Board", order: 1)
     end
-    board.save
-    board
   end
 end

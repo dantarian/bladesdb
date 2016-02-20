@@ -3,15 +3,15 @@ Given(/^there is a game$/) do
 end
 
 Given(/^the user is a GM for the game$/) do
-  GameTestHelper.add_gamesmaster @user, :to => @game
+  GameTestHelper.add_gamesmaster @user, to: @game
 end
 
 Given(/^the game is in the future$/) do
-  GameTestHelper.set_date Date.today + 7.days, :of => @game
+  GameTestHelper.set_date Date.today + 7.days, of: @game
 end
 
 Given(/^the game is in the past$/) do
-  GameTestHelper.set_date Date.today - 7.days, :of => @game
+  GameTestHelper.set_date Date.today - 7.days, of: @game
 end
 
 Given(/^the game debrief has been started$/) do
@@ -19,11 +19,11 @@ Given(/^the game debrief has been started$/) do
 end
 
 When(/^the user publishes the brief for the game$/) do
-  GamePage.visit_page_for(@game).and.publish_briefs
+  GamePage.new.visit_page(game_path(@game)).and.publish_briefs
 end
 
 When(/^the user publishes the debrief for the game$/) do
-  GamePage.visit_page_for(@game).and.finish_debrief
+  GamePage.new.visit_page(game_path(@game)).and.finish_debrief
 end
 
 # Everything below this point is deprecated

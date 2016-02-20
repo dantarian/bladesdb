@@ -96,14 +96,14 @@ class User < ActiveRecord::Base
         end
         
         event :unsuspend do
-            transitions :from => :suspended, :to => :active,  :guard => Proc.new {|u| !u.confirmed_at.blank? }
-            transitions :from => :suspended, :to => :pending, :guard => Proc.new {|u| !u.confirmation_token.blank? }
+            transitions :from => :suspended, :to => :active,  :if => :confirmed?
+            transitions :from => :suspended, :to => :pending, :if => :has_confirmation_token?
             transitions :from => :suspended, :to => :passive
         end
         
         event :undelete do
-            transitions :from => :deleted, :to => :active,  :guard => Proc.new {|u| !u.confirmed_at.blank? }
-            transitions :from => :deleted, :to => :pending, :guard => Proc.new {|u| !u.confirmation_token.blank? }
+            transitions :from => :deleted, :to => :active,  :if => :confirmed?
+            transitions :from => :deleted, :to => :pending, :if => :has_confirmation_token?
             transitions :from => :deleted, :to => :passive
         end
     end
@@ -471,4 +471,7 @@ class User < ActiveRecord::Base
             year_start = DateTime.new(year, 10, 1)
         end
 
+        def has_confirmation_token?
+            !self.confirmation_token.nil?
+        end
 end

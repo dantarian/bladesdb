@@ -1,21 +1,16 @@
 class BoardPage < BladesDBPage
     PAGE_TITLE = BladesDBPage::PAGE_TITLE
 
-    def self.visit_page_for(board)
-        visit board_path(board)
-        BoardPage.new
-    end
-
-    def check_for_message(opts)
+    def check_for_message(from: nil, containing_text: nil, containing_link: nil, relating_to_game: nil)
         message_div = page.find("div.message")
-        if opts[:from]
-            message_div.find("p.attrib").find("a").should have_content(opts[:from].name)
+        if from
+            message_div.find("p.attrib").find("a").has_content?(from.name)
         end
-        if opts[:containing_text]
-            message_div.find("div.messagebody").should have_content(opts[:containing_text])
+        if containing_text
+            message_div.find("div.messagebody").has_content?(containing_text)
         end
-        if opts[:containing_link_to_game]
-            message_div.find("div.messagebody").should have_link(opts[:containing_link_to_game].title, :href => game_path(opts[:containing_link_to_game]))
+        if containing_link
+            message_div.find("div.messagebody").has_link?(relating_to_game.title, :href => containing_link)
         end
     end
 end

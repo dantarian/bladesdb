@@ -5,7 +5,11 @@ Given(/^there is a user$/) do
 end
 
 Given(/^the user is logged in$/) do
-  LoginPage.visit_page.and.login_as @user
+  LoginPage.new.visit_page(new_user_session_path).and.login_as @user
+end
+
+Given(/^the user is an administrator$/) do
+  UserTestHelper.make_admin(@user)
 end
 
 # Everything below this point is deprecated!
@@ -48,12 +52,13 @@ end
 
 Given(/^(I am|they are?) an? "(.*?)" user$/) do |actor,rolename|
   rolename.downcase!
+  role = Role.find_by(rolename: rolename) || Role.new(rolename: rolename)
   if actor == "I am"
     @user = create_user(state: :approved) if @user.nil?
-    @user.roles << Role.find_by(rolename: rolename)
+    @user.roles << role
   else
     @other_user = create_user(state: :approved) if @other_user.nil?
-    @other_user.roles << Role.find_by(rolename: rolename)
+    @other_user.roles << role
   end
 end
 

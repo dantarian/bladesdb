@@ -13,7 +13,9 @@ class PagesController < ApplicationController
     end
 
     def home
-        @page = Page.find(1)
+        @page = Page.find(1) if Page.exists?(1)
+        @page ||= Page.new(:title => "Home Page Not Found!", 
+                           :content => "Oh dear - we seem to have lost the home page. This shouldn't have happened.")
         respond_to do |format|
             format.html { render :show }
         end

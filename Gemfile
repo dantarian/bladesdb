@@ -26,7 +26,7 @@ gem "RedCloth"
 gem "rdoc"
 gem "seed-fu"
 gem "test-unit", '~> 2.5.5'
-gem "recaptcha"
+gem "recaptcha", require: "recaptcha/rails"
 gem "custom_error_message"
 gem "jquery_datepicker", git: 'git://github.com/yctay/jquery_datepicker.git', branch: 'rails4'
 gem "aasm"
