@@ -1,0 +1,36 @@
+<h1 class='alt'>Game emails</h1>
+<div id="emailform">
+	<%= form_for @email, url: game_gm_contact_path do |f| %>
+	  	<%= f.error_messages %>
+	
+	  	<ul class="form">
+	  		<li>
+	  			<strong>Who do you want to email?</strong><br />
+	  			<% if @game.attendance_only %>
+	  				<%= radio_button_tag(:radio_type, "attendees", :checked => true) %><%= label_tag "radio_type_attendees", "All attendees" %><br />
+	  			<% else %>
+		  			<%= radio_button_tag(:radio_type, "monsters", :checked => true) %><%= label_tag "radio_type_monsters", "Monsters" %><br />
+		  			<%= radio_button_tag(:radio_type, "players") %><%= label_tag "radio_type_players", "Players" %><br />
+		  			<%= radio_button_tag(:radio_type, "everybody") %><%= label_tag "radio_type_everybody", "Everybody" %><br />
+	  			<% end %>
+	  		</li>
+	  		<li>
+	  			<%= check_box_tag(:character_refs) %><%= label_tag "character_refs", "Include the Character Refs?" %><br />
+	  			<%= check_box_tag(:committee) %><%= label_tag "committee", "Include the Committee?" %>
+	  		</li>
+	  		<li>
+		    	<%= f.label :subject %><br />
+		    	<%= f.text_field :subject %>
+		    </li>
+		    <li>
+		    	<%= f.label :message %><br />
+		    	<%= f.text_area :message, :class => "messagearea" %>
+	  		</li>
+		</ul>
+			
+	  	<p>
+	    	<%= f.submit "Send email" %>
+	  	</p>
+	
+	<% end %>
+</div>

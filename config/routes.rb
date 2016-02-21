@@ -97,6 +97,9 @@ Blades::Application.routes.draw do
         end 
       end
     end
+    
+    resource :gm_contact, :except => [ :show, :edit, :update, :index, :destroy ]
+    
   end
 
   resources :characters do
@@ -242,6 +245,7 @@ Blades::Application.routes.draw do
         patch :reject_from_approvals
       end
     end
+    
     resource :monster_point_declaration, :except => [ :show, :destroy ] do
       member do
         patch :approve
@@ -259,6 +263,8 @@ Blades::Application.routes.draw do
     end
   end
 
+  resource :committee_contact, :except => [ :show, :edit, :update, :index, :destroy ]
+  
   root :to => "pages#home"
 
   get "/event_calendar"   => "games#list_future",        :as => :event_calendar

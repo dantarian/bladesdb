@@ -111,6 +111,7 @@ unless SidebarCategory.exists?
   SidebarEntry.create(id: 9, name: "All Members", order: 1, sidebar_category_id: 4, url: "/users", editable: false)
   SidebarEntry.create(id: 10, name: "All Characters", order: 1, sidebar_category_id: 5, url: "/characters", editable: false)
   SidebarEntry.create(id: 11, name: "List Message Boards", order: 1, sidebar_category_id: 7, url: "/boards", editable: false)
+  SidebarEntry.create(id: 12, name: "Send Club Emails", order: 4, sidebar_category_id: 1, url: "/committee_contact/new", editable: false)
 end
 
 # Titles
