@@ -173,8 +173,8 @@ class GamesController < ApplicationController
         @game.open = false
         if @game.save
             @no_dialog = true
-            update_game_display
             @game.post_debrief(current_user)
+            update_game_display
         else
             redirect_for_failed_save
         end
