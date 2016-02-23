@@ -137,9 +137,7 @@ class GamesController < ApplicationController
     
     def publish_briefs
         @game.post_brief(current_user)
-        render :update do |page|
-            page.alert("Message posted.")
-        end
+        render :briefs_published
     end
 
     def update_ic_debrief
@@ -175,8 +173,8 @@ class GamesController < ApplicationController
         @game.open = false
         if @game.save
             @no_dialog = true
+            @game.post_debrief(current_user)
             update_game_display
-            @game.post_debrief(current_user) if @game.start_date > Date.new(2012, 9, 29)
         else
             redirect_for_failed_save
         end

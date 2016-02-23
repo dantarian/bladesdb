@@ -35,10 +35,10 @@ end
 Then(/^a(?:n?) (.*?) message is displayed saying "(.*?)"$/) do |type, message|
   if type == "dialogue error"
     page.should have_css("div#errorExplanation")
-    page.find("div#errorExplanation").should have_content(message, exact: true)
+    page.find("div#errorExplanation").should have_content(message)
   else
     page.should have_css("div.#{type}")
-    page.find("div.#{type}").should have_content(message, exact: true)
+    page.find("div.#{type}").should have_content(message)
   end
 end
 
