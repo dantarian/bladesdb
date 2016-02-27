@@ -1,6 +1,9 @@
 class SidebarEntry < ActiveRecord::Base
     default_scope { order(:order) }
   
+    after_save :clear_category_cache
+    after_destroy :clear_category_cache
+  
     belongs_to :page
     belongs_to :sidebar_category, inverse_of: :sidebar_entries
     belongs_to :parent_entry, class_name: "SidebarEntry", inverse_of: :sidebar_entries
@@ -15,6 +18,14 @@ class SidebarEntry < ActiveRecord::Base
 
     def get_target
         self.page || self.url
+    end
+
+    def clear_category_cache
+        ActionController::Base.new.expire_fragment(parent_category)
+    end
+    
+    def parent_category
+        sidebar_category || parent_entry.parent_category
     end
 
     def self.fix_entry_order( parent_conditions )
