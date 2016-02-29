@@ -1,44 +1,36 @@
 <div id="message<%= message.id %>" class="message <%= cycle('odd', 'even') %>">
-	<% cache(message) do%>
-		<% if message.deleted %>
-	        <% if current_user.is_admin_or_committee? or current_user == message.last_edited_by %>
-	            <div id="deletedmessage<%= message.id %>" style="display:none;">
-	                <p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.user.display_name(current_user) %> wrote:</p>
-	                <div class="messagebody"><%= RedCloth.new( message.message, [:filter_html] ).to_html.html_safe %></div>           
-	            </div>
-	        <% end %>
-			<div class="alt edited_by">Message deleted by <%=h message.last_edited_by.display_name(current_user) %>.</div>
-			<% if current_user.is_admin_or_committee? or current_user == message.last_edited_by %>
-				<div class="adminfunctions">
-					[ <%= link_to "Undelete", undelete_message_path(message), :method => :patch %> 
-					<% if current_user.is_admin_or_committee? %>
-					    | <%= link_to_function "Show message", "toggleMessage(#{message.id})", :id => "show_message_#{message.id}" %>
-	                      <%= link_to_function "Hide message", "toggleMessage(#{message.id})", { :id => "hide_message_#{message.id}", :style => "display: none;" } %>
-						| <%= link_to "Purge", purge_message_path(message), :method => :delete, data: { confirm: "Are you sure you want to permanently remove this message?" } %> 
-					<% end %>
-					]
-				</div>
-			<% end %>
-		<% else %>
-			<% if message.board.in_character %>
-				<% if message.name.nil? && !message.character_id.nil? %>
-					<% if current_user.approved? %>
-						<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.character.name_and_title %> wrote:</p>
-					<% else %>
-						<p class="attrib">On <%= message.display_creation_time %>, <%=h message.character.name_and_title %> wrote:</p>
-					<% end %>
-				<% elsif !message.name.nil? %>
-					<% if current_user.approved? %>
-						<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.name %> wrote:</p>
-					<% else %>
-						<p class="attrib">On <%= message.display_creation_time %>, <%=h message.name %> wrote:</p>
-					<% end %>
+	<% if message.deleted %>
+        <% if current_user.is_admin_or_committee? or current_user == message.last_edited_by %>
+            <div id="deletedmessage<%= message.id %>" style="display:none;">
+                <p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.user.display_name(current_user) %> wrote:</p>
+                <div class="messagebody"><%= RedCloth.new( message.message, [:filter_html] ).to_html.html_safe %></div>           
+            </div>
+        <% end %>
+		<div class="alt edited_by">Message deleted by <%=h message.last_edited_by.display_name(current_user) %>.</div>
+		<% if current_user.is_admin_or_committee? or current_user == message.last_edited_by %>
+			<div class="adminfunctions">
+				[ <%= link_to "Undelete", undelete_message_path(message), :method => :patch %> 
+				<% if current_user.is_admin_or_committee? %>
+				    | <%= link_to_function "Show message", "toggleMessage(#{message.id})", :id => "show_message_#{message.id}" %>
+                      <%= link_to_function "Hide message", "toggleMessage(#{message.id})", { :id => "hide_message_#{message.id}", :style => "display: none;" } %>
+					| <%= link_to "Purge", purge_message_path(message), :method => :delete, data: { confirm: "Are you sure you want to permanently remove this message?" } %> 
+				<% end %>
+				]
+			</div>
+		<% end %>
+	<% else %>
+		<% if message.board.in_character %>
+			<% if message.name.nil? && !message.character_id.nil? %>
+				<% if current_user.approved? %>
+					<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.character.name_and_title %> wrote:</p>
 				<% else %>
-					<% if current_user.approved? %>
-						<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.user.display_name(current_user) %> wrote:</p>
-					<% else %>
-						<p class="attrib">On <%= message.display_creation_time %>, <%= message.user.display_name(current_user) %> wrote:</p>
-					<% end %>
+					<p class="attrib">On <%= message.display_creation_time %>, <%=h message.character.name_and_title %> wrote:</p>
+				<% end %>
+			<% elsif !message.name.nil? %>
+				<% if current_user.approved? %>
+					<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.name %> wrote:</p>
+				<% else %>
+					<p class="attrib">On <%= message.display_creation_time %>, <%=h message.name %> wrote:</p>
 				<% end %>
 			<% else %>
 				<% if current_user.approved? %>
@@ -47,21 +39,29 @@
 					<p class="attrib">On <%= message.display_creation_time %>, <%= message.user.display_name(current_user) %> wrote:</p>
 				<% end %>
 			<% end %>
-			
+		<% else %>
+			<% if current_user.approved? %>
+				<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.user.display_name(current_user) %> wrote:</p>
+			<% else %>
+				<p class="attrib">On <%= message.display_creation_time %>, <%= message.user.display_name(current_user) %> wrote:</p>
+			<% end %>
+		<% end %>
+
+		<% cache(message) do%>
 			<div class="messagebody"><%= RedCloth.new( message.message, [:filter_html] ).to_html.html_safe %></div>
-			
-			<% if message.last_edited_by %>
-				<div class="alt edited_by">
-					Last edited by <%=h message.last_edited_by.display_name(current_user) %> on <%= message.display_edited_time %>.
-				</div>
-			<% end %>
-			<% if (current_user.is_admin_or_committee? or (current_user == message.user && !current_user.has_role?("webonly"))) && message.board.open? %>
-				<div class="adminfunctions">
-					[ <%= link_to "Edit", edit_message_path(message), :method => :get, :remote => true %> | 
-					  <%= link_to "Move", move_message_path(message), :method => :get, :remote => true %> |
-					  <%= link_to "Delete", message_path(message), :method => :delete, data: { confirm: "Are you sure you want to delete this message?" } %> ]
-				</div>
-			<% end %>
+		<% end %>
+		
+		<% if message.last_edited_by %>
+			<div class="alt edited_by">
+				Last edited by <%=h message.last_edited_by.display_name(current_user) %> on <%= message.display_edited_time %>.
+			</div>
+		<% end %>
+		<% if (current_user.is_admin_or_committee? or (current_user == message.user && !current_user.has_role?("webonly"))) && message.board.open? %>
+			<div class="adminfunctions">
+				[ <%= link_to "Edit", edit_message_path(message), :method => :get, :remote => true %> | 
+				  <%= link_to "Move", move_message_path(message), :method => :get, :remote => true %> |
+				  <%= link_to "Delete", message_path(message), :method => :delete, data: { confirm: "Are you sure you want to delete this message?" } %> ]
+			</div>
 		<% end %>
 	<% end %>
 </div>
