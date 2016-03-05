@@ -72,6 +72,13 @@ class UserMailer < ActionMailer::Base
         approval(application)
     end
     
+    def game_application_unsuccessful(application)
+        setup_email(application.user)
+        @subject += "Game Application #{application.game.start_date.to_s} Unsuccessful"
+        @recipients += ["committee@pencethren.org"]
+        mail(to: @recipients, subject: @subject)
+    end
+    
     def play_attendance(attendance)
         setup_email(attendance.user)
         @recipients += attendance.game.gamesmasters.pluck(:email).to_a

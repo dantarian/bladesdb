@@ -250,6 +250,10 @@ class Game < ActiveRecord::Base
         end
     end
     
+    def has_pending_applications?
+        self.gamesmasters.empty? && self.game_applications.to_a.any?{|game_application| game_application.is_pending?}
+    end
+    
     protected
         def lower_rank_less_than_or_equal_to_upper_rank
             unless lower_rank.nil? or upper_rank.nil?

@@ -8,14 +8,30 @@ class GameApplication < ActiveRecord::Base
     
     auto_strip_attributes :details
 
-    @approved = false
     
-    def approve
-        @approved = true
+    def reset
+        self.approved = nil
+        self.comment = nil
     end
     
-    def approved
-        @approved
+    def approve
+        self.approved = true
+    end
+    
+    def reject
+        self.approved = false
+    end
+    
+    def is_pending?
+        self.approved == nil
+    end
+    
+    def is_approved?
+        self.approved == true
+    end
+    
+    def is_rejected?
+        self.approved == false
     end
     
 end

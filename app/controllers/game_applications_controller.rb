@@ -1,7 +1,7 @@
 class GameApplicationsController < ApplicationController
     before_filter :authenticate_user!
     before_filter :check_application_owner, :only => [ :edit, :update, :destroy ]
-    before_filter :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve ]
+    before_filter :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve, :reject ]
 
     # GET /game_applications
     # GET /game_applications.xml
@@ -57,9 +57,10 @@ class GameApplicationsController < ApplicationController
     def update
         # @game_application defined by check_application_owner().
         @game = @game_application.game
-        
+        @game_application.reset
         if @game_application.update_attributes(game_application_params)
             UserMailer.game_application_made(@game_application).deliver
+            
             render :close_dialog_and_update_game
         else
             respond_to do |format|
@@ -75,11 +76,29 @@ class GameApplicationsController < ApplicationController
         
         if @game.save
             @game_application.approve
+            @game_application.save
             UserMailer.game_application_approval(@game_application).deliver
+            @game.game_applications.each do |game_application|
+                UserMailer.game_application_unsuccessful(game_application).deliver unless game_application == @game_application
+            end
             redirect_to event_calendar_path
         else
             flash[:error] = "Failed to set GM."
             render "index", :game_id => @game_application.game.id
+        end
+    end
+    
+    def reject
+        # @game defined by check_admin_or_committee_or_campaign_gm_role().
+        @game_application = GameApplication.find(params[:id])
+        @game_application.reject
+        if @game_application.save
+            UserMailer.game_application_approval(@game_application).deliver
+            flash[:notice] = "Game application rejected."
+            redirect_to action: :index
+        else
+            flash[:notice] = "Failed to reject game."
+            redirect_to action: :index
         end
     end
     
@@ -113,6 +132,6 @@ class GameApplicationsController < ApplicationController
         end
         
         def game_application_params
-            params.require(:game_application).permit(:game_id,:user_id,:details)
+            params.require(:game_application).permit(:game_id,:user_id,:details,:comment)
         end
 end

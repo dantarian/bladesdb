@@ -14,11 +14,14 @@
 	</thead>
 	<tbody>
 		<% @game_applications.each do |game_application| %>
-			<tr class="<%= cycle('odd', 'even') %>">
-			    <td><%=h game_application.user.display_name(current_user) %></td>
-			    <td><%= RedCloth.new( game_application.details, [:filter_html] ).to_html.html_safe %></td>
-				<td>[ <%= link_to "Approve", approve_game_game_application_url(@game, game_application), :method => :patch %> ]</td>
-		  	</tr>
+			<% unless game_application.is_rejected? %>
+				<tr class="<%= cycle('odd', 'even') %>">
+				    <td><%=h game_application.user.display_name(current_user) %></td>
+				    <td><%= RedCloth.new( game_application.details, [:filter_html] ).to_html.html_safe %></td>
+					<td>[ <%= link_to "Approve", approve_game_game_application_url(@game, game_application), :method => :patch %> ] | 
+						[ <%= link_to "Reject", reject_game_game_application_url(@game, game_application), :method => :patch %> ]</td>
+			  	</tr>
+		  	<% end %>
 		<% end %>
 	</tbody>
 </table>

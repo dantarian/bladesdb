@@ -63,6 +63,7 @@ Blades::Application.routes.draw do
     resources :game_applications, :except => [ :show ] do
       member do
         patch :approve
+        patch :reject
       end
     end
 
