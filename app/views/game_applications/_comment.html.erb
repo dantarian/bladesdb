@@ -1,0 +1,9 @@
+<%= form_for([@game_application.game, @game_application], :url => { :action => action }) do |f| %>
+    <%= f.error_messages %>
+
+	<p>This is the application from <%= @game_application.user.name %> for the game on <%= @game_application.game.date_range %>.</p>
+	<p>
+		<%= f.label :comment, "Please enter any additional information for the game applicant:" %><br />
+		<%= f.text_area :comment %>
+	</p>
+<% end %>

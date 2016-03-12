@@ -1,7 +1,7 @@
-class GameApplicationsController < ApplicationController
+class GameApplicationsController < ApplicationController    
     before_filter :authenticate_user!
     before_filter :check_application_owner, :only => [ :edit, :update, :destroy ]
-    before_filter :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve, :reject ]
+    before_filter :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve_app, :approve, :reject_app, :reject ]
 
     # GET /game_applications
     # GET /game_applications.xml
@@ -68,6 +68,11 @@ class GameApplicationsController < ApplicationController
             end
         end
     end
+    
+    def approve_app
+        @game_application = GameApplication.find(params[:id])
+        respond_to { |format| format.js }
+    end
 
     def approve
         # @game defined by check_admin_or_committee_or_campaign_gm_role().
@@ -76,10 +81,11 @@ class GameApplicationsController < ApplicationController
         
         if @game.save
             @game_application.approve
+            @game_application.comment = params[:game_application][:comment]
             @game_application.save
             UserMailer.game_application_approval(@game_application).deliver
             @game.game_applications.each do |game_application|
-                UserMailer.game_application_unsuccessful(game_application).deliver unless game_application == @game_application
+                UserMailer.game_application_unsuccessful(game_application).deliver if game_application.is_pending?
             end
             redirect_to event_calendar_path
         else
@@ -88,10 +94,16 @@ class GameApplicationsController < ApplicationController
         end
     end
     
+    def reject_app
+        @game_application = GameApplication.find(params[:id])
+        respond_to { |format| format.js }
+    end
+    
     def reject
         # @game defined by check_admin_or_committee_or_campaign_gm_role().
         @game_application = GameApplication.find(params[:id])
         @game_application.reject
+        @game_application.comment = params[:game_application][:comment]
         if @game_application.save
             UserMailer.game_application_approval(@game_application).deliver
             flash[:notice] = "Game application rejected."

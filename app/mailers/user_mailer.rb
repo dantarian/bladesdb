@@ -74,6 +74,7 @@ class UserMailer < ActionMailer::Base
     
     def game_application_unsuccessful(application)
         setup_email(application.user)
+        @application = application
         @subject += "Game Application #{application.game.start_date.to_s} Unsuccessful"
         @recipients += ["committee@pencethren.org"]
         mail(to: @recipients, subject: @subject)

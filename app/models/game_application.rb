@@ -6,7 +6,7 @@ class GameApplication < ActiveRecord::Base
     validates_presence_of :user_id
     validates_presence_of :details
     
-    auto_strip_attributes :details
+    auto_strip_attributes :details, :comment
 
     
     def reset
