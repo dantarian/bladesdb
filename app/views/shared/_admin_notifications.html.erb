@@ -56,7 +56,6 @@
     <% end %>
 <% end %>
 <% if current_user and current_user.is_committee? %>
-	<% pending_game_apps = Game.future_games.to_a.select{|game| game.gamesmasters.empty? && !game.game_applications.empty?}.count %>
     <% if pending_game_apps > 0 %>
         <div class="admin_notifications"
             <p>

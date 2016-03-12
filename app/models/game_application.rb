@@ -6,16 +6,32 @@ class GameApplication < ActiveRecord::Base
     validates_presence_of :user_id
     validates_presence_of :details
     
-    auto_strip_attributes :details
+    auto_strip_attributes :details, :comment
 
-    @approved = false
     
-    def approve
-        @approved = true
+    def reset
+        self.approved = nil
+        self.comment = nil
     end
     
-    def approved
-        @approved
+    def approve
+        self.approved = true
+    end
+    
+    def reject
+        self.approved = false
+    end
+    
+    def is_pending?
+        self.approved == nil
+    end
+    
+    def is_approved?
+        self.approved == true
+    end
+    
+    def is_rejected?
+        self.approved == false
     end
     
 end

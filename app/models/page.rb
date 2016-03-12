@@ -6,7 +6,7 @@ class Page < ActiveRecord::Base
     validates_length_of     :title, :maximum => 50
     validates_presence_of   :content
     
-    auto_strip_attributes :title, :content
+    auto_strip_attributes :title
 
     def get_content
         if self.content

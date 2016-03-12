@@ -7,10 +7,10 @@
     <% end %>
     <% unless game.is_debriefable? %>
         <p><strong>Meet at:</strong> <%= game.formatted_meet_time %> <strong>Start at:</strong> <%= game.formatted_start_time %></p>
-        <% if !game.attendance_only and game.can_view_applications? current_user %>
+        <% if !game.attendance_only and game.has_pending_applications? and game.can_view_applications? current_user %>
             <p>
-                There are <%= game.game_applications.size %> application(s) to run this game.
-                <% if game.game_applications.size > 0 %>
+                There are <%= applications_count(game) %> application(s) to run this game.
+                <% if applications_count(game) > 0 %>
                     [ <%= link_to "View applications", game_game_applications_path(game) %> ]
                 <% end %>
             </p>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140921093800) do
+ActiveRecord::Schema.define(version: 20160302221020) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
+    t.string   "comment"
     t.index ["character_id"], :name => "index_character_point_adjustments_on_character_id"
     t.index ["declared_on"], :name => "index_character_point_adjustments_on_declared_on"
   end
@@ -101,6 +102,7 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.text     "gm_notes"
     t.text     "player_notes"
     t.boolean  "preferred_character",       default: false,        null: false
+    t.string   "comment"
     t.index ["user_id"], :name => "index_characters_on_user_id"
   end
 
@@ -124,6 +126,7 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
+    t.string   "comment"
     t.index ["character_id"], :name => "index_death_threshold_adjustments_on_character_id"
     t.index ["declared_on"], :name => "index_death_threshold_adjustments_on_declared_on"
   end
@@ -184,6 +187,7 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.integer  "approved_by_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "comment"
     t.index ["character_id"], :name => "index_guild_memberships_on_character_id"
     t.index ["declared_on"], :name => "index_guild_memberships_on_declared_on"
   end
@@ -242,6 +246,8 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.text     "details",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "approved"
+    t.string   "comment"
   end
 
   create_table "game_attendances", force: true do |t|
@@ -306,6 +312,7 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
+    t.string   "comment"
     t.index ["declared_on"], :name => "index_monster_point_adjustments_on_declared_on"
     t.index ["user_id"], :name => "index_monster_point_adjustments_on_user_id"
   end
@@ -319,6 +326,7 @@ ActiveRecord::Schema.define(version: 20140921093800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
+    t.string   "comment"
     t.index ["declared_on"], :name => "index_monster_point_declarations_on_declared_on"
     t.index ["user_id"], :name => "index_monster_point_declarations_on_user_id", :unique => true
   end

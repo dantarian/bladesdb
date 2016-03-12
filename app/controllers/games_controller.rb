@@ -1,4 +1,7 @@
 class GamesController < ApplicationController
+  
+    helper GamesHelper
+  
     before_filter :authenticate_user!, :except => [ :index, :list_future ]
     before_filter :check_admin_or_committee_role, :only => [ :new, :create, :destroy ]
     before_filter :find_game, :except => [ :index, :list_future, :new, :create, :outstanding_debriefs, :next_game ]
