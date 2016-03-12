@@ -344,7 +344,7 @@ class User < ActiveRecord::Base
         end
         points_to_keep
     end
-    
+
     def monster_point_changes
         if @changes.nil?
             @changes = []

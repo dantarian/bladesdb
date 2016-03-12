@@ -46,8 +46,10 @@
 				<p class="attrib">On <%= message.display_creation_time %>, <%= message.user.display_name(current_user) %> wrote:</p>
 			<% end %>
 		<% end %>
-		
-		<div class="messagebody"><%= RedCloth.new( message.message, [:filter_html] ).to_html.html_safe %></div>
+
+		<% cache(message) do%>
+			<div class="messagebody"><%= RedCloth.new( message.message, [:filter_html] ).to_html.html_safe %></div>
+		<% end %>
 		
 		<% if message.last_edited_by %>
 			<div class="alt edited_by">
