@@ -11,6 +11,11 @@ module UserTestHelper
     user = User.create_with(name: name, email: email, password: DEFAULT_PASSWORD).find_or_create_by(username: username)
   end
 
+  def make_admin(user)
+    user.roles << Role.find_by(rolename: 'administrator')
+    user.save
+  end
+
   def confirm(user)
     user.confirmed_at = Time.now
     user.activate
