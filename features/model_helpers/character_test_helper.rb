@@ -6,7 +6,9 @@ module CharacterTestHelper
   end
   
   def approve_character(user)
-      Character.first.approve(user)
+      character = Character.first
+      character.approve(user)
+      character.save
   end
   
   def retire_character

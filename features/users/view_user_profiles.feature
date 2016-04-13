@@ -13,6 +13,8 @@ Feature: View User Profiles
     And they should see their own change password link
     
   Scenario: User checking P:M ratio
+  	Given there is a user
+    And the user is logged in
   	When the user goes to their profile page
   	Then the user's P:M ratio should be displayed in the sidebar
   	And the user's statistics should be displayed
