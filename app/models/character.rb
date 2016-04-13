@@ -68,6 +68,10 @@ class Character < ActiveRecord::Base
     def is_provisional?
         approved.nil?
     end
+    
+    def approved?
+        self.approved == true
+    end
 
     def retire
         if active?
@@ -169,7 +173,7 @@ class Character < ActiveRecord::Base
     end
     
     def currently_active?
-        (state == Active) && (self.user.is_normal?)
+        (state == Active) && (self.user.is_normal?) && self.approved?
     end
     
     def active?
