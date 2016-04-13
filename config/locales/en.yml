@@ -2,4 +2,32 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  failure:
+    permission_denied: "You do not have permission to perform that action."
+    role_permission_denied: "You cannot be logged in and perform that action."
+    inaccessible_url: "The requested URL is not accessible directly."
+  user:
+    validation: 
+      dialog_header: "Failed to save user"
+      dialog_main: "The following problems prevented the user from being saved:"
+      username_format: "use only letters, numbers, and .-_@ please."
+      username_uniqueness: "is already taken - please try another login."
+      name_format: "avoid non-printing characters and \\&gt;&lt;&amp;/ please."
+      name_uniqueness: "is already taken - please try adding an initial or similar to your name."
+      email_format: "should look like an email address."
+      email_uniqueness: "is already in use - please try another email address."
+      merge: "Please ensure you have selected two distinct users to merge."
+    success:
+      email_resent: "Activation e-mail resent."
+      own_profile_updated: "User profile updated."
+      other_profile_updated: "User profile updated for %{name}."
+      merge: "Users successfully merged."
+    failure:
+      profile_updated: "Failed to update profile."
+      merge: "Failed to merge users."
+  page:
+    success:
+      create: "Page was successfully created."
+      update: "Page was successfully updated."
+      
+  

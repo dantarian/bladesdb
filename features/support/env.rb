@@ -31,19 +31,15 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
+ Before do
+    Cucumber::Rails::World.use_transactional_fixtures = true
+    DatabaseCleaner.strategy = :transaction
+  end
  Before('@javascript') do
    Cucumber::Rails::World.use_transactional_fixtures = false
    DatabaseCleaner.strategy = :truncation
-   DatabaseCleaner.start
-   ActiveRecord::FixtureSet.reset_cache  
-   fixtures_folder = File.join(Rails.root, 'db', 'fixtures')
-   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
-   ActiveRecord::FixtureSet.create_fixtures(fixtures_folder, fixtures)
-   ActionMailer::Base.delivery_method = :cache
  end
- Before('@rake_test') do
-   Cucumber::Rails::World.use_transactional_fixtures = true
-    DatabaseCleaner.strategy = :transaction
+  Before do
     DatabaseCleaner.start
     ActiveRecord::FixtureSet.reset_cache  
     fixtures_folder = File.join(Rails.root, 'db', 'fixtures')

@@ -36,17 +36,19 @@ class User < ActiveRecord::Base
     validates_length_of     :username,
                             :within => 3..40
     validates_uniqueness_of :username,
-                            :case_sensitive => false
+                            :case_sensitive => false,
+                            :message => I18n.t("user.validation.username_uniqueness")
     validates_format_of     :username,    
                             :with => /\A\w[\w\.\-_@]+\z/, 
-                            :message => "use only letters, numbers, and .-_@ please."
+                            :message => I18n.t("user.validation.username_format")
 
     validates_presence_of   :name
     validates_format_of     :name,     
                             :with => /\A[^[:cntrl:]\\<>\/&]*\z/,  
-                            :message => "avoid non-printing characters and \\&gt;&lt;&amp;/ please."
+                            :message => I18n.t("user.validation.name_format")
     validates_uniqueness_of :name,
-                            :case_sensitive => false
+                            :case_sensitive => false,
+                            :message => I18n.t("user.validation.name_uniqueness")
     validates_length_of     :name,     
                             :maximum => 100
 
@@ -56,6 +58,7 @@ class User < ActiveRecord::Base
                             :unless => :passive?
     validates_uniqueness_of :email,
                             :case_sensitive => false,
+                            :message => I18n.t("user.validation.email_uniqueness"),
                             :unless => :passive?
 
     email_name_regex  = '[\w\.%\+\-]+'.freeze
@@ -65,7 +68,7 @@ class User < ActiveRecord::Base
 
     validates_format_of     :email,    
                             :with => email_regex, 
-                            :message => "should look like an email address.",
+                            :message => I18n.t("user.validation.email_format"),
                             :unless => :passive?
                             
     auto_strip_attributes :username, :name, :email, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes

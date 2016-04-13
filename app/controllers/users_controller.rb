@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
     # Protect these actions behind an admin login
-    # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
     before_filter :find_user, :only => [:approve, 
                                         :suspend, 
                                         :unsuspend, 
@@ -24,9 +23,9 @@ class UsersController < ApplicationController
     before_filter :login_prohibited, :only => [:create]
     before_filter :check_administrator_role, :only => [:purge, :merge]
     before_filter :check_admin_or_committee_role, :only => [:destroy, :approve, :suspend, :unsuspend, :undelete, :edit, :resend_activation]
-    before_filter :check_active_member, :only => [:index]
     before_filter :check_self_or_character_ref_role, :only => [:monster_points]
-    before_filter :authenticate_user!, :only => [:show, :new_gm, :new_player, :new_monster, :create_gm, :create_player, :create_monster]
+    before_filter :authenticate_user!, :only => [:index, :show, :new_gm, :new_player, :new_monster, :create_gm, :create_player, :create_monster]
+    before_filter :check_active_member, :only => [:index]
     before_filter :new_user, :only => [:new_gm, :new_player, :new_monster]
     before_filter :check_ajax, :only => [:edit_user_name, 
                                          :update_user_name,
@@ -68,8 +67,7 @@ class UsersController < ApplicationController
             @user = User.find( params[:id] )
             render :profile
         else
-            @user = current_user
-            render :profile
+            redirect_to user_profile_path
         end
     end
 
@@ -79,7 +77,7 @@ class UsersController < ApplicationController
 
     def resend_activation
         @user.resend_confirmation_instructions
-        flash[:notice] = "Activation e-mail resent."
+        flash[:notice] = I18n.t("user.success.email_resent")
         redirect_to users_path
     end
     
@@ -247,10 +245,10 @@ class UsersController < ApplicationController
             @primary_user.monster_point_adjustments << @secondary_user.monster_point_adjustments
             if @primary_user.save
                 @secondary_user.destroy
-                flash[:notice] = "Users successfully merged."
+                flash[:notice] = I18n.t("user.success.merge")
                 redirect_to users_path
             else
-                flash[:error] = "Failed to save merged user."
+                flash[:error] = I18n.t("user.failure.merge")
                 render "merge_select_data"
             end
         end
@@ -286,7 +284,7 @@ class UsersController < ApplicationController
             @primary_user = User.find(@primary) unless @primary.nil? or @primary == ""
             @secondary_user = User.find(@secondary) unless @secondary.nil? or @secondary == ""
             if @primary_user.nil? or @secondary_user.nil? or @primary == @secondary
-                flash[:error] = "Please ensure you have selected two distinct users to merge."
+                flash[:error] = I18n.t("user.failure.merge")
                 render "merge_select_users"
             else
                 yield
@@ -299,9 +297,9 @@ class UsersController < ApplicationController
             @user.emergency_last_updated = DateTime.now
             if @user.update_attributes(params.require(:user).permit(:name, :username, :email, :notes, :medical_notes, :food_notes, :emergency_last_updated, :mobile_number, :contact_name, :contact_number))
                 if (@user != current_user) && current_user.is_admin_or_committee?
-                   flash[ :notice ] = "User profile updated for #{@user.name}."
+                   flash[:notice] = I18n.t("user.success.other_profile_updated", name: @user.name)
                 else
-                   flash[ :notice ] = "User profile updated."
+                   flash[:notice] = I18n.t("user.success.own_profile_updated")
                 end
                 reload_page
             else
