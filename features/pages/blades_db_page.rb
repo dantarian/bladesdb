@@ -1,5 +1,6 @@
 class BladesDBPage
     include Capybara::DSL
+    include RSpec::Matchers
     PAGE_TITLE = "BathLARP"
     PAGE_TITLE_CONNECTOR = " - "
 
