@@ -18,12 +18,36 @@ Given(/^the game debrief has been started$/) do
   GameTestHelper.start_debriefing @game
 end
 
+Given(/^there is a game next Sunday$/) do
+  GameTestHelper.create_game_next_sunday
+end
+
+Given(/^there is a multi-day game including next Sunday$/) do
+  GameTestHelper.create_game_covering_next_sunday
+end
+
+Given(/^there is a multi-day game that started yesterday and includes next Sunday$/) do
+  GameTestHelper.create_game_covering_next_sunday_starting_yesterday
+end
+
 When(/^the user publishes the brief for the game$/) do
   GamePage.new.visit_page(game_path(@game)).and.publish_briefs
 end
 
 When(/^the user publishes the debrief for the game$/) do
   GamePage.new.visit_page(game_path(@game)).and.finish_debrief
+end
+
+When(/^the user starts to create a game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.start_adding_new_game
+end
+
+Then(/^the default date is the next Sunday$/) do
+  EventCalendarPage.new.check_new_game_date_is_next_sunday
+end
+
+Then(/^the default date is the Sunday after next$/) do
+  EventCalendarPage.new.check_new_game_date_is_sunday_after_next
 end
 
 # Everything below this point is deprecated

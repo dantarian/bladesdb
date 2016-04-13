@@ -11,6 +11,11 @@ module UserTestHelper
     user
   end
 
+  def make_admin(user)
+    user.roles << Role.find_by(rolename: 'administrator')
+    user.save
+  end
+
   def confirm(user)
     user.confirmed_at = Time.now
     user.activate

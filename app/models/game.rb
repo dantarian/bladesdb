@@ -218,15 +218,13 @@ class Game < ActiveRecord::Base
     end
     
     def self.next_free_sunday
-        date = Date.today
-        while date.wday != 0
-            date = date + 1
+        used_dates = Game.where("start_date >= :date OR end_date >= :date", date: Date.today).to_a.collect{ |game| ( game.end_date ? (game.start_date..game.end_date).to_a : game.start_date ) }.flatten
+        next_sunday = Date.today.sunday
+        next_sunday += 1.week if next_sunday == Date.today
+        while used_dates.include? next_sunday
+            next_sunday = next_sunday + 1.week
         end
-        useddates = Game.where("start_date >= ?", Date.today).to_a.collect{ |game| ( game.end_date ? (game.start_date..game.end_date) : game.start_date ) }.flatten
-        while useddates.include? date
-            date = date + 7
-        end
-        return date
+        return next_sunday
     end
     
     def self.years
