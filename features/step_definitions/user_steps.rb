@@ -77,6 +77,10 @@ Given(/^the user is logged in$/) do
   LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.first.username, UserTestHelper::DEFAULT_PASSWORD
 end
 
+Given(/^the other user is a web-only user$/) do
+  UserTestHelper.grant_role(User.all.second, Role.find_by(rolename: "webonly"))
+end
+
 # Action steps
 
 When(/^the user logs in$/) do
