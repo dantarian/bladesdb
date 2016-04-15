@@ -32,7 +32,7 @@ class PagesController < ApplicationController
                 format.xml  { render :xml => @page }
             end
         else
-            permission_denied("You must be logged in to view that page.")
+            permission_denied(I18n.t("devise.failure.unauthenticated"))
         end
     end
 
@@ -63,7 +63,7 @@ class PagesController < ApplicationController
 
             respond_to do |format|
                 if @page.save
-                    flash[:notice] = 'Page was successfully created.'
+                    flash[:notice] = I18n.t("page.success.created")
                     format.html { redirect_to(@page) }
                     format.xml  { render :xml => @page, :status => :created, :location => @page }
                 else
@@ -87,7 +87,7 @@ class PagesController < ApplicationController
 
             respond_to do |format|
                 if @page.update_attributes(page_params)
-                    flash[:notice] = 'Page was successfully updated.'
+                    flash[:notice] = I18n.t("page.success.updated")
                     format.html { redirect_to(@page) }
                     format.xml  { head :ok }
                 else

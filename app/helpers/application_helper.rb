@@ -33,5 +33,9 @@ module ApplicationHelper
     def replace_element(element_id, partial_name, locals = {})
         render :partial => partial_name, :layout => "layouts/replace_element", :locals => { :element_id => element_id }.merge(locals)
     end
+    
+    def pending_game_apps
+        Game.future_games.to_a.select{|game| game.has_pending_applications?}.count
+    end
 
 end

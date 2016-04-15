@@ -1,68 +1,84 @@
-Given(/^a restricted page$/) do
-  @page = Page.create(title: "Restricted Page", content: "Hello World!", show_to_non_users: false)
+# Page set-ups.
+
+Given(/^there is a restricted page$/) do
+  @page = PageTestHelper.create_page(show_to_non_users: false)
 end
 
-Given(/^I go to the home page$/) do
+Given(/^the user goes to the home page$/) do
   visit root_path
 end
 
-Given(/^I go to my profile page$/) do
+Given(/^the user goes to their profile page$/) do
   visit user_profile_path
 end
 
-Given(/^I go to their profile page$/) do
-  visit user_path(@other_user)
+Given(/^the user goes to the other user's profile page$/) do
+  visit user_path(User.all.second)
 end
 
-Given(/^I go to the Event Calendar/) do
+Given(/^the user goes to the event calendar/) do
   visit event_calendar_path
 end
 
-Given(/^I go to the Next Game page/) do
+Given(/^the user goes to the Next Game page/) do
   visit next_game_path
 end
 
-Given(/^I go to the game page/) do
-  visit game_path(@game)
+Given(/^the user goes to the game page/) do
+  visit game_path(Game.first)
 end
 
-When(/^I go to the registration page$/) do
+
+
+When(/^the user goes to the page$/) do
+  visit page_path(Page.first)
+end
+
+When(/^the user goes to the registration page$/) do
   visit new_user_registration_path
 end
 
-Then(/^I go to the Change Password page$/) do
-  visit edit_user_registration_path
+When(/^the user goes to the members page$/) do
+  visit users_path
 end
 
-When(/^I go to the page$/) do
-  visit page_path(@page)
+When(/^the user goes to the message board$/) do
+  visit board_path(Board.first)
 end
 
-Then(/^the home page is displayed$/) do
+When(/^the user goes to the characters page$/) do
+  visit characters_path
+end
+
+
+Then(/^the Change Password page should be displayed$/) do
+  current_path.should == edit_user_registration_path
+end
+
+Then(/^the home page should be displayed$/) do
   current_path.should == root_path
 end
 
-Then(/^the login page is displayed$/) do
+Then(/^the login page should be displayed$/) do
   current_path.should == new_user_session_path
 end
 
-Then(/^the merge users page is displayed$/) do
+Then(/^the merge users page should be displayed$/) do
   current_path.should == merge_select_users_users_path
 end
 
-Then(/^I am on the "(.*?)" profile page for "(.*?)"$/) do |actor, name|
-  if actor == "User"
-    page.find("h1").should have_content("Profile")
-  elsif actor == "Character"
-    page.find("h1").should have_content("Character Sheet")
-  else
-    # Do nothing - this is for games. 
-  end
-  page.find("li#name").find("div.fieldcontents").should have_content(name)
+Then(/^the message board should be displayed$/) do
+  current_path.should == board_path(Board.first)
 end
 
-Then(/^I go to the First Aid Report for the game$/) do
+Then(/^the user's profile should be displayed$/) do
+  current_path.should == user_profile_path
+end
+
+
+Then(/^the user should go to the First Aid Report for the game$/) do
   page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
   page.find("h1").should have_content("First Aid Report")
   page.find("h1").should have_content(@game.title)
 end
+

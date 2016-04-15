@@ -5,8 +5,8 @@
 <% cache(@page) do %>
 	<h1 class="alt"><%= @page.title %></h1>
 	<%= @page.get_content %>
+<% end %>
 	
-	<% if user_signed_in? and @page.editable_by? current_user %>
-	    <p align="right" class="non-printing">[ <%= link_to 'Edit page', edit_page_path(@page) %> ]</p>
-	<% end %>
+<% if user_signed_in? and @page.editable_by? current_user %>
+    <p align="right" class="non-printing">[ <%= link_to 'Edit page', edit_page_path(@page) %> ]</p>
 <% end %>

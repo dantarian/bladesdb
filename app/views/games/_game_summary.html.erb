@@ -10,8 +10,8 @@
     <% if game.gamesmasters.empty? %>
         <em>
             Unassigned 
-            <% unless game.game_applications.empty? %>
-                (<%=h game.game_applications.size %> app<%= "s" if game.game_applications.size != 1 %>)
+            <% unless applications_count(game) == 0 %>
+                (<%=h applications_count(game) %> app<%= "s" if applications_count(game) != 1 %>)
             <% end %>
         </em>
         <% if game.start_date > Date.today && current_user && current_user.approved? && !game.attendance_only && current_user.is_normal? %> 

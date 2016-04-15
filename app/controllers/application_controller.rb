@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
             unless request.xhr?
                 respond_to do |format|
                     format.html {
-                        flash[:error] = "The requested URL is not accessible directly."
+                        flash[:error] = I18n.t("failure.inaccessible_url")
                         redirect_to @character
                     }
                 end
@@ -76,12 +76,12 @@ class ApplicationController < ActionController::Base
         
         def login_prohibited
             if current_user
-                permission_denied("You cannot be logged in and perform that action.")
+                permission_denied(I18n.t("failure.role_permission_denied"))
             end
         end
         
         # Redirect as appropriate when an access request fails due to lack of permissions.
-        def permission_denied(message = "You do not have permission to perform that action.")
+        def permission_denied(message = I18n.t("failure.permission_denied"))
             respond_to do |format|
                 format.any( :html, :js ) do
                     http_referer = session[:refer_to]

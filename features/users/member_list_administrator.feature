@@ -1,40 +1,10 @@
-Feature: User_admin
-  Users can be Suspended by an Admin
-  Users can be Unsuspended by an Admin
-  Users can be Deleted and Purged by an Admin
-  An Admin cannot Purge a user who has not been Deleted
-  Users can be Undeleted by an Admin
-  Users can be granted Roles by an Admin 
-  Users can be approved by an Admin
-  An Admin can resend the activation email for an unapproved user
+Feature: Member List - Administrator
+  As an Administrator
+  I want to be able to delete, suspend, purge and grant roles to members
+  So I can manage the membership properly
 
   @javascript
-  Scenario: All users page - Non-Admin
-    Given I am logged in
-    And my name is "Alice Smith"
-    And my login is "alice_smith"
-    And my email is "alice_smith@test.com"
-    And there is another user
-    And their name is "Bob Jones"
-    And their login is "bob_jones"
-    And their email is "bob_jones@test.com"
-    And they are a "Webonly" user
-    When I go to the list users page
-    Then the "User" with the name "Alice Smith" is in the "Active" table
-    And the "User" with the name "Bob Jones" is in the "Webonly" table
-    And there is no "Suspended" table
-    And there is no "Pending" table
-    And there is no "Deleted" table
-    And there is no "GM-Created" table
-    And there are no "Suspend" links
-    And there are no "Delete" links
-    And there are no "Edit roles" links
-    And there is no "Merge users" link
-    When I click on the "Alice Smith" link
-    Then I am on the "User" profile page for "Alice Smith"
-
-  @javascript
-  Scenario: All users page - Admin
+  Scenario: All members page
     Given I am logged in
     And I am an "Administrator" user
     And my name is "Alice Smith"

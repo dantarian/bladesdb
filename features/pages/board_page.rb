@@ -12,14 +12,20 @@ class BoardPage < BladesDBPage
     def check_for_message(from: nil, containing_text: nil, containing_link: nil, relating_to_game: nil)
         message_div = page.find("div.message")
         if from
-            message_div.find("p.attrib").find("a").has_content?(from.name)
+            unless User.first.approved_at.nil?
+                message_div.find("p.attrib").should have_link(from.name)
+            else
+                message_div.find("p.attrib").should have_no_link(from.name)
+                message_div.find("p.attrib").should have_text("AO")
+            end
         end
         if containing_text
-            message_div.find("div.messagebody").has_content?(containing_text)
+            message_div.find("div.messagebody").should have_text(containing_text)
         end
         if containing_link
-            message_div.find("div.messagebody").has_link?(relating_to_game.title, :href => containing_link)
+            message_div.find("div.messagebody").should have_link(relating_to_game.title, :href => containing_link)
         end
         self
     end
+
 end

@@ -10,5 +10,5 @@ Feature: Posting messages
   
   Scenario:
     When the user posts a message to the board
-    Then the message appears on the message board
+    Then the message should appear on the message board
     

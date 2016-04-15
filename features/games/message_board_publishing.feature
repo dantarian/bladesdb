@@ -14,7 +14,7 @@ Feature: Posting boards messages from games
     Given the game is in the future
     And there is a Briefs board
     When the user publishes the brief for the game
-    Then a Brief Published message appears on the Briefs board
+    Then a Brief Published message should appear on the Briefs board
 
   @javascript
   Scenario: GM publishes debrief for a game when the game is finalised
@@ -22,5 +22,5 @@ Feature: Posting boards messages from games
     And the game debrief has been started
     And there is a Debriefs board
     When the user publishes the debrief for the game
-    Then a Debrief Published message appears on the Debriefs board
+    Then a Debrief Published message should appear on the Debriefs board
 

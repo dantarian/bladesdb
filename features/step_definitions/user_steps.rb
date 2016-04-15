@@ -1,250 +1,321 @@
+# Set-up steps
+
 Given(/^there is a user$/) do
-  @user = UserTestHelper.create_user
-  UserTestHelper.confirm(@user)
-  UserTestHelper.approve(@user)
-end
-
-Given(/^the user is logged in$/) do
-  LoginPage.new.visit_page(new_user_session_path).and.login_as @user
-end
-
-Given(/^the user is an administrator$/) do
-  UserTestHelper.make_admin(@user)
-end
-
-# Everything below this point is deprecated!
-
-Given(/^I am not logged in$/) do
-  page.find("div#sessionpanel").should have_content("Not logged in")
-end
-
-When(/^I(?:| have| am) log(?:|ged) in$/) do
-  log_in
-end
-
-When(/^I(?:| have| am) log(?:|ged) in as an? (.*?) user$/) do |state|
-  log_in(state)
-end
-
-Given(/^I have registered$/) do
-  @user = create_user
-end
-
-Given(/^I have registered with "(.*?)"$/) do |email|
-  @user = create_user email: email
-end
-
-Given(/^I have not confirmed my e\-mail address$/) do
-  # Nothing to do.
-end
-
-Given(/^I have confirmed my account$/) do
-    confirm_user(@user)
-end
-
-Given(/^I have not been approved$/) do
-  # Empty step.
-end
-
-Given(/^I have been approved$/) do
-    approve_user(@user)
-end
-
-Given(/^(I am|they are?) an? "(.*?)" user$/) do |actor,rolename|
-  rolename.downcase!
-  role = Role.find_by(rolename: rolename) || Role.new(rolename: rolename)
-  if actor == "I am"
-    @user = create_user(state: :approved) if @user.nil?
-    @user.roles << role
-  else
-    @other_user = create_user(state: :approved) if @other_user.nil?
-    @other_user.roles << role
-  end
-end
-
-Given(/^(I am|they are?) a user who is (.*?)$/) do |actor, state|
-  state.downcase!
-  if actor == "I am"
-    @user = create_user(state: state.to_sym) if @user.nil?
-  else
-    @other_user = create_user(state: state.to_sym) if @other_user.nil?
-  end
+  user = UserTestHelper.create_or_find_user
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
 end
 
 Given(/^there is another user$/) do
-  @other_user = create_user(username: "testuser2", name: "Test User2", email: "test2@mail.com", state: :approved)
+  user = UserTestHelper.create_or_find_another_user
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
 end
 
-When(/^I go to the list users page$/) do
-  visit users_path
+Given(/^there is an admin user$/) do
+  user = UserTestHelper.create_or_find_user(name: "Alicia Admin", email: "alicia@mail.com", username: "adminuser")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.grant_role(user, Role.find_by(rolename: "administrator"))
 end
 
-Given(/^(my|their?) name is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.name = value
-    @user.save
-  else
-    @other_user.name = value
-    @other_user.save
-  end
+Given(/^there is a web-only user$/) do
+  user = UserTestHelper.create_or_find_user(name: "Warren Webonly", email: "warren@mail.com", username: "webonlyuser")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.grant_role(user, Role.find_by(rolename: "webonly"))
 end
 
-Given(/^(my|their?) login is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.username = value
-    @user.save
-  else
-    @other_user.username = value
-    @other_user.save
-  end
+Given(/^there is a first aider user$/) do
+  user = UserTestHelper.create_or_find_user(name: "Francis Firstaider", email: "francis@mail.com", username: "firstaideruser")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.grant_role(user, Role.find_by(rolename: "firstaider"))
 end
 
-Given(/^(my|their?) email is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.email = value
-    @user.save
-  else
-    @other_user.email = value
-    @other_user.save
-  end
+Given(/^there is a committee user$/) do
+  user = UserTestHelper.create_or_find_user(name: "Colin Committee", email: "colin@mail.com", username: "committeeuser")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.grant_role(user, Role.find_by(rolename: "committee"))
 end
 
-Given(/^(my|their?) password is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.password = value
-    @user.save
-  else
-    @other_user.password = value
-    @other_user.save
-  end
+Given(/^there is a character ref user$/) do
+  user = UserTestHelper.create_or_find_user(name: "Charles Characterref", email: "charles@mail.com", username: "characterrefuser")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.grant_role(user, Role.find_by(rolename: "characterref"))
 end
 
-Given(/^(my|their?) mobile number is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.mobile_number = value
-    @user.save
-  else
-    @other_user.mobile_number = value
-    @other_user.save
-  end
+Given(/^there is a suspended user$/) do
+  user = UserTestHelper.create_or_find_user
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.suspend(user)
 end
 
-Given(/^(my|their?) contact name is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.contact_name = value
-    @user.save
-  else
-    @other_user.contact_name = value
-    @other_user.save
-  end
+Given(/^there is a deleted user$/) do
+  user = UserTestHelper.create_or_find_user
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  UserTestHelper.delete(user)
 end
 
-Given(/^(my|their?) contact number is "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.contact_number = value
-    @user.save
-  else
-    @other_user.contact_number = value
-    @other_user.save
-  end
+Given(/^the user has filled in all their details$/) do
+  UserTestHelper.fill_in_all_details(User.first)
 end
 
-Given(/^(my|their?) food notes are "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.food_notes = value
-    @user.save
-  else
-    @other_user.food_notes = value
-    @other_user.save
-  end
+Given(/^the other user has filled in all their details$/) do
+  UserTestHelper.fill_in_all_details(User.all.second)
 end
 
-Given(/^(my|their?) medical notes are "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.medical_notes = value
-    @user.save
-  else
-    @other_user.medical_notes = value
-    @other_user.save
-  end
+Given(/^the user is not logged in$/) do
+  # Nothing to do.
 end
 
-Given(/^(my|their?) general notes are "(.*?)"$/) do |actor, value|
-  if actor == "my"
-    @user.notes = value
-    @user.save
-  else
-    @other_user.notes = value
-    @other_user.save
-  end
+Given(/^the user is logged in$/) do
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.first.username, UserTestHelper::DEFAULT_PASSWORD
 end
 
-Given(/^I have never updated my emergency details$/) do
-  # Do nothing.
+# Action steps
+
+When(/^the user logs in$/) do
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.first.username, UserTestHelper::DEFAULT_PASSWORD
 end
 
-Given(/^I last updated my emergency details "(.*?)"$/) do |updated|
-  if updated == "yesterday"
-    @user.emergency_last_updated = Date.today - 1.day
-  elsif updated == "four months ago"
-    @user.emergency_last_updated = Date.today - 4.months
-  end
+When(/^the user updates their name$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_name("Test McTest")
 end
 
-Given(/^they are suspended$/) do
-  @other_user.suspend!
+When(/^the user updates their name to that of the other user$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_name(User.all.second.name)
 end
 
-Given(/^they are deleted/) do
-  @other_user.delete!
+When(/^the user updates their login$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_login("genericlogin")
 end
 
-Given(/^there is an unconfirmed user$/) do
-  @other_user = create_user(username: "testuser2", name: "Test User2", email: "test2@mail.com", state: :pending)
+When(/^the user updates their login to that of the other user$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_login(User.all.second.username)
 end
 
-Given(/^there is a pending user$/) do
-  @other_user = create_user(username: "testuser2", name: "Test User2", email: "test2@mail.com", state: :confirmed)
+When(/^the user updates their email$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_email("generic@mail.com")
 end
 
-def create_user(opts = {})
-  user = User.new(username: opts[:username] || "testuser", name: opts[:name] || "Test User", email: opts[:email] || "test@mail.com", password: opts[:password] || "Passw0rd", password_confirmation: opts[:password_confirmation] || opts[:password] || "Passw0rd")
-  user.save
-  if (opts[:state] == :confirmed) || (opts[:state] == :approved) || (opts[:state] == :suspended)
-    confirm_user(user)
-    if (opts[:state] == :approved) || (opts[:state] == :suspended)
-      approve_user(user)
-      if (opts[:state] == :suspended)
-        suspend_user(user)
-      end
-    end
-  end
-  user
+When(/^the user updates their email to that of the other user$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_email(User.all.second.email)
 end
 
-def confirm_user(user)
-  user.confirmed_at = Time.now
-  user.activate
-  user.save
-  user
+When(/^the user changes their password$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.change_password("paSS5word", "paSS5word")
 end
 
-def approve_user(user)
-  user.approve
-  user.save
-  user
+When(/^the user changes their password incorrectly$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.change_password("paSS5word", "pi11Le")
 end
 
-def suspend_user(user)
-  user.suspend
-  user.save
-  user
+When(/^the user updates their contact number$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_contact("07111 111111")
 end
 
-def log_in(state = :approved)
-  @user = create_user(state: state) if @user.nil?
-  visit new_user_session_path
-  fill_in "Username", with: @user.username
-  fill_in "Password", with: @user.password
-  click_button "Sign in"
+When(/^the user updates their emergency contact$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_emergency_contact("Test Contact", "07111 111111")
 end
+
+When(/^the user updates their medical notes$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_medical_notes("Allergy to bees.")
+end
+
+When(/^the user updates their food notes$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_food_notes("Allergy to alliums.")
+end
+
+When(/^the user updates their notes$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.update_notes("I am awesome.")
+end
+
+When(/^the user updates the other user's name$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_name("Test McTest")
+end
+
+When(/^the user updates the other user's login$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_login("genericlogin")
+end
+
+When(/^the user updates the other user's email$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_email("generic@mail.com")
+end
+
+When(/^the user updates the other user's contact number$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_contact("07111 111111")
+end
+
+When(/^the user updates the other user's emergency contact$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_emergency_contact("Test Contact", "07111 111111")
+end
+
+When(/^the user updates the other user's medical notes$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_medical_notes("Allergy to bees.")
+end
+
+When(/^the user updates the other user's food notes$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_food_notes("Allergy to alliums.")
+end
+
+When(/^the user updates the other user's notes$/) do
+  ProfilePage.new.visit_page(user_path(User.all.second)).and.update_notes("I am awesome.")
+end
+
+# Condition steps
+
+Then(/^they should see all their own profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.first))
+  profile.check_for_core_fields(User.first)
+  profile.check_for_login(User.first)
+  profile.check_for_contact(User.first)
+  profile.check_for_medical_fields(User.first)
+  profile.check_for_food(User.first)
+  profile.check_for_debrief_comments
+end
+
+Then(/^they should see all profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.last))
+  profile.check_for_core_fields(User.last)
+  profile.check_for_login(User.last)
+  profile.check_for_contact(User.last)
+  profile.check_for_medical_fields(User.last)
+  profile.check_for_food(User.last)
+  profile.check_for_debrief_comments
+end
+
+Then(/^they should see core profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.last))
+  profile.check_for_core_fields(User.last)
+end
+
+Then(/^they should see gm relevant profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.last))
+  profile.check_for_core_fields(User.last)
+  profile.check_for_medical_fields(User.last)
+  profile.check_for_food(User.last)
+  profile.check_for_debrief_comments
+end
+
+Then(/^they should see committee relevant profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.last))
+  profile.check_for_core_fields(User.last)
+  profile.check_for_contact(User.last)
+  profile.check_for_medical_fields(User.last)
+  profile.check_for_food(User.last)
+  profile.check_for_debrief_comments
+end
+
+Then(/^they should see character\-ref relevant profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.last))
+  profile.check_for_core_fields(User.last)
+end
+
+Then(/^they should see first\-aider relevant profile fields$/) do
+  profile = ProfilePage.new.visit_page(user_path(User.last))
+  profile.check_for_core_fields(User.last)
+  profile.check_for_medical_fields(User.last)
+  profile.check_for_food(User.last)
+end
+
+Then(/^they should see their own change password link$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_change_password_link
+end
+
+Then(/^they should see a change password link$/) do
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_change_password_link
+end
+
+Then(/^they should not see a change password link$/) do
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_change_password_link(display: false)
+end
+
+Then(/^they should see their own profile edit links$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_edit_links
+end
+
+Then(/^they should see the other user\'s profile edit links$/) do
+  ProfilePage.new.visit_page(user_path(User.last)).and.and.check_for_edit_links
+end
+
+Then(/^they should not see any profile edit links$/) do
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_edit_links(display: false)
+end
+
+Then(/^the user's P:M ratio should be displayed in the sidebar$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.check_pm_ratio(User.first)
+end
+
+Then(/^the user's statistics should be displayed$/) do
+  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_statistics(User.first)
+end
+
+Then(/^the new name should be displayed on their profile$/) do
+  ProfilePage.new.check_for_name(User.first)
+end
+
+Then(/^the new login should be displayed on their profile$/) do
+  ProfilePage.new.check_for_login(User.first)
+end
+
+Then(/^the new email should be displayed on their profile$/) do
+  ProfilePage.new.check_for_email(User.first)
+end
+
+Then(/^the new contact number should be displayed on their profile$/) do
+  ProfilePage.new.check_for_contact(User.first)
+end
+
+Then(/^the new emergency contact should be displayed on their profile$/) do
+  ProfilePage.new.check_for_emergency_contact(User.first)
+end
+
+Then(/^the new medical notes should be displayed on their profile$/) do
+  ProfilePage.new.check_for_medical_notes(User.first)
+end
+
+Then(/^the new food notes should be displayed on their profile$/) do
+  ProfilePage.new.check_for_food(User.first)
+end
+
+Then(/^the new notes should be displayed on their profile$/) do
+  ProfilePage.new.check_for_notes(User.first)
+end
+
+Then(/^the new name should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_name(User.all.second)
+end
+
+Then(/^the new login should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_login(User.all.second)
+end
+
+Then(/^the new email should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_email(User.all.second)
+end
+
+Then(/^the new contact number should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_contact(User.all.second)
+end
+
+Then(/^the new emergency contact should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_emergency_contact(User.all.second)
+end
+
+Then(/^the new medical notes should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_medical_notes(User.all.second)
+end
+
+Then(/^the new food notes should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_food(User.all.second)
+end
+
+Then(/^the new notes should be displayed on the other user\'s profile$/) do
+  ProfilePage.new.check_for_notes(User.all.second)
+end
+
