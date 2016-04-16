@@ -1,4 +1,4 @@
-<tr>
+<tr id="user<%= user.id %>">
     <td><%= link_to h(user.name), user_path(user) %></td>
     <td><%= mail_to user.email, user.email %></td>
     <td><span class="hidden">.</span>

@@ -58,3 +58,11 @@ end
 Then(/^a password mismatch message should be displayed$/) do
   RegistrationUpdatePage.new.check_is_displaying_message "doesn\'t match"
 end
+
+Then(/^an activation email message should be displayed$/) do
+  MembersPage.new.check_is_displaying_message I18n.t("user.success.email_resent")
+end
+
+Then(/^a roles updated message should be displayed$/) do
+  MembersPage.new.check_is_displaying_message I18n.t("user.success.roles_updated")
+end

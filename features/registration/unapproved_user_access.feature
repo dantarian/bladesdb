@@ -23,7 +23,6 @@ Feature: Unapproved User Access
     Given there is another user
     And the other user has an active character
     When the user goes to the characters page
-    Then the test takes a screendump
     Then the user should see a short user name and character link on the character
   
   @javascript
