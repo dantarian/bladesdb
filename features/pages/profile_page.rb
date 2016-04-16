@@ -102,14 +102,6 @@ class ProfilePage < BladesDBPage
       page.should have_selector("div#last_ten_debrief_comments")
     end
     
-    def check_for_change_password_link(display: true)
-        if display
-          page.should have_link("Change password")
-        else
-          page.should have_no_link("Change password")
-        end
-    end
-    
     def check_for_name(user)
       page.should have_selector("li#name")
       page.find("li#name").should have_content(user.name)
@@ -135,11 +127,6 @@ class ProfilePage < BladesDBPage
       page.should have_selector("li#medical_notes")
       page.find("li#medical_notes").should have_content(user.medical_notes)
       page.should have_selector("li#medical_last_updated")
-    end
-    
-    def check_pm_ratio(user)
-      page.should have_selector("div#sessionpanel")
-      page.find("div#sessionpanel").should have_text("Your current P:M ratio is")
     end
     
     def check_for_statistics(user)
