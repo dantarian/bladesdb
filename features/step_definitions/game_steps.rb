@@ -64,6 +64,18 @@ Given(/^there is a multi-day game that started yesterday and includes next Sunda
   GameTestHelper.create_game_covering_next_sunday_starting_yesterday
 end
 
+Given(/^the character has been played on a debriefed game and earned (\d+) character points$/) do |points|
+  GameTestHelper.create_debriefed_game_for_first_character(points)
+end
+
+Given(/^the character has been played on another debriefed game and earned (\d+) character points$/) do |points|
+  GameTestHelper.create_another_debriefed_game_for_first_character(points)
+end
+
+Given(/^the user has monstered a debriefed game and earned (\d+) monster points$/) do |points|
+  GameTestHelper.create_debriefed_game_for_first_user_as_monster(points)
+end
+
 When(/^the user publishes the brief for the game$/) do
   GamePage.new.visit_page(game_path(Game.first)).and.publish_briefs
 end

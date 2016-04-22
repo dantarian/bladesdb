@@ -41,6 +41,16 @@ module GameTestHelper
     game
   end
   
+  def debrief(game, player_points: 10, monster_points: 5, money: 10)
+    game.setup_debrief
+    game.debrief_started = true
+    game.player_points_base = player_points
+    game.monster_points_base = monster_points
+    game.player_money_base = money
+    game.open = false
+    game.save!
+  end
+  
   def create_game_next_sunday
     create_game(start_date: next_sunday)
   end
@@ -56,4 +66,26 @@ module GameTestHelper
   def next_sunday
     (Date.today.sunday > Date.today ? Date.today.sunday : Date.today.sunday + 7.days)
   end
+  
+  def create_debriefed_game_for_first_character(points)
+    game = create_game(start_date: 14.days.ago)
+    add_player(Character.first.user, Character.first, to: game)
+    debrief(game, player_points: points)
+    game
+  end
+  
+  def create_another_debriefed_game_for_first_character(points)
+    game = create_game(title: "Another Game", start_date: 7.days.ago)
+    add_player(Character.first.user, Character.first, to: game)
+    debrief(game, player_points: points)
+    game    
+  end
+
+  def create_debriefed_game_for_first_user_as_monster(points)
+    game = create_game(title: "Monstered Game", start_date: 14.days.ago)
+    add_monster(User.first, to: game)
+    debrief(game, monster_points: points)
+    game
+  end
+  
 end

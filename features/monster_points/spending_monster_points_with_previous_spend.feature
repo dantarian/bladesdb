@@ -1,5 +1,5 @@
 Feature: Spending monster points with previous spend
-  As a user with a character with a monster point spend since the last game
+  As a user with a character with a monster point spend on the character since their last game
   I want to be able to spend monster points on the character
   So that I can increase the rank of the character without playing them on a game
   

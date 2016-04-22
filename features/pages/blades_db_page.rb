@@ -25,5 +25,8 @@ class BladesDBPage
         end
     end
   
+    def check_monster_points(points)
+      page.find("span#current_monster_points").should have_text(points.to_s)
+    end
 end
 

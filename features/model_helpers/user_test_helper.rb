@@ -1,3 +1,5 @@
+include RSpec::Matchers
+
 module UserTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
   
@@ -45,5 +47,18 @@ module UserTestHelper
     updating_user = User.find_by(name: user.name)
     updating_user.update(mobile_number: "07777 888777", contact_name: "Bob Bobson", contact_number: "07888 777888", medical_notes: "Allergic to bees.", food_notes: "Intolerant to lactose.", notes: "Some notes.")
   end
+  
+  def add_monster_point_declaration(user, points, date = nil)
+    date = Date.today - 5.years if date.nil?
+    mpd = MonsterPointDeclaration.create do |mpd|
+      mpd.user = user
+      mpd.declared_on = date
+      mpd.points = points
+      mpd.approved = true
+      mpd.approved_at = date
+      mpd.approved_by = user
+    end
+  end
+  
 end
 

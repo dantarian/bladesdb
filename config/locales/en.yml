@@ -29,5 +29,13 @@ en:
     success:
       create: "Page was successfully created."
       update: "Page was successfully updated."
-      
-  
+  character:
+    monster_points:
+      not_enough_mp: "must be at most %{points}."
+      too_many_cp: "must be at most %{points}."
+      at_least_one: "must be at least 1."
+      not_before_last_spend: "must be more recent than your last monster point spend on %{date}."
+      not_before_penultimate_game: "must be more recent than your last-but-one game on %{date}."
+      not_before_monster_point_declaration: "must be more recent than your monster point declaration on %{date}."
+      not_before_character_declaration: "must be more recent than your character declation on %{date}."
+      not_in_future: "cannot be in the future."

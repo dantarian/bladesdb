@@ -1,5 +1,7 @@
-<% if @monster_point_spend.monster_points_available_to_spend_on_character == 0 %>
+<% if @monster_point_spend.monster_points_available == 0 %>
 	<p>You have no monster points to spend on this character on the selected date.</p>
+<% elsif @monster_point_spend.max_character_points == 0 %>
+    <p>You cannot buy any more character points for this character on the selected date.</p>
 <% else %>
 	<%= form_for([@character, @monster_point_spend], :remote => true) do |f| %>
 	    <%= f.error_messages :header_message => "Failed to save details of monster point spend.", :message => "The following problems prevented your data from being saved:" %>
@@ -18,12 +20,12 @@
 				<span id="mpTotal"><%= @monster_point_spend.monster_points_available %></span>
 			</li>
 			<li>
-				<%= f.label nil, "Monster points available to spend on #{@monster_point_spend.character.name}" %><br />
-                <span id="mpAvailable"><%= @monster_point_spend.monster_points_available_to_spend_on_character %></span>
-			</li>
-			<li>
 				<%= f.label nil, "Rank on date of spend" %><br />
                 <span id="charRank"><%= @monster_point_spend.character_rank_before_spend %></span>
+			</li>
+			<li>
+				<%= f.label nil, "Maximum character points available to buy for #{@monster_point_spend.character.name}" %><br />
+                <span id="mpAvailable"><%= @monster_point_spend.max_character_points %></span>
 			</li>
 			<li>
 				<%= f.label :character_points_gained, "Character Points to purchase" %><br />
