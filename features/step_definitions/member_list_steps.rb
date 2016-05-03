@@ -1,3 +1,38 @@
+Given(/^the admin user is logged in$/) do
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.all.third.username, UserTestHelper::DEFAULT_PASSWORD
+end
+
+Given(/^the user is a player of the first game$/) do
+  user = UserTestHelper.create_or_find_user
+  character = CharacterTestHelper.create_character(user)
+  CharacterTestHelper.approve_character(user)
+  GameTestHelper.add_player user, character, to: Game.first
+end
+
+Given(/^the other user is a monster of the first game$/) do
+  user = UserTestHelper.create_or_find_another_user
+  GameTestHelper.add_monster user, to: Game.first
+end
+
+Given(/^the other user is a player of the second game$/) do
+  user = UserTestHelper.create_or_find_another_user
+  character = CharacterTestHelper.create_character(user, name: "Nijel the Destroyer")
+  CharacterTestHelper.approve_character(user)
+  GameTestHelper.add_player user, character, to: Game.all.second
+end
+
+Given(/^the user is a GM for the first game$/) do
+  GameTestHelper.add_gamesmaster User.first, to: Game.first
+end
+
+Given(/^the other user is a GM for the first game$/) do
+  GameTestHelper.add_gamesmaster User.all.second, to: Game.first
+end
+
+Given(/^the other user is a GM for the second game$/) do
+  GameTestHelper.add_gamesmaster User.all.second, to: Game.all.second
+end
+
 # Actions
 
 When(/^the user suspends the other user$/) do
@@ -50,6 +85,11 @@ end
 
 When(/^the user opens the role dialog$/) do
   MembersPage.new.open_role_dialog
+end
+
+
+When(/^the admin user merges the second user into the first user$/) do
+  MembersPage.new.visit_page(users_path).and.merge_users
 end
 
 # Validations
@@ -152,7 +192,11 @@ Then(/^the user should not see a purge link$/) do
 end
 
 Then(/^the other user should no longer exist$/) do
-  User.exists?(2).should == false
+  MembersPage.new.check_for_links(text: "Ann Other", display: false)
+end
+
+Then(/^the second user should no longer exist$/) do
+  MembersPage.new.check_for_links(text: "Ann Other", display: false)
 end
 
 Then(/^an activation email should be sent to the other user$/) do
@@ -181,4 +225,92 @@ end
 
 Then(/^the user cannot grant the characterref role$/) do
   MembersPage.new.check_role_permission(rolename: "characterref")
+end
+
+Then(/^the first user should still have their character$/) do
+  CharactersPage.new.visit_page(characters_path).and.check_for_character(User.first, Character.first)
+end
+
+Then(/^the first user should have the second user's character$/) do
+  CharactersPage.new.visit_page(characters_path).and.check_for_character(User.first, Character.all.second)
+end
+
+Then(/^the first user should still have their message board post$/) do
+  BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: User.first, containing_text: "First!")
+end
+
+Then(/^the first user should have the second user's message board post$/) do
+  BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: User.first, id: 2, containing_text: "Second!")
+end
+
+Then(/^the first user should still have their game application$/) do
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_application(from: User.first, containing_text: "First!")
+end
+
+Then(/^the first user should have the second user's game application$/) do
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_application(from: User.first, id: 2, containing_text: "Second!")
+end
+
+Then(/^the first user should be able to log in as themselves$/) do
+  HomePage.new.visit_page(root_path).and.log_out
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials "normaluser", UserTestHelper::DEFAULT_PASSWORD
+  HomePage.new.check_is_displaying_message I18n.t("devise.sessions.signed_in")
+end
+
+Then(/^the first user should not be able to log in as the second user$/) do
+  HomePage.new.visit_page(root_path).and.log_out
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials "anotheruser", UserTestHelper::DEFAULT_PASSWORD
+  HomePage.new.check_is_displaying_message I18n.t("devise.failure.not_found_in_database")
+end
+
+Then(/^the first user should not be a first aider$/) do
+  MembersPage.new.visit_page(users_path).and.check_for_role(rolename: "firstaider", user: User.first, display: false)
+end
+
+Then(/^the first user should still be a player on the first game$/) do
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_player(User.first, User.first.characters.first)
+end
+
+Then(/^the first user should be a player on the second game$/) do
+  GamePage.new.visit_page(game_path(Game.all.second)).and.check_for_player(User.first, User.first.characters.second)
+end
+
+Then(/^the first user should still be on the debrief of the first game$/) do
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_debrief_player(User.first, User.first.characters.first)
+end
+
+Then(/^the first user should be on the debrief of the second game$/) do
+  GamePage.new.visit_page(game_path(Game.all.second)).and.check_for_debrief_player(User.first, User.first.characters.second)
+end
+
+Then(/^the first user should still be a gm on the first game$/) do
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_gm(User.first)
+end
+
+Then(/^the first user should be a gm on the second game$/) do
+  GamePage.new.visit_page(game_path(Game.all.second)).and.check_for_gm(User.first)
+end
+
+Then(/^the first user should still have their monster point declaration$/) do
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_declaration(20)
+end
+
+Then(/^the first user should not have the second user's monster point declaration$/) do
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_declaration(15, display: false)
+end
+
+Then(/^the first user should have the second user's monster point declaration$/) do
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_declaration(15)
+end
+
+Then(/^the first user should still have their monster point adjustment$/) do
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_adjustment(20)
+end
+
+Then(/^the first user should not have the second user's monster point adjustment$/) do
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_adjustment(15, display: false)
+end
+
+Then(/^the first user should have the second user's monster point adjustment$/) do
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_adjustment(15)
 end

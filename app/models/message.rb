@@ -4,15 +4,17 @@ class Message < ActiveRecord::Base
     belongs_to :character
     belongs_to :last_edited_by, :class_name => "User"
     
+    attr_accessor :merge
+    
     validates_presence_of :board_id
     validates_presence_of :user_id
     validates_presence_of :message
     validates_inclusion_of :deleted, :in => [ true, false ]
-    validates_presence_of :name, :if => :ic_board_and_no_character?
+    validates_presence_of :name, :if => :ic_board_and_no_character?, :unless => :merge?
     validates_presence_of :request_uuid
     validates_absence_of :character_id, :unless => :ic_board?
     validates_absence_of :name, :unless => :ic_board?
-    validate :board_is_open
+    validate :board_is_open, :unless => :merge?
     
     auto_strip_attributes :name, :message
     
@@ -34,6 +36,10 @@ class Message < ActiveRecord::Base
     
     def duplicate?
         Message.where(request_uuid: request_uuid, user_id: user_id).exists?
+    end
+    
+    def merge?
+        return self.merge
     end
     
     protected

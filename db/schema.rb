@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302221020) do
+ActiveRecord::Schema.define(version: 20160501144813) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 20160302221020) do
     t.date     "end_date"
     t.time     "meet_time"
     t.time     "start_time"
-    t.boolean  "open",                default: true,  null: false
+    t.boolean  "open",                                null: false
     t.string   "notes"
     t.datetime "created_at"
     t.datetime "updated_at"

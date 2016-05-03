@@ -1,6 +1,11 @@
-Given(/^the other user has an active character$/) do
-  CharacterTestHelper.create_character(User.all.second)
-  CharacterTestHelper.approve_character(User.all.second)
+Given(/^the user has a character$/) do
+  CharacterTestHelper.create_character(User.first)
+  CharacterTestHelper.approve_character(User.first)
+end
+
+Given(/^the other user has a character$/) do
+  CharacterTestHelper.create_character(User.all.second, name: "Nigel the Magnificent")
+  CharacterTestHelper.approve_character(User.all.second, Character.all.second)
 end
 
 Given(/^the character is a player on the game$/) do

@@ -15,7 +15,7 @@
 	<tbody>
 		<% @game_applications.each do |game_application| %>
 			<% if game_application.is_pending? %>
-				<tr class="<%= cycle('odd', 'even') %>">
+				<tr id="application<%= game_application.id %>" class="<%= cycle('odd', 'even') %>">
 				    <td><%=h game_application.user.display_name(current_user) %></td>
 				    <td><%= RedCloth.new( game_application.details, [:filter_html] ).to_html.html_safe %></td>
 					<td>[ <%= link_to "Approve", approve_app_game_game_application_url(@game, game_application), :method => :get, :remote => true %> | 
