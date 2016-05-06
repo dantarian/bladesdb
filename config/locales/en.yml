@@ -10,8 +10,6 @@ en:
     validation: 
       dialog_header: "Failed to save user"
       dialog_main: "The following problems prevented the user from being saved:"
-      roles_dialog_header: "Failed to save roles"
-      roles_dialog_main: "The following problems prevented the roles from being saved:"
       username_format: "use only letters, numbers, and .-_@ please."
       username_uniqueness: "is already taken - please try another login."
       name_format: "avoid non-printing characters and \\&gt;&lt;&amp;/ please."
@@ -28,10 +26,17 @@ en:
     failure:
       profile_updated: "Failed to update profile."
       merged: "Failed to merge users."
+      checked: "Failed to set up merge."
+    roles:
+      dialog_header: "Failed to save roles"
+      dialog_main: "The following problems prevented the roles from being saved:"
   page:
     success:
       created: "Page was successfully created."
       updated: "Page was successfully updated."
+  board:
+    failure:
+      deleted: "Board deletion failed."
   email_subjects:
     approved: "Your account has been approved"
       

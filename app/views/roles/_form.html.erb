@@ -1,5 +1,5 @@
 <%= form_for([@user, @roles], :as => :post, :url => user_roles_path, :action => :update, :remote => true) do |f| %>
-    <%= f.error_messages :header_message => I18n.t("user.validation.roles_dialog_header"), :message => I18n.t("user.validation.roles_dialog_main") %>
+    <%= f.error_messages :header_message => I18n.t("user.roles.dialog_header"), :message => I18n.t("user.roles.dialog_main") %>
 	
 	<ul class="form">
 		<%= render :partial => "role", :collection => (Role.all), :locals => { :user => @user, :f => f } %>

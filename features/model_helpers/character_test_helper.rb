@@ -5,8 +5,9 @@ module CharacterTestHelper
       user.characters.create_with(race: race, starting_points: starting_points, starting_florins: starting_florins, starting_death_thresholds: starting_death_thresholds, state: state).find_or_create_by!(name: name)
   end
   
-  def approve_character(user)
-      character = Character.first
+  def approve_character(user = nil, character = nil)
+      user ||= User.first
+      character ||= Character.first
       character.approve(user)
       character.save
   end

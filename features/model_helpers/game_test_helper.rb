@@ -24,6 +24,10 @@ module GameTestHelper
   def add_attendee(attendee, to: nil)
     to.game_attendances.create_with(attend_state: "attending").find_or_create_by(user: attendee)
   end
+  
+  def make_application(user, details: "This is a game.", to: nil)
+    to.game_applications.create_with(details: details).find_or_create_by(user: user)
+  end
 
   def set_date(date, of: nil)
     of.start_date = date
@@ -55,5 +59,10 @@ module GameTestHelper
   
   def next_sunday
     (Date.today.sunday > Date.today ? Date.today.sunday : Date.today.sunday + 7.days)
+  end
+  
+  def close_debrief(game)
+    game.open = false
+    game.save!
   end
 end

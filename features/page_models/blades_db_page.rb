@@ -13,6 +13,10 @@ class BladesDBPage
         self
     end
     
+    def log_out
+      page.click_link("Log out")
+    end
+    
     def check_is_displaying_message(message)
         page.should have_content(message)
     end

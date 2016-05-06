@@ -101,6 +101,21 @@ function updateMergeSelections() {
     $("input[type='submit']").attr("disabled", $("#primary").val() == "" || $("#secondary").val() == "");
 }
 
+function monster_point_cost() {
+    var total = 0;
+    var cp = $("#charRank").text() * 10;
+    var cp_gained = parseInt($("#monster_point_spend_character_points_gained").val());
+
+    for (var i = cp; i < cp + cp_gained; ++i) {
+        total += Math.floor(i / 100) + 1;
+    }
+    return total;
+}
+
+function printpage() {
+  window.print();
+};
+
 window.onbeforeunload = function(event) { saveMenus(); }
 
 $(function () {
@@ -173,21 +188,6 @@ $(function() {
 	});
 });
 
-function monster_point_cost() {
-    var total = 0;
-    var cp = $("#charRank").text() * 10;
-    var cp_gained = parseInt($("#monster_point_spend_character_points_gained").val());
-
-    for (var i = cp; i < cp + cp_gained; ++i) {
-        total += Math.floor(i / 100) + 1;
-    }
-    return total;
-}
-
-function printpage() {
-  window.print();
-};
-
 $(function () {
 	$("div.sidebarcategory h3 a").click(function (event) {
 		$(this).closest("div.sidebarcategory").find(".sidebarsection").toggle();
@@ -259,4 +259,26 @@ $(function() {
 		}
 		event.preventDefault();
 	});
+});
+
+
+$(function () {
+	$("body").delegate("a[data-primary]", "click", function (event) {
+		var id = $(event.target).data("primary");
+	    makePrimaryForMerge(id);
+    });
+});
+
+$(function () {
+	$("body").delegate("a[data-secondary]", "click", function (event) {
+		var id = $(event.target).data("secondary");
+	    makeSecondaryForMerge(id);
+    });
+});
+
+$(function () {
+	$("body").delegate("a[data-deselect]", "click", function (event) {
+		var id = $(event.target).data("deselect");
+	    deselectForMerge(id);
+    });
 });

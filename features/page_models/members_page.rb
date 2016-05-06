@@ -49,6 +49,14 @@ class MembersPage < BladesDBPage
     page.find("tr#user2").click_link("Edit roles")
   end
   
+  def merge_users
+    page.click_link("Merge users")
+    page.find("tr#record1").click_link("Select as primary user")
+    page.find("tr#record2").click_link("Select as secondary user")
+    page.click_button("Merge selected users")
+    page.click_button("Confirm merge")
+  end
+  
   def check_for_active_user(user)
     search = "table#active tbody tr#user" + user.id.to_s
     active = page.find(search)
