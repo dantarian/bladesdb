@@ -21,13 +21,23 @@ en:
       email_resent: "Activation e-mail resent."
       own_profile_updated: "User profile updated."
       other_profile_updated: "User profile updated for %{name}."
-      merge: "Users successfully merged."
+      merged: "Users successfully merged."
+      roles_updated: "Roles updated."
     failure:
       profile_updated: "Failed to update profile."
-      merge: "Failed to merge users."
+      merged: "Failed to merge users."
+      checked: "Failed to set up merge."
+    roles:
+      dialog_header: "Failed to save roles"
+      dialog_main: "The following problems prevented the roles from being saved:"
   page:
     success:
-      create: "Page was successfully created."
-      update: "Page was successfully updated."
+      created: "Page was successfully created."
+      updated: "Page was successfully updated."
+  board:
+    failure:
+      deleted: "Board deletion failed."
+  email_subjects:
+    approved: "Your account has been approved"
       
   

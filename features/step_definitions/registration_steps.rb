@@ -3,11 +3,11 @@ Given(/^there is an unregistered user$/) do
 end
 
 Given(/^there is an unconfirmed user$/) do
-  user = UserTestHelper.create_or_find_user
+  user = UserTestHelper.create_or_find_user(name: "Uncle Unconfirmed", email: "unconfirmed@mail.com", username: "unconfirmeduser")
 end
 
 Given(/^there is an unapproved user$/) do
-  user = UserTestHelper.create_or_find_user
+  user = UserTestHelper.create_or_find_user(name: "Aunt Unapproved", email: "unapproved@mail.com", username: "unapproveduser")
   UserTestHelper.confirm(user)
 end
 

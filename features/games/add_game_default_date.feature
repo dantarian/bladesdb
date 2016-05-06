@@ -5,8 +5,7 @@ Feature: Adding Games - Default Date
   So that people can apply to run, play or monster them
   
   Background:
-    Given there is a user
-    And the user is an administrator
+    Given there is an admin user
     And the user is logged in
     
   Scenario: Game creation - no other games

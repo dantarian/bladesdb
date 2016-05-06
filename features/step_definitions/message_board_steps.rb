@@ -2,6 +2,15 @@ Given(/^there is a message board$/) do
  BoardTestHelper.create_board
 end
 
+Given(/^the message board is closed$/) do
+ BoardTestHelper.close_board(Board.first)
+end
+
+Given(/^there is an ic message board$/) do
+ board = BoardTestHelper.create_board
+ BoardTestHelper.make_board_ic(board)
+end
+
 Given(/^there is a Briefs board$/) do
   BoardTestHelper.create_board(id: Board::BRIEFS, name: "Briefs")
 end
@@ -10,12 +19,12 @@ Given(/^there is a Debriefs board$/) do
   BoardTestHelper.create_board(id: Board::DEBRIEFS, name: "Debriefs")
 end
 
-Given(/^there is message from the user$/) do
-  BoardTestHelper.create_message(Board.first, User.first)
+Given(/^there is a message from the user$/) do
+  BoardTestHelper.create_message(Board.first, User.first, message: "First!")
 end
 
-Given(/^there is message from another user$/) do
-  BoardTestHelper.create_message(Board.first, User.last)
+Given(/^there is a message from the other user$/) do
+  BoardTestHelper.create_message(Board.first, User.last, message: "Second!")
 end
 
 

@@ -2,7 +2,7 @@
 	
 <% if not (@game.is_debrief_started?) %>
 	<h3 class="alt">GMs</h3>
-	<p>
+	<p id="gms">
 	<% if @game.gamesmasters.empty? %>
         <em>
             Unassigned 

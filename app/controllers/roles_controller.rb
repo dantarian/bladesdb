@@ -38,7 +38,7 @@ class RolesController < ApplicationController
           end
         end
         
-        flash[:notice] = 'Roles updated.'
+        flash[:notice] = I18n.t("user.success.roles_updated")
         reload_page
         
     end
