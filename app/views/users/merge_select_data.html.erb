@@ -48,28 +48,54 @@
             <td class="numeric"><%= @secondary_user.messages.count %></td>
         </tr>
         <tr>
-            <td>GMed campaigns</td>
-            <td class="numeric"><%= @secondary_user.mastered_campaigns.count %></td>
+            <td>Characters</td>
+            <td class="numeric"><%= @secondary_user.characters.count %></td>
+        </tr>
+        <tr>
+            <td>Game applications</td>
+            <td class="numeric"><%= @secondary_user.game_applications.count %></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The following items may be moved from <%= @secondary_user.name %> to <%= @primary_user.name %> if <%= @primary_user.name %> does not have them for a given game:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th class="numeric">Count</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<tr>
+            <td>Game attendances</td>
+            <td class="numeric"><%= @secondary_user.game_attendances.count %></td>
         </tr>
         <tr>
             <td>GMed games</td>
             <td class="numeric"><%= @secondary_user.mastered_games.count %></td>
         </tr>
         <tr>
-            <td>Characters</td>
-            <td class="numeric"><%= @secondary_user.characters.count %></td>
-        </tr>
-        <tr>
             <td>Debriefs</td>
             <td class="numeric"><%= @secondary_user.debriefs.count %></td>
         </tr>
+    </tbody>
+</table>
+
+<p>The following items will only be moved from <%= @secondary_user.name %> to <%= @primary_user.name %> if <%= @primary_user.name %> does not have them:</p>
+
+<table>
+    <thead>
         <tr>
-            <td>Game applications</td>
-            <td class="numeric"><%= @secondary_user.game_applications.count %></td>
+            <th>Item</th>
+            <th class="numeric">Count</th>
         </tr>
-        <tr>
-            <td>Game attendances</td>
-            <td class="numeric"><%= @secondary_user.game_attendances.count %></td>
+    </thead>
+    <tbody>
+    	<tr>
+            <td>Monster point declaration</td>
+            <td class="numeric"><%= @secondary_user.monster_point_declaration.nil? ? "0" : "1" %></td>
         </tr>
         <tr>
             <td>Monster point adjustments</td>

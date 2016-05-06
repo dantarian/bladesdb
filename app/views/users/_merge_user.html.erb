@@ -19,11 +19,11 @@
     <% unless defined? hide_actions and hide_actions %>
         <td class="actions">
             <span class="unselected_actions">
-                [ <%= link_to_function "Select as primary user", "makePrimaryForMerge(#{user.id})" %> ]<br />
-                [ <%= link_to_function "Select as secondary user", "makeSecondaryForMerge(#{user.id})" %> ]
+                [ <%= link_to "Select as primary user", user, data: {primary: "#{user.id}"}, remote: true  %> ]<br />
+                [ <%= link_to "Select as secondary user", user, data: {secondary: "#{user.id}"}, remote: true  %> ]
             </span>
             <span class="selected_actions">
-                [ <%= link_to_function "Deselect", "deselectForMerge(#{user.id})" %> ]
+                [ <%= link_to "Deselect", user, data: {deselect: "#{user.id}"}, remote: true %> ]
             </span>
         </td>
     <% end %>

@@ -108,6 +108,10 @@ Then(/^the other user's profile should be displayed$/) do
   ProfilePage.new.check_for_name(User.all.second)
 end
 
+Then(/^the members list should be displayed$/) do
+  current_path.should == users_path
+end
+
 
 Then(/^the user should go to the First Aid Report for the game$/) do
   page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)

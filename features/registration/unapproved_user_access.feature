@@ -21,7 +21,7 @@ Feature: Unapproved User Access
   
   Scenario: View characters page as unapproved user
     Given there is another user
-    And the other user has an active character
+    And the other user has a character
     When the user goes to the characters page
     Then the user should see a short user name and character link on the character
   

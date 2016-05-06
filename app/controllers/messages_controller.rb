@@ -92,7 +92,7 @@ class MessagesController < ApplicationController
     
     protected
         def message_params
-            params.require(:message).permit(:message, :board_id, :character_id, :user_id, :name, :request_uuid)
+            params.require(:message).permit(:message, :board_id, :character_id, :user_id, :name, :request_uuid, :merge)
         end
     
         def find_message

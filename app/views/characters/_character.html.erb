@@ -1,5 +1,5 @@
 <% show_character_status = (current_user.is_character_ref? or character.user == current_user) %>
-<tr class="<%= (show_character_status and character.approved == false ? 'rejected' : '') -%>  <%= show_character_status and character.is_provisional? ? "provisional" : "" -%>">
+<tr id="character<%= character.id %>" class="<%= (show_character_status and character.approved == false ? 'rejected' : '') -%>  <%= show_character_status and character.is_provisional? ? "provisional" : "" -%>">
     <td class="multiline">
         <%= link_to character do %>
             <%=h character.name_and_title %>
