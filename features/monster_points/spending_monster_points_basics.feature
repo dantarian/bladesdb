@@ -1,5 +1,5 @@
 @javascript
-Feature: Spending monster points
+Feature: Spending monster points - basics
   As a user with a character
   I want to be able to spend monster points on the character
   So that I can increase the rank of the character without playing them on a game
