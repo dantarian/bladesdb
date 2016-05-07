@@ -15,6 +15,11 @@ class GamePage < BladesDBPage
         self
     end
     
+    def open_first_aid_report
+      click_link "First Aid Report"
+      self
+    end
+    
     # Pre-debrief checks
     
     def check_for_application(from: nil, id: 1, containing_text: "This is a game.")

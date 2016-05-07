@@ -1,36 +1,36 @@
-<div id="record<%= first_aid_record.id %>" class="report_record">
-	<p class="record_header"><%= first_aid_record.name %> - Last Updated: <%= first_aid_record.emergency_last_updated.blank? ? "Never" : first_aid_record.emergency_last_updated.to_s(:long) %></p>
-	
-	<div class="record_section emergency_contact">
-		<p><span class="record_section_header">Emergency Contact: </span>
+<tr class="<%= cycle("odd", "even", name: :first_aid_record) %> title" id="user<%= first_aid_record.id %>firstrow">
+	<th id="user<%= first_aid_record.id %>name" width="50%" style="vertical-align: top">
+		<%= first_aid_record.name %>
+	</th>
+	<th id="user<%= first_aid_record.id %>updated" width="50%" style="vertical-align: top">
+		Last Updated: <%= first_aid_record.emergency_last_updated.blank? ? "Never" : first_aid_record.emergency_last_updated.to_date.to_s %>
+	</th>
+</tr>
+<tr class="<%= current_cycle :first_aid_record %>" id="user<%= first_aid_record.id %>secondrow">
+	<td id="user<%= first_aid_record.id %>contact" colspan=2 style="vertical-align: top">
+		<span class="record_section_header">Emergency Contact:</span> 
 		<% unless first_aid_record.contact_name.blank? or first_aid_record.contact_number.blank?%>
-			<div class="record_content">
-	    		<p><%= first_aid_record.contact_name %> on <%= first_aid_record.contact_number %></p> 
-	    	</div>
+	    	<%= first_aid_record.contact_name %> on <%= first_aid_record.contact_number %>
 	    <% else %>
-	    	<%= first_aid_record.name %> has no emergency contact.</p>
+	    	<%= first_aid_record.name %> has no emergency contact.
 	    <% end %>
-	</div>
-	
-	<div class="record_section medical_notes">
-		<p><span class="record_section_header">Medical Notes: </span>
+	</td>
+</tr>
+<tr class="<%= current_cycle :first_aid_record %>" id="user<%= first_aid_record.id %>thirdrow">
+	<td id="user<%= first_aid_record.id %>medical" style="border-top: #777777 1px solid; border-right:#777777 1px solid; vertical-align: top">
+		<span class="record_section_header">Medical Notes:</span><br />
 		<% unless first_aid_record.medical_notes.blank? %>
-			<div class="record_content">
-				<%= RedCloth.new( first_aid_record.medical_notes, [:filter_html] ).to_html.html_safe %>
-			</div>
+			<%= RedCloth.new( first_aid_record.medical_notes, [:filter_html] ).to_html.html_safe %>
 		<% else %>
-			<%= first_aid_record.name %> has no medical notes.</p>
+			<%= first_aid_record.name %> has no medical notes.
 		<% end %>
-	</div>
-	
-	<div class="record_section food_notes">
-		<p><span class="record_section_header">Food Notes: </span>
+	</td>
+	<td id="user<%= first_aid_record.id %>food" style="border-top: #777777 1px solid; vertical-align: top">
+		<span class="record_section_header">Food Notes:</span><br />
 		<% unless first_aid_record.food_notes.blank? %>
-			<div class="record_content">
-				<%= RedCloth.new( first_aid_record.food_notes, [:filter_html] ).to_html.html_safe %>
-			</div>
+			<%= RedCloth.new( first_aid_record.food_notes, [:filter_html] ).to_html.html_safe %>
 		<% else %>
-			<%= first_aid_record.name %> has no food notes.</p>
+			<%= first_aid_record.name %> has no food notes.
 		<% end %>
-	</div>
-</div>
+	</td>
+</tr>
