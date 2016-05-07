@@ -28,8 +28,7 @@ blockquote {margin:1.5em;padding:1em;font-style:italic;font-size:.9em;}
 .hide {display:none;}
 a:link, a:visited {text-decoration:none;color:#000000;}
 .non-printing {display: none !important;}
-
-div.report_record { border: solid 1px #666; margin: 1em; padding: 1em; }
-p.record_header { font-weight:bold; }
-div.record_section { margin-left: 2em; }
+#content-space {width:100%}
+tr.title { background: #454545 ; color: #ffffff; }
+tr.title a { color: #ffffff; }
 span.record_section_header { font-style: italic; }

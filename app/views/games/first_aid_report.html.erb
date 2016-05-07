@@ -1,23 +1,26 @@
 <% if current_user and (current_user.is_admin_or_committee? or current_user.is_first_aider? or @game.is_editable_by? current_user and !@game.is_debrief_started?) %>
 <h1 class="alt">First Aid Report for <%= @game.game_title %> - <%= @game.start_date %></h1>
 	
-<div id="gms">	
-	<h2 class="alt">GMs</h2>
+<h2 class="alt">GMs (<%= @game.gamesmasters.count %>)</h2>
+<table class="gms prestyled">
+	<tbody>
+		<%= render partial: "games/first_aid_record", collection: @game.gamesmasters.order(:name) %>
+	</tbody>
+</table>
 
-	<%= render partial: "games/first_aid_record", collection: @game.gamesmasters.order(:name) %>
-</div>	
+<h2 class="alt">Players (<%= @game.players.count %>)</h2>
+<table class="players prestyled">
+	<tbody>
+		<%= render partial: "games/first_aid_record", collection: @game.players.order(:name) %>
+	</tbody>
+</table>
 
-<div id="players">
-	<h2 class="alt">Players</h2>
-
-	<%= render partial: "games/first_aid_record", collection: @game.players.order(:name) %>
-</div>
-
-<div id="monsters">	
-	<h2 class="alt">Monsters</h2>
-
-	<%= render partial: "games/first_aid_record", collection: @game.monsters.order(:name) %>
-</div>	
+<h2 class="alt">Monsters (<%= @game.monsters.count %>)</h2>
+<table class="monsters prestyled">
+	<tbody>
+		<%= render partial: "games/first_aid_record", collection: @game.monsters.order(:name) %>
+	</tbody>
+</table>
 
 <p class="form_actions non-printing">
 	[ <%= link_to "Print Report", '#', onclick: "printpage()" %> ]

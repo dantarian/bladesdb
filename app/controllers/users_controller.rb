@@ -118,7 +118,7 @@ class UsersController < ApplicationController
     end
     
     def update_emergency_details
-        @user.emergency_last_updated = DateTime.now
+        @user.emergency_last_updated = Date.today
         update_user :edit_emergency_details
     end
     
@@ -288,10 +288,9 @@ class UsersController < ApplicationController
               @secondary_user.mastered_games.to_a.each do |game|
                   unless @primary_user.mastered_games.to_a.any? {|master| master == game} then
                     game.association(:gamesmasters).insert_record(@primary_user)
-                  else
-                    game.gamesmasters.destroy(@secondary_user)
-                    game.save!
                   end
+                  game.gamesmasters.destroy(@secondary_user)
+                  game.save!
               end
               
               unless @primary_user.monster_point_adjustments.any? then

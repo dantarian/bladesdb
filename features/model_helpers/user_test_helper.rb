@@ -41,9 +41,10 @@ module UserTestHelper
     Permission.find_or_create_by(user: user, role: role)
   end
   
-  def fill_in_all_details(user)
+  def fill_in_all_details(user, mobile_number: "07777 888777", contact_name: "Bob Bobson", contact_number: "07888 777888", medical_notes: "Allergic to bees.", food_notes: "Intolerant to lactose.", notes: "Some notes.")
     updating_user = User.find_by(name: user.name)
-    updating_user.update(mobile_number: "07777 888777", contact_name: "Bob Bobson", contact_number: "07888 777888", medical_notes: "Allergic to bees.", food_notes: "Intolerant to lactose.", notes: "Some notes.")
+    updating_user.updating = true
+    updating_user.update!(mobile_number: mobile_number, contact_name: contact_name, contact_number: contact_number, medical_notes: medical_notes, food_notes: food_notes, notes: notes, emergency_last_updated: Date.today)
   end
   
   def add_monster_point_declaration(user, points, date = nil, approver = nil)
