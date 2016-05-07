@@ -111,11 +111,3 @@ end
 Then(/^the members list should be displayed$/) do
   current_path.should == users_path
 end
-
-
-Then(/^the user should go to the First Aid Report for the game$/) do
-  page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-  page.find("h1").should have_content("First Aid Report")
-  page.find("h1").should have_content(@game.title)
-end
-
