@@ -2,10 +2,28 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  email_subjects:
+    approved: "Your account has been approved"
   failure:
     permission_denied: "You do not have permission to perform that action."
     role_permission_denied: "You cannot be logged in and perform that action."
     inaccessible_url: "The requested URL is not accessible directly."
+  board:
+    failure:
+      deleted: "Board deletion failed."
+  character:
+    success:
+      created: "Character was successfully created."
+      updated: "Character was successfully updated."
+    failure:
+      updated: "Failed to update character."
+  game:
+    failure:
+      no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."
+  page:
+    success:
+      created: "Page was successfully created."
+      updated: "Page was successfully updated."
   user:
     validation: 
       dialog_header: "Failed to save user"
@@ -30,14 +48,3 @@ en:
     roles:
       dialog_header: "Failed to save roles"
       dialog_main: "The following problems prevented the roles from being saved:"
-  page:
-    success:
-      created: "Page was successfully created."
-      updated: "Page was successfully updated."
-  board:
-    failure:
-      deleted: "Board deletion failed."
-  email_subjects:
-    approved: "Your account has been approved"
-      
-  

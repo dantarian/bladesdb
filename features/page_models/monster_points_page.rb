@@ -1,5 +1,13 @@
 class MonsterPointsPage < BladesDBPage
     PAGE_TITLE = BladesDBPage::PAGE_TITLE + BladesDBPage::PAGE_TITLE_CONNECTOR + "Monster Points"
+    
+    def declare_monster_points(date, points)
+      click_link "Declare Monster Points"
+    end
+    
+    def request_adjustment(date, points)
+      click_link "Request Monster Points Adjustment"
+    end
 
     def check_for_declaration(points, display: true)
       row = page.find("tr", :text => 'Monster Points Declared')
