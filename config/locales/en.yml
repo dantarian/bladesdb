@@ -2,6 +2,9 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  approvals:
+    approved: "approved"
+    rejected: "rejected"
   email_subjects:
     approved: "Your account has been approved"
   failure:
@@ -45,6 +48,19 @@ en:
       profile_updated: "Failed to update profile."
       merged: "Failed to merge users."
       checked: "Failed to set up merge."
+    monster_point_declaration:
+      dialog_header: "Failed to save Monster Point declaration."
+      dialog_main: "The following problems prevented your declaration from being saved:"
+      success:
+        created: "Monster Point declaration made."
+        updated: "Monster Point declaration updated."
+        approved: "Monster Point declaration approved."
+        rejected: "Monster Point declaration rejected."
+      failure:
+        approved: "Monster Point declaration approval failed."
+        rejected: "Monster Point declaration rejection failed."
+        already_addressed: "Monster Point declaration already addressed by Character Refs."
+        already_approved: "Declaration has already been %{state}."
     roles:
       dialog_header: "Failed to save roles"
       dialog_main: "The following problems prevented the roles from being saved:"
