@@ -20,18 +20,18 @@ Feature: Monster Point Declaration
 		Then a date must be in the past message should be displayed
 
 	Scenario: An approved declaration sets the base monster points for the user
-		Given the user has an approved monster point declaration
-		When the user views their monster points page
+		Given the user has a monster point declaration
+		When the user goes to their monster points page
 		Then the user's base monster points should be set from the monster point declaration
 
 	Scenario: An unapproved declaration is ignored
 		Given the user has a pending monster point declaration
-		When the user views their monster points page
+		When the user goes to their monster points page
 		Then the user's base monster points should not be set from the monster point declaration
 
 	Scenario: A rejected declaration is ignored
 		Given the user has a rejected monster point declaration
-		When the user views their monster points page
+		When the user goes to their monster points page
 		Then the user's base monster points should not be set from the monster point declaration
 
 	Scenario: A user can edit a rejected declaration
@@ -45,6 +45,16 @@ Feature: Monster Point Declaration
 		Then the monster point declaration should show the new details
 
 	Scenario: A user with an approved declaration cannot create another
-		Given the user has an approved monster point declaration
+		Given the user has a monster point declaration
+		When the user attempts to create another monster point declaration
+		Then the user should not be allowed to create another monster point declaration
+
+	Scenario: A user with a pending declaration cannot create another
+		Given the user has a pending monster point declaration
+		When the user attempts to create another monster point declaration
+		Then the user should not be allowed to create another monster point declaration
+
+	Scenario: A user with a rejected declaration cannot create another
+		Given the user has a rejected monster point declaration
 		When the user attempts to create another monster point declaration
 		Then the user should not be allowed to create another monster point declaration
