@@ -1,6 +1,8 @@
 bladesdb
 ========
 
+[![Build Status](https://secure.travis-ci.org/dantarian/bladesdb.svg)](https://travis-ci.org/dantarian/bladesdb)
+
 BathLARP game and character management webapp.
 
 # Getting started
