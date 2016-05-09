@@ -82,3 +82,11 @@ end
 Then(/^a monster point declaration updated message should be displayed$/) do
   MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_declaration.success.updated")
 end
+
+Then(/^a monster point adjustment requested message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_adjustment.success.created")
+end
+
+Then(/^a monster point adjustment date must be in the past message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.on_or_before", restriction: Date.today.to_formatted_s)
+end

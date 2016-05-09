@@ -48,6 +48,22 @@ en:
       profile_updated: "Failed to update profile."
       merged: "Failed to merge users."
       checked: "Failed to set up merge."
+    monster_point_adjustment:
+      dialog_header: "Failed to save Monster Point adjustment."
+      dialog_main: "The following problems prevented your adjustment from being saved:"
+      points_label: "Number of points to add or remove"
+      points_info_1: "Enter a positive number to add or"
+      points_info_2: "a negative number to remove points."
+      success:
+        created: "Monster Point adjustment requested."
+        updated: "Monster Point adjustment updated."
+        approved: "Monster Point adjustment approved."
+        rejected: "Monster Point adjustment rejected."
+      failure:
+        approved: "Monster Point adjustment approval failed."
+        rejected: "Monster Point adjustment rejection failed."
+        already_addressed: "Monster Point adjustment already addressed by Character Refs."
+        already_approved: "Adjustment has already been %{state}."
     monster_point_declaration:
       dialog_header: "Failed to save Monster Point declaration."
       dialog_main: "The following problems prevented your declaration from being saved:"
