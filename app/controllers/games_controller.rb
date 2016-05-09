@@ -48,14 +48,18 @@ class GamesController < ApplicationController
     end
     
     def next_game
-        @game = Game.future_games.first()
-        if @game.is_debriefable?
-            @game = Game.future_games.second()
+        unless Game.future_games.empty?
+          @game = Game.future_games.first()
+          if @game.is_debriefable?
+              @game = Game.future_games.second()
+          end
+          respond_to do |format|
+              format.html { render :show }
+          end
+        else
+            flash[:error] = I18n.t("game.failure.no_next_game")
+            redirect_to event_calendar_path
         end
-        respond_to do |format|
-            format.html { render :show }
-        end
-        
     end
 
     # GET /games/new

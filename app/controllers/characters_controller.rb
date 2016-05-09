@@ -110,7 +110,7 @@ class CharactersController < ApplicationController
         @guild_membership.provisional = false
         @guild_membership.approved = (@guild_membership.guild ? nil : true)
         if @character.save
-            flash[:notice] = 'Character was successfully created.'
+            flash[:notice] = I18n.t("character.success.created")
             reload_page
         else
             respond_to {|format| format.js { render :new } }
@@ -374,7 +374,7 @@ class CharactersController < ApplicationController
         
         def update_character(parameters, failure_response)
             if @character.update_attributes(parameters)
-                flash[:notice] = 'Character was successfully updated.'
+                flash[:notice] = I18n.t("character.success.updated")
                 reload_page
             else
                 respond_to {|format| format.js { render failure_response } }
@@ -388,11 +388,11 @@ class CharactersController < ApplicationController
         
         def save_character
             if @character.save
-                UserMailer.character_approval(@character).deliver
-                flash[:notice] = "Character was successfully updated."
+                UserMailer.character_approval(@character).deliver if @character.approval_recently_set?
+                flash[:notice] = I18n.t("character.success.updated")
                 reload_page
             else
-                flash[:error] = "Failed to update character."
+                flash[:error] = I18n.t("character.failure.updated")
                 reload_page
             end                
         end
