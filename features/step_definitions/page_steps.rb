@@ -78,6 +78,10 @@ When(/^the user goes to the characters page$/) do
   visit characters_path
 end
 
+When(/^the user goes to their monster points page$/) do
+  visit monster_points_path
+end
+
 # Validations
 
 Then(/^the Change Password page should be displayed$/) do

@@ -1,1 +1,7 @@
-<span id="attendancesummary<%= game.id %>"><%= game.attendance_state(current_user) %></span>
+<span id="attendancesummary<%= game.id %>">
+	<% if game.open %>
+		<%= game.attendance_state(current_user) %>
+	<% else %>
+		-
+	<% end %>
+</span>
