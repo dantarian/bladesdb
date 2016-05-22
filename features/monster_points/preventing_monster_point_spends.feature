@@ -1,73 +1,42 @@
 @javascript
-Feature: Spending monster points
-  As a user with a character
-  I want to be able to spend monster points on the character
-  So that I can increase the rank of the character without playing them on a game
+Feature: Preventing monster point spends
+  As the system
+  I want to be able to prevent erroneous monster point spends
+  So that I can maintain the integrity of the system
   
   Background:
     Given there is a user
     And the user is logged in
     And the user has a character
 
-  Scenario: Can always spend up to rank 10 at 1MP=1CP
-    Given the user has 100 monster points available
-    And the character has 20 character points
-    When the user buys 80 character points for the character
-    Then the user should have 20 monster points
-    And the character should have 100 character points
-
-  Scenario: From rank 10 to rank 20, 2MP=1CP
-    Given the user has 2 monster points available
-    And the character has 100 character points
-    When the user buys 1 character points for the character
-    Then the user should have 0 monster points
-    And the character should have 101 character points
-
-  Scenario: From rank 20 to rank 30, 3MP=1CP
-    Given the user has 3 monster points available
-    And the character has 200 character points
-    When the user buys 1 character points for the character
-    Then the user should have 0 monster points
-    And the character should have 201 character points
+  Scenario: Cannot spend monster points in the future
   
-  Scenario: Can spend across cost boundaries
-    Given the user has 3 monster points available
-    And the character has 99 character points
-    When the user buys 2 character points for the character
-    Then the user should have 0 monster points
-    And the character should have 101 character points
-    
-  Scenario: Can buy up to 30CP if final rank is over rank 10
-    Given the user has 31 monster points available
-    And the character has 71 character points
-    When the user buys 30 character points for the character
-    Then the user should have 0 monster points
-    And the character should have 101 character points
+  Scenario: Cannot spend monster points before a monster point declaration
+  
+  Scenario: Cannot spend monster points with a pending monster point declaration if points spent is greater than points available without the declaration
+  
+  Scenario: Cannot spend monster points with a pending monster point declaration if points spent is greater than points available with the declaration
+  
+  Scenario: Can spend monster points with a pending monster point declaration if points spent less than points available both with and without the declaration
+  
+  Scenario: Cannot spend monster points with a pending monster point adjustment if points spent is greater than points available without the adjustment
+  
+  Scenario: Cannot spend monster points with a pending monster point adjustment if points spent is greater than points available with the adjustment
+  
+  Scenario: Can spend monster points with a pending monster point adjustment if points spent is less than points available both with and without the adjustment
 
-  Scenario: Cannot spend more monster points than you have
-    Given the user has 1 monster points available
-    And the character has 20 character points
-    When the user tries to buy 2 character points for the character
-    Then the user should be told they cannot spend more than 1 monster point
+  Scenario: Cannot spend monster points prior to character declaration
+  
+  Scenario: Cannot spend monster points with a pending character declaration
+  
+  Scenario: Cannot spend monster points on a retired character
+  
+  Scenario: Cannot spend monster points on a dead character
+  
+  Scenario: Cannot spend monster points on a recycled character
+  
+  Scenario: Cannot spend monster points on an undeclared character
 
-  Scenario: Cannot buy more than 30 character points if doing so would put you over rank 10
-    Given the user has 100 monster points available
-    And the character has 70 character points
-    When the user tries to buy 31 character points for the character
-    Then the user should be told they cannot buy more than 30 character points
-
-  Scenario: Cannot buy 0 character points
-    Given the user has 20 monster points available
-    And the character has 20 character points
-    When the user tries to buy 0 character points for the character
-    Then the user should be told they cannot buy zero character points
-
-  Scenario: Cannot buy negative character points
-    Given the user has 20 monster points available
-    And the character has 20 character points
-    When the user tries to buy -1 character points for the character
-    Then the user should be told they cannot buy negative character points
-    
   Scenario: Can spend monster points retroactively before the last game played
     Given the user has 20 monster points available
     And the character has been played on a debriefed game and earned 10 character points
