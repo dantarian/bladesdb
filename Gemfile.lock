@@ -285,10 +285,13 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    timeliness (0.3.8)
     tzinfo (0.3.46)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    validates_timeliness (4.0.2)
+      timeliness (~> 0.3.7)
     valuable (0.9.10)
     warden (1.2.6)
       rack (>= 1.0)
@@ -343,3 +346,7 @@ DEPENDENCIES
   test-unit (~> 2.5.5)
   therubyracer
   uglifier (>= 1.0.3)
+  validates_timeliness (~> 4.0)
+
+BUNDLED WITH
+   1.11.2

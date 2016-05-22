@@ -21,7 +21,7 @@ class MonsterPointDeclarationsController < ApplicationController
                 format.js
             end
         else
-            flash[:notice] = "Monster Point declaration already addressed by Character Refs."
+            flash[:notice] = I18n.t("user.monster_point_declaration.failure.already_addressed")
             reload_page
         end
     end
@@ -31,7 +31,7 @@ class MonsterPointDeclarationsController < ApplicationController
         @monster_point_declaration.user = current_user
 
         if @monster_point_declaration.save
-            flash[:notice] = 'Monster Point declaration made.'
+            flash[:notice] = I18n.t("user.monster_point_declaration.success.created")
             reload_page
         else
             respond_to do |format|
@@ -46,7 +46,7 @@ class MonsterPointDeclarationsController < ApplicationController
             @monster_point_declaration.approved_by = nil
             @monster_point_declaration.approved_at = nil
             if @monster_point_declaration.update_attributes(monster_point_declaration_params)
-                flash[:notice] = 'Monster Point declaration updated.'
+                flash[:notice] = I18n.t("user.monster_point_declaration.success.updated")
                 reload_page
             else
                 respond_to do |format|
@@ -54,17 +54,17 @@ class MonsterPointDeclarationsController < ApplicationController
                 end
             end
         else
-            flash[:notice] = "Monster Point declaration already addressed by Character Refs."
+            flash[:notice] = I18n.t("user.monster_point_declaration.failure.already_addressed")
             reload_page
         end
     end
     
     def approve
-        approve_or_reject_declaration true, 'Monster Point declaration approved.', 'Monster Point declaration approval failed.'
+        approve_or_reject_declaration true, I18n.t("user.monster_point_declaration.success.approved"), I18n.t("user.monster_point_declaration.failure.approved")
     end
     
     def reject
-        approve_or_reject_declaration false, 'Monster Point declaration rejected.', 'Monster Point declaration rejection failed.'
+        approve_or_reject_declaration false, I18n.t("user.monster_point_declaration.success.rejected"), I18n.t("user.monster_point_declaration.failure.rejected")
     end
     
     protected
@@ -95,7 +95,7 @@ class MonsterPointDeclarationsController < ApplicationController
         
         def check_ajax
             unless request.xhr?
-                flash[:error] = "The requested URL is not accessible directly."
+                flash[:error] = I18n.t("failure.inaccessible_url")
                 reload_page
             end
         end
@@ -112,7 +112,7 @@ class MonsterPointDeclarationsController < ApplicationController
                     reload_page
                 end
             else
-                flash[:notice] = "Declaration has already been #{@monster_point_declaration.approved ? "approved" : "rejected"}."
+                flash[:notice] = I18n.t("user.monster_point_declaration.failure.already_approved", state: @monster_point_declaration.approved ? I18n.t("approvals.approved") : I18n.t("approvals.rejected"))
                 reload_page
             end
         end

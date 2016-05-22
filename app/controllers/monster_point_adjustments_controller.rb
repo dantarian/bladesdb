@@ -21,7 +21,7 @@ class MonsterPointAdjustmentsController < ApplicationController
                 format.js
             end
         else
-            flash[:notice] = "Monster Point adjustment already addressed by Character Refs."
+            flash[:notice] = I18n.t("user.monster_point_adjustment.failure.already_addressed")
             reload_page
         end
     end
@@ -31,7 +31,7 @@ class MonsterPointAdjustmentsController < ApplicationController
         @monster_point_adjustment.user = current_user
 
         if @monster_point_adjustment.save
-            flash[:notice] = 'Monster Point adjustment requested.'
+            flash[:notice] = I18n.t("user.monster_point_adjustment.success.created")
             reload_page
         else
             respond_to do |format|
@@ -46,7 +46,7 @@ class MonsterPointAdjustmentsController < ApplicationController
             @monster_point_adjustment.approved_by = nil
             @monster_point_adjustment.approved_at = nil
             if @monster_point_adjustment.update_attributes(monster_point_adjustment_params)
-                flash[:notice] = 'Monster Point adjustment updated.'
+                flash[:notice] = I18n.t("user.monster_point_adjustment.success.updated")
                 reload_page
             else
                 respond_to do |format|
@@ -54,17 +54,17 @@ class MonsterPointAdjustmentsController < ApplicationController
                 end
             end
         else
-            flash[:notice] = "Monster Point adjustment already addressed by Character Refs."
+            flash[:notice] = I18n.t("user.monster_point_adjustment.failure.already_addressed")
             reload_page
         end
     end
     
     def approve
-        approve_or_reject_adjustment true, 'Monster Point adjustment approved.', 'Monster Point adjustment approval failed.'
+        approve_or_reject_adjustment true, I18n.t("user.monster_point_adjustment.success.approved"), I18n.t("user.monster_point_adjustment.failure.approved")
     end
     
     def reject
-        approve_or_reject_adjustment false, 'Monster Point adjustment rejected.', 'Monster Point adjustment rejection failed.'
+        approve_or_reject_adjustment false, I18n.t("user.monster_point_adjustment.success.rejected"), I18n.t("user.monster_point_adjustment.failure.rejected")
     end
     
     protected
@@ -95,7 +95,7 @@ class MonsterPointAdjustmentsController < ApplicationController
         
         def check_ajax
             unless request.xhr?
-                flash[:error] = "The requested URL is not accessible directly."
+                flash[:error] = I18n.t("failure.inaccessible_url")
                 reload_page
             end
         end
@@ -112,7 +112,7 @@ class MonsterPointAdjustmentsController < ApplicationController
                     reload_page
                 end
             else
-                flash[:error] = "Adjustment has alread been #{@monster_point_adjustment.approved ? "approved" : "rejected"}."
+                flash[:error] = I18n.t("user.monster_point_adjustment.failure.already_approved", state: @monster_point_adjustment.approved ? I18n.t("approvals.approved") : I18n.t("approvals.rejected"))
                 reload_page
             end
         end

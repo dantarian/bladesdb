@@ -47,31 +47,35 @@ module UserTestHelper
     updating_user.update!(mobile_number: mobile_number, contact_name: contact_name, contact_number: contact_number, medical_notes: medical_notes, food_notes: food_notes, notes: notes, emergency_last_updated: Date.today)
   end
   
-  def add_monster_point_declaration(user, points, date = nil, approver = nil)
+  def add_monster_point_declaration(user, points, date = nil, approver = nil, approved: true)
     date = Date.today - 5.years if date.nil?
     approver = user if approver.nil?
-    mpd = MonsterPointDeclaration.create do |mpd|
-      mpd.user = user
-      mpd.declared_on = date
-      mpd.points = points
-      mpd.approved = true
+    mpd = MonsterPointDeclaration.new
+    mpd.user = user
+    mpd.declared_on = date
+    mpd.points = points
+    if !approved.nil?
+      mpd.approved = approved
       mpd.approved_at = date
       mpd.approved_by = approver
-    end 
+    end
+    mpd.save!
   end
   
-  def add_monster_point_adjustment(user, points, date = nil, approver = nil)
+  def add_monster_point_adjustment(user, points, date = nil, approver = nil, approved: true)
     date = Date.today - 5.years if date.nil?
     approver = user if approver.nil?
-    mpa = MonsterPointAdjustment.create do |mpa|
-      mpa.user = user
-      mpa.declared_on = date
-      mpa.points = points
-      mpa.reason = "Test"
-      mpa.approved = true
+    mpa = MonsterPointAdjustment.new
+    mpa.user = user
+    mpa.declared_on = date
+    mpa.points = points
+    mpa.reason = "Test"
+    if !approved.nil?
+      mpa.approved = approved
       mpa.approved_at = date
       mpa.approved_by = approver
-    end 
+    end
+    mpa.save!
   end
 end
 
