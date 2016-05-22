@@ -11,57 +11,65 @@ class ProfilePage < BladesDBPage
     def update_name(name)
       page.find("li#name").click_link("Edit")
       fill_in("Name", with: name)
-      find_button("Save").click
+      sleep(1)
+      click_button("Save")
       self
     end
     
     def update_login(login)
       page.find("li#login").click_link("Edit")
+      sleep(1)
       fill_in("Login", with: login)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
     def update_email(email)
       page.find("li#email").click_link("Edit")
+      sleep(1)
       fill_in("Email", with: email)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
     def update_contact(contact)
       page.find("li#mobile_number").click_link("Edit")
+      sleep(1)
       fill_in("Mobile Number", with: contact)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
     def update_emergency_contact(name, number)
       page.find("li#emergency_contact").click_link("Edit")
+      sleep(1)
       fill_in("Contact Name", with: name)
       fill_in("Contact Number", with: number)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
     def update_medical_notes(notes)
       page.find("li#medical_notes").click_link("Edit")
+      sleep(1)
       fill_in("Medical Notes", with: notes)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
     def update_food_notes(notes)
       page.find("li#food_notes").click_link("Edit")
+      sleep(1)
       fill_in("Food Notes", with: notes)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
     def update_notes(notes)
       page.find("li#general_notes").click_link("Edit")
+      sleep(1)
       fill_in("Notes", with: notes)
-      find_button("Save").click
+      click_button("Save")
       self
     end
     
