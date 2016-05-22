@@ -22,26 +22,26 @@
 		<% if message.board.in_character %>
 			<% if message.name.nil? && !message.character_id.nil? %>
 				<% if current_user.approved? %>
-					<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.character.name_and_title %> wrote:</p>
+					<p class="attrib">On <%= message.display_creation_time %>, <%= link_to message.character.name_and_title, character_path(message.character) %> wrote:</p>
 				<% else %>
 					<p class="attrib">On <%= message.display_creation_time %>, <%=h message.character.name_and_title %> wrote:</p>
 				<% end %>
 			<% elsif !message.name.nil? %>
 				<% if current_user.approved? %>
-					<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.name %> wrote:</p>
+					<p class="attrib">On <%= message.display_creation_time %>, <%= link_to message.name, user_path(message.user) %> wrote:</p>
 				<% else %>
 					<p class="attrib">On <%= message.display_creation_time %>, <%=h message.name %> wrote:</p>
 				<% end %>
 			<% else %>
 				<% if current_user.approved? %>
-					<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.user.display_name(current_user) %> wrote:</p>
+					<p class="attrib">On <%= message.display_creation_time %>, <%= link_to message.user.display_name(current_user), user_path(message.user) %> wrote:</p>
 				<% else %>
 					<p class="attrib">On <%= message.display_creation_time %>, <%= message.user.display_name(current_user) %> wrote:</p>
 				<% end %>
 			<% end %>
 		<% else %>
 			<% if current_user.approved? %>
-				<p class="attrib">On <%= message.display_creation_time %>, <%= mail_to message.user.email, message.user.display_name(current_user) %> wrote:</p>
+				<p class="attrib">On <%= message.display_creation_time %>, <%= link_to message.user.display_name(current_user), user_path(message.user) %> wrote:</p>
 			<% else %>
 				<p class="attrib">On <%= message.display_creation_time %>, <%= message.user.display_name(current_user) %> wrote:</p>
 			<% end %>

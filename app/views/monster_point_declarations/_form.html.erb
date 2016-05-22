@@ -1,5 +1,5 @@
 <%= form_for([:user, @monster_point_declaration], :remote => true, :url => user_monster_point_declaration_path) do |f| %>
-    <%= f.error_messages :header_message => "Failed to save Monster Point declaration.", :message => "The following problems prevented your declaration from being saved:" %>
+    <%= f.error_messages :header_message => I18n.t("user.monster_point_declaration.dialog_header"), :message => I18n.t("user.monster_point_declaration.dialog_main") %>
 
 	<ul class="form">
 		<li>
