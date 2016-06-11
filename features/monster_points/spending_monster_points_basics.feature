@@ -19,14 +19,14 @@ Feature: Spending monster points - basics
   Scenario: From rank 10 to rank 20, 2MP=1CP
     Given the user has 2 monster points available
     And the character has 100 character points
-    When the user buys 1 character points for the character
+    When the user buys 1 character point for the character
     Then the user should have 0 monster points
     And the character should have 101 character points
 
   Scenario: From rank 20 to rank 30, 3MP=1CP
     Given the user has 3 monster points available
     And the character has 200 character points
-    When the user buys 1 character points for the character
+    When the user buys 1 character point for the character
     Then the user should have 0 monster points
     And the character should have 201 character points
   
@@ -45,10 +45,10 @@ Feature: Spending monster points - basics
     And the character should have 101 character points
 
   Scenario: Cannot spend more monster points than you have
-    Given the user has 1 monster points available
+    Given the user has 1 monster point available
     And the character has 20 character points
     When the user tries to buy 2 character points for the character
-    Then the user should be told they cannot spend more than 1 monster point
+    Then the user should be told they cannot buy more than 1 character point
 
   Scenario: Cannot buy more than 30 character points if doing so would put you over rank 10
     Given the user has 100 monster points available

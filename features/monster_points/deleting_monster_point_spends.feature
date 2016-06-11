@@ -14,46 +14,69 @@ Feature: Deleting monster point spends
   	Then the monster point spend should be deleted
 
   Scenario: Delete last monster point spend if character has not played a game since
+    Given there is a game
+    And the character was on the game
+    And the game has been debriefed
+    And there is a monster point spend on the character since the game
+    When the user deletes the monster point spend
+    Then the monster point spend should be deleted
 
   Scenario: Delete last monster point spend if character has played since but debrief is open
-  
-  Scenario: Cannot delete last monster point spend if character has been played on a debriefed game since
-  
-  Scenario: Delete last monster point spend if character has been played on a debriefed game since, but it is non-stats
-
-  Scenario: Cannot delete last monster point spend if there is a monster point declaration since
-  
-  Scenario: Cannot delete last monster point adjustment if there is a monster point adjustment since
-  
-  Scenario: Cannot delete last monster point spend on a dead character
-  
-  Scenario: Cannot delete last monster point spend on a retired character
-  
-  Scenario: Cannot delete last monster point spend on a recycled character
-  
-  Scenario: Delete last monster point spend if made since character last played
-    Given the character has played on a debriefed game
-    And there is a monster point spend on the character since the last game
+    Given there is a game
+    And the character was on the game
+    And the game has not been debriefed
+    And there is a monster point spend on the character before the game
     When the user deletes the monster point spend
     Then the monster point spend should be deleted
   
-  Scenario: Delete last monster point spend if made since last-but-one game character played
-  	Given the character has played on a debriefed game
-  	And there is a monster point spend on the character before the last game
-  	When the user deletes the monster point spend
-  	Then the monster point spend should be deleted
+  Scenario: Cannot delete last monster point spend if character has been played on a debriefed game since
+    Given there is a game
+    And the character was on the game
+    And there is a monster point spend on the character before the game
+    And the game has been debriefed
+    When the user tries to delete the monster point spend
+    Then the user should be told they cannot delete a monster point spend before a debriefed game
   
-  Scenario: Cannot delete last monster point spend if made before last-but-one game character played (no link)
-    Given the character has played on two debriefed games
-    And there is a monster point spend on the character before the first game
-    When the user visits the character page
-    Then there should be no option to delete their last monster point spend
-    
-  Scenario: Cannot delete last monster point spend if made before last-but-one game character played (rejected action)
-    Given the character has played on a debriefed game
-    And there is a monster point spend before the game
-    And the user is on the character page
-    And the character has played on another debriefed game
-    When the user attempts to delete the last monster point spend
-    Then the user should be told that they cannot delete a monster point spend from before their last-but-one game
-    
+  Scenario: Delete last monster point spend if character has been played on a debriefed game since, but it is non-stats
+    Given there is a game
+    And the game is non-stats
+    And there is a monster point spend on the character before the game
+    And the game has been debriefed
+    When the user deletes the monster point spend
+    Then the monster point spend should be deleted
+
+  Scenario: Cannot delete last monster point spend if there is a monster point declaration since
+    Given there is a monster point spend on the character
+    And there is a monster point declaration since the monster point spend
+    When the user tries to delete the monster point spend
+    Then the user should be told they cannot delete a monster point spend before a monster point declaration
+  
+  Scenario: Can delete last monster point spend if there is a rejected monster point declaration since
+    Given there is a monster point spend on the character
+    And there is a rejected monster point declaration since the monster point spend
+    When the user deletes the monster point spend
+    Then the monster point spend should be deleted
+  
+  Scenario: Cannot delete last monster point spend if there is a monster point adjustment since
+    Given there is a monster point spend on the character
+    And there is a monster point adjustment since the monster point spend
+    When the user tries to delete the monster point spend
+    Then user should be told they cannot delete a monster point spend before a monster point adjustment
+  
+  Scenario: Cannot delete last monster point spend on a dead character
+    Given there is a monster point spend on the character
+    And the character is dead
+    When the user tries to delete the monster point spend
+    Then the user should be told they cannot delete a monster point spend on a dead character
+  
+  Scenario: Cannot delete last monster point spend on a retired character
+    Given there is a monster point spend on the character
+    And the character is retired
+    When the user tries to delete the monster point spend
+    Then the user should be told they cannot delete a monster point spend on a retired character
+  
+  Scenario: Cannot delete last monster point spend on a recycled character
+    Given there is a monster point spend on the character
+    And the character is recycled
+    When the user tries to delete the monster point spend
+    Then the user should be told they cannot delete a monster point spend on a recycled character
