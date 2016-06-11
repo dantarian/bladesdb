@@ -97,8 +97,19 @@ class BoardsController < ApplicationController
     # DELETE /boards/1.xml
     def destroy
         @board = Board.find(params[:id])
-        @board.destroy
-        update_boards        
+        begin
+          Board.transaction do
+            @board.messages.to_a.each do |message|
+              message.destroy!
+            end
+            @board.destroy!
+          end
+        rescue
+          flash[:error] = I18n.t("board.failure.deleted")
+        ensure
+          update_boards
+        end
+               
     end
     
     def move_up

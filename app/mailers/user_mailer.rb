@@ -3,7 +3,7 @@ class UserMailer < ActionMailer::Base
 
     def user_approval(user)
         setup_email(user)
-        @subject += "Your account has been approved"
+        @subject += I18n.t("email_subjects.approved")
         mail(to: @recipients, subject: @subject)
     end
   

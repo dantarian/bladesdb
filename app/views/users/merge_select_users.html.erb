@@ -41,14 +41,14 @@
 <% end %>
 
 <h2 class="alt">Available Users</h2>
-<table class="source userMergeTable">
+<table class="source userMergeTable sortable prestyled">
     <thead>
         <tr>
             <th class="login">Login</th>
-            <th class="name">Name</th>
+            <th class="name defaultColumn ascending">Name</th>
             <th class="email">E-mail</th>
             <th class="status">Status</th>
-            <th class="actions">Actions</th>
+            <th class="actions no_sort">Actions</th>
         </tr>
     </thead>
     <%= render :partial => 'merge_user', :collection => User.all %>

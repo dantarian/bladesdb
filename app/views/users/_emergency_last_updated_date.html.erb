@@ -7,5 +7,5 @@
 <% end %>
 
 <% unless user.emergency_last_updated.blank? %>
-	<%=h user.emergency_last_updated.to_s(:long) %>
+	<%=h user.emergency_last_updated.to_date.to_s %>
 <% end %>

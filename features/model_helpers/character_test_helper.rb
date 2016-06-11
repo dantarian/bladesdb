@@ -22,8 +22,9 @@ module CharacterTestHelper
       character.save
   end
   
-  def approve_character(user)
-      character = Character.first
+  def approve_character(user = nil, character = nil)
+      user ||= User.first
+      character ||= Character.first
       character.approve(user)
       character.save
   end

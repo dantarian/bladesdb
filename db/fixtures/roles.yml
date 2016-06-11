@@ -1,28 +1,41 @@
 administrator:
   id: 1
   rolename: administrator
+  admin_only: t
   
 committee:
   id: 2
   rolename: committee
+  admin_only: t
+  system: t
   
 characterref:
   id: 3
   rolename: characterref
+  admin_only: t
+  system: t
   
 firstaider:
   id: 4
   rolename: firstaider
+  admin_only: f
+  system: t
   
 experiencedgm:
   id: 5
   rolename: experiencedgm
+  admin_only: f
+  system: f
   
 insurance:
   id: 6
   rolename: insurance
+  admin_only: f
+  system: f
   
 webonly:
   id: 7
   rolename: webonly
+  admin_only: f
+  system: t
   

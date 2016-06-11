@@ -9,8 +9,9 @@ class BoardPage < BladesDBPage
         self
     end
 
-    def check_for_message(from: nil, containing_text: nil, containing_link: nil, relating_to_game: nil)
-        message_div = page.find("div.message")
+    def check_for_message(from: nil, id: 1, containing_text: nil, containing_link: nil, relating_to_game: nil)
+        search = "div#message" + id.to_s
+        message_div = page.find(search)
         if from
             unless User.first.approved_at.nil?
                 message_div.find("p.attrib").should have_link(from.name)

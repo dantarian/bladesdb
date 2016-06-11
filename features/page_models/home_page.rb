@@ -1,0 +1,3 @@
+class HomePage < BladesDBPage  
+end
+

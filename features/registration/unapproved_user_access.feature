@@ -15,15 +15,14 @@ Feature: Unapproved User Access
   Scenario: View message board as unapproved user
     Given there is another user
     And there is a message board
-    And there is message from another user
+    And there is a message from the other user
     When the user goes to the message board
     Then the user should see a short name and no email on the message
   
   Scenario: View characters page as unapproved user
     Given there is another user
-    And the other user has an active character
+    And the other user has a character
     When the user goes to the characters page
-    Then the test takes a screendump
     Then the user should see a short user name and character link on the character
   
   @javascript

@@ -2,8 +2,24 @@ Given(/^there is a game$/) do
   GameTestHelper.create_game
 end
 
+Given(/^there is another game$/) do
+  GameTestHelper.create_game(title: "Second game")
+end
+
 Given(/^the user is a GM for the game$/) do
   GameTestHelper.add_gamesmaster User.first, to: Game.first
+end
+
+Given(/^the user is a player of the game$/) do
+  user = UserTestHelper.create_or_find_user
+  character = CharacterTestHelper.create_character(user)
+  CharacterTestHelper.approve_character(user)
+  GameTestHelper.add_player user, character, to: Game.first
+end
+
+Given(/^the user is a monster of the game$/) do
+  user = UserTestHelper.create_or_find_user
+  GameTestHelper.add_monster user, to: Game.first
 end
 
 Given(/^the other user is a player of the game$/) do
@@ -76,6 +92,28 @@ Given(/^the user has monstered a debriefed game and earned (\d+) monster points$
   GameTestHelper.create_debriefed_game_for_first_user_as_monster(points)
 end
 
+Given(/^the user has a game application$/) do
+  GameTestHelper.make_application(User.first, details: "First!", to: Game.first)
+end
+
+Given(/^the other user has a game application$/) do
+  GameTestHelper.make_application(User.all.second, details: "Second!", to: Game.first)
+end
+
+Given(/^the game has been debriefed$/) do
+  GameTestHelper.set_date Date.today - 7.days, of: Game.first
+  GameTestHelper.start_debriefing Game.first
+  GameTestHelper.close_debrief Game.first
+end
+
+Given(/^the other game has been debriefed$/) do
+  GameTestHelper.set_date Date.today - 7.days, of: Game.all.second
+  GameTestHelper.start_debriefing Game.all.second
+  GameTestHelper.close_debrief Game.all.second
+end
+
+# Actions
+
 When(/^the user publishes the brief for the game$/) do
   GamePage.new.visit_page(game_path(Game.first)).and.publish_briefs
 end
@@ -83,7 +121,6 @@ end
 When(/^the user publishes the debrief for the game$/) do
   GamePage.new.visit_page(game_path(Game.first)).and.finish_debrief
 end
-
 
 When(/^the user clicks on the show link$/) do
   EventCalendarPage.new.visit_page(event_calendar_path)
@@ -93,6 +130,8 @@ When(/^the user starts to create a game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.start_adding_new_game
 end
 
+# Validations
+
 Then(/^the default date is the next Sunday$/) do
   EventCalendarPage.new.check_new_game_date_is_next_sunday
 end
@@ -100,8 +139,6 @@ end
 Then(/^the default date is the Sunday after next$/) do
   EventCalendarPage.new.check_new_game_date_is_sunday_after_next
 end
-
-# Everything below this point is deprecated
 
 Then(/^the user should see no name for the gm$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_gm(Game.first.gamesmasters, loggedin: false)
@@ -129,36 +166,4 @@ end
 
 Then(/^the user should only see the game summary$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_game_visibility(Game.first, loggedin: false)
-end
-
-# Everything below this point is deprecated
-
-Then(/^(I am|the other user is?) in the "(.*?)" section$/) do |actor, section|
-  if actor == "I am"
-    id = @user.id
-  else
-    id = @other_user.id
-  end
-  if section == "Player"
-    page.find("div.players").find("div.record##id")
-  elsif section == "Monster"
-    page.find("div.monsters").find("div.record##id")
-  elsif section == "GMs"
-    page.find("div.gms").find("div.record##id")
-  end
-end
-
-Then(/^(I|they?) have an? "(.*?)" record that says "(.*?)"$/) do |actor, field, value|
-  if actor == "I"
-    id = @user.id
-  else
-    id = @other_user.id
-  end
-  if field == "Last Updated"
-    page.find("div#record#{id}").find("p.record_header").should have_content(field)
-    page.find("div#record#{id}").find("p.record_header").should have_content(value)
-  else
-    page.find("div#record#{id}").find("div.#{field.gsub(/(\W)/, '').underscore}").find("span").should have_content(field)
-    page.find("div#record#{id}").find("div.#{field.gsub(/(\W)/, '').underscore}").find("div.record_content").find("p").should have_content(value)
-  end
 end

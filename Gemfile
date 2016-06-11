@@ -37,7 +37,11 @@ gem 'font-awesome-rails', '~> 4.5.0.1'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'schema_plus', '~> 1.4.1'
 gem 'mail_form', '~> 1.5.1'
-gem 'newrelic_rpm', '~> 3.15.0.314'
+gem 'validates_timeliness', '~> 4.0'
+
+group :production do
+  gem 'newrelic_rpm', '~> 3.15.0.314'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

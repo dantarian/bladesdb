@@ -1,8 +1,8 @@
 module GameTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
 
-  def create_game(title: "New Game", start_date: (Date.today + 1), end_date: nil, meet_time: "11:00", start_time: "12:00")
-    game = Game.create_with(start_date: start_date, end_date: end_date, meet_time: meet_time, start_time: start_time).find_or_create_by(title: title)
+  def create_game(title: "New Game", start_date: (Date.today + 1), end_date: nil, meet_time: "11:00", start_time: "12:00", open: true)
+    game = Game.create_with(start_date: start_date, end_date: end_date, meet_time: meet_time, start_time: start_time, open: open).find_or_create_by(title: title)
   end
 
   def add_gamesmaster(gamesmaster, to: nil)
@@ -23,6 +23,10 @@ module GameTestHelper
   
   def add_attendee(attendee, to: nil)
     to.game_attendances.create_with(attend_state: "attending").find_or_create_by(user: attendee)
+  end
+  
+  def make_application(user, details: "This is a game.", to: nil)
+    to.game_applications.create_with(details: details).find_or_create_by(user: user)
   end
 
   def set_date(date, of: nil)
@@ -88,4 +92,8 @@ module GameTestHelper
     game
   end
   
+  def close_debrief(game)
+    game.open = false
+    game.save!
+  end
 end

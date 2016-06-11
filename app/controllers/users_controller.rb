@@ -118,6 +118,7 @@ class UsersController < ApplicationController
     end
     
     def update_emergency_details
+        @user.emergency_last_updated = Date.today
         update_user :edit_emergency_details
     end
     
@@ -237,21 +238,95 @@ class UsersController < ApplicationController
     
     def merge
         check_distinct_users(params) do
-            @primary_user.mastered_campaigns << @secondary_user.mastered_campaigns
-            @primary_user.mastered_games << @secondary_user.mastered_games
-            @primary_user.characters << @secondary_user.characters
-            @primary_user.debriefs << @secondary_user.debriefs
-            @primary_user.messages << @secondary_user.messages
-            @primary_user.monster_point_adjustments << @secondary_user.monster_point_adjustments
-            if @primary_user.save
-                @secondary_user.destroy
-                flash[:notice] = I18n.t("user.success.merge")
-                redirect_to users_path
-            else
-                flash[:error] = I18n.t("user.failure.merge")
-                render "merge_select_data"
-            end
-        end
+          begin
+          User.transaction do
+              @primary_user.updating = true
+              
+              @secondary_user.characters.to_a.each do |character|
+                character.user = @primary_user
+                character.save!
+              end
+              
+              @secondary_user.messages.to_a.each do |message|
+                message.user = @primary_user
+                message.merge = true
+                message.save!
+              end
+              
+              @secondary_user.game_applications.to_a.each do |application|
+                unless application.game.start_date < Date.today
+                    application.user = @primary_user
+                    application.save!
+                else
+                    application.destroy!
+                end
+              end
+              
+              @secondary_user.game_attendances.to_a.each do |game_attendance|
+                  unless game_attendance.game.start_date < Date.today
+                      unless @primary_user.game_attendances.to_a.any? {|attendance| attendance.game == game_attendance.game} then
+                        game_attendance.user = @primary_user
+                        game_attendance.save!
+                      else
+                        game_attendance.destroy!
+                      end
+                  else
+                      game_attendance.destroy!
+                  end
+                  
+              end
+              
+              @secondary_user.debriefs.to_a.each do |game_debrief|
+                  unless @primary_user.debriefs.to_a.any? {|debrief| debrief.game == game_debrief.game} then
+                    game_debrief.user = @primary_user
+                    game_debrief.save!
+                  else
+                    game_debrief.destroy!
+                  end
+              end
+              
+              @secondary_user.mastered_games.to_a.each do |game|
+                  unless @primary_user.mastered_games.to_a.any? {|master| master == game} then
+                    game.association(:gamesmasters).insert_record(@primary_user)
+                  end
+                  game.gamesmasters.destroy(@secondary_user)
+                  game.save!
+              end
+              
+              unless @primary_user.monster_point_adjustments.any? then
+                  @secondary_user.monster_point_adjustments.to_a.each do |adjust|
+                    adjust.user = @primary_user
+                    adjust.save!
+                  end
+              else
+                  @secondary_user.monster_point_adjustments.to_a.each do |adjust|
+                    adjust.destroy!
+                  end
+              end
+              
+              if @primary_user.monster_point_declaration.nil? and not @secondary_user.monster_point_declaration.nil? then
+                  mpd = MonsterPointDeclaration.new
+                  mpd.user = @primary_user
+                  mpd.declared_on = @secondary_user.monster_point_declaration.declared_on
+                  mpd.points = @secondary_user.monster_point_declaration.points
+                  mpd.approved = @secondary_user.monster_point_declaration.approved
+                  mpd.approved_at = @secondary_user.monster_point_declaration.approved_at
+                  mpd.approved_by = @secondary_user.monster_point_declaration.approved_by
+                  mpd.save!
+                  @secondary_user.monster_point_declaration.destroy!
+              end
+              
+              @primary_user.save!
+              @secondary_user.destroy!
+              flash[:notice] = I18n.t("user.success.merged")
+              redirect_to users_path
+           end
+           rescue
+              flash[:error] = I18n.t("user.failure.merged")
+              render "merge_select_data"
+              raise
+         end
+      end
     end
 
     protected
@@ -284,7 +359,7 @@ class UsersController < ApplicationController
             @primary_user = User.find(@primary) unless @primary.nil? or @primary == ""
             @secondary_user = User.find(@secondary) unless @secondary.nil? or @secondary == ""
             if @primary_user.nil? or @secondary_user.nil? or @primary == @secondary
-                flash[:error] = I18n.t("user.failure.merge")
+                flash[:error] = I18n.t("user.failure.checked")
                 render "merge_select_users"
             else
                 yield
@@ -294,7 +369,6 @@ class UsersController < ApplicationController
     private
         
         def update_user(failure_target)
-            @user.emergency_last_updated = DateTime.now
             if @user.update_attributes(params.require(:user).permit(:name, :username, :email, :notes, :medical_notes, :food_notes, :emergency_last_updated, :mobile_number, :contact_name, :contact_number))
                 if (@user != current_user) && current_user.is_admin_or_committee?
                    flash[:notice] = I18n.t("user.success.other_profile_updated", name: @user.name)

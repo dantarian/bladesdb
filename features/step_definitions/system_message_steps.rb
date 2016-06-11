@@ -56,5 +56,37 @@ Then(/^a successful password change message should be displayed$/) do
 end
 
 Then(/^a password mismatch message should be displayed$/) do
-  RegistrationUpdatePage.new.check_is_displaying_message "doesn\'t match"
+  RegistrationUpdatePage.new.check_is_displaying_message I18n.t("errors.messages.confirmation", attribute: "Password")
+end
+
+Then(/^an activation email message should be displayed$/) do
+  MembersPage.new.check_is_displaying_message I18n.t("user.success.email_resent")
+end
+
+Then(/^a roles updated message should be displayed$/) do
+  MembersPage.new.check_is_displaying_message I18n.t("user.success.roles_updated")
+end
+
+Then(/^a monster point declaration made message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_declaration.success.created")
+end
+
+Then(/^a negative monster point declaration not allowed message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.greater_than_or_equal_to", count: 0)
+end
+
+Then(/^a monster point declaration date must be in the past message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.on_or_before", restriction: Date.today.to_formatted_s)
+end
+
+Then(/^a monster point declaration updated message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_declaration.success.updated")
+end
+
+Then(/^a monster point adjustment requested message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_adjustment.success.created")
+end
+
+Then(/^a monster point adjustment date must be in the past message should be displayed$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.on_or_before", restriction: Date.today.to_formatted_s)
 end

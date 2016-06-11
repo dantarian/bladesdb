@@ -4,12 +4,14 @@ Given(/^there is a user$/) do
   user = UserTestHelper.create_or_find_user
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
+  reset_mailer
 end
 
 Given(/^there is another user$/) do
   user = UserTestHelper.create_or_find_another_user
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
+  reset_mailer
 end
 
 Given(/^there is an admin user$/) do
@@ -17,6 +19,7 @@ Given(/^there is an admin user$/) do
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.grant_role(user, Role.find_by(rolename: "administrator"))
+  reset_mailer
 end
 
 Given(/^there is a web-only user$/) do
@@ -24,6 +27,7 @@ Given(/^there is a web-only user$/) do
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.grant_role(user, Role.find_by(rolename: "webonly"))
+  reset_mailer
 end
 
 Given(/^there is a first aider user$/) do
@@ -31,6 +35,7 @@ Given(/^there is a first aider user$/) do
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.grant_role(user, Role.find_by(rolename: "firstaider"))
+  reset_mailer
 end
 
 Given(/^there is a committee user$/) do
@@ -38,6 +43,7 @@ Given(/^there is a committee user$/) do
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.grant_role(user, Role.find_by(rolename: "committee"))
+  reset_mailer
 end
 
 Given(/^there is a character ref user$/) do
@@ -45,20 +51,23 @@ Given(/^there is a character ref user$/) do
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.grant_role(user, Role.find_by(rolename: "characterref"))
+  reset_mailer
 end
 
 Given(/^there is a suspended user$/) do
-  user = UserTestHelper.create_or_find_user
+  user = UserTestHelper.create_or_find_user(name: "Susan Suspended", email: "susan@mail.com", username: "suspendeduser")
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.suspend(user)
+  reset_mailer
 end
 
 Given(/^there is a deleted user$/) do
-  user = UserTestHelper.create_or_find_user
+  user = UserTestHelper.create_or_find_user(name: "David Deleted", email: "david@mail.com", username: "deleteduser")
   UserTestHelper.confirm(user)
   UserTestHelper.approve(user)
   UserTestHelper.delete(user)
+  reset_mailer
 end
 
 Given(/^the user has filled in all their details$/) do
@@ -75,6 +84,10 @@ end
 
 Given(/^the user is logged in$/) do
   LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.first.username, UserTestHelper::DEFAULT_PASSWORD
+end
+
+Given(/^the other user is a web-only user$/) do
+  UserTestHelper.grant_role(User.all.second, Role.find_by(rolename: "webonly"))
 end
 
 # Action steps
@@ -167,6 +180,14 @@ When(/^the user updates the other user's notes$/) do
   ProfilePage.new.visit_page(user_path(User.all.second)).and.update_notes("I am awesome.")
 end
 
+When(/^the user clicks on their name$/) do
+  MembersPage.new.click_link(User.first.name)
+end
+
+When(/^the user clicks on the other user's name$/) do
+  MembersPage.new.click_link(User.all.second.name)
+end
+
 # Condition steps
 
 Then(/^they should see all their own profile fields$/) do
@@ -224,27 +245,27 @@ Then(/^they should see first\-aider relevant profile fields$/) do
 end
 
 Then(/^they should see their own change password link$/) do
-  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_change_password_link
+  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_links(text: "Change password")
 end
 
 Then(/^they should see a change password link$/) do
-  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_change_password_link
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_links(text: "Change password")
 end
 
 Then(/^they should not see a change password link$/) do
-  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_change_password_link(display: false)
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_links(text: "Change password", display: false)
 end
 
 Then(/^they should see their own profile edit links$/) do
-  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_edit_links
+  ProfilePage.new.visit_page(user_path(User.first)).and.check_for_links(text: "Edit")
 end
 
 Then(/^they should see the other user\'s profile edit links$/) do
-  ProfilePage.new.visit_page(user_path(User.last)).and.and.check_for_edit_links
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_links(text: "Edit")
 end
 
 Then(/^they should not see any profile edit links$/) do
-  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_edit_links(display: false)
+  ProfilePage.new.visit_page(user_path(User.last)).and.check_for_links(text: "Edit", display: false)
 end
 
 Then(/^the user's P:M ratio should be displayed in the sidebar$/) do
@@ -318,4 +339,3 @@ end
 Then(/^the new notes should be displayed on the other user\'s profile$/) do
   ProfilePage.new.check_for_notes(User.all.second)
 end
-

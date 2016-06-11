@@ -1,6 +1,6 @@
 <h1 class="alt">Monster Points</h1>
 
-<p>Current total: <%= @user.monster_points %></p>
+<p id="total">Current total: <%= @user.monster_points %></p>
 
 <table class="prestyled">
 	<thead>
@@ -47,7 +47,7 @@
                     <% if change.rejected and @user == current_user %>
                         <% if change.source_object.class == MonsterPointDeclaration %>
                             [
-                                <%= link_to "Update", edit_user_monster_point_declaration_path(@user, change.source_object.id), :method => :get, :remote => true %>
+                                <%= link_to "Update", edit_user_monster_point_declaration_path(@user), :method => :get, :remote => true %>
                             ]
                         <% end %>
                     <% end %>

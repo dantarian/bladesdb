@@ -6,6 +6,7 @@ class MonsterPointDeclaration < ActiveRecord::Base
     validates_presence_of :points
     validates_numericality_of :points, :only_integer => true, :greater_than_or_equal_to => 0
     validates_presence_of :declared_on
+    validates_date :declared_on, :on_or_before => Date.today
     validates_presence_of :approved_by_id, :unless => :is_provisional?
     validates_presence_of :approved_at, :unless => :is_provisional?
 
