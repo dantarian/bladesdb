@@ -1,3 +1,4 @@
+@javascript
 Feature: Deleting monster point spends
   As a player with a character
   I want to be able to delete my last monster point spend on that character

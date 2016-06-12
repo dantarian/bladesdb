@@ -347,6 +347,3 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 1.0.3)
   validates_timeliness (~> 4.0)
-
-BUNDLED WITH
-   1.11.2
