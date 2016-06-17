@@ -10,7 +10,7 @@
 	
 	<tbody>
 		<% @pages.each do |page| %>
-			<tr class="<%= cycle('odd', 'even') %>">
+			<tr id="page<%= page.id %>" class="<%= cycle('odd', 'even') %>">
 		    	<td><%= page.title %></td>
 		    	<td>[ <%= link_to 'Show', page %> | <%= link_to 'Edit', edit_page_path(page) %> | <%= link_to 'Destroy', page, method: :delete, data: { confirm: 'Are you sure you want to delete this page?' } %> ]</td>
 		  	</tr>

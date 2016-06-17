@@ -90,3 +90,31 @@ end
 Then(/^a monster point adjustment date must be in the past message should be displayed$/) do
   MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.on_or_before", restriction: Date.today.to_formatted_s)
 end
+
+Then(/^a home page cannot be deleted message should be displayed$/) do
+  PagesPage.new.check_is_displaying_message I18n.t("page.failure.home_deletion")
+end
+
+Then(/^a page not available message should be displayed$/) do
+  HomePage.new.check_is_displaying_message I18n.t("devise.failure.unauthenticated")
+end
+
+Then(/^a page deleted message should be displayed$/) do
+  PagesPage.new.check_is_displaying_message I18n.t("page.success.deleted")
+end
+
+Then(/^a page updated message should be displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("page.success.updated")
+end
+
+Then(/^a page created message should be displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("page.success.created")
+end
+
+Then(/^a duplicate page title message is displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("page.validation.title_uniqueness")
+end
+
+Then(/^an empty page message is displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Content")
+end

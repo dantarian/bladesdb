@@ -2,7 +2,9 @@ class Page < ActiveRecord::Base
     has_one :sidebar_entry
 
     validates_presence_of   :title
-    validates_uniqueness_of :title, :case_sensitive => false
+    validates_uniqueness_of :title,
+                            :case_sensitive => false,
+                            :message => I18n.t("page.validation.title_uniqueness")
     validates_length_of     :title, :maximum => 50
     validates_presence_of   :content
     

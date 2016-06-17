@@ -24,9 +24,14 @@ en:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."
   page:
+    validation:
+      title_uniqueness: "Page title already in use."
     success:
       created: "Page was successfully created."
       updated: "Page was successfully updated."
+      deleted: "Page was successfully deleted."
+    failure:
+      home_deletion: "Stop trying to delete the home page!"
   user:
     validation: 
       dialog_header: "Failed to save user"

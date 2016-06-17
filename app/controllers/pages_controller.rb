@@ -109,7 +109,12 @@ class PagesController < ApplicationController
     # DELETE /pages/1.xml
     def destroy
         @page = Page.find(params[:id])
-        @page.destroy
+        unless @page.id == 1
+          @page.destroy
+          flash[:notice] = I18n.t("page.success.deleted")
+        else
+          flash[:error] = I18n.t("page.failure.home_deletion")
+        end
 
         respond_to do |format|
             format.html { redirect_to(pages_url) }

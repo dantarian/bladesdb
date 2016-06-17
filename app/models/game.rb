@@ -178,6 +178,8 @@ class Game < ActiveRecord::Base
             when monster_debriefs.where(user_id: user.id).exists? then "Monster"
             else "-"
             end
+        elsif !open?
+            "-"
         elsif !game_attendances.where(user_id: user.id).exists?
             "-"
         else
