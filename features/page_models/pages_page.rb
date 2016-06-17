@@ -12,7 +12,7 @@ class PagesPage < BladesDBPage
       end
       click_button "Save"
   end
-  
+
   def preview_page(title: "Page", content: "Page content.", show_to_non_users: true)
       click_link "Add page"
       fill_in "Page title:", :with => title
@@ -24,7 +24,7 @@ class PagesPage < BladesDBPage
       end
       click_button "Preview"
   end
-  
+
   def edit_page(static_page, title: "Edited Page", content: "Edited page content.", show_to_non_users: true)
       search = "tr#page" + static_page.id.to_s
       page.find(search).click_link "Edit"
@@ -37,7 +37,7 @@ class PagesPage < BladesDBPage
       end
       click_button "Save"
   end
-  
+
   def delete_page(static_page)
       search = "tr#page" + static_page.id.to_s
       accept_confirm do
