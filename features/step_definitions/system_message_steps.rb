@@ -27,6 +27,7 @@ Then(/^a profile updated message should be displayed$/) do
 end
 
 Then(/^an other user\'s profile updated message should be displayed$/) do
+  sleep 0.1 # Just enough delay to keep things in sync
   ProfilePage.new.check_is_displaying_message I18n.t("user.success.other_profile_updated", name: User.all.second.name)
 end
 

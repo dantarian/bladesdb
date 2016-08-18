@@ -67,11 +67,13 @@ group :development, :test do
   gem 'foreman', '~> 0.78.0'
   gem 'capistrano-rails', '~> 1.1.6', require: false
   gem 'capistrano-bundler', '~> 1.1.4', require: false
+  gem 'byebug'
 end
 
 group :test do
   gem 'faker', '~> 1.6.2'
   gem 'capybara', '~> 2.6.2'
+  gem 'capybara-screenshot'
   gem 'guard-rspec', '~> 4.6.4'
   gem 'launchy', '~> 2.4.3'
   gem 'selenium-webdriver', '~> 2.52.0'
@@ -80,6 +82,7 @@ group :test do
   gem 'database_cleaner', '~> 1.5.1'
   gem 'email_spec', '~> 2.0.0'
   gem 'action_mailer_cache_delivery', '~> 0.3.7'
+  gem 'poltergeist'
 end
 
 

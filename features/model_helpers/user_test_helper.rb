@@ -80,17 +80,5 @@ module UserTestHelper
     mpa.save!
   end
   
-  def add_monster_point_declaration(user, points, date = nil)
-    date = Date.today - 5.years if date.nil?
-    mpd = MonsterPointDeclaration.create do |mpd|
-      mpd.user = user
-      mpd.declared_on = date
-      mpd.points = points
-      mpd.approved = true
-      mpd.approved_at = date
-      mpd.approved_by = user
-    end
-  end
-  
 end
 

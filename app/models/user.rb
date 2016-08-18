@@ -141,7 +141,6 @@ class User < ActiveRecord::Base
     end
     
     def password_required?
-        logger.debug "Password required: notupdating:#{!@pdating} and notpassive:#{!self.passive?} = #{!@updating and !self.passive?}"
         !@updating and !self.passive?
     end
     
@@ -278,7 +277,7 @@ class User < ActiveRecord::Base
     
     def games_monstered
         self.debriefs.joins(:game).where("games.start_date >= ?", current_year_start_date(Date.today)).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
+            sum += ((debrief.game.nil? or debrief.game.end_date.nil?) ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
         end
     end
     

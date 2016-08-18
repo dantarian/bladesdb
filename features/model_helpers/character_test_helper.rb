@@ -10,6 +10,7 @@ module CharacterTestHelper
       guild_membership.provisional = false
       guild_membership.approved = true
       character.save
+      character
   end
   
   def set_starting_points(character, points)
