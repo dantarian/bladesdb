@@ -6,6 +6,10 @@ Given(/^there is another game$/) do
   GameTestHelper.create_game(title: "Second game")
 end
 
+Given(/^there is a game in the past$/) do
+  GameTestHelper.create_game(start_date: 1.year.ago)
+end
+
 Given(/^the user is a GM for the game$/) do
   GameTestHelper.add_gamesmaster User.first, to: Game.first
 end
@@ -56,16 +60,17 @@ Given(/^there is an attendee for the game$/) do
   GameTestHelper.add_attendee user, to: Game.first
 end
 
+Given(/^the character was on the game$/) do
+  character = Character.first
+  GameTestHelper.add_player character.user, character, to: Game.first
+end
+
 Given(/^the game is in the future$/) do
   GameTestHelper.set_date Date.today + 7.days, of: Game.first
 end
 
 Given(/^the game is in the past$/) do
   GameTestHelper.set_date Date.today - 7.days, of: Game.first
-end
-
-Given(/^the game debrief has been started$/) do
-  GameTestHelper.start_debriefing Game.first
 end
 
 Given(/^there is a game next Sunday$/) do
@@ -100,27 +105,15 @@ Given(/^the other user has a game application$/) do
   GameTestHelper.make_application(User.all.second, details: "Second!", to: Game.first)
 end
 
-Given(/^the game has been debriefed$/) do
-  GameTestHelper.set_date Date.today - 7.days, of: Game.first
-  GameTestHelper.start_debriefing Game.first
-  GameTestHelper.close_debrief Game.first
+Given(/^the game has a maximum rank of (\d+)$/) do |rank|
+  GameTestHelper.set_max_rank(of: Game.first, to: rank.to_i)
 end
 
-Given(/^the other game has been debriefed$/) do
-  GameTestHelper.set_date Date.today - 7.days, of: Game.all.second
-  GameTestHelper.start_debriefing Game.all.second
-  GameTestHelper.close_debrief Game.all.second
+Given(/^the game is a non-stats game$/) do
+  GameTestHelper.set_non_stats(Game.first)
 end
 
 # Actions
-
-When(/^the user publishes the brief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.publish_briefs
-end
-
-When(/^the user publishes the debrief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.finish_debrief
-end
 
 When(/^the user clicks on the show link$/) do
   EventCalendarPage.new.visit_page(event_calendar_path)

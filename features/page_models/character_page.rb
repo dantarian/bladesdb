@@ -56,4 +56,8 @@ class CharacterPage < BladesDBPage
     def check_for_cannot_spend_in_future_message
         check_error_message(I18n.t("character.monster_points.not_in_future"))
     end
+    
+    def check_for_cannot_spend_to_over_rank_message(game)
+        check_error_message(I18n.t("character.monster_points.not_over_rank", title: game.title, date: game.start_date, max_rank: game.upper_rank / 10.0))
+    end
 end

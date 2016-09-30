@@ -30,6 +30,7 @@ en:
       not_before_monster_point_declaration: "must be more recent than your monster point declaration on %{date}."
       not_before_character_declaration: "must be more recent than your character declation on %{date}."
       not_in_future: "cannot be in the future."
+      not_over_rank: "must not take you over the maximum rank (%{max_rank}) for the game \"%{title}\" on %{date}."
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."

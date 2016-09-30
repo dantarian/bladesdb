@@ -18,6 +18,10 @@ Given(/^the user bought 1 character point for the character yesterday$/) do
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Date.yesterday, character_points_gained: 1, monster_points_spent: 1)
 end
 
+Given(/^the user bought (\d+) character points? for the character before the game$/) do |points|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Game.first.start_date - 1.day, character_points_gained: points, monster_points_spent: points)
+end
+
 When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the character$/) do |points|
   CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i)
 end
@@ -27,7 +31,11 @@ When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the characte
 end
 
 When(/^the user (?:buys|tries to buy) (\d+) character points? for the character before the game$/) do |points|
-  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i, on_date: Game.first.start_date - 1.day)
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i, date: Game.first.start_date - 1.day)
+end
+
+When(/^the user (?:buys|tries to buy) (\d+) character points? for the character after the game$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i, date: Game.first.start_date + 1.day)
 end
 
 When(/^the user tries to buy character points for the character before the first game$/) do
@@ -93,3 +101,8 @@ end
 Then(/^the user should be told they cannot create a monster point spend in the future$/) do
   CharacterPage.new.check_for_cannot_spend_in_future_message
 end
+
+Then(/^the user should be told they cannot buy so many character points as to put them over\-rank for the game$/) do
+  CharacterPage.new.check_for_cannot_spend_to_over_rank_message(Game.first)
+end
+

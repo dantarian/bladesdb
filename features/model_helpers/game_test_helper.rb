@@ -35,6 +35,16 @@ module GameTestHelper
     of
   end
   
+  def set_max_rank(of: nil, to: nil)
+    of.upper_rank = to.to_i * 10
+    of.save
+  end
+  
+  def set_non_stats(game)
+    game.non_stats = true
+    game.save
+  end
+  
   def start_debriefing(game)
     game.setup_debrief
     game.debrief_started = true
@@ -52,6 +62,12 @@ module GameTestHelper
     game.monster_points_base = monster_points
     game.player_money_base = money
     game.open = false
+    game.save!
+  end
+  
+  def add_character_to_debrief(game, character, points: 10)
+    debrief = game.debriefs.find_or_create_by(user: character.user, character: character)
+    debrief.points_modifier = points - game.player_points_base
     game.save!
   end
   
