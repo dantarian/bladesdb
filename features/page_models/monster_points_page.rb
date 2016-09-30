@@ -6,7 +6,7 @@ class MonsterPointsPage < BladesDBPage
       fill_in "Declared on", with: date.to_formatted_s + '\t'
       fill_in "Points", with: points
       page.find("span.ui-dialog-title").click
-      click_button "Declare"
+      page.find_button("Declare").trigger("click")
     end
     
     def edit_declaration(date, points)
@@ -14,7 +14,7 @@ class MonsterPointsPage < BladesDBPage
       fill_in "Declared on", with: date.to_formatted_s + '\t'
       fill_in "Points", with: points
       page.find("span.ui-dialog-title").click
-      click_button "Update"
+      page.find_button("Update").trigger("click")
     end
     
     def request_adjustment(date, points, reason)
@@ -23,7 +23,7 @@ class MonsterPointsPage < BladesDBPage
       fill_in I18n.t("user.monster_point_adjustment.points_label"), with: points
       fill_in "Reason", with: reason
       page.find("span.ui-dialog-title").click
-      click_button "Request"
+      page.find_button("Request").trigger("click")
     end
 
     def check_for_declaration(points, display: true, state: "approved")

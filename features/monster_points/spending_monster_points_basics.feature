@@ -48,7 +48,7 @@ Feature: Spending monster points - basics
     Given the user has 1 monster point available
     And the character has 20 character points
     When the user tries to buy 2 character points for the character
-    Then the user should be told they cannot buy more than 1 character point
+    Then the user should be told they cannot spend more than 1 monster point
 
   Scenario: Cannot buy more than 30 character points if doing so would put you over rank 10
     Given the user has 100 monster points available

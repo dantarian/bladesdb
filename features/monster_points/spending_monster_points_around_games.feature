@@ -25,7 +25,7 @@ Feature: Spending monster points around games
     And the game has been debriefed
     And the character has received 10 character points in the debrief
     When the user tries to buy 1 character point for the character before the game
-    Then the user should be told they cannot spend monster points prior to a debriefed game
+    Then the user should be told they cannot create a monster point spend before their most recent debriefed game
   
   Scenario: Can spend before a game played as the character if the debrief has not been started
     Given the character has 20 character points

@@ -25,6 +25,7 @@ en:
       too_many_cp: "must be at most %{points}."
       at_least_one: "must be at least 1."
       not_before_last_spend: "must be more recent than your last monster point spend on %{date}."
+      not_before_most_recent_debrief: "must be more recent than your last debriefed game on %{date}."
       not_before_penultimate_game: "must be more recent than your last-but-one game on %{date}."
       not_before_monster_point_declaration: "must be more recent than your monster point declaration on %{date}."
       not_before_character_declaration: "must be more recent than your character declation on %{date}."

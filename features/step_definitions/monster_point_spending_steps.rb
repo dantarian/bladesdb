@@ -1,4 +1,4 @@
-Given(/^the user has (\d+) monster points available$/) do |points|
+Given(/^the user has (\d+) monster points? available$/) do |points|
   UserTestHelper.add_monster_point_declaration(User.first, points.to_i)
 end
 
@@ -10,11 +10,23 @@ Given(/^the user has a monster point declaration one week ago$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, 1.week.ago)
 end
 
-When(/^the user (?:buys|tries to buy) (-?\d+) character points for the character$/) do |points|
+Given(/^there is a monster point spend on the character$/) do
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first)
+end
+
+Given(/^the user bought 1 character point for the character yesterday$/) do
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Date.yesterday, character_points_gained: 1, monster_points_spent: 1)
+end
+
+When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the character$/) do |points|
   CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i)
 end
 
-When(/^the user (?:buys|tries to buy) (\d+) character points for the character before the game$/) do |points|
+When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the character yesterday$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i, date: Date.yesterday)
+end
+
+When(/^the user (?:buys|tries to buy) (\d+) character points? for the character before the game$/) do |points|
   CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i, on_date: Game.first.start_date - 1.day)
 end
 
@@ -32,6 +44,14 @@ end
 
 When(/^the user tries to spend monster points on the character on a date in the future$/) do
   CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(Date.tomorrow)
+end
+
+When(/^the user deletes the monster point spend$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.delete_last_monster_point_spend
+end
+
+When(/^the user tries to delete the monster point spend$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_delete_last_monster_point_spend
 end
 
 Then(/^the user should have (\d+) monster points$/) do |points|
@@ -58,16 +78,16 @@ Then(/^the user should be told they cannot create a monster point spend before t
   CharacterPage.new.check_for_cannot_spend_before_last_spend_message(MonsterPointSpends.first.spent_on)
 end
 
-Then(/^the user should be told they cannot create a monster point spend before their penultimate game$/) do
-  CharacterPage.new.check_for_cannot_spend_before_penultimate_game_message(Game.first.start_date)
+Then(/^the user should be told they cannot create a monster point spend before their most recent debriefed game$/) do
+  CharacterPage.new.check_for_cannot_spend_before_most_recent_debriefed_game_message(Game.first.start_date)
 end
 
 Then(/^the user should be told they cannot create a monster point spend before their monster point declaration$/) do
-  CharacterPage.new.check_for_not_before_monster_point_declaration_message(User.first.monster_point_declaration.declared_on)
+  CharacterPage.new.check_for_cannot_spend_before_monster_point_declaration_message(User.first.monster_point_declaration.declared_on)
 end
 
 Then(/^the user should be told they cannot create a monster point spend before the character was declared$/) do
-  CharacterPage.new.check_for_not_before_character_declaration_message(Character.first.declared_on)
+  CharacterPage.new.check_for_cannot_spend_before_character_declaration_message(Character.first.declared_on)
 end
 
 Then(/^the user should be told they cannot create a monster point spend in the future$/) do
