@@ -22,6 +22,27 @@ Given(/^the character has (\d+) character points(?: before the games?)?$/) do |p
   CharacterTestHelper.set_starting_points(Character.first, points)
 end
 
+Given(/^the character is pending approval$/) do
+  CharacterTestHelper.make_pending(Character.first)
+end
+
+Given(/^the character is retired$/) do
+  CharacterTestHelper.retire_character
+end
+
+Given(/^the character is dead$/) do
+  CharacterTestHelper.permdeath_character
+end
+
+Given(/^the character is recycled$/) do
+  CharacterTestHelper.recycle_character
+end
+
+Given(/^the character is undeclared$/) do
+  CharacterTestHelper.undeclare_character
+end
+
+
 
 Then(/^the user should see a short user name and character link on the character$/) do
   CharactersPage.new.check_for_character(User.all.second, Character.first)

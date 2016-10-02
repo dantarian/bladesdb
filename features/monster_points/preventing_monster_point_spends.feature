@@ -27,7 +27,7 @@ Feature: Preventing monster point spends
     Then the user should be told they cannot create a monster point spend before their monster point declaration
 
   Scenario: Can spend monster points before a rejected monster point declaration
-    Given the user has 20 monster points available
+    Given the user has earned 20 monster points
     And the character has 20 character points
     And the user has a rejected monster point declaration one week ago
     When the user buys 1 character point for the character before their monster point declaration
@@ -67,7 +67,7 @@ Feature: Preventing monster point spends
   Scenario: Can spend monster points with a pending monster point adjustment if points spent is less than or equal to points available both with and without the adjustment
     Given the character has 20 character points 
     And the user has 11 monster points available
-    And the user has a pending monster point declaration for -1 monster points
+    And the user has a pending monster point adjustment for -1 monster points
     When the user buys 10 character points for the character
     Then the character should have 30 character points
 
@@ -79,30 +79,26 @@ Feature: Preventing monster point spends
   Scenario: Cannot spend monster points with a pending character declaration
     Given the character is pending approval
     And the user has 10 monster points available
-    When the user tries to spend monster points on the character
-    Then the user should be told they cannot spend monster points on an unapproved character
+    Then there should be no option for spending monster points
+    And the user should be told they cannot spend monster points on an unapproved character
   
   Scenario: Cannot spend monster points on a retired character
     Given the character is retired
     And the user has 10 monster points available
-    When the user tries to spend monster points on the character
-    Then the user should be told they cannot spend monster points on a retired character
+    Then there should be no option for spending monster points
   
   Scenario: Cannot spend monster points on a dead character
     Given the character is dead
     And the user has 10 monster points available
-    When the user tries to spend monster points on the character
-    Then the user should be told they cannot spend monster points on a dead character
+    Then there should be no option for spending monster points
   
   Scenario: Cannot spend monster points on a recycled character
     Given the character is recycled
     And the user has 10 monster points available
-    When the user tries to spend monster points on the character
-    Then the user should be told they cannot spend monster points on a recycled character
+    Then there should be no option for spending monster points
   
   Scenario: Cannot spend monster points on an undeclared character
     Given the character is undeclared
     And the user has 10 monster points available
-    When the user tries to spend monster points on the character
-    Then the user should be told they cannot spend monster points on an undeclared character
+    Then there should be no option for spending monster points
 

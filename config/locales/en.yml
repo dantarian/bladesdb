@@ -31,6 +31,11 @@ en:
       not_before_character_declaration: "must be more recent than your character declation on %{date}."
       not_in_future: "cannot be in the future."
       not_over_rank: "must not take you over the maximum rank (%{max_rank}) for the game \"%{title}\" on %{date}."
+      not_on_unapproved_character: "Cannot spend monster points on an unapproved character"
+      not_on_retired_character: "Cannot spend monster points on a retired character"
+      not_on_dead_character: "Cannot spend monster points on a perm-dead character"
+      not_on_recycled_character: "Cannot spend monster points on a recycled character"
+      not_on_undeclared_character: "Cannot spend monster points on an undeclared character"
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."

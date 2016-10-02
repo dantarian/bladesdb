@@ -1,4 +1,3 @@
-@javascript
 Feature: Deleting monster point spends
   As a player with a character
   I want to be able to delete my last monster point spend on that character
@@ -40,27 +39,27 @@ Feature: Deleting monster point spends
   
   Scenario: Delete last monster point spend if character has been played on a debriefed game since, but it is non-stats
     Given there is a game
-    And the game is non-stats
+    And the game is a non-stats game
     And there is a monster point spend on the character before the game
     And the game has been debriefed
     When the user deletes the monster point spend
     Then the monster point spend should be deleted
 
   Scenario: Cannot delete last monster point spend if there is a monster point declaration since
-    Given there is a monster point spend on the character
-    And there is a monster point declaration since the monster point spend
+    Given there is a monster point spend on the character one week ago
+    And the user has a monster point declaration since the monster point spend
     When the user tries to delete the monster point spend
     Then the user should be told they cannot delete a monster point spend before a monster point declaration
   
   Scenario: Can delete last monster point spend if there is a rejected monster point declaration since
-    Given there is a monster point spend on the character
-    And there is a rejected monster point declaration since the monster point spend
+    Given there is a monster point spend on the character one week ago
+    And the user has a rejected monster point declaration since the monster point spend
     When the user deletes the monster point spend
     Then the monster point spend should be deleted
   
   Scenario: Cannot delete last monster point spend if there is a monster point adjustment since
-    Given there is a monster point spend on the character
-    And there is a monster point adjustment since the monster point spend
+    Given there is a monster point spend on the character one week ago
+    And the user has a monster point adjustment since the monster point spend
     When the user tries to delete the monster point spend
     Then user should be told they cannot delete a monster point spend before a monster point adjustment
   

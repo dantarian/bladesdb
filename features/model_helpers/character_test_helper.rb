@@ -35,7 +35,24 @@ module CharacterTestHelper
   end
   
   def permdeath_character
-      
+      Character.first.perm_kill
+  end
+  
+  def recycle_character
+      character = Character.first
+      character.state = Character::Recycled
+      character.save!
+  end
+  
+  def undeclare_character
+      character = Character.first
+      character.state = Character::Undeclared
+      character.save!
+  end
+  
+  def make_pending(character)
+      character.approved = nil
+      character.save!
   end
   
   # Validations
