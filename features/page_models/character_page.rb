@@ -20,7 +20,7 @@ class CharacterPage < BladesDBPage
     end
     
     def try_to_delete_last_monster_point_spend(character)
-        page.driver.submit :delete, "/characters/#{character.id}/monster_point_spends/#{character.monster_point_spends.last.id}"
+        page.driver.submit :delete, "/characters/#{character.id}/monster_point_spends/last", {}
     end
 
     def confirm_absence_of_spend_monster_points_link
