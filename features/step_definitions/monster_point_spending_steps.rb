@@ -1,3 +1,5 @@
+# Setup steps
+
 Given(/^the user has (\d+) monster points? available$/) do |points|
   UserTestHelper.add_monster_point_declaration(User.first, points.to_i)
 end
@@ -66,6 +68,12 @@ Given(/^the user bought (\d+) character points? for the character before the gam
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Game.first.start_date - 1.day, character_points_gained: points, monster_points_spent: points)
 end
 
+Given(/^the user bought (\d+) character points? for (\d+) monster points? for the character after the game$/) do |cp, mp|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Game.first.start_date + 1.day, character_points_gained: cp, monster_points_spent: mp)
+end
+
+# Action steps
+
 When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the character$/) do |points|
   CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i)
 end
@@ -110,16 +118,18 @@ When(/^the user tries to delete the monster point spend$/) do
   CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_delete_last_monster_point_spend(Character.first)
 end
 
+# Verification steps
+
 Then(/^there should be no option for spending monster points$/) do
   CharacterPage.new.visit_page(character_path(Character.first)).and.confirm_absence_of_spend_monster_points_link
 end
 
-Then(/^the user should have (\d+) monster points$/) do |points|
-  CharacterPage.new.check_monster_points(points)
+Then(/^the user should have (-?\d+) monster points$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_monster_points(points)
 end
 
 Then(/^the monster point spend should be deleted$/) do
-  CharacterPage.new.check_no_monster_point_spend
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_no_monster_point_spend
 end
 
 Then(/^the user should be told they cannot spend more than (\d+) monster points?$/) do |points|
@@ -204,5 +214,9 @@ end
 
 Then(/^the user should be told they cannot delete a monster point spend on a recycled character$/) do
   CharacterPage.new.check_for_cannot_delete_spend_on_recycled_character
+end
+
+Then(/^the user should receive an e\-mail telling them that their monster point spend has changed in cost$/) do
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_changed"))
 end
 

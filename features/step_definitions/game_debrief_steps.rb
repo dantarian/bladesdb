@@ -34,5 +34,17 @@ When(/^the user publishes the debrief for the game$/) do
   GamePage.new.visit_page(game_path(Game.first)).and.finish_debrief
 end
 
+When(/^the GM reopens the debrief for the game$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.reopen_debrief
+end
+
+When(/^the GM closes the debrief for the game$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.finish_debrief
+end
+
+When(/^the GM changes the character's debrief to give them (\d+) points$/) do |points|
+  GamePage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Character.first, total_cp: points)
+end
+
 # Verification steps
 

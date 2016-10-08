@@ -49,6 +49,6 @@ Then(/^the user should see a short user name and character link on the character
 end
 
 Then(/^the character should have (\d+) character points$/) do |points|
-  CharacterPage.new.check_character_points(points.to_i)
+  CharacterPage.new.visit_page(Character.first).and.check_character_points(points.to_i)
 end
 

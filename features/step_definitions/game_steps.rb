@@ -35,6 +35,9 @@ end
 
 Given(/^there is a GM for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Gerald Mann", email: "gm@mail.com", username: "gm1")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  reset_mailer
   GameTestHelper.add_gamesmaster user, to: Game.first
 end
 
@@ -60,7 +63,7 @@ Given(/^there is an attendee for the game$/) do
   GameTestHelper.add_attendee user, to: Game.first
 end
 
-Given(/^the character was on the game$/) do
+Given(/^the character was(?:| played) on the game$/) do
   character = Character.first
   GameTestHelper.add_player character.user, character, to: Game.first
 end
