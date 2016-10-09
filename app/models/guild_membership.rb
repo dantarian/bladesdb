@@ -10,7 +10,7 @@ class GuildMembership < ActiveRecord::Base
     validates_presence_of :approved_at, :unless => :is_provisional_or_starting_guild?
     validates_presence_of :guild_branch_id, :unless => "guild_id.nil? || guild.guild_branches.empty?"
     validates_numericality_of :start_points, :only_integer => true, :greater_than_or_equal_to => 0, :allow_nil => true
-    validate :guild_start_points_less_than_or_equal_to_total_points
+    validate :guild_start_points_less_than_or_equal_to_total_points 
     validate :guild_or_branch_are_different_to_previous
 
     def self.pending_guild_memberships(except_user)
@@ -71,12 +71,12 @@ class GuildMembership < ActiveRecord::Base
     
     protected
         def guild_start_points_less_than_or_equal_to_total_points
-            errors.add(:start_points, "cannot be higher than current point total.") unless start_points.nil? or start_points <= character.starting_points
+            errors.add(:start_points, I18n.t("character.guild_membership.failure.more_than_character_points")) unless start_points.nil? or character.starting_points.nil? or start_points <= character.starting_points
         end
         
         def guild_or_branch_are_different_to_previous
             unless character.guild_memberships.empty? or self == character.guild_memberships[0]
-                errors.add_to_base("Either Guild or Branch must differ from the current guild membership.") if character.current_guild_membership.guild == guild and character.current_guild_membership.guild_branch == guild_branch and !character.current_guild_membership.provisional
+                errors.add_to_base(I18n.t("character.guild_membership.failure.no_change")) if character.current_guild_membership.guild == guild and character.current_guild_membership.guild_branch == guild_branch and !character.current_guild_membership.provisional
             end
         end
         

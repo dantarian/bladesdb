@@ -1,9 +1,9 @@
 class CharactersController < ApplicationController
     
     before_filter :authenticate_user!
-    before_filter :new_character, :only => [:new, :import]
-    before_filter :find_character, :except => [:my_characters, :index, :new, :import, :create, :new_player, :create_player, :show_all]
-    before_filter :check_ajax, :except => [:my_characters, :index, :new, :import, :create, :show, :show_all]
+    before_filter :new_character, :only => [:new]
+    before_filter :find_character, :except => [:my_characters, :index, :new, :create, :new_player, :create_player, :show_all]
+    before_filter :check_ajax, :except => [:my_characters, :index, :new, :create, :show, :show_all]
     before_filter :check_own_character_or_ref, 
                   :only => [:edit, 
                             :edit_bio, 
@@ -54,10 +54,6 @@ class CharactersController < ApplicationController
     def new
         respond_to {|format| format.js }
     end
-
-    def import
-        respond_to {|format| format.js }
-    end
     
     def edit_name
         respond_to {|format| format.js }
@@ -103,6 +99,10 @@ class CharactersController < ApplicationController
         @character.state = Character::Active
         @character.starting_points = 20
         @character.starting_death_thresholds = @character.race.death_thresholds
+        @character.no_title = case params[:radio_title]
+          when "no_title" then true
+          else false
+        end
         @guild_membership = @character.guild_memberships.first
         @guild_membership.character = @character
         @guild_membership.start_points = 0
@@ -116,24 +116,13 @@ class CharactersController < ApplicationController
             respond_to {|format| format.js { render :new } }
         end
     end
-
-    def create_import
-        @character = Character.new(full_declaration_params)
-        @character.user = current_user
-        guild_membership = @character.guild_memberships.first
-        guild_membership.character = @character
-        guild_membership.declared_on ||= @character.declared_on
-        guild_membership.start_points ||= 0
-        if @character.save
-            flush[:notice] = "Character was successfully created."
-            reload_page
-        else
-            respond_to {|format| format.js { render :import } }
-        end
-    end
     
     def update_name
-        update_character(params.require(:character).permit(:name, :title), :edit_name)
+        @character.no_title = case params[:radio_title]
+          when "no_title" then true
+          else false
+        end
+        update_character(params.require(:character).permit(:name, :title, :no_title), :edit_name)
     end
     
     def update_bio
@@ -212,12 +201,16 @@ class CharactersController < ApplicationController
         @character.approved_by = nil
         @character.state = Character::Active
         @character.attributes = full_declaration_params
+        @character.no_title = case params[:radio_title]
+          when "no_title" then true
+          else false
+        end
         guild_membership = @character.guild_memberships.first
         guild_membership.character = @character
         guild_membership.declared_on ||= @character.declared_on
         guild_membership.start_points ||= 0
         if @character.save
-            flash[:notice] = 'Character was successfully declared.'
+            flash[:notice] = I18n.t("character.success.declared")
             reload_page
         else
             respond_to {|format| format.js { render :declare } }
@@ -249,56 +242,6 @@ class CharactersController < ApplicationController
         end
     end
     
-    def merge_select_user
-        @user = nil
-        respond_to do |format|
-            format.html
-        end
-    end
-    
-    def merge_select_characters
-        @primary = nil
-        @secondary = nil
-        respond_to do |format|
-            format.html
-        end
-    end
-    
-    def merge_select_data
-        check_same_owner(params) do
-            check_distinct_characters(params) do
-                respond_to do |format|
-                    format.html
-                end          
-            end
-        end
-    end
-    
-    # def merge
-    #     check_same_owner(params) do
-    #         check_distinct_characters(params) do
-    #             @primary_character.credits << @secondary_character.credits
-    #             @primary_character.debits << @secondary_character.debits
-    #             @primary_character.debriefs << @secondary_character.debriefs
-    #             @primary_character.game_attendances << @secondary_character.game_attendances
-    #             @primary_character.messages << @secondary_character.messages
-    #             @monster_point_adjustment = @primary_character.user.monster_point_adjustments.build
-    #             @monster_point_adjustment.declared_on = Date.today
-    #             @monster_point_adjustment.points = @secondary_character.monster_point_spends.monster_points_spent
-    #             @monster_point_adjustment.reason = "Character merge."
-    #             if @primary_character.save
-    #                 @monster_point_adjustment.save
-    #                 @secondary_character.destroy
-    #                 flash[:notice] = "Characters successfully merged."
-    #                 redirect_to users_path
-    #             else
-    #                 flash[:error] = "Failed to save merged character."
-    #                 render "merge_select_data"
-    #             end
-    #         end
-    #     end
-    # end
-    
     protected
         
         def check_same_owner(params)
@@ -329,12 +272,11 @@ class CharactersController < ApplicationController
 
     private
         def full_declaration_params
-            params.require(:importing)
-            params.require(:character).permit(:name, :title, :race_id, {:guild_memberships_attributes => [:id, :guild_id, :guild_branch_id, :guild_starting_points]}, :starting_points, :starting_florins, :starting_death_thresholds, :declared_on, :state)
+            params.require(:character).permit(:name, :title, :no_title, :race_id, {:guild_memberships_attributes => [:id, :guild_id, :guild_branch_id, :start_points]}, :starting_points, :starting_florins, :starting_death_thresholds, :declared_on, :state)
         end
         
         def new_character_params
-            params.require(:character).permit(:name, :title, :race_id, {:guild_memberships_attributes => [:id, :guild_id, :guild_branch_id]}, :declared_on)
+            params.require(:character).permit(:name, :title, :no_title, :race_id, {:guild_memberships_attributes => [:id, :guild_id, :guild_branch_id]}, :declared_on)
         end
     
         def new_character

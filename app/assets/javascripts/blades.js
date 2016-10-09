@@ -116,7 +116,7 @@ function printpage() {
   window.print();
 };
 
-window.onbeforeunload = function(event) { saveMenus(); }
+window.onbeforeunload = function(event) { saveMenus(); };
 
 $(function () {
 	loadMenus();
@@ -232,8 +232,29 @@ $(function () {
 });
 
 $(function () {
-    $("#dialog").delegate("select#guild_selector", "click change", function () {
-        $("#guild_branch_selector").prop("disabled", $(this).find(":selected").text() != "Defenders");
+    $("#dialog").on("dialogopen", function () {
+    	var guild_branches = $("select#guild_branch_selector").find("option").remove();
+    	var guildMap = new Map();
+    	$("select#guild_selector").find("option").each(function (index, element) {
+    		guildMap.set($(element).val(), guild_branches.filter(function (index, option) {
+    			return $(option).data("guild") == $(element).val();
+    		}));
+    	});
+    	$("#guild_branch_selector").data("guildMap", guildMap);
+    	$("#guild_branch_selector").append(guildMap.get($("select#guild_selector option:selected").val()));
+    	var emptySelect = $("#guild_branch_selector").find("option");
+    	$("#guild_branch_selector").prop("disabled", !emptySelect.length);
+    });
+});
+
+$(function () {
+    $("#dialog").delegate("select#guild_selector", "change", function () {
+        $("#guild_branch_selector").find("option").remove();
+        var guildMap = $("#guild_branch_selector").data("guildMap");
+        $("#guild_branch_selector").append(guildMap.get($("select#guild_selector option:selected").val()));
+        var emptySelect = $("#guild_branch_selector").find("option");
+        $("#guild_branch_selector").prop("disabled", !emptySelect.length);
+        $("#guild_branch_selector").prop("selectedIndex", 0);
     });
 });
 
@@ -243,6 +264,12 @@ $(function () {
 	        	$(this).closest("div.options_container").find(".switch_enabled").prop("disabled", !$(this).prop("checked"));
 	        }
        );
+    });
+});
+
+$(function () {
+	$("body").delegate("input:radio[name='radio_title']", "click change", function () {
+        $("input:text[id='character_title']").prop("disabled", !$("input:radio[id='radio_title_custom']").prop("checked"));
     });
 });
 
