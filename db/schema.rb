@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501144813) do
+ActiveRecord::Schema.define(version: 20160722205455) do
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20160501144813) do
     t.text     "player_notes"
     t.boolean  "preferred_character",       default: false,        null: false
     t.string   "comment"
+    t.boolean  "no_title",                  default: false,        null: false
     t.index ["user_id"], :name => "index_characters_on_user_id"
   end
 
@@ -274,10 +275,11 @@ ActiveRecord::Schema.define(version: 20160501144813) do
   end
 
   create_table "guild_branches", force: true do |t|
-    t.string   "name",       null: false
-    t.integer  "guild_id",   null: false
+    t.string   "name",         null: false
+    t.integer  "guild_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "branch_title"
   end
 
   create_table "guilds", force: true do |t|

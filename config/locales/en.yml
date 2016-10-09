@@ -15,11 +15,31 @@ en:
     failure:
       deleted: "Board deletion failed."
   character:
+    validation:
+      dialog_header: "Failed to save Character details"
+      dialog_main: "The following problems prevented your details from being saved:"
+      dts_less_than_zero: "must be greater than or equal to zero."
+      dts_greater_than_race: "must be less than or equal to racial maximum."
     success:
       created: "Character was successfully created."
+      declared: "Character was successfully declared."
       updated: "Character was successfully updated."
     failure:
       updated: "Failed to update character."
+    guild_membership:
+      validation:
+        dialog_header: "Failed to save Guild Change"
+        dialog_main_change_guild: "The following problems prevented your Guild Change from being saved:"
+        dialog_main_change_branch: "The following problems prevented your Guild Branch Change from being saved:"
+      success:
+        guild_changed: "Guild change request was successfully created."
+        branch_changed: "Guild branch was successfully changed."
+        left_guild: "Request to leave guild was successfully created."
+        cancelled: "Guild change request was successfully deleted."
+      failure:
+        more_than_character_points: "cannot be higher than current point total."
+        no_change: "Either Guild or Branch must differ from the current guild membership."
+        left_guild: "Failed to create request to leave guild."
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."

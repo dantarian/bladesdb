@@ -15,8 +15,8 @@ class GuildMembershipsController < ApplicationController
 
     def leave
         attempt_save_without_dialog(
-            "Request to leave guild was successfully created.",
-            "Failed to create request to leave guild." )
+            I18n.t("character.guild_membership.success.left_guild"),
+            I18n.t("character.guild_membership.failure.left_guild"))
     end    
 
     def eject
@@ -61,7 +61,7 @@ class GuildMembershipsController < ApplicationController
     end
 
     def create
-        do_create("Guild change request was successfully created.") {
+        do_create(I18n.t("character.guild_membership.success.guild_changed")) {
             respond_to do |format|
                 format.js { render :new }
             end           
@@ -69,7 +69,7 @@ class GuildMembershipsController < ApplicationController
     end
 
     def create_guild_branch_change
-        do_create("Guild branch was successfully changed.") {
+        do_create(I18n.t("character.guild_membership.success.branch_changed")) {
             respond_to do |format|
                 format.js { render :change_guild_branch }
             end
@@ -78,7 +78,7 @@ class GuildMembershipsController < ApplicationController
 
     def destroy
         @guild_membership.destroy
-        flash[:notice] = "Guild change request was successfully deleted."
+        flash[:notice] = I18n.t("character.guild_membership.success.cancelled")
         reload_page
     end
     
@@ -133,14 +133,14 @@ class GuildMembershipsController < ApplicationController
         
         def check_ajax
             unless request.xhr?
-                flash[:error] = "The requested URL is not accessible directly."
+                flash[:error] = I18n.t("failure.inaccessible_url")
                 reload_page
             end
         end
         
         def attempt_save_without_dialog(success_message, failure_message)
             if @guild_membership.save
-                UserMailer.guild_change_approval(@guild_membership).deliver
+                UserMailer.guild_change_approval(@guild_membership).deliver if @guild_membership.approval_recently_set?
                 flash[:notice] = success_message
             else
                 flash[:error] = failure_message + @guild_membership.errors.full_messages.to_sentence

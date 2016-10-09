@@ -22,16 +22,19 @@ class Character < ActiveRecord::Base
     
     validates_presence_of :user_id
     validates_presence_of :name
-    validates_numericality_of :starting_points, :unless => :undeclared?
-    validates_numericality_of :starting_death_thresholds, :only_integer => true, :unless => :undeclared?
+    validates_presence_of :starting_points, :unless => :undeclared?
+    validates_numericality_of :starting_points, :unless => :undeclared?, :greater_than_or_equal_to => 20
+    validates_presence_of :starting_florins, :unless => :undeclared?
+    validates_numericality_of :starting_florins, :unless => :undeclared?, :greater_than_or_equal_to => 0
     validates_inclusion_of :date_of_birth_public, :in => [true, false], :unless => "date_of_birth.nil?"
     validates_presence_of :state
     validates_inclusion_of :state, :in => [Active, Retired, PermDead, Undeclared, Recycled]
     validates_presence_of :starting_death_thresholds, :unless => :undeclared?
-    validates_each :starting_death_thresholds, :unless => "race_id.nil?", :on => :save do |record, attr, value|
+    validates_numericality_of :starting_death_thresholds, :only_integer => true, :unless => :undeclared?
+    validates_each :starting_death_thresholds, :unless => "race_id.nil?" do |record, attr, value|
         max_dt = record.race.death_thresholds
-        record.errors.add attr, "must be less than or equal to racial maximum." unless (record.starting_death_thresholds || 0) <= record.race.death_thresholds
-        record.errors.add attr, "must be greater than or equal to zero." unless (record.starting_death_thresholds || 0) >= 0
+        record.errors.add attr, I18n.t("character.validation.dts_greater_than_race") unless (record.starting_death_thresholds || 0) <= record.race.death_thresholds
+        record.errors.add attr, I18n.t("character.validation.dts_less_than_zero") unless (record.starting_death_thresholds || 0) >= 0
     end
     
     before_update :add_monster_point_adjustment_for_recycling
@@ -114,17 +117,16 @@ class Character < ActiveRecord::Base
     end
     
     def name_and_title(unescaped = false)
-        if title != ""
+        unless title.blank?
             "#{title} #{name}"
         else
-            unless guild.nil?
-                test_guild = guild
-                test_points = points
-                test_current_guild_membership = current_guild_membership
-                test_calculated_start_points = current_guild_membership.calculated_start_points
-                test_points_to_check = (points - (current_guild_membership.calculated_start_points || 0))
-                test_guild_title = guild.calculate_title(points - (current_guild_membership.calculated_start_points || 0))
-                "#{guild.calculate_title(points - (current_guild_membership.calculated_start_points || 0))} #{name}"
+            unless (guild.nil? || no_title == true)
+                guild_title = guild.calculate_title(points - (current_guild_membership.calculated_start_points || 0))
+                if guild_title.include? "BRANCH"
+                   branch_title = current_guild_membership.guild_branch.nil? ? " " : current_guild_membership.guild_branch.branch_title
+                   guild_title.sub!(/BRANCH/, branch_title.to_s)
+                end
+                "#{guild_title} #{name}"
             else
                 name
             end

@@ -40,8 +40,9 @@ class PagesPage < BladesDBPage
   
   def delete_page(static_page)
       search = "tr#page" + static_page.id.to_s
-      page.find(search).click_link "Destroy"
-      click_button "OK"
+      accept_confirm do
+        page.find(search).click_link "Destroy"
+      end
   end
 
   def find_page(id:, title:, display: true)
