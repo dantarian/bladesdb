@@ -40,6 +40,11 @@ en:
         more_than_character_points: "cannot be higher than current point total."
         no_change: "Either Guild or Branch must differ from the current guild membership."
         left_guild: "Failed to create request to leave guild."
+    success:
+      created: "Character was successfully created."
+      updated: "Character was successfully updated."
+    failure:
+      updated: "Failed to update character."
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."
@@ -52,6 +57,9 @@ en:
       deleted: "Page was successfully deleted."
     failure:
       home_deletion: "Stop trying to delete the home page!"
+    success:
+      created: "Page was successfully created."
+      updated: "Page was successfully updated."
   user:
     validation: 
       dialog_header: "Failed to save user"
