@@ -29,7 +29,7 @@ Given(/^the character is Guildless$/) do
 end
 
 Given(/^the character joined the Guild at rank (.*?)$/) do |rank|
-  unless rank.to_i == 0 
+  unless rank.to_i == 0
     CharacterTestHelper.update_starting_rank(rank.to_i*10)
     GuildTestHelper.update_start_rank(rank.to_i*10)
   end

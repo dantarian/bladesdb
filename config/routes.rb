@@ -19,7 +19,7 @@ Blades::Application.routes.draw do
       patch :move_down
       patch :switch_open_or_closed
     end
-    
+
     collection do
       get :admin
       get :mark_read
@@ -50,7 +50,7 @@ Blades::Application.routes.draw do
     collection do
       get :outstanding_debriefs
     end
-    
+
     resources :game_attendances, :except => [ :index, :show, :destroy ] do
       member do
         patch :clear_confirm_state
@@ -97,12 +97,12 @@ Blades::Application.routes.draw do
         new do
           get :new_player
           patch :create_player
-        end 
+        end
       end
     end
-    
+
     resource :gm_contact, :except => [ :show, :edit, :update, :index, :destroy ]
-    
+
   end
 
   resources :characters do
@@ -246,7 +246,7 @@ Blades::Application.routes.draw do
         patch :reject_from_approvals
       end
     end
-    
+
     resource :monster_point_declaration, :except => [ :show, :destroy ] do
       member do
         patch :approve
@@ -265,7 +265,7 @@ Blades::Application.routes.draw do
   end
 
   resource :committee_contact, :except => [ :show, :edit, :update, :index, :destroy ]
-  
+
   root :to => "pages#home"
 
   get "/event_calendar"   => "games#list_future",        :as => :event_calendar

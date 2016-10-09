@@ -86,7 +86,13 @@ FoodSubCategory.create(id: 10, description: "Other") unless FoodSubCategory.exis
   }
 
 # Pages
-Page.create(id: 1, title: "Welcome to BLADES", show_to_non_users: true, content: "Under construction") unless Page.exists?(1)
+[{id: 1, title: "Welcome to BLADES", show_to_non_users: true, content: "Under construction"}].each {|page|
+  p = Page.find_or_initialize_by(id: page[:id])
+  p.title = page[:title]
+  p.show_to_non_users = page[:show_to_non_users]
+  p.content = page[:content]
+  p.save! 
+  }
 
 # Races
 [{id: 1, name: "Human", death_thresholds: 10},

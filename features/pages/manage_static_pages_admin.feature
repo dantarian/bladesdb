@@ -37,12 +37,14 @@ Feature: Manage Static Pages - Admin
       Then a page updated message should be displayed
 		  And the updated page should be displayed
 
+	  @javascript
     Scenario: Deleting a page
     	Given there is a general page
       When the user deletes a static page
       Then a page deleted message should be displayed
 		  And the page should be deleted
 
+	  @javascript
     Scenario: Deleting the home page
       When the user deletes the home page
       Then a home page cannot be deleted message should be displayed
