@@ -13,7 +13,7 @@ class MonsterPointSpend < ActiveRecord::Base
     end
     validates_each :spent_on, :on => :create do |record, attr, value|
         mpd = record.character.user.monster_point_declaration
-        record.errors.add attr, I18n.t("character.monster_points.not_before_monster_point_declaration", date: mpd.declared_on) unless (mpd.nil? or record.spent_on > mpd.declared_on)
+        record.errors.add attr, I18n.t("character.monster_points.not_before_monster_point_declaration", date: mpd.declared_on) unless (mpd.nil? or mpd.is_rejected? or record.spent_on > mpd.declared_on)
     end
     validates_each :spent_on, :on => :create do |record, attr, value|
         record.errors.add attr, I18n.t("character.monster_points.not_before_character_declaration", date: record.character.declared_on) unless record.spent_on > record.character.declared_on

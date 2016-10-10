@@ -27,4 +27,40 @@ module CharactersHelper
         end
         return actions
     end
+    
+    def display_spend_monster_points_link?(character)
+        case
+        when character.user.monster_points == 0
+          false
+        when character.undeclared?
+          false
+        when character.recycled?
+          false
+        when character.retired?
+          false
+        when character.dead?
+          false
+        when !character.approved?
+          false
+        else
+          true 
+        end
+    end
+
+    def reason_cannot_spend_monster_points(character)
+        case
+        when character.user.monster_points == 0
+          I18n.t("character.cannot_spend_mp.no_mp")
+        when character.undeclared?
+          I18n.t("character.cannot_spend_mp.character_undeclared")
+        when character.recycled?
+          I18n.t("character.cannot_spend_mp.character_recycled")
+        when character.retired?
+          I18n.t("character.cannot_spend_mp.character_retired")
+        when character.dead?
+          I18n.t("character.cannot_spend_mp.character_dead")
+        when character.is_provisional?
+          I18n.t("character.cannot_spend_mp.character_provisional")
+        end
+    end
 end

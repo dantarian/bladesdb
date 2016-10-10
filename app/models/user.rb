@@ -329,19 +329,36 @@ class User < ActiveRecord::Base
     
     def monster_points_available_on( date )
         total = 0
-        monster_point_changes.each do |change|
+        monster_point_changes.reverse.each do |change|
             total += change.points if ((change.date <= date) and not(change.provisional or change.rejected or change.historical))
+            if (change.source_object.is_a? MonsterPointDeclaration) and change.provisional
+                total = [total, change.points].min
+            end
+            if (change.source_object.is_a? MonsterPointAdjustment) and change.provisional
+                total = [total, total + change.points].min
+            end
         end
+        
         total - monster_points_to_keep_in_hand_after(date)
     end
     
     def monster_points_to_keep_in_hand_after( date )
         points_to_keep = 0
         running_total = 0
-        monster_point_changes.each do |change|
-            if (change.date > date) and not(change.provisional or change.rejected or change.historical)
-                running_total -= change.points
-                points_to_keep = [points_to_keep, running_total].max
+        monster_point_changes.reverse.each do |change|
+            if (change.date > date)
+                if (change.provisional or change.rejected or change.historical)
+                    running_total -= change.points
+                    points_to_keep = [points_to_keep, running_total].max
+                end
+                if (change.source_object.is_a? MonsterPointDeclaration) and change.provisional
+                    running_total = [running_total, -change.points].max
+                    points_to_keep = [points_to_keep, running_total].max
+                end
+                if (change.source_object.is_a? MonsterPointAdjustment) and change.provisional
+                    running_total = [running_total, running_total - change.points].max
+                    points_to_keep = [points_to_keep, running_total].max
+                end
             end
         end
         points_to_keep
@@ -351,7 +368,7 @@ class User < ActiveRecord::Base
         if @changes.nil?
             @changes = []
             declaration_date = Date.new(1990, 1, 1)
-            declaration_date = monster_point_declaration.declared_on unless (monster_point_declaration.nil? or monster_point_declaration.is_provisional?)
+            declaration_date = monster_point_declaration.declared_on unless (monster_point_declaration.nil? or monster_point_declaration.is_provisional? or monster_point_declaration.is_rejected?)
             unless monster_point_declaration.nil?
                 change = MonsterPointChange.new
                 change.source_object = monster_point_declaration

@@ -31,11 +31,15 @@ module CharacterTestHelper
   end
   
   def retire_character
-      Character.first.retire
+      character = Character.first
+      character.state = Character::Retired
+      character.save!
   end
   
   def permdeath_character
-      Character.first.perm_kill
+      character = Character.first
+      character.state = Character::PermDead
+      character.save!
   end
   
   def recycle_character
