@@ -124,7 +124,7 @@ class Character < ActiveRecord::Base
                 guild_title = guild.calculate_title(points - (current_guild_membership.calculated_start_points || 0))
                 if guild_title.include? "BRANCH"
                    branch_title = current_guild_membership.guild_branch.nil? ? " " : current_guild_membership.guild_branch.branch_title
-                   guild_title.sub!(/BRANCH/, branch_title.to_s)
+                   guild_title = guild_title.sub(/BRANCH/, branch_title.to_s)
                 end
                 "#{guild_title} #{name}"
             else
