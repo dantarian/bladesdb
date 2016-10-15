@@ -30,6 +30,10 @@ class CharacterPage < BladesDBPage
     def check_no_monster_point_spend
         page.should have_no_content("Monster Points Spent")
     end
+    
+    def check_mp_spend_link_alternative_message(message)
+        page.find("li#rank").find("span.no_mp_spend_reason").should have_content(message)
+    end
 
     def check_character_points(points)
         page.find("li#rank").find("span.fieldvalue").should have_content((points/10.0).to_s)
@@ -76,22 +80,22 @@ class CharacterPage < BladesDBPage
     end
     
     def check_for_cannot_spend_on_unapproved_character_message
-        check_error_message(I18n.t("character.monster_points.not_on_unapproved_character"))
+        check_mp_spend_link_alternative_message(I18n.t("character.monster_points.not_on_unapproved_character"))
     end
     
     def check_for_cannot_spend_on_retired_character_message
-        check_error_message(I18n.t("character.monster_points.not_on_retired_character"))
+        check_mp_spend_link_alternative_message(I18n.t("character.monster_points.not_on_retired_character"))
     end
     
     def check_for_cannot_spend_on_dead_character_message
-        check_error_message(I18n.t("character.monster_points.not_on_dead_character"))
+        check_mp_spend_link_alternative_message(I18n.t("character.monster_points.not_on_dead_character"))
     end
     
     def check_for_cannot_spend_on_recycled_character_message
-        check_error_message(I18n.t("character.monster_points.not_on_recycled_character"))
+        check_mp_spend_link_alternative_message(I18n.t("character.monster_points.not_on_recycled_character"))
     end
     
     def check_for_cannot_spend_on_undeclared_character_message
-        check_error_message(I18n.t("character.monster_points.not_on_undeclared_character"))
+        check_mp_spend_link_alternative_message(I18n.t("character.monster_points.not_on_undeclared_character"))
     end
 end

@@ -37,6 +37,7 @@ en:
       not_on_dead_character: "Cannot spend monster points on a perm-dead character"
       not_on_recycled_character: "Cannot spend monster points on a recycled character"
       not_on_undeclared_character: "Cannot spend monster points on an undeclared character"
+      no_mp: "No monster points available to spend"
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."

@@ -86,11 +86,13 @@ Feature: Preventing monster point spends
     Given the character is retired
     And the user has 10 monster points available
     Then there should be no option for spending monster points
+    And the user should be told they cannot spend monster points on a retired character
   
   Scenario: Cannot spend monster points on a dead character
     Given the character is dead
     And the user has 10 monster points available
     Then there should be no option for spending monster points
+    And the user should be told they cannot spend monster points on a dead character
   
   Scenario: Cannot spend monster points on a recycled character
     Given the character is recycled
@@ -101,4 +103,3 @@ Feature: Preventing monster point spends
     Given the character is undeclared
     And the user has 10 monster points available
     Then there should be no option for spending monster points
-

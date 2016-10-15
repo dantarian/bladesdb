@@ -46,21 +46,21 @@ module CharactersHelper
           true 
         end
     end
-
+    
     def reason_cannot_spend_monster_points(character)
         case
         when character.user.monster_points == 0
-          I18n.t("character.cannot_spend_mp.no_mp")
+          I18n.t("character.monster_points.no_mp")
         when character.undeclared?
-          I18n.t("character.cannot_spend_mp.character_undeclared")
+          I18n.t("character.monster_points.not_on_undeclared_character")
         when character.recycled?
-          I18n.t("character.cannot_spend_mp.character_recycled")
+          I18n.t("character.monster_points.not_on_recycled_character")
         when character.retired?
-          I18n.t("character.cannot_spend_mp.character_retired")
+          I18n.t("character.monster_points.not_on_retired_character")
         when character.dead?
-          I18n.t("character.cannot_spend_mp.character_dead")
+          I18n.t("character.monster_points.not_on_dead_character")
         when character.is_provisional?
-          I18n.t("character.cannot_spend_mp.character_provisional")
+          I18n.t("character.monster_points.not_on_unapproved_character")
         end
     end
 end

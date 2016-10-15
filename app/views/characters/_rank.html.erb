@@ -9,7 +9,7 @@
             <% if display_spend_monster_points_link? character %>
                 <%= link_to "Spend monster points", new_character_monster_point_spend_path(character), :method => :get, :remote => true %>
             <% else %>
-            	<%= reason_cannot_spend_monster_points character %>
+            	<span class="no_mp_spend_reason"><%= reason_cannot_spend_monster_points character %></span>
             <% end %>
             |
                 <% unless character.last_monster_point_spend.nil? %>
