@@ -122,6 +122,10 @@ class CharactersController < ApplicationController
           when "no_title" then true
           else false
         end
+        @character.title = case params[:radio_title]
+          when "custom" then @character.title
+          else nil
+        end
         update_character(params.require(:character).permit(:name, :title, :no_title), :edit_name)
     end
     

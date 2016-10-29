@@ -68,9 +68,9 @@
 <% if !game.is_debrief_finished? and game.is_editable_by? current_user and game.gm_points_available < 0 %>
     <p><strong><em>Warning: You have allocated <%= -game.gm_points_available %> more GM points than are available.</em></strong></p>
 <% end %>
-<ul class="debriefs">
+<ul class="debriefs gms">
     <% game.gm_debriefs.includes(:user).to_a.each do |debrief| %>
-        <li>
+        <li id="gm<%= debrief.user.id %>">
             <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
                 <div class="actions">
                     [
@@ -100,9 +100,9 @@
 <% end %>
 
 <h3 class="alt">Players - Base <%= game.player_points_base %> - Base Pay <%= money_for_display(game.player_money_base) %></h3>
-<ul class="debriefs">
+<ul class="debriefs players">
     <% (game.player_debriefs.includes(:user, :character).to_a || []).each do |debrief| %>
-        <li id="player<%= debrief.user.id %>">
+        <li id="player<%= debrief.character.id %>">
             <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
                 <div class="actions">
                     [
@@ -157,7 +157,7 @@
 <% end %>
 
 <h3 class="alt">Monsters - Base <%= game.monster_points_base %></h3>
-<ul class="debriefs">
+<ul class="debriefs monsters">
     <% (game.monster_debriefs.includes(:user).to_a || []).each do |debrief| %>
         <li id="monster<%= debrief.user.id %>">
             <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>

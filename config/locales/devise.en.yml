@@ -4,7 +4,7 @@ en:
   devise:
     confirmations:
       confirmed: "Your account was successfully confirmed and is awaiting approval for full site access."
-      send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes."
+      send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes. Check your Junk folder if it doesn't arrive."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes."
     failure:
       already_authenticated: "You are already signed in."
@@ -15,7 +15,7 @@ en:
       not_found_in_database: "Invalid email or password."
       timeout: "Your session expired, please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your account before continuing."
+      unconfirmed: "You have to confirm your account before continuing. You should have an email with instructions on how to do this - check your Junk folder if it hasn't arrived, or add no-reply@bathlarp.pencethren.org to your Safe Senders and request a resend."
       user:
         suspended: "Your account has been suspended. This may be because you haven't paid your membership fee for this year, nor indicated to the BathLARP committee that you wish to continue your membership. Please e-mail the committee if you wish to do this, or if you believe that your account has been suspended in error."
     mailer:
@@ -39,7 +39,7 @@ en:
       signed_up: "Welcome! You have signed up successfully."
       signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
       signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please open the link to activate your account. Check your Junk folder if the email has not arrived."
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address."
       updated: "You updated your account successfully."
     sessions:

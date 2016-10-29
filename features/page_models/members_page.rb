@@ -81,6 +81,10 @@ class MembersPage < BladesDBPage
     webonly.should have_link(user.name)
   end
   
+  def check_for_undeclared_user(user)
+    page.find("table#gm-created tbody").should have_link(user)
+  end
+  
   def check_for_role(rolename:, user:, display: true)
     search = "table#active tbody tr#user" + user.id.to_s
     userrow = page.find(search)
