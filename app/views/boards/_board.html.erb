@@ -2,7 +2,7 @@
 	<td>
 		<%= link_to fa_icon("arrow-up"), move_up_board_path(board), remote: true, method: :patch %>&nbsp;
 		<%= link_to fa_icon("arrow-down"), move_down_board_path(board), remote: true, method: :patch %>&nbsp;
-		<%=h board.name %>
+		<%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %>
 	</td>
 	<td><%= board.messages.size %></td>
 	<td>
