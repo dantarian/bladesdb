@@ -2,27 +2,28 @@ class MonsterPointSpend < ActiveRecord::Base
     belongs_to :character
 
     validates_presence_of :spent_on
-    validates_each :spent_on, :on => :create do |record, attr, value|
-        last_mp_spend = record.character.monster_point_spends.order("spent_on ASC").last
-        record.errors.add attr, I18n.t("character.monster_points.not_before_last_spend", date: last_mp_spend.spent_on) unless (last_mp_spend.nil? or record.spent_on > last_mp_spend.spent_on)
+    validates_each :spent_on do |record, attr, value|
+        record.errors.add attr, I18n.t("character.monster_points.not_before_last_spend", date: record.last_mp_spend.spent_on) if record.mp_spend_after?
     end
-    validates_each :spent_on, :on => :create do |record, attr, value|
-        game_dates = record.character.debriefs.to_a.map {|d| d.game.start_date }.sort
-        last_but_one_game = game_dates.count > 1 ? game_dates[-2] : nil
-        record.errors.add attr, I18n.t("character.monster_points.not_before_penultimate_game", date: last_but_one_game) unless (last_but_one_game.nil? or record.spent_on > last_but_one_game)
+    validates_each :spent_on do |record, attr, value|
+        record.errors.add attr, I18n.t("character.monster_points.not_before_most_recent_debrief", date: record.debrief_preventing_change.game.start_date) if record.closed_debriefs_after?
     end
-    validates_each :spent_on, :on => :create do |record, attr, value|
-        mpd = record.character.user.monster_point_declaration
-        record.errors.add attr, I18n.t("character.monster_points.not_before_monster_point_declaration", date: mpd.declared_on) unless (mpd.nil? or mpd.is_rejected? or record.spent_on > mpd.declared_on)
+    validates_each :spent_on do |record, attr, value|
+        record.errors.add attr, I18n.t("character.monster_points.not_before_monster_point_declaration", date: record.character.user.monster_point_declaration.declared_on) if record.monster_point_declaration_after?
     end
-    validates_each :spent_on, :on => :create do |record, attr, value|
+    validates_each :spent_on do |record, attr, value|
         record.errors.add attr, I18n.t("character.monster_points.not_before_character_declaration", date: record.character.declared_on) unless record.spent_on > record.character.declared_on
     end
     validates_each :spent_on do |record, attr, value|
         record.errors.add attr, I18n.t("character.monster_points.not_in_future") unless value <= Date.today
     end
+    validates_each :spent_on do |record, attr, value|
+        record.errors.add attr, I18n.t("character.monster_points.not_before_character_point_adjustment", date: record.character_point_adjustment_preventing_change.declared_on) if record.character_point_adjustment_after?
+    end
+    
     validates_presence_of :character_points_gained, :if => :complete, :message => I18n.t("character.monster_points.at_least_one")
     validates_numericality_of :character_points_gained, :greater_than => 0, :if => :complete, :message => I18n.t("character.monster_points.at_least_one")
+    
     validates_each :monster_points_spent, :if => :complete do |record, attr, value|
         record.errors.add attr, I18n.t("character.monster_points.not_enough_mp", points: record.monster_points_available) if record.spending_too_many_monster_points?
     end
@@ -55,16 +56,63 @@ class MonsterPointSpend < ActiveRecord::Base
     end
     
     def monster_points_available
-        recent = (self.spent_on > MonsterPointSpend.find(self.id).spent_on) unless new_record?
-        self.character.user.monster_points_available_on(spent_on) + (new_record? ? 0 : (recent ? MonsterPointSpend.find(self.id).monster_points_spent : 0))
+        self.character.user.monster_points_available_on(spent_on)
     end
     
     def character_points_before_spend
-        recent = (self.spent_on > MonsterPointSpend.find(self.id).spent_on) unless new_record?
-        self.character.points_on(spent_on) - (new_record? ? 0 : (recent ? MonsterPointSpend.find(self.id).character_points_gained : 0))      
+        points = self.character.points_on(spent_on)
+        self.character.character_point_adjustments.where(approved: nil).each do |cpa|
+            points = [points, points + cpa.points].max
+        end
+        points
     end
     
     def character_rank_before_spend
         self.character_points_before_spend/10.0
+    end
+    
+    def can_delete?
+        !mp_spend_after? and !closed_debriefs_after?
+    end
+    
+    def mp_spend_after?
+        self.character.monster_point_spends.where("spent_on > ?", spent_on).exists?
+    end
+    
+    def last_mp_spend
+        self.character.monster_point_spends.order(:spent_on).last
+    end
+    
+    def last_spend?
+        self.id == last_mp_spend.id
+    end
+    
+    def closed_debriefs_after?
+        !debrief_preventing_change.nil?
+    end
+    
+    def debrief_preventing_change
+        self.character.debriefs.joins(:game).where(games: {debrief_started: true, open: false}).where("games.start_date >= ?", spent_on).order('games.start_date desc').first
+    end
+    
+    def monster_point_declaration_after?
+        declaration = self.character.user.monster_point_declaration
+        !(declaration.nil?) and !(declaration.is_rejected?) and declaration.declared_on > self.spent_on
+    end
+    
+    def monster_point_adjustment_preventing_change
+        self.character.user.monster_point_adjustments.where("declared_on > ?", spent_on).where('approved = ? or approved is null', true).order(declared_on: :desc).first
+    end
+    
+    def monster_point_adjustment_after?
+        !(monster_point_adjustment_preventing_change.nil?)
+    end
+
+    def character_point_adjustment_preventing_change
+        self.character.character_point_adjustments.where("declared_on > ?", spent_on).where('approved = ? or approved is null', true).order(declared_on: :desc).first
+    end
+    
+    def character_point_adjustment_after?
+        !(character_point_adjustment_preventing_change.nil?)
     end
 end

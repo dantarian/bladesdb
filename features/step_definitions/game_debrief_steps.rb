@@ -13,13 +13,13 @@ Given(/^the game debrief has been started$/) do
 end
 
 Given(/^the game has been debriefed$/) do
-  GameTestHelper.set_date Date.today - 7.days, of: Game.first
+  # GameTestHelper.set_date Date.today - 7.days, of: Game.first
   GameTestHelper.start_debriefing Game.first
   GameTestHelper.close_debrief Game.first
 end
 
 Given(/^the other game has been debriefed$/) do
-  GameTestHelper.set_date Date.today - 7.days, of: Game.all.second
+  # GameTestHelper.set_date Date.today - 7.days, of: Game.all.second
   GameTestHelper.start_debriefing Game.all.second
   GameTestHelper.close_debrief Game.all.second
 end

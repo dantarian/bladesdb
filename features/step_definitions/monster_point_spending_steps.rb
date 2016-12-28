@@ -17,11 +17,11 @@ Given(/^the user has a monster point declaration one week ago$/) do
 end
 
 Given(/^the user has a monster point declaration since the monster point spend$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpends.first.spent_on + 1.day)
+  UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day)
 end
  
 Given(/^the user has a rejected monster point declaration since the monster point spend$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpends.first.spent_on + 1.day, approved: false)
+  UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day, approved: false)
 end
  
 Given(/^the user has a pending monster point declaration for (\d+) monster points?$/) do |points|
@@ -33,7 +33,7 @@ Given(/^the user has a rejected monster point declaration one week ago$/) do
 end
 
 Given(/^the user has a monster point adjustment since the monster point spend$/) do
-  UserTestHelper.add_monster_point_adjustment(User.first, 10, MonsterPointSpends.first.spent_on + 1.day)
+  UserTestHelper.add_monster_point_adjustment(User.first, 10, MonsterPointSpend.first.spent_on + 1.day)
 end
 
 Given(/^the user has a pending monster point adjustment for \+(\d+) monster points$/) do |points|
@@ -72,6 +72,18 @@ Given(/^the user bought (\d+) character points? for (\d+) monster points? for th
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Game.first.start_date + 1.day, character_points_gained: cp, monster_points_spent: mp)
 end
 
+Given(/^the user has a rejected monster point adjustment since the monster point spend$/) do
+  UserTestHelper.add_monster_point_adjustment(User.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
+end
+
+Given(/^the character has a character point adjustment since the monster point spend$/) do
+  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day)
+end
+
+Given(/^the user has a rejected character point adjustment since the monster point spend$/) do
+  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
+end
+
 # Action steps
 
 When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the character$/) do |points|
@@ -90,7 +102,7 @@ When(/^the user (?:buys|tries to buy) (\d+) character points? for the character 
   CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points.to_i, date: Game.first.start_date + 1.day)
 end
 
-When(/^the user tries to buy character points for the character before the first game$/) do
+When(/^the user tries to buy character points for the character before the (?:|first )game$/) do
   CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(Game.first.start_date)
 end
 
@@ -115,7 +127,19 @@ When(/^the user deletes the monster point spend$/) do
 end
 
 When(/^the user tries to delete the monster point spend$/) do
-  CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_delete_last_monster_point_spend(Character.first)
+  CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_delete_last_monster_point_spend(delete_new_character_monster_point_spend_path(Character.first))
+end
+
+When(/^the user tries to spend monster points before the monster point spend$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(MonsterPointSpend.first.spent_on - 1.day)
+end
+
+When(/^the user tries to spend monster points before the character point adjustment$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(CharacterPointAdjustment.first.declared_on - 1.day)
+end
+
+When(/^the user buys (\d+) character point for the character before the character point adjustment$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points, date: CharacterPointAdjustment.first.declared_on - 1.day)
 end
 
 # Verification steps
@@ -149,7 +173,7 @@ Then(/^the user should be told they cannot buy negative character points$/) do
 end
 
 Then(/^the user should be told they cannot create a monster point spend before their last monster point spend$/) do
-  CharacterPage.new.check_for_cannot_spend_before_last_spend_message(MonsterPointSpends.first.spent_on)
+  CharacterPage.new.check_for_cannot_spend_before_last_spend_message(MonsterPointSpend.first.spent_on)
 end
 
 Then(/^the user should be told they cannot create a monster point spend before their most recent debriefed game$/) do
@@ -166,10 +190,6 @@ end
 
 Then(/^the user should be told they cannot create a monster point spend in the future$/) do
   CharacterPage.new.check_for_cannot_spend_in_future_message
-end
-
-Then(/^the user should be told they cannot buy so many character points as to put them over\-rank for the game$/) do
-  CharacterPage.new.check_for_cannot_spend_to_over_rank_message(Game.first)
 end
 
 Then(/^the user should be told they cannot spend monster points on an unapproved character$/) do
@@ -193,15 +213,15 @@ Then(/^the user should be told they cannot spend monster points on an undeclared
 end
 
 Then(/^the user should be told they cannot delete a monster point spend before a debriefed game$/) do
-  CharacterPage.new.check_for_cannot_delete_spend_before_debriefed_game_message
+  CharacterPage.new.check_for_cannot_delete_spend_before_debriefed_game_message(Game.last.start_date)
 end
 
 Then(/^the user should be told they cannot delete a monster point spend before a monster point declaration$/) do
-  CharacterPage.new.check_for_cannot_delete_spend_before_monster_point_declaration
+  CharacterPage.new.check_for_cannot_delete_spend_before_monster_point_declaration(User.first.monster_point_declaration.declared_on)
 end
 
 Then(/^user should be told they cannot delete a monster point spend before a monster point adjustment$/) do
-  CharacterPage.new.check_for_cannot_delete_spend_before_monster_point_adjustment
+  CharacterPage.new.check_for_cannot_delete_spend_before_monster_point_adjustment(User.first.monster_point_adjustments.last.declared_on)
 end
 
 Then(/^the user should be told they cannot delete a monster point spend on a dead character$/) do
@@ -218,5 +238,13 @@ end
 
 Then(/^the user should receive an e\-mail telling them that their monster point spend has changed in cost$/) do
   EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_changed"))
+end
+
+Then(/^user should be told they cannot delete a monster point spend before a character point adjustment$/) do
+  CharacterPage.new.check_for_cannot_delete_spend_before_character_point_adjustment(Character.first.character_point_adjustments.last.declared_on)
+end
+
+Then(/^the user should be told they cannot create a monster point spend before the character point adjustment$/) do
+  CharacterPage.new.check_for_cannot_spend_before_character_point_adjustment(Character.first.character_point_adjustments.last.declared_on)
 end
 

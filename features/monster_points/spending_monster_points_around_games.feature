@@ -24,7 +24,7 @@ Feature: Spending monster points around games
     And the character was on the game
     And the game has been debriefed
     And the character has received 10 character points in the debrief
-    When the user tries to buy 1 character point for the character before the game
+    When the user tries to buy character points for the character before the game
     Then the user should be told they cannot create a monster point spend before their most recent debriefed game
   
   Scenario: Can spend before a game played as the character if the debrief has not been started
@@ -40,14 +40,6 @@ Feature: Spending monster points around games
     And the game debrief has been started
     When the user buys 1 character point for the character before the game
     Then the character should have 21 character points
-  
-  Scenario: Cannot retrospectively buy CP that would put you over the rank bracket for the game
-    Given the character has 20 character points
-    And the game has a maximum rank of 2
-    And the character was on the game
-    And the game has not been debriefed
-    When the user tries to buy 1 character point for the character before the game
-    Then the user should be told they cannot buy so many character points as to put them over-rank for the game
   
   Scenario: After playing a game, the number of CP you can buy is reset
     Given the character has 150 character points

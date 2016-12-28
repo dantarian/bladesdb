@@ -42,6 +42,22 @@ Given(/^the character is undeclared$/) do
   CharacterTestHelper.undeclare_character
 end
 
+Given(/^there is a character point adjustment on the character$/) do
+  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, 2.days.ago, approved: true)
+end
+
+Given(/^there is a rejected character point adjustment on the character$/) do
+  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, 2.days.ago, approved: false)
+end
+
+Given(/^the character has a pending character point adjustment for (\d+) character points?$/) do |points|
+  CharacterTestHelper.add_character_point_adjustment(Character.first, points.to_i, 2.days.ago, approved: nil)
+end
+
+Given(/^the character has a pending character point adjustment for \-(\d+) character points?$/) do |points|
+  CharacterTestHelper.add_character_point_adjustment(Character.first, -(points.to_i), 2.days.ago, approved: nil)
+end
+
 
 
 Then(/^the user should see a short user name and character link on the character$/) do

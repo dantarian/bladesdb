@@ -49,7 +49,7 @@ class BladesDBPage
     end
     
     def check_error_message(message)
-        page.find("div.errorExplanation").should have_text(message)
+        page.find("div.errorExplanation, div.error").should have_text(message)
     end
 end
 

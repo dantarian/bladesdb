@@ -17,11 +17,13 @@
 			</li>
 			<li>
 				<%= f.label nil, "Total monster points available on date of spend" %><br />
-				<span id="mpTotal"><%= @monster_point_spend.monster_points_available %></span>
+				<span id="mpTotal"><%= @monster_point_spend.monster_points_available %></span><br />
+				<em>Note: This may include any pending monster point adjustments.</em>
 			</li>
 			<li>
 				<%= f.label nil, "Rank on date of spend" %><br />
-                <span id="charRank"><%= @monster_point_spend.character_rank_before_spend %></span>
+                <span id="charRank"><%= @monster_point_spend.character_rank_before_spend %></span><br />
+                <em>Note: This may include any pending character point adjustments.</em>
 			</li>
 			<li>
 				<%= f.label nil, "Maximum character points available to buy for #{@monster_point_spend.character.name}" %><br />

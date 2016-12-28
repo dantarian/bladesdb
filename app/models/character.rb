@@ -275,7 +275,7 @@ class Character < ActiveRecord::Base
     def points_bought_since_last_game(date)
         last_game_date = declared_on
         unless debriefs.empty?
-            last_game_date = debriefs.joins(:game).where(games: {non_stats: false}).where("games.start_date <= ?", date).maximum("games.start_date")
+            last_game_date = debriefs.joins(:game).where(games: {non_stats: false}).where("games.start_date <= ?", date).maximum("games.start_date") || declared_on
         end
         monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:monster_points_spent)
     end

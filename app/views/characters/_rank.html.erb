@@ -12,8 +12,8 @@
             	<span class="no_mp_spend_reason"><%= reason_cannot_spend_monster_points character %></span>
             <% end %>
             |
-                <% unless character.last_monster_point_spend.nil? %>
-                    <%= link_to "Edit last monster points spend", edit_character_monster_point_spend_path(character, character.last_monster_point_spend), :method => :get, :remote => true %>
+                <% if (!character.last_monster_point_spend.nil?) and character.last_monster_point_spend.can_delete? %>
+                    <%= link_to "Delete last monster point spend", delete_new_character_monster_point_spend_path(character), :method => :delete %>
                     |
                 <% end %>
                 <%= link_to "Request adjustment", new_character_character_point_adjustment_path(character), :method => :get, :remote => true %> 

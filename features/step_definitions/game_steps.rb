@@ -6,6 +6,10 @@ Given(/^there is another game$/) do
   GameTestHelper.create_game(title: "Second game")
 end
 
+Given(/^there is a game one week ago$/) do
+  GameTestHelper.create_game(start_date: 1.week.ago)
+end
+
 Given(/^there is a game in the past$/) do
   GameTestHelper.create_game(start_date: 1.year.ago)
 end

@@ -19,8 +19,8 @@ class CharacterPage < BladesDBPage
         page.click_link "Delete last monster point spend"
     end
     
-    def try_to_delete_last_monster_point_spend(character)
-        page.driver.submit :delete, "/characters/#{character.id}/monster_point_spends/last", {}
+    def try_to_delete_last_monster_point_spend(url)
+        page.driver.submit :delete, url, {}
     end
 
     def confirm_absence_of_spend_monster_points_link
@@ -71,12 +71,12 @@ class CharacterPage < BladesDBPage
         check_error_message(I18n.t("character.monster_points.not_before_character_declaration", date: date))
     end
     
-    def check_for_cannot_spend_in_future_message
-        check_error_message(I18n.t("character.monster_points.not_in_future"))
+    def check_for_cannot_spend_before_character_point_adjustment(date)
+        check_error_message(I18n.t("character.monster_points.not_before_character_point_adjustment", date: date))
     end
     
-    def check_for_cannot_spend_to_over_rank_message(game)
-        check_error_message(I18n.t("character.monster_points.not_over_rank", title: game.title, date: game.start_date, max_rank: game.upper_rank / 10.0))
+    def check_for_cannot_spend_in_future_message
+        check_error_message(I18n.t("character.monster_points.not_in_future"))
     end
     
     def check_for_cannot_spend_on_unapproved_character_message
@@ -97,5 +97,33 @@ class CharacterPage < BladesDBPage
     
     def check_for_cannot_spend_on_undeclared_character_message
         check_mp_spend_link_alternative_message(I18n.t("character.monster_points.not_on_undeclared_character"))
+    end
+    
+    def check_for_cannot_delete_spend_before_debriefed_game_message(date)
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_with_closed_debrief_after", date: date))
+    end
+    
+    def check_for_cannot_delete_spend_before_monster_point_declaration(date)
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_with_mp_declaration_after", date: date))
+    end
+    
+    def check_for_cannot_delete_spend_before_monster_point_adjustment(date)
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_with_mp_adjustment_after", date: date))
+    end
+    
+    def check_for_cannot_delete_spend_before_character_point_adjustment(date)
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_with_cp_adjustment_after", date: date))
+    end
+    
+    def check_for_cannot_delete_spend_on_dead_character
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_when_perm_dead"))
+    end
+    
+    def check_for_cannot_delete_spend_on_retired_character
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_when_retired"))
+    end
+    
+    def check_for_cannot_delete_spend_on_recycled_character
+        check_error_message(I18n.t("character.monster_points.delete_last_spend.not_when_recycled"))
     end
 end
