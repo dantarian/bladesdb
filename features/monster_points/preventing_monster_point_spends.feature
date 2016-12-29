@@ -94,14 +94,14 @@ Feature: Preventing monster point spends
     Given the character has 100 character points
     And the user has 3 monster points available
     And the character has a pending character point adjustment for -1 character point
-    When the user tries to buy 2 character points for the character
+    When the user tries to buy 2 character points for the character after the character point adjustment
     Then the user should be told they cannot spend more than 3 monster points
   
   Scenario: Cannot spend monster points with a pending character point adjustment if cost is greater than points available with the adjustment
     Given the character has 98 character points
     And the user has 2 monster points available
     And the character has a pending character point adjustment for 2 character points
-    When the user tries to buy 2 character points for the character
+    When the user tries to buy 2 character points for the character after the character point adjustment
     Then the user should be told they cannot spend more than 2 monster points
   
   Scenario: Can spend monster points with a pending character point adjustment if cost is less than or equal to points available both with and without the adjustment
@@ -109,7 +109,7 @@ Feature: Preventing monster point spends
     Given the character has 100 character points
     And the user has 20 monster points available
     And the character has a pending character point adjustment for -1 character point
-    When the user buys 2 character points for the character
+    When the user buys 2 character points for the character after the character point adjustment
     Then the character should have 102 character points
     And the user should have 16 monster points
     
@@ -117,21 +117,21 @@ Feature: Preventing monster point spends
     Given the character has 60 character points
     And the user has 100 monster points available
     And the character has a pending character point adjustment for 5 character points
-    When the user tries to buy 40 character points for the character
+    When the user tries to buy 40 character points for the character after the character point adjustment
     Then the user should be told they cannot buy more than 35 character points
   
   Scenario: Cannot buy more than 30 character points with a pending character point adjustment if final rank without the adjustment would be more than 10.
     Given the character has 75 character points
     And the user has 100 monster points available
     And the character has a pending character point adjustment for -10 character points
-    When the user tries to buy 35 character points for the character
+    When the user tries to buy 35 character points for the character after the character point adjustment
     Then the user should be told they cannot buy more than 30 character points
   
   Scenario: Can buy more than 30 character points with a pending character point adjustment if final rank both with and without the adjustment would be less than or equal to 10.
     Given the character has 20 character points
     And the user has 100 monster points available
     And the character has a pending character point adjustment for 10 character points
-    When the user tries to buy 40 character points for the character
+    When the user tries to buy 40 character points for the character after the character point adjustment
     Then the character should have 60 character points
     And the user should have 60 monster points
 

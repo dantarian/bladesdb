@@ -33,6 +33,12 @@ class MonsterPointSpend < ActiveRecord::Base
     
     attr_accessor :complete
     
+    def self.fix_after(date)
+        MonsterPointSpend.where(spent_on: date..Date.today).each do |spend|
+            spend.fix_points
+        end
+    end
+    
     def spending_too_many_monster_points?
         !has_enough_monster_points
     end
@@ -47,12 +53,8 @@ class MonsterPointSpend < ActiveRecord::Base
     end
     
     def has_enough_monster_points
-        cp = self.character_points_before_spend
-        total_cost = (cp...cp + self.character_points_gained).inject(0) do |cost, point|
-            cost + (point.div 100) + 1
-        end
-        self.monster_points_spent = total_cost
-        return total_cost <= monster_points_available
+        self.monster_points_spent = calculated_cost
+        return monster_points_spent <= monster_points_available
     end
     
     def monster_points_available
@@ -60,8 +62,8 @@ class MonsterPointSpend < ActiveRecord::Base
     end
     
     def character_points_before_spend
-        points = self.character.points_on(spent_on)
-        self.character.character_point_adjustments.where(approved: nil).each do |cpa|
+        points = self.character.points_on(spent_on - 1.day)
+        self.character.character_point_adjustments.where(approved: nil).where("declared_on <= ?", spent_on).each do |cpa|
             points = [points, points + cpa.points].max
         end
         points
@@ -115,4 +117,25 @@ class MonsterPointSpend < ActiveRecord::Base
     def character_point_adjustment_after?
         !(character_point_adjustment_preventing_change.nil?)
     end
+    
+    def calculated_cost
+        cp = self.character_points_before_spend
+        return (cp...cp + self.character_points_gained).inject(0) do |cost, point|
+            cost + (point.div 100) + 1
+        end
+    end
+    
+    def fix_points
+        original_cost = monster_points_spent
+        new_cost = calculated_cost
+        if monster_points_spent != new_cost
+            update!(monster_points_spent: new_cost)
+            if new_cost > original_cost
+                UserMailer.mp_spend_cost_increase(self, original_cost).deliver
+            else
+                UserMailer.mp_spend_cost_decrease(self, original_cost).deliver
+            end
+        end
+    end
 end
+

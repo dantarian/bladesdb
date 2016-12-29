@@ -51,6 +51,7 @@ class Game < ActiveRecord::Base
     
     before_validation :update_character_states
     after_update :remove_play_or_monster_attendances_for_gms
+    after_update :fix_mp_spend_costs
     
     auto_strip_attributes :title, :ic_brief, :ooc_brief, :ic_debrief, :ooc_debrief, :notes
     
@@ -302,5 +303,11 @@ class Game < ActiveRecord::Base
             board_post.user = current_user
             board_post.request_uuid = SecureRandom.uuid
             board_post.save!
+        end
+        
+        def fix_mp_spend_costs
+            if is_debrief_finished? and open_changed?
+                MonsterPointSpend.fix_after(start_date)
+            end
         end
 end

@@ -7,7 +7,8 @@ en:
     rejected: "rejected"
   email_subjects:
     approved: "Your account has been approved"
-    mp_cost_changed: "Monster Point Spend Cost Change"
+    mp_cost_decreased: "Monster Point Spend Cost Decreased"
+    mp_cost_increased: "Monster Point Spend Cost Increased"
   failure:
     permission_denied: "You do not have permission to perform that action."
     role_permission_denied: "You cannot be logged in and perform that action."

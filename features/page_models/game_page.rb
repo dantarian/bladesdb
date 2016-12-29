@@ -25,11 +25,10 @@ class GamePage < BladesDBPage
     self
   end
   
-  def update_player_debrief(character, total_cp: nil)
+  def update_player_debrief(character, bonus: nil)
     page.find("li#player#{character.user.id}").click_link("Edit")
-    unless total_cp.nil?
-      page.fill_in("Base Points (if different to Player Base)", with: total_cp)
-      page.fill_in("Bonus Points", with: 0)
+    unless bonus.nil?
+      page.fill_in("Bonus Points", with: bonus)
     end
     page.click_button("Update")
   end

@@ -20,6 +20,6 @@ module EmailTestHelper
   end
   
   def check_for_email(to: nil, regarding: nil)
-    expect(count_emails_with_subject(to, regarding)).to_be > 0
+    expect(count_emails_with_subject(to, "[BathLARP] #{regarding}")).to be > 0
   end
 end

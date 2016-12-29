@@ -91,6 +91,14 @@ class UserMailer < ActionMailer::Base
         @state = attendance.confirm_state.to_s
         mail(to: @recipients, subject: @subject)
     end
+    
+    def mp_spend_cost_increase(mp_spend, old_cost)
+        mp_spend_cost_change(I18n.t("email_subjects.mp_cost_increased"), mp_spend, old_cost)
+    end
+    
+    def mp_spend_cost_decrease(mp_spend, old_cost)
+        mp_spend_cost_change(I18n.t("email_subjects.mp_cost_decreased"), mp_spend, old_cost)
+    end
 
     protected
     def setup_email(user)
@@ -118,4 +126,13 @@ class UserMailer < ActionMailer::Base
         mail(to: @recipients, subject: @subject)
     end
     
+    def mp_spend_cost_change(subject, mp_spend, old_cost)
+        setup_email(mp_spend.character.user)
+        @subject += subject
+        @character = mp_spend.character
+        @spent_on = mp_spend.spent_on
+        @old_cost = old_cost
+        @new_cost = mp_spend.monster_points_spent
+        mail(to: @recipients, subject: @subject)
+    end
 end

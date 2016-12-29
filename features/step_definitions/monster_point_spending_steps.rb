@@ -114,6 +114,14 @@ When(/^the user tries to spend monster points on the character before their mons
   CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(User.first.monster_point_declaration.declared_on - 1.day)
 end
 
+When(/^the user (?:buys|tries to buy) (\d+) character points? for the character before the character point adjustment$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points, date: CharacterPointAdjustment.first.declared_on - 1.day)
+end
+
+When(/^the user (?:buys|tries to buy) (\d+) character points? for the character after the character point adjustment$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points, date: CharacterPointAdjustment.first.declared_on + 1.day)
+end
+
 When(/^the user tries to spend monster points on the character before the character was declared$/) do
   CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(Character.first.declared_on - 1.day)
 end
@@ -138,8 +146,8 @@ When(/^the user tries to spend monster points before the character point adjustm
   CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(CharacterPointAdjustment.first.declared_on - 1.day)
 end
 
-When(/^the user buys (\d+) character point for the character before the character point adjustment$/) do |points|
-  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points, date: CharacterPointAdjustment.first.declared_on - 1.day)
+When(/^the user tries to spend monster points after the character point adjustment$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.try_to_spend_monster_points_on(CharacterPointAdjustment.first.declared_on + 1.day)
 end
 
 # Verification steps
@@ -236,8 +244,12 @@ Then(/^the user should be told they cannot delete a monster point spend on a rec
   CharacterPage.new.check_for_cannot_delete_spend_on_recycled_character
 end
 
-Then(/^the user should receive an e\-mail telling them that their monster point spend has changed in cost$/) do
-  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_changed"))
+Then(/^the user should receive an e\-mail telling them that their monster point spend has reduced in cost$/) do
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_decreased"))
+end
+
+Then(/^the user should receive an e\-mail telling them that their monster point spend has increased in cost$/) do
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_increased"))
 end
 
 Then(/^user should be told they cannot delete a monster point spend before a character point adjustment$/) do
