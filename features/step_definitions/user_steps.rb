@@ -100,8 +100,12 @@ When(/^the GM logs in$/) do
   LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.find_by_email("gm@mail.com").username, UserTestHelper::DEFAULT_PASSWORD
 end
 
-When(/^the GM logs out$/) do
+When(/^the (?:GM|character ref|user) logs out$/) do
   BladesDBPage.new.visit_page("/").and.log_out
+end
+
+When(/^the character ref logs in$/) do
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.find_by_email("charles@mail.com").username, UserTestHelper::DEFAULT_PASSWORD
 end
 
 When(/^the user updates their name$/) do

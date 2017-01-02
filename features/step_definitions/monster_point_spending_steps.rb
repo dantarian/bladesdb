@@ -72,6 +72,18 @@ Given(/^the user bought (\d+) character points? for (\d+) monster points? for th
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Game.first.start_date + 1.day, character_points_gained: cp, monster_points_spent: mp)
 end
 
+Given(/^the user bought (\d+) character points? for (\d+) monster points? for the character after the character point adjustment$/) do |cp, mp|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: CharacterPointAdjustment.first.declared_on + 1.day, character_points_gained: cp, monster_points_spent: mp)
+end
+
+Given(/^the user bought (\d+) character points? for (\d+) monster points? for the other character$/) do |cp, mp|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.all.second, date: Date.yesterday, character_points_gained: cp, monster_points_spent: mp)
+end
+
+Given(/^the user bought (\d+) character points? for (\d+) monster points? for the other character before the game$/) do |cp, mp|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.all.second, date: Game.first.start_date - 1.day, character_points_gained: cp, monster_points_spent: mp)
+end
+
 Given(/^the user has a rejected monster point adjustment since the monster point spend$/) do
   UserTestHelper.add_monster_point_adjustment(User.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
 end
@@ -120,6 +132,10 @@ end
 
 When(/^the user (?:buys|tries to buy) (\d+) character points? for the character after the character point adjustment$/) do |points|
   CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points, date: CharacterPointAdjustment.first.declared_on + 1.day)
+end
+
+When(/^the user (?:buys|tries to buy) (\d+) character points? for the character before the monster point spend on the other character$/) do |points|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.buy_character_points_with_monster_points(points, date: MonsterPointSpend.first.spent_on - 1.day)
 end
 
 When(/^the user tries to spend monster points on the character before the character was declared$/) do

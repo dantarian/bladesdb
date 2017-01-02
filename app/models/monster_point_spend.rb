@@ -33,8 +33,10 @@ class MonsterPointSpend < ActiveRecord::Base
     
     attr_accessor :complete
     
-    def self.fix_after(date)
-        MonsterPointSpend.where(spent_on: date..Date.today).each do |spend|
+    def self.fix_after(date, character = nil)
+        spends = MonsterPointSpend.where(spent_on: date..Date.today)
+        spends = spends.where(character_id: character.id) unless character.nil?
+        spends.each do |spend|
             spend.fix_points
         end
     end

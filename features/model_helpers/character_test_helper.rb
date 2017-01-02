@@ -9,25 +9,25 @@ module CharacterTestHelper
       guild_membership.declared_on = character.declared_on
       guild_membership.provisional = false
       guild_membership.approved = true
-      character.save
+      character.save!
       character
   end
   
   def set_starting_points(character, points)
       character.starting_points = points
-      character.save
+      character.save!
   end
   
   def approve_character(character, user)
       character.approve(user)
-      character.save
+      character.save!
   end
   
   def approve_character(user = nil, character = nil)
       user ||= User.first
       character ||= Character.first
       character.approve(user)
-      character.save
+      character.save!
   end
   
   def retire_character

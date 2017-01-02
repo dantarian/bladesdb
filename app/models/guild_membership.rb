@@ -76,7 +76,7 @@ class GuildMembership < ActiveRecord::Base
         
         def guild_or_branch_are_different_to_previous
             unless character.guild_memberships.empty? or self == character.guild_memberships[0]
-                errors.add_to_base("Either Guild or Branch must differ from the current guild membership.") if character.current_guild_membership.guild == guild and character.current_guild_membership.guild_branch == guild_branch and !character.current_guild_membership.provisional
+                errors.add(:base, "Either Guild or Branch must differ from the current guild membership.") if character.current_guild_membership.guild == guild and character.current_guild_membership.guild_branch == guild_branch and !character.current_guild_membership.provisional
             end
         end
         

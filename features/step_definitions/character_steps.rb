@@ -3,6 +3,11 @@ Given(/^the user has a character$/) do
   CharacterTestHelper.approve_character(User.first)
 end
 
+Given(/^the user has another character$/) do
+  CharacterTestHelper.create_character(User.first, name: "Second Character")
+  CharacterTestHelper.approve_character(User.first, User.first.characters.second)
+end
+
 Given(/^the other user has an active character$/) do
   CharacterTestHelper.create_character(User.all.second)
   CharacterTestHelper.approve_character(User.all.second)

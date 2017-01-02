@@ -347,7 +347,7 @@ class User < ActiveRecord::Base
         running_total = 0
         monster_point_changes.reverse.each do |change|
             if (change.date > date)
-                if (change.provisional or change.rejected or change.historical)
+                unless (change.provisional or change.rejected or change.historical)
                     running_total -= change.points
                     points_to_keep = [points_to_keep, running_total].max
                 end

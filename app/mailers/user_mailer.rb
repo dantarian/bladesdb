@@ -33,7 +33,7 @@ class UserMailer < ActionMailer::Base
     end
     
     def character_point_adjustment_approval(adjustment)
-        setup_email(adjustment.user)
+        setup_email(adjustment.character.user)
         @subject += "Character "
         approval(adjustment)
     end

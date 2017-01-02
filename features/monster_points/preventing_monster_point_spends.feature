@@ -19,6 +19,23 @@ Feature: Preventing monster point spends
     And there is a monster point spend on the character
     When the user tries to spend monster points before the monster point spend
     Then the user should be told they cannot create a monster point spend before their last monster point spend
+
+  Scenario: Can spend monster points before an existing monster point spend on another character
+    Given the user has 20 monster points available
+    And the character has 20 character points
+    And the user has another character
+    And the user bought 1 character point for 1 monster point for the other character
+    When the user buys 1 character point for the character before the monster point spend on the other character
+    Then the character should have 21 character points
+    And the user should have 18 monster points
+    
+  Scenario: Cannot spend monster points before an existing monster point spend on another character if doing so would put you in debt
+    Given the user has 20 monster points available
+    And the user has monstered a debriefed game and earned 5 monster points
+    And the user has another character
+    And the user bought 15 character points for 15 monster points for the other character before the game
+    When the user tries to buy 6 character points for the character before the monster point spend on the other character
+    Then the user should be told they cannot buy more than 5 character points
     
   Scenario: Cannot spend monster points before they have been earned
     Given the user has 20 monster points available
@@ -105,7 +122,6 @@ Feature: Preventing monster point spends
     Then the user should be told they cannot spend more than 2 monster points
   
   Scenario: Can spend monster points with a pending character point adjustment if cost is less than or equal to points available both with and without the adjustment
-    # TODO: Reprice the monster point spend after resolution of the character point adjustment.
     Given the character has 100 character points
     And the user has 20 monster points available
     And the character has a pending character point adjustment for -1 character point
