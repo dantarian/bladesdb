@@ -106,15 +106,7 @@ Blades::Application.routes.draw do
   end
 
   resources :characters do
-    new do
-      get :import
-      patch :create_import
-    end
-    
     collection do
-    #   get  :merge_select_characters
-    #   post :merge_select_data
-    #   post :merge
       get :show_all
     end
 
@@ -160,11 +152,13 @@ Blades::Application.routes.draw do
         patch :reject
       end
     end
+
     resources :monster_point_spends, :except => [ :index, :show, :destroy, :edit, :update ] do
       new do
         delete :delete
       end
     end
+
     resources :guild_memberships, :except => [ :index, :show, :destroy ] do
       new do
         post :leave

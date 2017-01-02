@@ -17,8 +17,11 @@
 				<% elsif field[:field_type] == "boolean" %>
 					<%= f.check_box field[:field] %>
 					<%= f.label field[:field], field[:field_name] %>
-				<% elsif field[:field_type] == "guild_branch_select" %>
-					<%= f.select field[:field], GuildBranch.all.collect { |branch| [branch.name, branch.id] }, { :include_blank => false } %>
+				<% elsif field[:field_type] == "titlefields"%>
+					<%= radio_button_tag(:radio_title, "guild", (@character.title.blank? && !@character.no_title) ) %><%= label_tag "radio_title_guild", "Use Guild titles" %><br />
+		  			<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
+		  			<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
+					<%= f.text_field :title, { class: "fullwidth", disabled: @character.title.blank? } %>
 				<% else %>
 					<strong>Error: Unknown field type.</strong>
 				<% end %>

@@ -91,3 +91,115 @@ end
 Then(/^a monster point adjustment date must be in the past message should be displayed$/) do
   MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.on_or_before", restriction: Date.today.to_formatted_s)
 end
+
+Then(/^a home page cannot be deleted message should be displayed$/) do
+  PagesPage.new.check_is_displaying_message I18n.t("page.failure.home_deletion")
+end
+
+Then(/^a page not available message should be displayed$/) do
+  HomePage.new.check_is_displaying_message I18n.t("devise.failure.unauthenticated")
+end
+
+Then(/^a page deleted message should be displayed$/) do
+  PagesPage.new.check_is_displaying_message I18n.t("page.success.deleted")
+end
+
+Then(/^a page updated message should be displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("page.success.updated")
+end
+
+Then(/^a page created message should be displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("page.success.created")
+end
+
+Then(/^a duplicate page title message is displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("page.validation.title_uniqueness")
+end
+
+Then(/^an empty page message is displayed$/) do
+  UserDefinedPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Content")
+end
+
+Then(/^a character created message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("character.success.created")
+end
+
+Then(/^a character declared message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("character.success.declared")
+end
+
+Then(/^a character must have a name message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Name")
+end
+
+Then(/^a character must have death thresholds message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Death thresholds")
+end
+
+Then(/^a character cannot have less than zero death thresholds message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("character.validation.dts_less_than_zero")
+end
+
+Then(/^a character cannot have more death thresholds than their race message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("character.validation.dts_greater_than_race")
+end
+
+Then(/^a death thresholds must be a number message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.not_a_number", attribute: "Death thresholds")
+end
+
+Then(/^a character must have character points message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Death thresholds")
+end
+
+Then(/^a character cannot have less than (\d+) character points message should be displayed$/) do |rank|
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.greater_than_or_equal_to", attribute: "Character points", count: rank)
+end
+
+Then(/^a character points must be a number message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.not_a_number", attribute: "Character points")
+end
+
+Then(/^a character must have money message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Starting florins")
+end
+
+Then(/^a character cannot have negative money message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.greater_than_or_equal_to", attribute: "Starting florins", count: 0)
+end
+
+Then(/^a money must be a number message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.not_a_number", attribute: "Starting florins")
+end
+
+Then(/^a character cannot have negative Guild starting points message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.greater_than_or_equal_to", attribute: "Character Point Total at which you joined your current guild", count: 0)
+end
+
+Then(/^a Guild starting points must be a number message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.not_a_number", attribute: "Character Point Total at which you joined your current guild")
+end
+
+Then(/^a Guild starting points must be less than character points message should be displayed$/) do
+  UserCharactersPage.new.check_is_displaying_message I18n.t("character.guild_membership.failure.more_than_character_points")
+end
+
+Then(/^a character updated message should be displayed$/) do
+  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.success.updated")
+end
+
+Then(/^an application to join message should be displayed$/) do
+  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.guild_changed")
+end
+
+Then(/^an application to change branch message should be displayed$/) do
+  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.branch_changed")
+end
+
+Then(/^an application to leave message should be displayed/) do
+  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.left_guild")
+end
+
+Then(/^an application cancelled message should be displayed$/) do
+  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.cancelled")
+end
