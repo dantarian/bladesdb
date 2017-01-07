@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
         end
         
         # Redirect as appropriate when an access request fails due to lack of permissions.
-        def permission_denied(message)
+        def permission_denied(message = nil)
             message ||= I18n.t("failure.permission_denied")
             respond_to do |format|
                 format.any( :html, :js ) do

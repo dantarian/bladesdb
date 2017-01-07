@@ -53,7 +53,7 @@ end
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano', '~> 3.2.1', require: false, group: :development
+gem 'capistrano', '~> 3.4.0', require: false, group: :development
 gem 'capistrano-rvm', '~> 0.1.2'
 
 # To use debugger
