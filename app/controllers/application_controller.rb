@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
 
     before_filter :set_cache_buster
     before_filter :configure_permitted_devise_parameters, if: :devise_controller?
+
+    add_flash_types :notice, :warning, :alert, :error
   
     def set_cache_buster
         response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
@@ -81,7 +83,8 @@ class ApplicationController < ActionController::Base
         end
         
         # Redirect as appropriate when an access request fails due to lack of permissions.
-        def permission_denied(message = I18n.t("failure.permission_denied"))
+        def permission_denied(message)
+            message ||= I18n.t("failure.permission_denied")
             respond_to do |format|
                 format.any( :html, :js ) do
                     http_referer = session[:refer_to]

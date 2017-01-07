@@ -232,30 +232,41 @@ $(function () {
 });
 
 $(function () {
-    $("#dialog").on("dialogopen", function () {
-    	var guild_branches = $("select#guild_branch_selector").find("option").remove();
-    	var guildMap = new Map();
-    	$("select#guild_selector").find("option").each(function (index, element) {
-    		guildMap.set($(element).val(), guild_branches.filter(function (index, option) {
-    			return $(option).data("guild") == $(element).val();
-    		}));
-    	});
-    	$("#guild_branch_selector").data("guildMap", guildMap);
-    	$("#guild_branch_selector").append(guildMap.get($("select#guild_selector option:selected").val()));
-    	var emptySelect = $("#guild_branch_selector").find("option");
-    	$("#guild_branch_selector").prop("disabled", !emptySelect.length);
-    });
-});
+	
+	var guildOptionElement = function(id, title, selected) {
+		return $("<option></option>")
+			.prop("id", id)
+			.prop("selected", (selected ? "selected" : ""))
+			.append(title);
+	};
+	
+	var updateGuildBranches = function(guild_selector, guild_branch_selector) {
+		var selectedGuild = $(guild_selector).find("option:selected").val();
+		var guilds = $(guild_branch_selector).data("guildmap");
 
-$(function () {
-    $("#dialog").delegate("select#guild_selector", "change", function () {
-        $("#guild_branch_selector").find("option").remove();
-        var guildMap = $("#guild_branch_selector").data("guildMap");
-        $("#guild_branch_selector").append(guildMap.get($("select#guild_selector option:selected").val()));
-        var emptySelect = $("#guild_branch_selector").find("option");
-        $("#guild_branch_selector").prop("disabled", !emptySelect.length);
-        $("#guild_branch_selector").prop("selectedIndex", 0);
-    });
+		$(guild_branch_selector).find("option").remove();
+
+		if (guilds !== null && guilds !== undefined && selectedGuild !== null && selectedGuild !== undefined) {
+			$(guild_branch_selector).append(
+				$.map(guilds[selectedGuild], function (value, key) {
+					return guildOptionElement(key, value, key == guilds["selected"]);
+				})
+			);
+			$(guild_branch_selector).prop("disabled", $(guild_branch_selector).find("option").length == 0); 			
+		}
+	};
+
+    var updateGuildBranchesIfAppropriate = function() {
+    	var guilds = $("select#guild_selector");
+    	var guild_branches = $("select#guild_branch_selector");
+    	
+    	if (guilds.length > 0 && guild_branches.length > 0) {
+    		updateGuildBranches(guilds, guild_branches);
+    	} 
+    };
+	
+    $("#dialog").on("dialogopen", updateGuildBranchesIfAppropriate);
+    $("#dialog").delegate("select#guild_selector", "change", updateGuildBranchesIfAppropriate);
 });
 
 $(function () {

@@ -159,7 +159,7 @@ Blades::Application.routes.draw do
       end
     end
 
-    resources :guild_memberships, :except => [ :index, :show, :destroy ] do
+    resources :guild_memberships, :except => [ :index, :show ] do
       new do
         post :leave
         post :eject

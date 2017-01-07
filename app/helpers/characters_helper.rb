@@ -1,3 +1,5 @@
+require 'json'
+
 module CharactersHelper
     def display_character_field(character, partial_name)
         render(:partial => partial_name, :layout => "fieldlist_field", :locals => {
@@ -62,5 +64,9 @@ module CharactersHelper
         when character.is_provisional?
           I18n.t("character.monster_points.not_on_unapproved_character")
         end
+    end
+    
+    def guild_map_json(character)
+        (Guild.includes(:guild_branches).to_a.map { |guild| [guild.id, guild.guild_branches.map {|branch| [branch.id, branch.name]}.to_h]} + [["selected", character.guild_memberships.first.guild_branch_id ]]).to_h.to_json
     end
 end

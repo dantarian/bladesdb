@@ -44,7 +44,7 @@ Given(/^the character has an application to join another Guild$/) do
 end
 
 Given(/^the character has an application to leave the Guild$/) do
-  GuildTestHelper.leave_guild(Character.first)
+  GuildTestHelper.leave_guild(Character.first, approved: nil)
 end
 
 # Actions
