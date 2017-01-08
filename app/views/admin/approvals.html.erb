@@ -124,7 +124,7 @@
         
         <tbody>
             <% @character_point_adjustments.each do |adjustment| %>
-                <tr class="<%= cycle('odd', 'even') %>">
+                <tr class="character_point_adjustment <%= cycle('odd', 'even') %>">
                     <td><%=h adjustment.character.user.name %></td>
                     <td>
                         <%= link_to adjustment.character do %>

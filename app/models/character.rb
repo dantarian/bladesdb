@@ -274,6 +274,14 @@ class Character < ActiveRecord::Base
         end
     end
     
+    def points_bought_since_last_game(date)
+        last_game_date = declared_on
+        unless debriefs.empty?
+            last_game_date = debriefs.joins(:game).where(games: {non_stats: false}).where("games.start_date <= ?", date).maximum("games.start_date") || declared_on
+        end
+        monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:monster_points_spent)
+    end
+        
     def monster_points_available_to_spend_on(date, precalculated_character_points = nil, monster_point_spend_to_ignore = nil)
         precalculated_character_points = points_on(date) if precalculated_character_points.nil?
         if precalculated_character_points >= 100
@@ -282,9 +290,9 @@ class Character < ActiveRecord::Base
                 last_game_date = debriefs.joins(:game).where(games: {non_stats: false}).where("games.start_date <= ?", date).maximum("games.start_date")
             end
             monster_points_spent_since_last_game = monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).where.not(id: monster_point_spend_to_ignore).sum(:monster_points_spent)
-            [30 - monster_points_spent_since_last_game, user.minimum_monster_points_remaining_after(date, monster_point_spend_to_ignore)].min
+            user.minimum_monster_points_remaining_after(date, monster_point_spend_to_ignore)
         else
-            [[100 - precalculated_character_points, 30].max, user.minimum_monster_points_remaining_after(date, monster_point_spend_to_ignore)].min
+            user.minimum_monster_points_remaining_after(date, monster_point_spend_to_ignore)
         end
     end
     

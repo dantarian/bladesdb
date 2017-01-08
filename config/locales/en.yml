@@ -7,6 +7,8 @@ en:
     rejected: "rejected"
   email_subjects:
     approved: "Your account has been approved"
+    mp_cost_decreased: "Monster Point Spend Cost Decreased"
+    mp_cost_increased: "Monster Point Spend Cost Increased"
   failure:
     permission_denied: "You do not have permission to perform that action."
     role_permission_denied: "You cannot be logged in and perform that action."
@@ -45,6 +47,30 @@ en:
       updated: "Character was successfully updated."
     failure:
       updated: "Failed to update character."
+    monster_points:
+      not_enough_mp: "must be at most %{points}."
+      too_many_cp: "must be at most %{points}."
+      at_least_one: "must be at least 1."
+      not_before_last_spend: "must be after your last monster point spend on %{date}."
+      not_before_most_recent_debrief: "must be after your last debriefed game on %{date}."
+      not_before_monster_point_declaration: "must be after your monster point declaration on %{date}."
+      not_before_character_declaration: "must be after your character declation on %{date}."
+      not_before_character_point_adjustment: "must be after your character point adjustment on %{date}."
+      not_in_future: "cannot be in the future."
+      not_on_unapproved_character: "Cannot spend monster points on an unapproved character"
+      not_on_retired_character: "Cannot spend monster points on a retired character"
+      not_on_dead_character: "Cannot spend monster points on a perm-dead character"
+      not_on_recycled_character: "Cannot spend monster points on a recycled character"
+      not_on_undeclared_character: "Cannot spend monster points on an undeclared character"
+      no_mp: "No monster points available to spend"
+      delete_last_spend:
+        not_with_closed_debrief_after: "Cannot delete monster point spends before the character's last debriefed game on %{date}."
+        not_with_mp_declaration_after: "Cannot delete monster point spends before your monster point declaration on %{date}."
+        not_with_mp_adjustment_after: "Cannot delete monster point spends before your last monster point adjustment on %{date}."
+        not_with_cp_adjustment_after: "Cannot delete monster point spends before your last character point adjustment on %{date}."
+        not_when_retired: "Cannot delete monster point spends from a retired character."
+        not_when_recycled: "Cannot delete monster point spends from a recycled character."
+        not_when_perm_dead: "Cannot delete monster point spends from a dead character."
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."
