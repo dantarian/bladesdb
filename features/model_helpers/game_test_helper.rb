@@ -35,6 +35,16 @@ module GameTestHelper
     of
   end
   
+  def set_max_rank(of: nil, to: nil)
+    of.upper_rank = to.to_i * 10
+    of.save
+  end
+  
+  def set_non_stats(game)
+    game.non_stats = true
+    game.save
+  end
+  
   def start_debriefing(game)
     game.setup_debrief
     game.debrief_started = true
@@ -43,6 +53,22 @@ module GameTestHelper
     game.player_money_base = 10
     game.save
     game
+  end
+  
+  def debrief(game, player_points: 10, monster_points: 5, money: 10)
+    game.setup_debrief
+    game.debrief_started = true
+    game.player_points_base = player_points
+    game.monster_points_base = monster_points
+    game.player_money_base = money
+    game.open = false
+    game.save!
+  end
+  
+  def add_character_to_debrief(game, character, points: 10)
+    debrief = game.debriefs.find_or_create_by(user: character.user, character: character)
+    debrief.points_modifier = points - game.player_points_base
+    game.save!
   end
   
   def create_game_next_sunday
@@ -59,6 +85,27 @@ module GameTestHelper
   
   def next_sunday
     (Date.today.sunday > Date.today ? Date.today.sunday : Date.today.sunday + 7.days)
+  end
+  
+  def create_debriefed_game_for_first_character(points)
+    game = create_game(start_date: 14.days.ago)
+    add_player(Character.first.user, Character.first, to: game)
+    debrief(game, player_points: points)
+    game
+  end
+  
+  def create_another_debriefed_game_for_first_character(points)
+    game = create_game(title: "Another Game", start_date: 7.days.ago)
+    add_player(Character.first.user, Character.first, to: game)
+    debrief(game, player_points: points)
+    game    
+  end
+
+  def create_debriefed_game_for_first_user_as_monster(points)
+    game = create_game(title: "Monstered Game", start_date: 14.days.ago)
+    add_monster(User.first, to: game)
+    debrief(game, monster_points: points)
+    game
   end
   
   def close_debrief(game)

@@ -16,6 +16,8 @@ class CharacterPointAdjustment < ActiveRecord::Base
         record.errors.add attr, "must be more recent than #{last_date}." unless record.declared_on > last_date
     end
     
+    after_update :fix_mp_spend_costs
+
     auto_strip_attributes :reason
 
     def self.pending_adjustments(except_user)
@@ -51,4 +53,10 @@ class CharacterPointAdjustment < ActiveRecord::Base
     def approval_recently_set?
         @approval_recently_set
     end
+    
+    protected
+        def fix_mp_spend_costs
+            MonsterPointSpend.fix_after(declared_on, character)
+        end
+
 end

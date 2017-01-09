@@ -1,3 +1,5 @@
+include RSpec::Matchers
+
 module UserTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
   
@@ -77,5 +79,6 @@ module UserTestHelper
     end
     mpa.save!
   end
+  
 end
 

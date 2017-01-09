@@ -11,7 +11,7 @@ class GuildMembership < ActiveRecord::Base
     validates_presence_of :guild_branch_id, :unless => "guild_id.nil? || guild.guild_branches.empty?"
     validates_numericality_of :start_points, :only_integer => true, :greater_than_or_equal_to => 0, :allow_nil => true
     validate :guild_start_points_less_than_or_equal_to_total_points 
-    validate :guild_or_branch_are_different_to_previous
+    validate :guild_or_branch_are_different_to_previous, on: :create
 
     def self.pending_guild_memberships(except_user)
         GuildMembership.joins(:character).where(guild_memberships: {approved: nil}).where.not(characters: {user_id: except_user.id})
@@ -76,7 +76,7 @@ class GuildMembership < ActiveRecord::Base
         
         def guild_or_branch_are_different_to_previous
             unless character.guild_memberships.empty? or self == character.guild_memberships[0]
-                errors.add_to_base(I18n.t("character.guild_membership.failure.no_change")) if character.current_guild_membership.guild == guild and character.current_guild_membership.guild_branch == guild_branch and !character.current_guild_membership.provisional
+                errors.add(:base, I18n.t("character.guild_membership.failure.no_change")) if character.current_guild_membership.guild == guild and character.current_guild_membership.guild_branch == guild_branch and !character.current_guild_membership.provisional
             end
         end
         

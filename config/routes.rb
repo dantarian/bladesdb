@@ -152,7 +152,13 @@ Blades::Application.routes.draw do
         patch :reject
       end
     end
-    resources :monster_point_spends, :except => [ :index, :show, :destroy ]
+
+    resources :monster_point_spends, :except => [ :index, :show, :destroy, :edit, :update ] do
+      new do
+        delete :delete
+      end
+    end
+
     resources :guild_memberships, :except => [ :index, :show ] do
       new do
         post :leave
