@@ -59,7 +59,7 @@ When(/^the user goes to the game page/) do
 end
 
 When(/^the user goes to the page$/) do
-  visit page_path(Page.first)
+  visit page_path(Page.last)
 end
 
 When(/^the user goes to the registration page$/) do
@@ -89,7 +89,7 @@ Then(/^the Change Password page should be displayed$/) do
 end
 
 Then(/^the home page should be displayed$/) do
-  current_path.should be_in [root_path, page_path(1)]
+  current_path.should == root_path
 end
 
 Then(/^the login page should be displayed$/) do
