@@ -82,7 +82,5 @@ group :test do
   gem 'database_cleaner', '~> 1.5.1'
   gem 'email_spec', '~> 2.0.0'
   gem 'action_mailer_cache_delivery', '~> 0.3.7'
-  gem 'poltergeist', '~> 1.9.0'
+  gem 'poltergeist', '~> 1.10.0'
 end
-
-
