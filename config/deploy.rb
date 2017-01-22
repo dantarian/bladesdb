@@ -2,7 +2,7 @@
 SSHKit.config.command_map[:rake] = "bundle exec rake"
 
 # config valid only for Capistrano 3.1
-lock '3.2.1'
+lock '3.4.1'
 
 set :application, 'bladesdb'
 set :repo_url, 'git@github.com:dantarian/bladesdb'

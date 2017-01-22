@@ -9,20 +9,22 @@ end
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environments/test')
 require File.expand_path(File.dirname(__FILE__) + "/../../config/initializers/date_time_formats")
 
-require 'cucumber/rails/world'
 require 'email_spec/cucumber'
-Cucumber::Rails::World.use_transactional_fixtures = false
+
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 
 Capybara.default_driver = :rack_test
-Capybara.default_max_wait_time = 5
+Capybara.default_max_wait_time = 10
 
-class ActiveRecord::Base  
+class ActiveRecord::Base
   mattr_accessor :shared_connection
   @@shared_connection = nil
 
   def self.connection
     @@shared_connection || retrieve_connection
   end
-end  
-ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection  
+end
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
+require 'capybara-screenshot/cucumber'

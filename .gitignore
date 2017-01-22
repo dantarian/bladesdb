@@ -17,3 +17,6 @@ db/test.sqlite3
 .bundle
 /vendor/bundle
 .rvmrc
+.buildpath
+.byebug_history
+reports.html

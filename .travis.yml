@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.1
+  - 2.2.6
 bundler_args: --without production
 before_script:
   - "export DISPLAY=:99.0"
@@ -10,4 +10,3 @@ script:
   - bundle exec rake db:schema:load
   - bundle exec rake db:test:prepare
   - bundle exec cucumber
-

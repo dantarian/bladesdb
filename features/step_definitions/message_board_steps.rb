@@ -101,15 +101,15 @@ Then(/^the message should appear on the message board$/) do
 end
 
 Then(/^a Brief Published message should appear on the Briefs board$/) do
-  BoardPage.new.visit_page(board_path(Board::BRIEFS)).and.check_for_message(from: User.first, 
-                                                                            containing_text: "Brief updated", 
+  BoardPage.new.visit_page(board_path(Board::BRIEFS)).and.check_for_message(from: User.first,
+                                                                            containing_text: "Brief updated",
                                                                             containing_link: game_path(Game.first),
                                                                             relating_to_game: Game.first)
 end
 
 Then(/^a Debrief Published message should appear on the Debriefs board$/) do
-  BoardPage.new.visit_page(board_path(Board::DEBRIEFS)).and.check_for_message(from: User.first, 
-                                                                              containing_text: "Debrief published", 
+  BoardPage.new.visit_page(board_path(Board::DEBRIEFS)).and.check_for_message(from: User.first,
+                                                                              containing_text: "Debrief published",
                                                                               containing_link: game_path(Game.first),
                                                                               relating_to_game: Game.first)
 end
@@ -171,7 +171,7 @@ Then(/^the OOC board should be moved to the open boards list$/) do
 end
 
 Then(/^the IC board should be moved to the open boards list$/) do
-  MessageBoardsAdminPage.new.find_board(name: "New IC Board", ic: true, closed: false)  
+  MessageBoardsAdminPage.new.find_board(name: "New IC Board", ic: true, closed: false)
 end
 
 Then(/^the user should be able to post a message to the OOC board$/) do

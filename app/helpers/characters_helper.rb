@@ -1,3 +1,5 @@
+require 'json'
+
 module CharactersHelper
     def display_character_field(character, partial_name)
         render(:partial => partial_name, :layout => "fieldlist_field", :locals => {
@@ -26,5 +28,45 @@ module CharactersHelper
             end
         end
         return actions
+    end
+    
+    def display_spend_monster_points_link?(character)
+        case
+        when character.user.monster_points == 0
+          false
+        when character.undeclared?
+          false
+        when character.recycled?
+          false
+        when character.retired?
+          false
+        when character.dead?
+          false
+        when !character.approved?
+          false
+        else
+          true 
+        end
+    end
+    
+    def reason_cannot_spend_monster_points(character)
+        case
+        when character.user.monster_points == 0
+          I18n.t("character.monster_points.no_mp")
+        when character.undeclared?
+          I18n.t("character.monster_points.not_on_undeclared_character")
+        when character.recycled?
+          I18n.t("character.monster_points.not_on_recycled_character")
+        when character.retired?
+          I18n.t("character.monster_points.not_on_retired_character")
+        when character.dead?
+          I18n.t("character.monster_points.not_on_dead_character")
+        when character.is_provisional?
+          I18n.t("character.monster_points.not_on_unapproved_character")
+        end
+    end
+    
+    def guild_map_json(character)
+        (Guild.includes(:guild_branches).to_a.map { |guild| [guild.id, guild.guild_branches.map {|branch| [branch.id, branch.name]}.to_h]} + [["selected", character.guild_memberships.first.guild_branch_id ]]).to_h.to_json
     end
 end

@@ -15,7 +15,7 @@ gem 'sass-rails',   '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', :platforms => :ruby
+gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
 
 gem 'uglifier', '>= 1.0.3'
 
@@ -26,7 +26,7 @@ gem "RedCloth", '~> 4.2.9'
 gem "rdoc", '~> 4.2.2'
 gem "seed-fu", '~> 2.3.5'
 gem "test-unit", '~> 2.5.5'
-gem "recaptcha", require: "recaptcha/rails"
+gem "recaptcha", '~> 3.2.0', require: "recaptcha/rails"
 gem "custom_error_message", '~> 1.1.1'
 gem "jquery_datepicker", git: 'git://github.com/yctay/jquery_datepicker.git', branch: 'rails4'
 gem "aasm", '~> 4.8.0'
@@ -53,7 +53,7 @@ end
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano', '~> 3.2.1', require: false, group: :development
+gem 'capistrano', '~> 3.4.0', require: false, group: :development
 gem 'capistrano-rvm', '~> 0.1.2'
 
 # To use debugger
@@ -67,11 +67,13 @@ group :development, :test do
   gem 'foreman', '~> 0.78.0'
   gem 'capistrano-rails', '~> 1.1.6', require: false
   gem 'capistrano-bundler', '~> 1.1.4', require: false
+  gem 'byebug', '~> 9.0.5'
 end
 
 group :test do
   gem 'faker', '~> 1.6.2'
   gem 'capybara', '~> 2.6.2'
+  gem 'capybara-screenshot'
   gem 'guard-rspec', '~> 4.6.4'
   gem 'launchy', '~> 2.4.3'
   gem 'selenium-webdriver', '~> 2.52.0'
@@ -80,6 +82,5 @@ group :test do
   gem 'database_cleaner', '~> 1.5.1'
   gem 'email_spec', '~> 2.0.0'
   gem 'action_mailer_cache_delivery', '~> 0.3.7'
+  gem 'poltergeist', '~> 1.10.0'
 end
-
-

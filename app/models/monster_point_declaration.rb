@@ -21,6 +21,10 @@ class MonsterPointDeclaration < ActiveRecord::Base
     def is_denied?
         self.approved == false
     end
+    
+    def is_rejected?
+        is_denied?
+    end
 
     def is_provisional?
         self.approved == nil

@@ -1,10 +1,11 @@
 class MonsterPointSpendsController < ApplicationController
     before_filter :authenticate_user!
     before_filter :find_character
-    before_filter :find_monster_point_spend, :except => [:new, :create]
+    before_filter :find_last_monster_point_spend, :only => [:delete]
     before_filter :check_own_character
-    before_filter :check_ajax
+    before_filter :check_ajax, :except => [:delete]
     before_filter :check_can_spend_points, :only => [:new, :create]
+    before_filter :check_can_delete_spend, :only => [:delete]
 
     def new
         @monster_point_spend = MonsterPointSpend.new
@@ -12,17 +13,6 @@ class MonsterPointSpendsController < ApplicationController
         @monster_point_spend.spent_on = Date.today
         respond_to do |format|
             format.js { render :new_date }
-        end
-    end
-
-    def edit
-        if @character.monster_point_spends.exists? ["spent_on > ?", @monster_point_spend.spent_on]
-            flash[:notice] = "You can only edit your most recent monster point spend."
-            reload_page
-        else
-            respond_to do |format|
-                format.js { render :edit_date }
-            end
         end
     end
 
@@ -55,29 +45,13 @@ class MonsterPointSpendsController < ApplicationController
         end
     end
 
-    def update
-        case params[:commit]
-        when "date"
-            @monster_point_spend.spent_on = (params[:monster_point_spend][:spent_on])
-            if @monster_point_spend.valid?
-                respond_to do |format|
-                    format.js { render :edit_spend }
-                end
-            else
-                respond_to do |format|
-                    format.js { render :edit_date }
-                end
-            end
-        when "points"
-            @monster_point_spend.complete = true
-            if @monster_point_spend.update_attributes(monster_point_spend_params)
-                flash[:notice] = "Monster points spend successfully updated."
-                reload_page
-            else
-                respond_to do |format|
-                    format.js { render :edit_spend }
-                end
-            end
+    def delete
+        if @monster_point_spend.delete
+            flash[:notice] = "Monster point spend successfully deleted."
+            redirect_to @character
+        else
+            flash[:error] = "Failed to delete monster point spend."
+            redirect_to @character
         end
     end
 
@@ -90,8 +64,8 @@ class MonsterPointSpendsController < ApplicationController
             @character = Character.find(params[:character_id])
         end
         
-        def find_monster_point_spend
-            @monster_point_spend = MonsterPointSpend.find(params[:id])
+        def find_last_monster_point_spend
+            @monster_point_spend = @character.last_monster_point_spend
         end
         
         def check_own_character
@@ -108,12 +82,32 @@ class MonsterPointSpendsController < ApplicationController
         end
         
         def check_can_spend_points
-            if @character.character_point_adjustments.to_a.any? {|adj| adj.is_provisional? }
-                flash[:error] = "You cannot spend monster points on this character until all outstanding character point adjustments have been approved or rejected."
-                reload_page
-            elsif @character.played_games.to_a.any? {|game| !game.is_debrief_finished? }
-                flash[:error] = "You cannot spend monster points on this character until all outstanding debriefs have been finalised."
-                reload_page
+            # TODO: Figure out if anything actually needs to go here...
+        end
+        
+        def check_can_delete_spend
+            error = case
+            when !@monster_point_spend.last_spend?
+                I18n.t("character.monster_points.delete_last_spend.not_last_spend")
+            when @monster_point_spend.closed_debriefs_after?
+                I18n.t("character.monster_points.delete_last_spend.not_with_closed_debrief_after", date: @monster_point_spend.debrief_preventing_change.game.start_date)
+            when @monster_point_spend.monster_point_declaration_after?
+                I18n.t("character.monster_points.delete_last_spend.not_with_mp_declaration_after", date: @character.user.monster_point_declaration.declared_on)
+            when @monster_point_spend.monster_point_adjustment_after?
+                I18n.t("character.monster_points.delete_last_spend.not_with_mp_adjustment_after", date: @monster_point_spend.monster_point_adjustment_preventing_change.declared_on)
+            when @monster_point_spend.character_point_adjustment_after?
+                I18n.t("character.monster_points.delete_last_spend.not_with_cp_adjustment_after", date: @monster_point_spend.character_point_adjustment_preventing_change.declared_on)
+            when @monster_point_spend.character.retired?
+                I18n.t("character.monster_points.delete_last_spend.not_when_retired")
+            when @monster_point_spend.character.recycled?
+                I18n.t("character.monster_points.delete_last_spend.not_when_recycled")
+            when @monster_point_spend.character.dead?
+                I18n.t("character.monster_points.delete_last_spend.not_when_perm_dead")
+            end
+            
+            unless error.nil?
+                flash[:error] = error
+                redirect_to @character
             end
         end
 end

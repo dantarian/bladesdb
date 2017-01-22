@@ -19,4 +19,7 @@ module EmailTestHelper
     open_email(address, :with_subject => subject)
   end
   
+  def check_for_email(to: nil, regarding: nil)
+    expect(count_emails_with_subject(to, "[BathLARP] #{regarding}")).to be > 0
+  end
 end

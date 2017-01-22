@@ -63,7 +63,7 @@ When(/^the user goes to the game page/) do
 end
 
 When(/^the user goes to the page$/) do
-  visit page_path(Page.first)
+  visit page_path(Page.last)
 end
 
 When(/^the user goes to the registration page$/) do
