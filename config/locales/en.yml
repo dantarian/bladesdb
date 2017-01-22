@@ -82,7 +82,7 @@ en:
       updated: "Page was successfully updated."
       deleted: "Page was successfully deleted."
     failure:
-      home_deletion: "Stop trying to delete the home page!"
+      home_deletion: "Stop trying to delete the home page Marcus!"
   user:
     validation:
       dialog_header: "Failed to save user"
