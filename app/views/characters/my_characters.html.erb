@@ -2,35 +2,35 @@
 
 <h2 class="alt">Active Characters</h2>
 
-<%= render :partial => "characters", :object => @characters.select{|character| character.active? }, :locals => { :show_user => false, :show_state => false } %>
+<%= render :partial => "characters", :object => @characters.select{|character| character.active? }, :locals => { :show_user => false, :show_state => false, table_id: "active" } %>
 
 <p>Characters in <em>italics</em> have not yet been approved.<br />Crossed-out characters have been rejected - click on their name then click on "Edit and Resubmit" to resubmit.</p>
 
 <h2 class="alt">Retired Characters</h2>
 
-<%= render :partial => "characters", :object => @characters.select{|character| character.retired? }, :locals => { :show_user => false, :show_state => false } %>
+<%= render :partial => "characters", :object => @characters.select{|character| character.retired? }, :locals => { :show_user => false, :show_state => false, table_id: "retired" } %>
 
 <h2 class="alt">Dead Characters</h2>
 
-<%= render :partial => "characters", :object => @characters.select{|character| character.dead? }, :locals => { :show_user => false, :show_state => false } %>
+<%= render :partial => "characters", :object => @characters.select{|character| character.dead? }, :locals => { :show_user => false, :show_state => false, table_id: "dead" } %>
 
 <h2 class="alt">Recycled Characters</h2>
 
-<%= render :partial => "characters", :object => @characters.select{|character| character.recycled? }, :locals => { :show_user => false, :show_state => false } %>
+<%= render :partial => "characters", :object => @characters.select{|character| character.recycled? }, :locals => { :show_user => false, :show_state => false, table_id: "recycled" } %>
 
 <% if @characters.any?{|character| character.undeclared? } %>
 	<h2 class="alt">Undeclared Characters</h2>
 
 	<p>These are characters that have been entered in a debrief without having first been declared by you. Please confirm details as soon as possible.</p>
 
-	<table>
+	<table id="undeclared">
 		<thead>
 		  	<tr>
 			    <th>Name</th>
 				<th>Actions</th>
 		  	</tr>
 		</thead>
-		
+
 		<tbody>
 			<% @characters.select{|character| character.undeclared? }.each do |character| %>
 	  			<tr class="<%= cycle('odd', 'even') %>">
@@ -40,7 +40,7 @@
 					    <% end %>
 					</td>
 					<td>
-						[ 
+						[
 							<%= link_to "Declare Character", declare_character_path(character.id), :method => :get, :remote => true %>
 						]
 					</td>
@@ -51,7 +51,7 @@
 <% end %>
 
 <p align="right">
-    [ 
+    [
         <%= link_to "New Character", new_character_path, :method => :get, :remote => true %>
     ]
 </p>
