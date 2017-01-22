@@ -32,6 +32,10 @@ Given(/^the user is on the members page$/) do
   visit users_path
 end
 
+Given(/^the user is on the message boards maintenance page$/) do
+  visit boards_path
+end
+
 # Actions
 
 When(/^the user is on the home page$/) do

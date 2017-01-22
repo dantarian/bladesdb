@@ -8,21 +8,12 @@ Given(/^the message board is closed$/) do
  BoardTestHelper.close_board(Board.first)
 end
 
-Given(/^there is an ic message board$/) do
- board = BoardTestHelper.create_board
- BoardTestHelper.make_board_ic(board)
-end
-
 Given(/^there is a Briefs board$/) do
   BoardTestHelper.create_board(id: Board::BRIEFS, name: "Briefs")
 end
 
 Given(/^there is a Debriefs board$/) do
   BoardTestHelper.create_board(id: Board::DEBRIEFS, name: "Debriefs")
-end
-
-Given(/^the user is on the message boards maintenance page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
 end
 
 Given(/^there is a message from the user$/) do
@@ -32,20 +23,21 @@ end
 Given(/^there is a message from the other user$/) do
   BoardTestHelper.create_message(Board.first, User.last, message: "Second!")
 end
+
 Given(/^there is an OOC message board$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  board = BoardTestHelper.create_board
 end
 
 Given(/^there is an IC message board$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  board = BoardTestHelper.create_board(name: "New IC Board", ic: true)
 end
 
 Given(/^there is a closed OOC message board$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  board = BoardTestHelper.create_board(closed: true)
 end
 
 Given(/^there is a closed IC message board$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  board = BoardTestHelper.create_board(name: "New IC Board", ic: true, closed: true)
 end
 
 # Actions
@@ -101,15 +93,15 @@ Then(/^the message should appear on the message board$/) do
 end
 
 Then(/^a Brief Published message should appear on the Briefs board$/) do
-  BoardPage.new.visit_page(board_path(Board::BRIEFS)).and.check_for_message(from: User.first, 
-                                                                            containing_text: "Brief updated", 
+  BoardPage.new.visit_page(board_path(Board::BRIEFS)).and.check_for_message(from: User.first,
+                                                                            containing_text: "Brief updated",
                                                                             containing_link: game_path(Game.first),
                                                                             relating_to_game: Game.first)
 end
 
 Then(/^a Debrief Published message should appear on the Debriefs board$/) do
-  BoardPage.new.visit_page(board_path(Board::DEBRIEFS)).and.check_for_message(from: User.first, 
-                                                                              containing_text: "Debrief published", 
+  BoardPage.new.visit_page(board_path(Board::DEBRIEFS)).and.check_for_message(from: User.first,
+                                                                              containing_text: "Debrief published",
                                                                               containing_link: game_path(Game.first),
                                                                               relating_to_game: Game.first)
 end

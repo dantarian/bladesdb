@@ -41,9 +41,8 @@ module GuildTestHelper
     membership.save!
   end
 
-  def leave_guild(character, declared_on: Date.today, start_points: 0, approved: true)
-    membership = GuildMembership.create_with(provisional: false, declared_on: declared_on,
-                                start_points: start_points).find_or_create_by!(character_id: character.id, guild_id: nil)
+  def leave_guild(character, declared_on: Date.today, start_points: nil, approved: true)
+    character.guild_memberships.create!(guild_id: nil, provisional: false, approved: approved, declared_on: declared_on, start_points: start_points)
   end
 
 end
