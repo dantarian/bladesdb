@@ -26,7 +26,7 @@ class MessageBoardsAdminPage < BladesDBPage
           uncheck("In character")
         end
       end
-      click_button("Update")
+      click_button("Save")
     end
 
     def delete_board(name: nil)
@@ -60,9 +60,9 @@ class MessageBoardsAdminPage < BladesDBPage
       else
         table.should have_link(name)
         if ic
-          table.find_link(name).should have_css(".icboard")
+          table.find_link(name).find(:xpath, "..").should have_css("a.icboard")
         else
-          table.find_link(name).should have_css(".oocboard")
+          table.find_link(name).find(:xpath, "..").should have_css("a.oocboard")
         end
       end
     end
