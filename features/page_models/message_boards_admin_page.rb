@@ -62,12 +62,11 @@ class MessageBoardsAdminPage < BladesDBPage
         else
           table = page.find_by_id("openboards")
         end
-          table.should have_link(name)
-          if ic
-            table.find_link(name).find(:xpath, "..").should have_css("a.icboard")
-          else
-            table.find_link(name).find(:xpath, "..").should have_css("a.oocboard")
-          end
+        table.should have_link(name)
+        if ic
+          table.find_link(name).find(:xpath, "..").should have_css("a.icboard")
+        else
+          table.find_link(name).find(:xpath, "..").should have_css("a.oocboard")
         end
       end
     end
