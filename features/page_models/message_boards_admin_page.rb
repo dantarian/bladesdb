@@ -44,33 +44,47 @@ class MessageBoardsAdminPage < BladesDBPage
     end
 
     def move_board_up(name: nil)
+      page.find_link(name).find(:xpath, "../..").find("i.fa-arrow-up").find(:xpath, "..").click
     end
 
     def move_board_down(name: nil)
+      page.find_link(name).find(:xpath, "../..").find("i.fa-arrow-down").find(:xpath, "..").click
     end
 
     def find_board(name: nil, ic: false, closed: false, deleted: false)
-      if closed
-        table = page.find_by_id("closedboards")
-      else
-        table = page.find_by_id("openboards")
-      end
       if deleted
-        table.should_not have_link(name)
+        page.should_not have_css("table.openboards")
+        page.should_not have_css("table.closedboards")
+        page.should have_text("No boards found.")
       else
-        table.should have_link(name)
-        if ic
-          table.find_link(name).find(:xpath, "..").should have_css("a.icboard")
+        if closed
+          table = page.find_by_id("closedboards")
         else
-          table.find_link(name).find(:xpath, "..").should have_css("a.oocboard")
+          table = page.find_by_id("openboards")
+        end
+          table.should have_link(name)
+          if ic
+            table.find_link(name).find(:xpath, "..").should have_css("a.icboard")
+          else
+            table.find_link(name).find(:xpath, "..").should have_css("a.oocboard")
+          end
         end
       end
     end
 
     def check_for_postability(name: nil, post: nil)
+      click_link(name)
+      if post
+        page.should have_button("Post")
+      else
+        page.should_not have_button("Post")
+      end
     end
 
     def check_for_position(board1, board2)
+      table = page.find_by_id("openboards")
+      table.find("tr:first-child").should have_link(board1)
+      table.find("tr:nth-child(2)").should have_link(board2)
     end
 
 end
