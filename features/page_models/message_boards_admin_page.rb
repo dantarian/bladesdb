@@ -82,8 +82,8 @@ class MessageBoardsAdminPage < BladesDBPage
 
     def check_for_position(board1, board2)
       table = page.find_by_id("openboards")
-      table.find("tr:first-child").should have_link(board1)
-      table.find("tr:nth-child(2)").should have_link(board2)
+      table.find(:css, "tr:nth-child(1)").should have_link(board1)
+      table.find(:css, "tr:nth-child(2)").should have_link(board2)
     end
 
 end
