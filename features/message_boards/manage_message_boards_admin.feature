@@ -3,7 +3,7 @@ Feature: Manage Message Boards - Admin
 	I want to be able to maintain IC and OOC message boards
 	So that the club can communicate with itself.
 
-	Background: 
+	Background:
 		Given there is an admin user
 		And the user is logged in
 
@@ -56,31 +56,31 @@ Feature: Manage Message Boards - Admin
 	@javascript
 	Scenario: Closing an OOC board
 		Given there is an OOC message board
-		When the user marks the board as closed
+		When the user marks the OOC board as closed
 		Then the OOC board should be moved to the closed boards list
 		And the user should not be able to post a message to the OOC board
 
 	@javascript
 	Scenario: Reopening an OOC board
 		Given there is a closed OOC message board
-		When the user marks the board as open
+		When the user marks the OOC board as open
 		Then the OOC board should be moved to the open boards list
 		And the user should be able to post a message to the OOC board
-		
+
 	@javascript
 	Scenario: Closing an IC board
 		Given there is an IC message board
-		When the user marks the board as closed
+		When the user marks the IC board as closed
 		Then the IC board should be moved to the closed boards list
 		And the user should not be able to post a message to the IC board
 
 	@javascript
 	Scenario: Reopening an IC board
 		Given there is a closed IC message board
-		When the user marks the board as open
+		When the user marks the IC board as open
 		Then the IC board should be moved to the open boards list
 		And the user should be able to post a message to the IC board
-		
+
 	@javascript
 	Scenario: Moving a board up in the list
 		Given there is an OOC message board
@@ -88,7 +88,7 @@ Feature: Manage Message Boards - Admin
 		And there is an IC message board
 		When the user moves the IC board up the list
 		Then the IC board should appear between the OOC boards
-	
+
 	@javascript
 	Scenario: Moving a board down in the list
 		Given there is an OOC message board

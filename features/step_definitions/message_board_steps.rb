@@ -63,11 +63,11 @@ When(/^the user edits the IC message board$/) do
 end
 
 When(/^the user deletes the OOC message board$/) do
-  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.delete_board(id: 1)
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.delete_board(name: "New OOC Board")
 end
 
 When(/^the user deletes the IC message board$/) do
-  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.delete_board(id: 1)
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.delete_board(name: "New IC Board")
 end
 
 When(/^the user converts it to an IC message board$/) do
@@ -78,20 +78,28 @@ When(/^the user converts it to an OOC message board$/) do
   MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.update_board(name: "New IC Board", ic: false)
 end
 
-When(/^the user marks the board as closed$/) do
-  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.close_board(id: 1)
+When(/^the user marks the OOC board as closed$/) do
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.close_board(name: "New OOC Board")
 end
 
-When(/^the user marks the board as open$/) do
-  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.open_board(id: 1)
+When(/^the user marks the IC board as closed$/) do
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.close_board(name: "New IC Board")
+end
+
+When(/^the user marks the OOC board as open$/) do
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.open_board(name: "New OOC Board")
+end
+
+When(/^the user marks the IC board as open$/) do
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.open_board(name: "New IC Board")
 end
 
 When(/^the user moves the IC board up the list$/) do
-  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.move_board_up(id: 3)
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.move_board_up(name: "New IC Board")
 end
 
 When(/^the user moves the OOC board down the list$/) do
-  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.move_board_down(id: 1)
+  MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.move_board_down(name: "New OOC Board")
 end
 
 # Validations

@@ -8,10 +8,11 @@ class MessageBoardsAdminPage < BladesDBPage
       if ic
         check("In character")
       end
+      click_button("Create")
     end
 
     def update_board(name: nil, new_name: nil, blurb: nil, ic: nil)
-      page.find_link(name).find(:xpath, "..").click_link("Edit")
+      page.find_link(name).find(:xpath, "../..").click_link("Edit")
       if !new_name.nil?
         fill_in("Name", with: new_name)
       end
@@ -25,28 +26,34 @@ class MessageBoardsAdminPage < BladesDBPage
           uncheck("In character")
         end
       end
+      click_button("Update")
     end
 
-    def delete_board(id: nil)
+    def delete_board(name: nil)
+      accept_confirm do
+        page.find_link(name).find(:xpath, "../..").click_link("Delete")
+      end
     end
 
-    def close_board(id: nil)
+    def close_board(name: nil)
+      page.find_link(name).find(:xpath, "../..").click_link("Close")
     end
 
-    def open_board(id: nil)
+    def open_board(name: nil)
+      page.find_link(name).find(:xpath, "../..").click_link("Open")
     end
 
-    def move_board_up(id: nil)
+    def move_board_up(name: nil)
     end
 
-    def move_board_down(id: nil)
+    def move_board_down(name: nil)
     end
 
     def find_board(name: nil, ic: false, closed: false, deleted: false)
       if closed
-        table = page.find_by_id("closedboards").find("tr")
+        table = page.find_by_id("closedboards")
       else
-        table = page.find_by_id("openboards").find("tr")
+        table = page.find_by_id("openboards")
       end
       if deleted
         table.should_not have_link(name)
