@@ -19,7 +19,7 @@ class Character < ActiveRecord::Base
     PermDead = "permdead"
     Undeclared = "undeclared" # Applies to characters imported from LARPdb.
     Recycled = "recycled"
-    
+
     validates_presence_of :user_id
     validates_presence_of :name
     validates_presence_of :starting_points, :unless => :undeclared?
@@ -36,9 +36,9 @@ class Character < ActiveRecord::Base
         record.errors.add attr, I18n.t("character.validation.dts_greater_than_race") unless (record.starting_death_thresholds || 0) <= record.race.death_thresholds
         record.errors.add attr, I18n.t("character.validation.dts_less_than_zero") unless (record.starting_death_thresholds || 0) >= 0
     end
-    
+
     before_update :add_monster_point_adjustment_for_recycling
-    
+
     default_scope { includes(:character_state, :user, :race) }
 
     auto_strip_attributes :name, :biography, :address, :notes, :gm_notes
@@ -59,7 +59,7 @@ class Character < ActiveRecord::Base
     def undeclared?
         state == Undeclared
     end
-    
+
     def recycled?
         state == Recycled
     end
@@ -71,7 +71,7 @@ class Character < ActiveRecord::Base
     def is_provisional?
         approved.nil?
     end
-    
+
     def approved?
         self.approved == true
     end
@@ -81,41 +81,41 @@ class Character < ActiveRecord::Base
             state = Retired
         end
     end
-    
+
     def reactivate
         if retired?
             state = Active
         end
     end
-    
+
     def perm_kill
         state = PermDead
     end
-    
+
     def resurrect_from_perm_death
         if dead?
             state = Active
         end
-    end    
-    
+    end
+
     def approve(current_user)
         @approval_recently_set = true
         self.approved = true
         self.approved_on = Date.today
         self.approved_by = current_user
     end
-    
+
     def reject(current_user)
         @approval_recently_set = true
         self.approved = false
         self.approved_on = Date.today
         self.approved_by = current_user
     end
-    
+
     def approval_recently_set?
         @approval_recently_set
     end
-    
+
     def name_and_title(unescaped = false)
         unless title.blank?
             "#{title} #{name}"
@@ -132,11 +132,11 @@ class Character < ActiveRecord::Base
             end
         end
     end
-    
+
     def title_name_and_rank(unescaped = false)
         "#{name_and_title(unescaped)} (#{rank})"
     end
-    
+
     def points_on(date)
         cumulative_points = starting_points
         debriefs.joins(:game).where(games: {debrief_started: true, open: false}).where("games.start_date >= ? AND games.start_date <= ?", declared_on, date).each do |debrief|
@@ -146,23 +146,23 @@ class Character < ActiveRecord::Base
         cumulative_points += character_point_adjustments.where(approved: true).where("declared_on >= ? AND declared_on <= ?", declared_on, date).sum(:points)
         return cumulative_points
     end
-    
+
     def rank_on(date)
         points_on(date)/10.0
     end
-    
+
     def points
         @total_points ||= character_state.points.to_i
     end
-    
+
     def rank
         points/10.0
     end
-    
+
     def death_thresholds
         @death_thresholds ||= character_state.death_thresholds.to_i
     end
-    
+
     def state_readable
         case
         when active? then "Active"
@@ -173,37 +173,37 @@ class Character < ActiveRecord::Base
         else state
         end
     end
-    
+
     def currently_active?
         (state == Active) && (self.user.is_normal?) && self.approved?
     end
-    
+
     def active?
         state == Active
     end
-    
+
     def retired?
         state == Retired
     end
-    
+
     def dead?
         state == PermDead
     end
-    
+
     def undeclared?
         state == Undeclared
     end
-    
+
     def guild_membership_on(date)
         approved_memberships = guild_memberships.where(approved: true).where("declared_on <= ?", date).includes(:guild)
         all_memberships = guild_memberships.where("declared_on <= ?", date).includes(:guild)
         approved_memberships.last || all_memberships.last || guild_memberships.build(start_points: 0, approved: true)
     end
-    
+
     def current_guild_membership
         @current_guild_membership ||= guild_memberships.find(character_state.guild_membership.to_i) || guild_memberships.build(start_points: 0, approved: true)
     end
-    
+
     def outstanding_guild_membership_request
         last_request = guild_memberships.last
         if last_request.nil? or last_request.approved
@@ -212,23 +212,23 @@ class Character < ActiveRecord::Base
             last_request
         end
     end
-    
+
     def guild
         guild_memberships.empty? ? nil : current_guild_membership.guild
     end
-    
+
     def full_guild_name
         guild.nil? ? "" : current_guild_membership.full_guild_name
     end
-    
+
     def money
         money_on(Date.today)
     end
-    
+
     def money_on(date)
         money_events.select { |event| !event.provisional and !event.rejected and !event.historical and event.date <= date }.inject(0) { |sum, event| sum + event.taxed_money + (event.loot || 0) }
     end
-        
+
     def formatted_date_of_birth
         unless date_of_birth.nil?
             if (date_of_birth.year >= 1900)
@@ -238,7 +238,7 @@ class Character < ActiveRecord::Base
             end
         end
     end
-    
+
     def played_before(date)
         if starting_points > 20
             true
@@ -246,19 +246,19 @@ class Character < ActiveRecord::Base
             not debriefs.joins(:game).where("games.start_date < ?", date).empty?
         end
     end
-    
+
     def games_played_since(date)
         debriefs.joins(:game).where("games.start_date > ?", date).count
     end
-    
+
     def points_earned_since(date)
         points - points_on(date)
     end
-    
+
     def can_spend_monster_points?
         character_point_adjustments.where(approved: nil).empty? and debriefs.joins(:game).where(games: {open: true}).empty? and approved == true and active?
     end
-    
+
     def reason_for_being_unable_to_spend_monster_points
         case
         when !character_point_adjustments.where(approved: nil).empty?
@@ -273,7 +273,7 @@ class Character < ActiveRecord::Base
             user.reason_for_being_unable_to_spend_monster_points
         end
     end
-    
+
     def points_bought_since_last_game(date)
         last_game_date = declared_on
         unless debriefs.empty?
@@ -281,7 +281,7 @@ class Character < ActiveRecord::Base
         end
         monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:monster_points_spent)
     end
-        
+
     def monster_points_available_to_spend_on(date, precalculated_character_points = nil, monster_point_spend_to_ignore = nil)
         precalculated_character_points = points_on(date) if precalculated_character_points.nil?
         if precalculated_character_points >= 100
@@ -295,7 +295,7 @@ class Character < ActiveRecord::Base
             user.minimum_monster_points_remaining_after(date, monster_point_spend_to_ignore)
         end
     end
-    
+
     def points_accumulated_in_current_guild
         guild_changed = false
         guild_memberships.reverse.inject do |points, membership|
@@ -311,11 +311,11 @@ class Character < ActiveRecord::Base
             end
         end
     end
-    
+
     def last_monster_point_spend
         monster_point_spends.order(:spent_on).last
     end
-    
+
     def events
         # Pull in debriefs, monster point spends, character declaration and requested/approved character point and death threshold adjustments and sort them by date order.
         if @events.nil?
@@ -434,10 +434,10 @@ class Character < ActiveRecord::Base
                 @events.push(event)
             end
         end
-           
+
         @events.sort {|x,y| y.date <=> x.date } # Sort by reverse date.
     end
-    
+
     def money_events
         if @money_events.nil?
             @money_events = Array.new
@@ -513,27 +513,27 @@ class Character < ActiveRecord::Base
                 end
                 @money_events.push(event)
             end
-            
+
         end
-        
+
         @money_events.sort { |x,y| y.date <=> x.date } # Sort by reverse date.
     end
-    
+
     class Event < Object
         attr_accessor :date, :comment, :provisional, :rejected, :source_object, :historical
     end
-    
+
     class CharacterEvent < Event
         attr_accessor :title, :points, :deaths
     end
 
     class MoneyEvent < Event
         attr_accessor :money, :other_party, :tax_rate, :loot
-        
+
         def taxed_money
             money - tax
         end
-        
+
         def tax
             if money > 0
                 (money * (tax_rate || 0)).round
@@ -542,7 +542,7 @@ class Character < ActiveRecord::Base
             end
         end
     end
-    
+
     protected
         def add_monster_point_adjustment_for_recycling
             if recycled? and state_was == Active

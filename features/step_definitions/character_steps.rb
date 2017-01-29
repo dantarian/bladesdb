@@ -180,19 +180,19 @@ When(/^the user tries to declare a new character with a Guild and more Guild sta
 end
 
 When(/^the user updates their character's name$/) do
-  CharacterProfilePage.new.visit_page(character_path(1)).and.update_name("Robert McLogin")
+  CharacterPage.new.visit_page(character_path(1)).and.update_name("Robert McLogin")
 end
 
 When(/^the user tries to update their character's name to nothing$/) do
-  CharacterProfilePage.new.visit_page(character_path(1)).and.update_name("")
+  CharacterPage.new.visit_page(character_path(1)).and.update_name("")
 end
 
 When(/^the user gives their character a custom title$/) do
-  CharacterProfilePage.new.visit_page(character_path(1)).and.update_title(title: "Stupendous")
+  CharacterPage.new.visit_page(character_path(1)).and.update_title(title: "Stupendous")
 end
 
 When(/^the user gives their character no title$/) do
-  CharacterProfilePage.new.visit_page(character_path(1)).and.update_title(no_title: true)
+  CharacterPage.new.visit_page(character_path(1)).and.update_title(no_title: true)
 end
 
 # Validations
@@ -207,47 +207,47 @@ end
 
 Then(/^the character should be created with the basic values$/) do
   CharactersPage.new.click_link("Testy McTesterson")
-  CharacterProfilePage.new.check_for_core_fields(state: "Active (Not yet approved)")
-  CharacterProfilePage.new.check_for_money
+  CharacterPage.new.check_for_core_fields(state: "Active (Not yet approved)")
+  CharacterPage.new.check_for_money
 end
 
 Then(/^the character should be created with the Guild membership$/) do
   CharactersPage.new.click_link("Testy McTesterson")
-  CharacterProfilePage.new.check_for_core_fields(state: "Active (Not yet approved)")
-  CharacterProfilePage.new.check_for_money
-  CharacterProfilePage.new.check_for_guild("Test Guild")
+  CharacterPage.new.check_for_core_fields(state: "Active (Not yet approved)")
+  CharacterPage.new.check_for_money
+  CharacterPage.new.check_for_guild("Test Guild")
 end
 
 Then(/^the character should be created with the Guild and branch membership$/) do
   CharactersPage.new.click_link("Testy McTesterson")
-  CharacterProfilePage.new.check_for_core_fields(state: "Active (Not yet approved)")
-  CharacterProfilePage.new.check_for_money
-  CharacterProfilePage.new.check_for_guild("Test Guild", branch: "Branch 1")
+  CharacterPage.new.check_for_core_fields(state: "Active (Not yet approved)")
+  CharacterPage.new.check_for_money
+  CharacterPage.new.check_for_guild("Test Guild", branch: "Branch 1")
 end
 
 Then(/^the character should be created with the custom title$/) do
   CharactersPage.new.click_link("Testy McTesterson")
-  CharacterProfilePage.new.check_for_core_fields(state: "Active (Not yet approved)")
-  CharacterProfilePage.new.check_for_money
-  CharacterProfilePage.new.check_for_character_title("Badass")
+  CharacterPage.new.check_for_core_fields(state: "Active (Not yet approved)")
+  CharacterPage.new.check_for_money
+  CharacterPage.new.check_for_character_title("Badass")
 end
 
 Then(/^the character should be created with no title$/) do
   CharactersPage.new.click_link("Testy McTesterson")
-  CharacterProfilePage.new.check_for_core_fields(state: "Active (Not yet approved)")
-  CharacterProfilePage.new.check_for_money
-  CharacterProfilePage.new.check_for_character_title(nil)
-  CharacterProfilePage.new.check_for_guild("Test Guild")
+  CharacterPage.new.check_for_core_fields(state: "Active (Not yet approved)")
+  CharacterPage.new.check_for_money
+  CharacterPage.new.check_for_character_title(nil)
+  CharacterPage.new.check_for_guild("Test Guild")
 end
 
 Then(/^the updated name should be displayed on the character's profile$/) do
-  CharacterProfilePage.new.check_for_core_fields(character_name: "Robert McLogin")
+  CharacterPage.new.check_for_core_fields(character_name: "Robert McLogin")
 end
 
 Then(/^the title should be displayed on the character's profile$/) do
-  CharacterProfilePage.new.check_for_character_title("Stupendous")
+  CharacterPage.new.check_for_character_title("Stupendous")
 end
 
 Then(/^no title should be displayed on the character's profile$/) do
-  CharacterProfilePage.new.check_for_character_title(nil)
+  CharacterPage.new.check_for_character_title(nil)
 end

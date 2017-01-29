@@ -18,8 +18,8 @@ en:
       deleted: "Board deletion failed."
   character:
     validation:
-      dialog_header: "Failed to save Character details"
-      dialog_main: "The following problems prevented your details from being saved:"
+      dialog_header: "Failed to save character"
+      dialog_main: "The following problems prevented your character from being saved:"
       dts_less_than_zero: "must be greater than or equal to zero."
       dts_greater_than_race: "must be less than or equal to racial maximum."
     success:
@@ -82,12 +82,9 @@ en:
       updated: "Page was successfully updated."
       deleted: "Page was successfully deleted."
     failure:
-      home_deletion: "Stop trying to delete the home page!"
-    success:
-      created: "Page was successfully created."
-      updated: "Page was successfully updated."
+      home_deletion: "Stop trying to delete the home page Marcus!"
   user:
-    validation: 
+    validation:
       dialog_header: "Failed to save user"
       dialog_main: "The following problems prevented the user from being saved:"
       username_format: "use only letters, numbers, and .-_@ please."

@@ -135,7 +135,7 @@ $(function () {
 				$(this).html("&nbsp;");
 			}
 		});
-	
+
 		// Iterate over the rows.
 		var odd = true;
 		$(this).find("tr").each(function () {
@@ -149,7 +149,7 @@ $(function () {
 				if (odd) {
 					$(this).addClass("odd");
 				} else {
-					$(this).addClass("even");					
+					$(this).addClass("even");
 				}
 				odd = !odd;
 			}
@@ -172,7 +172,7 @@ $(function() {
 		if ( defaultColumn.size() > 0 ) {
 			var defaultIndex = defaultColumn.index();
 			var descending = defaultColumn.hasClass("descending");
-			defaultSort = [[defaultIndex, descending ? "desc" : "asc"]];	
+			defaultSort = [[defaultIndex, descending ? "desc" : "asc"]];
 		} else {
 			defaultSort = [[0, "asc"]];
 		}
@@ -232,14 +232,14 @@ $(function () {
 });
 
 $(function () {
-	
+
 	var guildOptionElement = function(id, title, selected) {
 		return $("<option></option>")
 			.prop("id", id)
 			.prop("selected", (selected ? "selected" : ""))
 			.append(title);
 	};
-	
+
 	var updateGuildBranches = function(guild_selector, guild_branch_selector) {
 		var selectedGuild = $(guild_selector).find("option:selected").val();
 		var guilds = $(guild_branch_selector).data("guildmap");
@@ -252,19 +252,19 @@ $(function () {
 					return guildOptionElement(key, value, key == guilds["selected"]);
 				})
 			);
-			$(guild_branch_selector).prop("disabled", $(guild_branch_selector).find("option").length == 0); 			
+			$(guild_branch_selector).prop("disabled", $(guild_branch_selector).find("option").length == 0);
 		}
 	};
 
     var updateGuildBranchesIfAppropriate = function() {
     	var guilds = $("select#guild_selector");
     	var guild_branches = $("select#guild_branch_selector");
-    	
+
     	if (guilds.length > 0 && guild_branches.length > 0) {
     		updateGuildBranches(guilds, guild_branches);
-    	} 
+    	}
     };
-	
+
     $("#dialog").on("dialogopen", updateGuildBranchesIfAppropriate);
     $("#dialog").delegate("select#guild_selector", "change", updateGuildBranchesIfAppropriate);
 });

@@ -5,24 +5,24 @@
 	
 	<h2 class="alt">Live Characters</h2>
 
-	<%= render :partial => "characters", :object => @characters.select{|character| character.active? }, :locals => { :show_user => true, :show_state => false } %>
+	<%= render :partial => "characters", :object => @characters.select{|character| character.active? }, :locals => { :show_user => true, :show_state => false, table_id: "live" } %>
 	
 	<h2 class="alt">Retired Characters</h2>
 	
-	<%= render :partial => "characters", :object => @characters.select{|character| character.retired? }, :locals => { :show_user => true, :show_state => false } %>
+	<%= render :partial => "characters", :object => @characters.select{|character| character.retired? }, :locals => { :show_user => true, :show_state => false, table_id: "retired" } %>
 	
 	<h2 class="alt">Dead Characters</h2>
 	
-	<%= render :partial => "characters", :object => @characters.select{|character| character.dead? }, :locals => { :show_user => true, :show_state => false } %>
+	<%= render :partial => "characters", :object => @characters.select{|character| character.dead? }, :locals => { :show_user => true, :show_state => false, table_id: "dead" } %>
 	
 	<% if current_user.is_admin_or_character_ref?%>
 		<h2 class="alt">Recycled Characters</h2>
 		
-		<%= render :partial => "characters", :object => @characters.select{|character| character.recycled? }, :locals => { :show_user => true, :show_state => false } %>
+		<%= render :partial => "characters", :object => @characters.select{|character| character.recycled? }, :locals => { :show_user => true, :show_state => false, table_id: "recycled" } %>
 		
 		<h2 class="alt">Undeclared Characters</h2>
 		
-		<%= render :partial => "characters", :object => @characters.select{|character| character.undeclared? }, :locals => { :show_user => true, :show_state => false, :all_undeclared => true } %>
+		<%= render :partial => "characters", :object => @characters.select{|character| character.undeclared? }, :locals => { :show_user => true, :show_state => false, :all_undeclared => true, table_id: "gm-created" } %>
 	<% end %>
 
 <% else %>
@@ -30,7 +30,7 @@
 	
 	<h2 class="alt">Active Characters</h2>
 
-	<%= render :partial => "characters", :object => @characters.select{|character| character.currently_active? }, :locals => { :show_user => true, :show_state => false } %>
+	<%= render :partial => "characters", :object => @characters.select{|character| character.currently_active? }, :locals => { :show_user => true, :show_state => false, table_id: "active" } %>
 	
 <% end %>
 

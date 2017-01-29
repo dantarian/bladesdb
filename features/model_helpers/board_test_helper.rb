@@ -1,11 +1,11 @@
 module BoardTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
   
-  def create_board(id: nil, name: "New Board", closed: false, ic: false, order: 1)
+  def create_board(id: nil, name: "New OOC Board", closed: false, ic: false, order: 1)
     if id
-      Board.create_with(closed: closed, order: order, ic: ic).find_or_create_by!(id: id, name: name)
+      Board.create_with(closed: closed, order: order, in_character: ic).find_or_create_by!(id: id, name: name)
     else
-      Board.create_with(closed: closed, order: order, ic: ic).find_or_create_by!(name: name)
+      Board.create_with(closed: closed, order: order, in_character: ic).find_or_create_by!(name: name)
     end
   end
   

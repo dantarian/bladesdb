@@ -185,21 +185,21 @@ Then(/^a Guild starting points must be less than character points message should
 end
 
 Then(/^a character updated message should be displayed$/) do
-  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.success.updated")
+  CharacterPage.new.check_is_displaying_message I18n.t("character.success.updated")
 end
 
 Then(/^an application to join message should be displayed$/) do
-  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.guild_changed")
+  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.guild_changed")
 end
 
 Then(/^an application to change branch message should be displayed$/) do
-  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.branch_changed")
+  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.branch_changed")
 end
 
 Then(/^an application to leave message should be displayed/) do
-  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.left_guild")
+  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.left_guild")
 end
 
 Then(/^an application cancelled message should be displayed$/) do
-  CharacterProfilePage.new.check_is_displaying_message I18n.t("character.guild_membership.success.cancelled")
+  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.cancelled")
 end

@@ -14,7 +14,7 @@ Feature: Unapproved User Access
     
   Scenario: View message board as unapproved user
     Given there is another user
-    And there is a message board
+    And there is an OOC message board
     And there is a message from the other user
     When the user goes to the message board
     Then the user should see a short name and no email on the message

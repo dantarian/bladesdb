@@ -1,9 +1,10 @@
 <div id="admin_boards_list">
+
 	<% if @boards.empty? %>
 		<p><i>No boards found.</i></p>
 	<% else %>
 		<h2 class="alt">Open Boards</h2>
-		<table>
+		<table id="openboards">
 			<thead>
 				<tr>
 					<th>Board Name</th>
@@ -16,7 +17,7 @@
 			</tbody>
 		</table>
 		<h2 class="alt">Closed Boards</h2>
-		<table>
+		<table id="closedboards">
 			<thead>
 				<tr>
 					<th>Board Name</th>

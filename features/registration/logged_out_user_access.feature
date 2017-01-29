@@ -14,7 +14,7 @@ Feature: Logged Out User Access
     And the user should see a login access message
 
   Scenario: Attempt to access message boards without being signed in
-    Given there is a message board
+    Given there is an OOC message board
     When the user goes to the message board
     Then the login page should be displayed
     And the user should see a login access message

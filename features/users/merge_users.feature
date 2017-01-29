@@ -21,7 +21,7 @@ Feature: Merge Users
 	
 	@javascript	
 	Scenario: Merge gives message board posts
-		Given there is a message board 
+		Given there is an OOC message board 
 		And there is a user
 		And there is a message from the user
 		And there is another user
@@ -36,7 +36,7 @@ Feature: Merge Users
 		
 	@javascript	
 	Scenario: Merge gives message board posts on closed boards
-		Given there is a message board 
+		Given there is an OOC message board 
 		And there is a user
 		And there is a message from the user
 		And there is another user

@@ -6,7 +6,7 @@ Feature: Posting messages
   Background:
     Given there is a user
     And the user is logged in
-    And there is a message board
+    And there is an OOC message board
   
   Scenario:
     When the user posts a message to the board

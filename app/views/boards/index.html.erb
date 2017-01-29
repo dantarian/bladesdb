@@ -1,5 +1,7 @@
 <h1 class="alt">Message Boards</h1>
 
+<p>Boards in <span>italics</span> are In Character (IC) boards.</p>
+
 <h2 class="alt">Open Boards</h2>
 
 <p>[ <%= link_to "Mark all boards read", mark_read_boards_path %> ]</p>
@@ -17,7 +19,7 @@
 		<tbody>
 			<% Board.open_boards.sort_by {|board| board.order }.each do |board| %>
 				<tr class="<%= cycle('odd', 'even') %>">
-					<td><%= link_to (h board.name), board %></td>
+					<td><%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %></td>
 					<td><%= board.unread_messages(current_user) %></td>
 				</tr>
 			<% end %>
@@ -38,7 +40,7 @@
 		<tbody>
 			<% Board.closed_boards.sort_by {|board| board.order }.each do |board| %>
 				<tr class="<%= cycle('odd', 'even') %>">
-					<td><%= link_to (h board.name), board %></td>
+					<td><%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %></td>
 				</tr>
 			<% end %>
 		</tbody>

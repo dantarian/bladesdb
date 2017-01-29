@@ -48,6 +48,10 @@ class Board < ActiveRecord::Base
         closed == false
     end
     
+    def ic?
+        in_character == true
+    end
+    
     def last_page
         (self.messages.size / 30.0).ceil
     end

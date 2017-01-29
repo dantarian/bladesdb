@@ -21,7 +21,7 @@
 	  			<li>
 	  				Select one of your characters as whom to post, or type an NPC name into the field below.<br />
 	  				<div class="options_container">
-	  					<%= radio_button_tag(:radio_type, "character_id", !@message.character_id.blank? ) %><%= label_tag "radio_type_character_id", "Character" %><br />
+	  					<%= radio_button_tag(:radio_type, "character_id", !@message.character_id.blank? || @message.id.nil? ) %><%= label_tag "radio_type_character_id", "Character" %><br />
 		  				<% if @message.user_id.nil? %>
 							<%= f.select :character_id, current_user.characters.order(:name).to_a.select{|character| character.state == "active"}.collect { |character| [character.name_and_title, character.id] }, {}, {:class => "switch_enabled"} %>
 						<% else %>
@@ -29,7 +29,7 @@
 						<% end %>
 					</div>
 					<div class="options_container">
-						<%= radio_button_tag(:radio_type, "name", @message.character_id.blank?) %><%= label_tag "radio_type_name", "NPC Name or Scenery Description" %><br />
+						<%= radio_button_tag(:radio_type, "name", @message.character_id.blank? && !@message.id.nil?) %><%= label_tag "radio_type_name", "NPC Name or Scenery Description" %><br />
 						<%= f.text_field :name, :class => "switch_enabled", :disabled => true %>
 					</div>
 				</li>

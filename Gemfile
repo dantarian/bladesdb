@@ -84,5 +84,3 @@ group :test do
   gem 'action_mailer_cache_delivery', '~> 0.3.7'
   gem 'poltergeist', '~> 1.12.0'
 end
-
-
