@@ -314,3 +314,7 @@ end
 Then(/^the first user should have the second user's monster point adjustment$/) do
   MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_adjustment(15)
 end
+
+Then(/^the first user should be on the debrief of the game$/) do
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_debrief_player(User.first, User.first.characters.first)
+end
