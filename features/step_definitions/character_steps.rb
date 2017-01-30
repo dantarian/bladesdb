@@ -20,7 +20,7 @@ Given(/^the other user has a character$/) do
   CharacterTestHelper.approve_character(User.all.second, Character.all.second)
 end
 
-Given(/^the other user has a gm-created character$/) do
+Given(/^the other user has a GM\-created character$/) do
   CharacterTestHelper.create_undeclared_character(User.all.second, name: "Testy McTesterson")
 end
 

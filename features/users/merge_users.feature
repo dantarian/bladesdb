@@ -196,11 +196,11 @@ Feature: Merge Users
 		And the first user should have the second user's monster point adjustment
 
 	@javascript
-	Scenario: Merging a gm-created user into a full user
+	Scenario: Merging a GM-created user into a full user
 		Given there is a game
 		And there is a user
-		And there is a gm-created user
-		And the other user has a gm-created character
+		And there is a GM-created user
+		And the other user has a GM-created character
 		And the other user has been created for the game
 		And the game has been debriefed
 		And there is an admin user
@@ -208,5 +208,5 @@ Feature: Merge Users
 		When the admin user merges the second user into the first user
 		Then the members list should be displayed
 		And the second user should no longer exist
-		And the first user should have the second user's character
+		And the first user should have the second user's GM-created character
 		And the first user should be on the debrief of the game

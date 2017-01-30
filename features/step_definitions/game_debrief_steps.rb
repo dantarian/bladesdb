@@ -51,19 +51,19 @@ When(/^the GM changes the character's debrief to give them -(\d+) bonus points?$
 end
 
 When(/^the GM creates a new character for the player on a debrief$/) do
-  DebriefPage.new.visit_page(game_path(Game.first)).and.add_player_to_debrief(user: "Ann Other", character: nil)
+  DebriefPage.new.visit_page(game_path(Game.first)).and.add_player_to_debrief(player: "Ann Other", character: nil)
 end
 
 When(/^the GM creates a new player with a new character on a debrief$/) do
-  DebriefPage.new.visit_page(game_path(Game.first)).and.add_player_to_debrief(user: nil, character: nil)
+  DebriefPage.new.visit_page(game_path(Game.first)).and.add_player_to_debrief(player: nil, character: nil)
 end
 
 When(/^the GM creates a new monster on a debrief$/) do
-  DebriefPage.new.visit_page(game_path(Game.first)).and.add_monster_to_debrief(user: nil)
+  DebriefPage.new.visit_page(game_path(Game.first)).and.add_monster_to_debrief(monster: nil)
 end
 
 When(/^the GM creates a new GM on a debrief$/) do
-  DebriefPage.new.visit_page(game_path(Game.first)).and.add_gm_to_debrief(user: nil)
+  DebriefPage.new.visit_page(game_path(Game.first)).and.add_gm_to_debrief(gm: nil)
 end
 
 # Verification steps
