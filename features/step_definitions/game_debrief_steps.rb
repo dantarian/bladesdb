@@ -27,11 +27,11 @@ end
 # Action steps
 
 When(/^the user publishes the brief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.publish_briefs
+  GamePage.new.visit_page(game_path(Game.first.id)).and.publish_briefs
 end
 
 When(/^the user publishes the debrief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.finish_debrief
+  GamePage.new.visit_page(game_path(Game.first.id)).and.finish_debrief
 end
 
 When(/^the GM reopens the debrief for the game$/) do
@@ -50,19 +50,19 @@ When(/^the GM changes the character's debrief to give them -(\d+) bonus points?$
   GamePage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Character.first, bonus: "-#{points}")
 end
 
-When(/^the GM creates a new character for the player on a debrief$/) do
+When(/^the GM creates a new character for the player on the debrief$/) do
   DebriefPage.new.visit_page(game_path(Game.first.id)).and.add_player_to_debrief(player: "Ann Other", character: nil)
 end
 
-When(/^the GM creates a new player with a new character on a debrief$/) do
+When(/^the GM creates a new player with a new character on the debrief$/) do
   DebriefPage.new.visit_page(game_path(Game.first.id)).and.add_player_to_debrief(player: nil, character: nil)
 end
 
-When(/^the GM creates a new monster on a debrief$/) do
+When(/^the GM creates a new monster on the debrief$/) do
   DebriefPage.new.visit_page(game_path(Game.first.id)).and.add_monster_to_debrief(monster: nil)
 end
 
-When(/^the GM creates a new GM on a debrief$/) do
+When(/^the GM creates a new GM on the debrief$/) do
   DebriefPage.new.visit_page(game_path(Game.first.id)).and.add_gm_to_debrief(gm: nil)
 end
 
