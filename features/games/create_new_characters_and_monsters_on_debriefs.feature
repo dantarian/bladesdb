@@ -5,6 +5,7 @@ Feature: Create new characters and monsters on debriefs
 
 	Background:
 		Given there is a user
+		And the user is logged in
 		And there is a game
 		And the user is a GM for the game
 		And the game is in the past
