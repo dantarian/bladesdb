@@ -23,9 +23,29 @@ class DebriefPage < BladesDBPage
     end
 
     def add_monster_to_debrief(monster: nil)
+      click_link "Add Monster"
+      if monster.nil?
+        click_link "Create New User"
+        fill_in("Name", with: "Lady Test")
+        click_button "Create"
+      else
+        select(player, from: "Select User")
+        click_button "Select"
+      end
+      click_button "Select"
     end
 
     def add_gm_to_debrief(gm: nil)
+      click_link "Add GM"
+      if gm.nil?
+        click_link "Create New User"
+        fill_in("Name", with: "Lady Test")
+        click_button "Create"
+      else
+        select(player, from: "Select User")
+        click_button "Select"
+      end
+      click_button "Select"
     end
 
     def check_for_player(player, character)
