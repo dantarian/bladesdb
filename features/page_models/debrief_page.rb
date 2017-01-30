@@ -8,7 +8,7 @@ class DebriefPage < BladesDBPage
         fill_in("Name", with: "Lady Test")
         click_button "Create"
       else
-        select(player, from: "user_selector")
+        select(player, from: "debrief_user_id")
         click_button "Select"
       end
       if character.nil?
@@ -16,7 +16,7 @@ class DebriefPage < BladesDBPage
         fill_in("Name", with: "Judge Test")
         click_button "Create Character"
       else
-        select(character, from: "Select Character")
+        select(character, from: "debrief_character_id")
         click_button "Select"
       end
       click_button "Select"
@@ -29,7 +29,7 @@ class DebriefPage < BladesDBPage
         fill_in("Name", with: "Lady Test")
         click_button "Create"
       else
-        select(player, from: "user_selector")
+        select(player, from: "debrief_user_id")
         click_button "Select"
       end
       click_button "Select"
@@ -42,7 +42,7 @@ class DebriefPage < BladesDBPage
         fill_in("Name", with: "Lady Test")
         click_button "Create"
       else
-        select(player, from: "user_selector")
+        select(player, from: "debrief_user_id")
         click_button "Select"
       end
       click_button "Select"

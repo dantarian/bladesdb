@@ -4,7 +4,7 @@ Feature: Create new characters and monsters on debriefs
 	So there is a true record of the debriefed game
 
 	Background:
-		Given there is a user
+		Given there is an admin user
 		And the user is logged in
 		And there is a game
 		And the user is a GM for the game
