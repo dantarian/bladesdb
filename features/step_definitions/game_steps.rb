@@ -38,7 +38,7 @@ Given(/^the other user is a player of the game$/) do
 end
 
 Given(/the other user has been created for the game$/) do
-  user = Users.all.second
+  user = User.all.second
   character = user.characters.first
   GameTestHelper.add_player user, character, to: Game.first
 end
