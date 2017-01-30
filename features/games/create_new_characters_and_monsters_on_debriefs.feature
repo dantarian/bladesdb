@@ -22,7 +22,7 @@ Feature: Create new characters and monsters on debriefs
 	Scenario: Create a new player with a new character
 		When the GM creates a new player with a new character on the debrief
 		Then the created character should appear in the debrief for the player
-		And the character should appear in the undeclared characters list linked to the player
+		And the character should appear in the undeclared characters list linked to the undeclared player
 		And the player should appear in the GM-created members list
 
 	@javascript
