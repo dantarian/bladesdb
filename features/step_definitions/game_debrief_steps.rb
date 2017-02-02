@@ -89,7 +89,7 @@ Then(/^the player should appear in the GM\-created members list$/) do
 end
 
 Then(/^the created monster should appear in the debrief$/) do
-  DebriefPage.new.check_for_monster("Lady Test")
+  DebriefPage.new.check_for_monster(1, 2, "Lady Test")
 end
 
 Then(/^the monster should appear in the GM\-created members list$/) do
@@ -97,7 +97,7 @@ Then(/^the monster should appear in the GM\-created members list$/) do
 end
 
 Then(/^the created GM should appear in the debrief$/) do
-  DebriefPage.new.check_for_gm("Lady Test")
+  DebriefPage.new.check_for_gm(1, 2, "Lady Test")
 end
 
 Then(/^the GM should appear in the GM\-created members list$/) do

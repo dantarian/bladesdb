@@ -50,7 +50,7 @@ class DebriefPage < BladesDBPage
 
     def check_for_player(game_id, character_id, player, character, displayed: true)
       if displayed then
-        search = "ul.players li#game" + game_id + "character" + character_id
+        search = "ul.players li#game" + game_id.to_s + "character" + character_id.to_s
         page.find(search).should have_text(player)
         page.find(search).should have_text(character)
       else
@@ -61,7 +61,7 @@ class DebriefPage < BladesDBPage
 
     def check_for_monster(game_id, monster_id, monster, displayed: true)
       if displayed then
-        search = "ul.monsters li#game" + game_id + "monster" + monster_id
+        search = "ul.monsters li#game" + game_id.to_s + "monster" + monster_id.to_s
         page.find(search).should have_text(monster)
       else
         page.should_not have_text(monster)
@@ -70,7 +70,7 @@ class DebriefPage < BladesDBPage
 
     def check_for_gm(game_id, gm_id, gm, displayed: true)
       if displayed then
-        search = "ul.gms li#game" + game_id + "gm" + gm_id
+        search = "ul.gms li#game" + game_id.to_s + "gm" + gm_id.to_s
         page.find(search).should have_text(gm)
       else
         page.should_not have_text(gm)
