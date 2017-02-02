@@ -276,11 +276,11 @@ Then(/^the first user should be a player on the second game$/) do
 end
 
 Then(/^the first user should still be on the debrief of the first game$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.check_for_debrief_player(User.first, User.first.characters.first)
+  DebriefPage.new.visit_page(game_path(Game.first)).and.check_for_player("Norman Normal", "Testy McTesterson")
 end
 
 Then(/^the first user should be on the debrief of the second game$/) do
-  GamePage.new.visit_page(game_path(Game.all.second)).and.check_for_debrief_player(User.first, User.first.characters.second)
+  DebriefPage.new.visit_page(game_path(Game.all.second)).and.check_for_player("Norman Normal",  "Nijel the Destroyer")
 end
 
 Then(/^the first user should still be a gm on the first game$/) do
@@ -316,9 +316,9 @@ Then(/^the first user should have the second user's monster point adjustment$/) 
 end
 
 Then(/^the first user should be on the debrief of the game$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.check_for_debrief_player(User.first, User.first.characters.first)
+  DebriefPage.new.visit_page(game_path(Game.first)).and.check_for_player("Norman Normal", "Testy McTesterson")
 end
 
 Then(/^the first user should have the second user's gm\-created character$/) do
-  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.first, Character.all.second)
+  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character("Norman Normal", "Ginny Greenteeth")
 end

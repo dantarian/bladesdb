@@ -21,7 +21,7 @@ Given(/^the other user has a character$/) do
 end
 
 Given(/^the other user has a GM\-created character$/) do
-  CharacterTestHelper.create_undeclared_character(User.all.second, name: "Testy McTesterson")
+  CharacterTestHelper.create_undeclared_character(User.all.second, name: "Ginny Greenteeth")
 end
 
 Given(/^the character is a player on the game$/) do

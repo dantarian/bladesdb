@@ -48,12 +48,32 @@ class DebriefPage < BladesDBPage
       click_button "Select"
     end
 
-    def check_for_player(player, character)
+    def check_for_player(player, character, displayed: true)
+      if displayed then
+        search = page.find(ul.players li)
+        search.should have_text(player)
+        search.should have_text(character)
+      else
+        page.should_not have_text(player)
+        page.should_not have_text(character)
+      end
     end
 
     def check_for_monster(monster)
+      if displayed then
+        search = page.find(ul.monsters li)
+        search.should have_text(monster)
+      else
+        page.should_not have_text(monster)
+      end
     end
 
     def check_for_gm(gm)
+      if displayed then
+        search = page.find(ul.gms li)
+        search.should have_text(gm)
+      else
+        page.should_not have_text(gm)
+      end
     end
 end
