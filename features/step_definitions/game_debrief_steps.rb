@@ -69,11 +69,11 @@ end
 # Verification steps
 
 Then(/^the created character should appear in the debrief for the player$/) do
-  DebriefPage.new.check_for_player("Ann Other", "Judge Test")
+  DebriefPage.new.check_for_player(1, 1, "Ann Other", "Judge Test")
 end
 
 Then(/^the created character should appear in the debrief for the created player$/) do
-  DebriefPage.new.check_for_player("Lady Test", "Judge Test")
+  DebriefPage.new.check_for_player(1, 1, "Lady Test", "Judge Test")
 end
 
 Then(/^the character should appear in the undeclared characters list linked to the player$/) do
@@ -93,7 +93,7 @@ Then(/^the created monster should appear in the debrief$/) do
 end
 
 Then(/^the monster should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(1, 2, "Lady Test")
 end
 
 Then(/^the created GM should appear in the debrief$/) do
@@ -101,5 +101,5 @@ Then(/^the created GM should appear in the debrief$/) do
 end
 
 Then(/^the GM should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(1, 2, "Lady Test")
 end

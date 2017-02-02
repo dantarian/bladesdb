@@ -2,7 +2,21 @@ Dear <%=h @thing_approved.user.name %>,
 
 The Committee has <%= (@thing_approved.approved ? "approved" : "rejected") %> your game application for <%=h @thing_approved.game.start_date.to_s%>. <%= (@thing_approved.approved ? "Have fun!" : "Please withdraw or edit your application.") %>
 
+<%= if @thing_approved.approved? %>
+Don't forget, as a GM you should:
+- Request kit from the Committee/preceeding GM around 10 days before your game (or let them know you need nothing).
+- Start your debrief with 24hrs (and ideally 2hrs) of game end.
+- Complete your debrief to at least a skeleton points level within:
+  - Immediate follow on: 5 days (before the next game)
+  - Standalone: 2 weeks
+  - 24/36hr: 3 weeks
+<%= end %>
+
+<%= if !@thing_approved.comment.blank? %>
+Further information relating to your application:
+
 <%=h @thing_approved.comment %>
+<%= end %>
 
 Regards,
 The Committee
