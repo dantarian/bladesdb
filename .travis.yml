@@ -9,6 +9,6 @@ before_script:
 script:
   - bundle exec rake db:schema:load
   - bundle exec rake db:test:prepare
-  - bundle exec cucumber features/games/create_new_characters_and_monsters_on_debriefs.feature -p first_try || true
-  #- bundle exec cucumber -p second_try
-  - cat tmp/capybara/*html
+  - bundle exec cucumber -p first_try || true
+  - bundle exec cucumber -p second_try
+  #- cat tmp/capybara/*html
