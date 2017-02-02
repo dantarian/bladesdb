@@ -50,7 +50,7 @@ class DebriefPage < BladesDBPage
 
     def check_for_player(player, character, displayed: true)
       if displayed then
-        search = page.find(ul.players li)
+        search = page.find("ul.players li")
         search.should have_text(player)
         search.should have_text(character)
       else
@@ -59,18 +59,18 @@ class DebriefPage < BladesDBPage
       end
     end
 
-    def check_for_monster(monster)
+    def check_for_monster(monster, displayed: true)
       if displayed then
-        search = page.find(ul.monsters li)
+        search = page.find("ul.monsters li")
         search.should have_text(monster)
       else
         page.should_not have_text(monster)
       end
     end
 
-    def check_for_gm(gm)
+    def check_for_gm(gm, displayed: true)
       if displayed then
-        search = page.find(ul.gms li)
+        search = page.find("ul.gms li")
         search.should have_text(gm)
       else
         page.should_not have_text(gm)
