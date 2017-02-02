@@ -93,7 +93,7 @@ Then(/^the created monster should appear in the debrief$/) do
 end
 
 Then(/^the monster should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(1, 2, "Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
 end
 
 Then(/^the created GM should appear in the debrief$/) do
@@ -101,5 +101,5 @@ Then(/^the created GM should appear in the debrief$/) do
 end
 
 Then(/^the GM should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(1, 2, "Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
 end
