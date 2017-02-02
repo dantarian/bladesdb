@@ -86,18 +86,4 @@ class GamePage < BladesDBPage
     end
   end
 
-  # Post-debrief checks
-
-  def check_for_debrief_player(player, character, display: true)
-    search = "li#player" + player.id.to_s
-    playerdetails = page.find(search)
-
-    if display then
-      playerdetails.should have_text(player.name)
-      playerdetails.should have_text(character.name)
-    else
-      playerdetails.should have_no_text(player.name)
-      playerdetails.should have_no_text(character.name)
-    end
-  end
 end

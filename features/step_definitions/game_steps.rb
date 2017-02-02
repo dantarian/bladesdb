@@ -37,6 +37,12 @@ Given(/^the other user is a player of the game$/) do
   GameTestHelper.add_player user, character, to: Game.first
 end
 
+Given(/the other user has been created for the game$/) do
+  user = User.all.second
+  character = user.characters.first
+  GameTestHelper.add_player user, character, to: Game.first
+end
+
 Given(/^there is a GM for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Gerald Mann", email: "gm@mail.com", username: "gm1")
   UserTestHelper.confirm(user)
