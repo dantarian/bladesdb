@@ -85,3 +85,5 @@ class GamePage < BladesDBPage
       page.find("table.notattending tbody tr").should have_no_text(non_attendee.name)
     end
   end
+
+end
