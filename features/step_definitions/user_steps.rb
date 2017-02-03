@@ -70,6 +70,10 @@ Given(/^there is a deleted user$/) do
   reset_mailer
 end
 
+Given(/^there is a GM\-created user$/) do
+  user = UserTestHelper.create_or_find_user(name: "Gerry GM'Created", email: "gerry@mail.com", username: "gmcreateduser", state: :passive)
+end
+
 Given(/^the user has filled in all their details$/) do
   UserTestHelper.fill_in_all_details(User.first)
 end

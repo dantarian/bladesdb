@@ -20,6 +20,10 @@ Given(/^the other user has a character$/) do
   CharacterTestHelper.approve_character(User.all.second, Character.all.second)
 end
 
+Given(/^the other user has a GM\-created character$/) do
+  CharacterTestHelper.create_undeclared_character(User.all.second, name: "Ginny Greenteeth")
+end
+
 Given(/^the character is a player on the game$/) do
   game_attendance = GameAttendance.new(game_id: @game.id, user_id: @character.user_id, character_id: @character.id, attend_state: GameAttendance::PLAYING, confirm_state: GameAttendance::REQUESTED)
   game_attendance.save

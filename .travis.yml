@@ -11,3 +11,4 @@ script:
   - bundle exec rake db:test:prepare
   - bundle exec cucumber -p first_try || true
   - bundle exec cucumber -p second_try
+  #- cat tmp/capybara/*html
