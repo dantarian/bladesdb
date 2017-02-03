@@ -90,7 +90,7 @@ class DebriefPage < BladesDBPage
 
     def check_for_gm(game, gm, displayed: true)
       if displayed then
-        page.find("ul.players li#game#{game.id}gm#{gm.id}").should have_text(gm.name)
+        page.find("ul.gms li#game#{game.id}gm#{gm.id}").should have_text(gm.name)
       else
         page.should_not have_text(gm)
       end
