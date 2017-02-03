@@ -1,6 +1,8 @@
 class GamePage < BladesDBPage
   PAGE_TITLE = BladesDBPage::PAGE_TITLE
 
+  # Interaction methods
+
   def publish_briefs
     accept_alert do
       accept_alert do
@@ -10,30 +12,20 @@ class GamePage < BladesDBPage
     self
   end
 
-  def finish_debrief
-    click_link "Finish Debrief"
-    self
-  end
-
   def open_first_aid_report
     click_link "First Aid Report"
     self
   end
 
-  def reopen_debrief
-    click_link "Reopen Debrief"
-    self
+  def start_debrief(player_base: 10, monster_base: 5, danger_pay: 10)
+    click_link "Start Debrief"
+    fill_in("Player Base", with: player_base)
+    fill_in("Monster Base", with: monster_base)
+    fill_in("Danger Pay", with: danger_pay)
+    click_button "Save"
   end
 
-  def update_player_debrief(character, bonus: nil)
-    page.find("li#player#{character.user.id}").click_link("Edit")
-    unless bonus.nil?
-      page.fill_in("Bonus Points", with: bonus)
-    end
-    page.click_button("Update")
-  end
-
-  # Pre-debrief checks
+  # Validation methods
 
   def check_for_application(from: nil, id: 1, containing_text: "This is a game.")
     page.click_link("View applications")

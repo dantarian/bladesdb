@@ -10,10 +10,10 @@ class CharactersPage < BladesDBPage
             page.find("tbody").should have_link(character.name)
         end
     end
-    
+
     def check_for_undeclared_character(player, character)
         click_link "Show all characters"
-        page.find("table#gm-created tbody").should have_text(player)
-        page.find("table#gm-created tbody").should have_link(character)
+        page.find("table#gm-created tbody").should have_text(player.name)
+        page.find("table#gm-created tbody").should have_link(character.name)
     end
 end

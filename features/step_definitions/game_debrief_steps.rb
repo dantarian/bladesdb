@@ -26,28 +26,24 @@ end
 
 # Action steps
 
-When(/^the user publishes the brief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first.id)).and.publish_briefs
-end
-
 When(/^the user publishes the debrief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first.id)).and.finish_debrief
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.finish_debrief
 end
 
 When(/^the GM reopens the debrief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first.id)).and.reopen_debrief
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.reopen_debrief
 end
 
 When(/^the GM closes the debrief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first.id)).and.finish_debrief
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.finish_debrief
 end
 
 When(/^the GM changes the character's debrief to give them (\d+) bonus points?$/) do |points|
-  GamePage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Character.first, bonus: points)
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Game.first, Character.first, bonus: points)
 end
 
 When(/^the GM changes the character's debrief to give them -(\d+) bonus points?$/) do |points|
-  GamePage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Character.first, bonus: "-#{points}")
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Game.first, Character.first, bonus: "-#{points}")
 end
 
 When(/^the GM creates a new character for the player on the debrief$/) do
@@ -69,37 +65,37 @@ end
 # Verification steps
 
 Then(/^the created character should appear in the debrief for the player$/) do
-  DebriefPage.new.check_for_player(1, 1, "Ann Other", "Judge Test")
+  DebriefPage.new.check_for_player(Game.first, User.all.second, Character.first)
 end
 
 Then(/^the created character should appear in the debrief for the created player$/) do
-  DebriefPage.new.check_for_player(1, 1, "Lady Test", "Judge Test")
+  DebriefPage.new.check_for_player(Game.first, User.all.second, Character.first)
 end
 
 Then(/^the character should appear in the undeclared characters list linked to the player$/) do
-  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character("Ann Other", "Judge Test")
+  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.all.second, Character.first)
 end
 
 Then(/^the character should appear in the undeclared characters list linked to the undeclared player$/) do
-  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character("Lady Test", "Judge Test")
+  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.all.second, Character.first)
 end
 
 Then(/^the player should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(User.all.second)
 end
 
 Then(/^the created monster should appear in the debrief$/) do
-  DebriefPage.new.check_for_monster(1, 2, "Lady Test")
+  DebriefPage.new.check_for_monster(Game.first, User.all.second)
 end
 
 Then(/^the monster should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(User.all.second)
 end
 
 Then(/^the created GM should appear in the debrief$/) do
-  DebriefPage.new.check_for_gm(1, 2, "Lady Test")
+  DebriefPage.new.check_for_gm(Game.first, User.all.second)
 end
 
 Then(/^the GM should appear in the GM\-created members list$/) do
-  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user("Lady Test")
+  MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(User.all.second)
 end

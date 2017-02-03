@@ -128,6 +128,10 @@ end
 
 # Actions
 
+When(/^the user publishes the brief for the game$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.publish_briefs
+end
+
 When(/^the user clicks on the show link$/) do
   EventCalendarPage.new.visit_page(event_calendar_path)
 end
