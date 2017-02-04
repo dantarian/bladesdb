@@ -37,12 +37,6 @@ Given(/^the other user is a player of the game$/) do
   GameTestHelper.add_player user, character, to: Game.first
 end
 
-Given(/the other user has been created for the game$/) do
-  user = User.all.second
-  character = user.characters.first
-  GameTestHelper.add_player user, character, to: Game.first
-end
-
 Given(/^there is a GM for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Gerald Mann", email: "gm@mail.com", username: "gm1")
   UserTestHelper.confirm(user)
@@ -127,10 +121,6 @@ Given(/^the game is a non-stats game$/) do
 end
 
 # Actions
-
-When(/^the user publishes the brief for the game$/) do
-  GamePage.new.visit_page(game_path(Game.first.id)).and.publish_briefs
-end
 
 When(/^the user clicks on the show link$/) do
   EventCalendarPage.new.visit_page(event_calendar_path)

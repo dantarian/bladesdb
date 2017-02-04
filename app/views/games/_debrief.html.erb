@@ -17,7 +17,7 @@
         </p>
         <% end %>
     <% end %>
-
+    
     <% if game.has_ooc_brief? or (!game.is_debrief_finished? and game.is_editable_by? current_user) %>
         <h3 class="alt">OOC Brief</h3>
         <% if game.has_ooc_brief? %>
@@ -70,7 +70,7 @@
 <% end %>
 <ul class="debriefs gms">
     <% game.gm_debriefs.includes(:user).to_a.each do |debrief| %>
-        <li id="game<%= game.id %>gm<%= debrief.user.id %>">
+        <li id="gm<%= debrief.user.id %>">
             <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
                 <div class="actions">
                     [
@@ -82,7 +82,7 @@
             <% end %>
             <div>
                 <strong><%= debrief.user.display_name(current_user) %></strong>: <%= debrief.points %>
-                (Base
+                (Base 
                 <%= debrief.base_points.nil? ? game.monster_points_base : debrief.base_points %>
                 <%= (debrief.points_modifier.nil? or debrief.points_modifier >= 0) ? "+" : "-" %>
                 <%= debrief.points_modifier || 0 %> GM points)
@@ -102,7 +102,7 @@
 <h3 class="alt">Players - Base <%= game.player_points_base %> - Base Pay <%= money_for_display(game.player_money_base) %></h3>
 <ul class="debriefs players">
     <% (game.player_debriefs.includes(:user, :character).to_a || []).each do |debrief| %>
-        <li id="game<%= game.id %>character<%= debrief.character.id %>">
+        <li id="player<%= debrief.character.id %>">
             <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
                 <div class="actions">
                     [
@@ -114,7 +114,7 @@
             <% end %>
             <div>
                 <strong>
-                    <%= debrief.user.display_name(current_user) %> -
+                    <%= debrief.user.display_name(current_user) %> - 
                     <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
                         <%= link_to character_path(debrief.character) do %>
                             <%=h debrief.character.name_and_title %>
@@ -129,7 +129,7 @@
                         <%= "+" if debrief.points_modifier > 0 -%><%= debrief.points_modifier %>
                     <% end %>
                 </strong>
-
+                
                 <% unless (debrief.money_modifier || 0) == 0 %>
                     Total Pay <%= money_for_display(game.player_money_base + debrief.money_modifier) %>
                 <% end %>
@@ -137,7 +137,7 @@
                 	<% if game.is_editable_by? current_user || debrief.character.user == current_user %>
                 		<%= "-" unless (debrief.money_modifier || 0) == 0 %>
                 		Total Fines/Loot <%= money_for_display(debrief.loot) %>
-                	<% end %>
+                	<% end %> 
                 <% end %>
                 <% unless (debrief.deaths || 0) == 0 %>
                     <%= "-" unless (debrief.money_modifier || debrief.loot || 0) == 0 %>
@@ -159,7 +159,7 @@
 <h3 class="alt">Monsters - Base <%= game.monster_points_base %></h3>
 <ul class="debriefs monsters">
     <% (game.monster_debriefs.includes(:user).to_a || []).each do |debrief| %>
-        <li id="game<%= game.id %>monster<%= debrief.user.id %>">
+        <li id="monster<%= debrief.user.id %>">
             <% if !game.is_debrief_finished? and game.is_editable_by? current_user %>
                 <div class="actions">
                     [
@@ -200,7 +200,7 @@
             <% else %>
             	<%= link_to "Send Email", new_game_gm_contact_path(game), :method => :get %>
             	|
-                <%= link_to "Edit Base Points", edit_game_path(game), method: :get, remote: true %>
+                <%= link_to "Edit Base Points", edit_game_path(game), method: :get, remote: true %> 
                 |
                 <%= link_to "Finish Debrief", finish_debrief_game_path(game), method: :patch, remote: true %>
             <% end %>
