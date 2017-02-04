@@ -276,11 +276,11 @@ Then(/^the first user should be a player on the second game$/) do
 end
 
 Then(/^the first user should still be on the debrief of the first game$/) do
-  DebriefPage.new.visit_page(game_path(Game.first)).and.check_for_player(Game.first, User.first, Character.first)
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_debrief_player(User.first, User.first.characters.first)
 end
 
 Then(/^the first user should be on the debrief of the second game$/) do
-  DebriefPage.new.visit_page(game_path(Game.all.second)).and.check_for_player(Game.all.second, User.first, Character.all.second)
+  GamePage.new.visit_page(game_path(Game.all.second)).and.check_for_debrief_player(User.first, User.first.characters.second)
 end
 
 Then(/^the first user should still be a gm on the first game$/) do
@@ -313,12 +313,4 @@ end
 
 Then(/^the first user should have the second user's monster point adjustment$/) do
   MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_adjustment(15)
-end
-
-Then(/^the first user should be on the debrief of the game$/) do
-  DebriefPage.new.visit_page(game_path(Game.first)).and.check_for_player(Game.first, User.first, Character.first)
-end
-
-Then(/^the first user should have the second user's gm\-created character$/) do
-  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.first, Character.first)
 end
