@@ -20,15 +20,15 @@ gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
 gem 'uglifier', '>= 1.0.3'
 
 gem 'jquery-rails', '~> 3.1.4'
-gem 'jquery-ui-sass-rails', '~> 4.0.3.0'
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'jquery-ui-rails', '~> 6.0.1'
+# gem 'jquery-ui-sass-rails', '~> 4.0.3.0'
+gem 'jquery-datatables-rails', '~> 3.4.0'
 gem "RedCloth", '~> 4.2.9'
 gem "rdoc", '~> 4.2.2'
 gem "seed-fu", '~> 2.3.5'
 gem "test-unit", '~> 2.5.5'
 gem "recaptcha", '~> 3.2.0', require: "recaptcha/rails"
 gem "custom_error_message", '~> 1.1.1'
-gem "jquery_datepicker", git: 'git://github.com/yctay/jquery_datepicker.git', branch: 'rails4'
 gem "aasm", '~> 4.8.0'
 gem "devise", '~> 3.5.6'
 gem "devise-encryptable", '~> 0.2.0'
