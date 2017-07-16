@@ -6,6 +6,9 @@ Recaptcha.configure do |config|
   config.private_key = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 end
 
+require 'simplecov'
+SimpleCov.start('rails')
+
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environments/test')
 require File.expand_path(File.dirname(__FILE__) + "/../../config/initializers/date_time_formats")
 
