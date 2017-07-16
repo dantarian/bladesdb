@@ -5,7 +5,7 @@ class CharacterPage < BladesDBPage
 
     def buy_character_points_with_monster_points(character_points, date: Date.today)
         page.click_link "Spend monster points"
-        page.fill_in("Spent on", :with => date.strftime())
+        set_datepicker_date("monster_point_spend_spent_on", date)
         page.click_button "Next"
         page.fill_in("Character Points to buy", :with => character_points)
         page.click_button "Spend Points"
@@ -13,7 +13,7 @@ class CharacterPage < BladesDBPage
 
     def try_to_spend_monster_points_on(date)
         page.click_link "Spend monster points"
-        page.fill_in("Spent on", :with => date.strftime())
+        set_datepicker_date("monster_point_spend_spent_on", date)
         page.click_button "Next"
     end
 
