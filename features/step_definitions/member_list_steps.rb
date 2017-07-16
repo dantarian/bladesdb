@@ -319,6 +319,6 @@ Then(/^the first user should be on the debrief of the game$/) do
   DebriefPage.new.visit_page(game_path(Game.first)).and.check_for_player(Game.first, User.first, Character.first)
 end
 
-Then(/^the first user should have the second user's gm\-created character$/) do
+Then(/^the first user should have the second user's GM\-created character$/) do
   CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.first, Character.first)
 end
