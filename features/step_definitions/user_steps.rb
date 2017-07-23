@@ -71,7 +71,7 @@ Given(/^there is a deleted user$/) do
 end
 
 Given(/^there is a GM\-created user$/) do
-  user = UserTestHelper.create_or_find_user(name: "Gerry GM'Created", email: "gerry@mail.com", username: "gmcreateduser", state: :passive)
+  UserTestHelper.create_or_find_user(name: "Gerry GM'Created", email: "gerry@mail.com", username: "gmcreateduser", state: :passive)
 end
 
 Given(/^the user has filled in all their details$/) do

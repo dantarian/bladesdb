@@ -6,11 +6,19 @@ module UserTestHelper
   DEFAULT_PASSWORD = "Passw0rd"
 
   def create_or_find_user(name: "Norman Normal", email: "norman@mail.com", username: "normaluser", state: :pending)
-    user = User.create_with(name: name, email: email, password: DEFAULT_PASSWORD, state: state).find_or_create_by(username: username)
+    User.create_with(name: name, email: email, password: DEFAULT_PASSWORD, state: state).find_or_create_by(username: username)
   end
 
   def create_or_find_another_user(name: "Ann Other", email: "another@mail.com", username: "anotheruser", state: :pending)
-    user = User.create_with(name: name, email: email, password: DEFAULT_PASSWORD, state: state).find_or_create_by(username: username)
+    User.create_with(name: name, email: email, password: DEFAULT_PASSWORD, state: state).find_or_create_by(username: username)
+  end
+
+  def create_or_find_admin_user(name: "Adam Admin", email: "admin@mail.com", username: "adminuser")
+    user = User.create_with(name: name, email: email, password: DEFAULT_PASSWORD, state: :pending).find_or_create_by(username: username)
+    confirm(user)
+    approve(user)
+    make_admin(user)
+    user
   end
 
   def make_admin(user)

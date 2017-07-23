@@ -25,16 +25,37 @@ class GamePage < BladesDBPage
     click_button "Save"
   end
 
-  # Validation methods
-
-  def check_for_application(from: nil, id: 1, containing_text: "This is a game.")
-    page.click_link("View applications")
-    search = "tr#application" + id.to_s
-    page.find(search).should have_text(from.name)
-    page.find(search).should have_text(containing_text)
+  def apply_for_game
+    click_link "Apply to run"
+    fill_in "Please enter any supporting details for your application.", with: "This is a game."
+    click_button "Apply"
   end
 
-   def check_for_gm(gm, display: true)
+  def edit_game_application
+    click_link "Edit application"
+    fill_in "Please enter any supporting details for your application.", with: "This is a modified game."
+    click_button "Update"
+  end
+
+  def withdraw_game_application
+    page.accept_confirm do
+      click_link "Withdraw application"
+    end
+  end
+
+  # Validation methods
+
+  def check_for_application(from: nil, containing_text: "This is a game.")
+    page.click_link("View applications")
+    page.should have_text(from.name)
+    page.should have_text(containing_text)
+  end
+
+  def check_no_application(from: nil)
+    page.should have_no_link "View applications"
+  end
+
+  def check_for_gm(gm, display: true)
     if display then
       page.find("p#gms").should have_text(gm.name)
     else
@@ -76,6 +97,10 @@ class GamePage < BladesDBPage
     else
       page.find("table.notattending tbody tr").should have_no_text(non_attendee.name)
     end
+  end
+
+  def check_no_apply_for_game_link
+    page.should have_no_link "Apply for game"
   end
 
 end

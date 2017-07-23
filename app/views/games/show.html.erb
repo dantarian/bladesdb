@@ -1,29 +1,20 @@
 <h1 class="alt"><%= @game.game_title %> - <%= @game.start_date %></h2>
-	
+
 <% if not (@game.is_debrief_started?) %>
-	<h3 class="alt">GMs</h3>
-	<p id="gms">
-	<% if @game.gamesmasters.empty? %>
-        <em>
-            Unassigned 
-            <% unless @game.game_applications.empty? %>
-                (<%=h @game.game_applications.size %> app<%= "s" if @game.game_applications.size != 1 %>)
-            <% end %>
-        </em>
-    <% else %>
-        <% @game.gamesmasters.order(:name).each do |gm| %>
-            <%= gm.display_name(current_user) %><br />
-        <% end %>
-    <% end %>
-	</p>
-	<h3 class="alt">Rank Bracket</h3>
-	<p>
-	<% if @game.attendance_only %>
-        Attendance only
-    <% else %>
-        <%=h @game.rank_bracket %>
-    <% end %>
+  <div id="gamesummary">
+		<h3 class="alt">GMs</h3>
+		<p id="gms" class="gms">
+			<%= render partial: "games/game_gms", locals: { game: @game } %>
+		</p>
+		<h3 class="alt">Rank Bracket</h3>
+		<p>
+			<% if @game.attendance_only %>
+	        Attendance only
+	    <% else %>
+	        <%=h @game.rank_bracket %>
+	    <% end %>
     </p>
+	</div>
 <% end %>
 <div id="gamedetailsshow<%= @game.id %>">
 	<%= render :partial => "game", :locals => { :game => @game } %>
