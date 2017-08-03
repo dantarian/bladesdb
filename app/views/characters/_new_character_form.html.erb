@@ -5,7 +5,7 @@
 		<ul class="form">
             <li>
                 <%= f.label :declared_on, "Declaration date" %><br />
-                <%= f.datepicker :declared_on, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :readonly => true %><br />
+                <%= f.text_field :declared_on, class: "datepicker", :readonly => true %><br />
                 <em>This date should be before the first game you play as the character.</em>
             </li>
 		</ul>

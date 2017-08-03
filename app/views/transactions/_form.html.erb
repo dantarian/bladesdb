@@ -14,7 +14,7 @@
         </li>
         <li>
             <%= f.label :transaction_date, "Date" %><br />
-            <%= f.datepicker :transaction_date, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :readonly => true, :value => @transaction.transaction_date.to_s %>
+            <%= f.text_field :transaction_date, class: "datepicker", :readonly => true, :value => @transaction.transaction_date.to_s %>
         </li>
         <%= f.fields_for :debit do |df| %>
             <% if @transfer_from %>

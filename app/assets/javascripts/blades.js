@@ -320,3 +320,13 @@ $(function () {
 	    deselectForMerge(id);
     });
 });
+
+$(function () {
+	$("body").delegate("input.datepicker", "focus", function (event) {
+    var min = $(event.target).data("mindate");
+    var max = $(event.target).data("maxdate");
+    var yearrange = $(event.target).data("yearrange");
+    $(event.target).datepicker({dateFormat: "D d M yy", minDate: min, maxDate: max, yearRange: yearrange, changeYear: true, changeMonth: true});
+		$(event.target).datepicker('show');
+  });
+});

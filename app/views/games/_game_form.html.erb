@@ -1,6 +1,6 @@
 <%= form_for(@game, :remote => true) do |f| %>
     <%= f.error_messages :header_message => "Failed to save game details", :message => "The following problems prevented the game from being saved:" %>
-	
+
 	<div class="multicolumnform">
 		<div class="formcolumn">
 			<ul class="form">
@@ -8,49 +8,49 @@
 					<%= f.label :title %><br />
 					<%= f.text_field :title %>
 				</li>
-			
+
 				<li>
 					<%= f.label :start_date %><br/>
-					<%= f.datepicker :start_date, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :readonly => true, :value => @game.start_date.to_s %>
+					<%= f.text_field :start_date, class: "datepicker", :value => @game.start_date.to_s, :readonly => true %>
 				</li>
-				
+
 				<li>
 					<%= f.label :end_date %><br />
-					<%= f.datepicker :end_date, :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :readonly => true, :value => @game.end_date.to_s %>
+					<%= f.text_field  :end_date, class: "datepicker", :data => {:minDate => "#{@game.start_date.to_s}"}, :value => @game.end_date.to_s, :readonly => true %>
 				</li>
-				
+
 				<li>
 					<%= f.label :lower_rank, "Lower Rank in Points" %><br />
 					<%= f.text_field :lower_rank, :disabled => @game.attendance_only %>
 				</li>
-				
+
 				<li>
 					<%= f.label :upper_rank, "Upper Rank in Points" %><br />
 					<%= f.text_field :upper_rank, :disabled => @game.attendance_only %>
 				</li>
-				
+
 				<li>
 					<%= f.label :notes, "Notes, other events, etc." %><br/>
 					<%= f.text_field :notes %>
 				</li>
-				
+
 				<li><%= f.check_box :open, :disabled => @game.attendance_only %><%= f.label :open, "Open to players" %></li>
 				<li><%= f.check_box :non_stats, :disabled => @game.attendance_only %><%= f.label :non_stats, "Playing does not count to statistics" %></li>
 				<li><%= f.check_box :attendance_only %><%= f.label :attendance_only, "Treat as an event rather than a game" %></li>
-			</ul>	
+			</ul>
 		</div>
 		<div class="formcolumn">
 			<ul class="form">
 				<li>
 					<%= f.label :meet_time %><br />
-					<%= f.time_select :meet_time, {}, { :class => "timepicker" } %>
+					<%= f.time_select :meet_time, {minute_step: 15}, { :class => "timepicker" } %>
 				</li>
-				
+
 				<li>
 					<%= f.label :start_time %><br />
-					<%= f.time_select :start_time, {}, { :class => "timepicker" } %>
+					<%= f.time_select :start_time, {minute_step: 15}, { :class => "timepicker" } %>
 				</li>
-				
+
 				<li>
 					<%= f.label :campaign_ids, "Campaigns" %><br />
 					<%= f.collection_select :campaign_ids, Campaign.all, :id, :name, { :selected => @game.campaign_ids }, { :multiple => true, :name => 'game[campaign_ids][]', :disabled => @game.attendance_only } %>
@@ -63,8 +63,8 @@
 			</ul>
 
 			<p><em>Hold Ctrl and click to select multiple campaigns/GMs, or to deselect selected campaigns/GMs.</em></p>
-	
+
 		</div>
 	</div>
-	
+
 <% end %>

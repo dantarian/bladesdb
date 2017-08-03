@@ -1,6 +1,6 @@
 <%= form_for(@character, :url => { :action => action }, :remote => true) do |f| %>
     <%= f.error_messages :header_message => I18n.t("character.validation.dialog_header"), :message => I18n.t("character.validation.dialog_main") %>
-	
+
 	<ul class="form">
 		<% fields.each do |field| %>
 	  		<li>
@@ -10,17 +10,17 @@
 				<% if field[:field_type] == "text" %>
 					<%= f.text_field field[:field] %>
 				<% elsif field[:field_type] == "text_area" %>
-			        Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+			    Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
 					<%= f.text_area field[:field], :class => "messagearea" %>
 				<% elsif field[:field_type] == "date" %>
-                    <%= f.datepicker field[:field], :dateFormat => "D d M yy", :changeMonth => true, :changeYear => true, :yearRange => "c-50:c+50", :maxDate => "#{Date.today}", :readonly => true, :value => @character.send(field[:field]).to_s  %>
+          <%= f.text_field field[:field], class: "datepicker", :data => {:yearRange => "c-50:c+50", :maxDate => "#{Date.today}", :value => @character.send(field[:field]).to_s}, :readonly => true %>
 				<% elsif field[:field_type] == "boolean" %>
 					<%= f.check_box field[:field] %>
 					<%= f.label field[:field], field[:field_name] %>
 				<% elsif field[:field_type] == "titlefields"%>
 					<%= radio_button_tag(:radio_title, "guild", (@character.title.blank? && !@character.no_title) ) %><%= label_tag "radio_title_guild", "Use Guild titles" %><br />
-		  			<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
-		  			<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
+		  		<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
+		  		<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
 					<%= f.text_field :title, { class: "fullwidth", disabled: @character.title.blank? } %>
 				<% else %>
 					<strong>Error: Unknown field type.</strong>
