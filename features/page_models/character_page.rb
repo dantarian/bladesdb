@@ -59,7 +59,6 @@ class CharacterPage < BladesDBPage
 
     def change_branch(branch)
       click_link("Change branch")
-      save_and_open_page
       select(branch, from: "guild_membership_guild_branch_id")
       click_button("Change")
     end
