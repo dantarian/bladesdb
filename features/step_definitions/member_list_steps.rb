@@ -248,7 +248,7 @@ Then(/^the first user should still have their game application$/) do
 end
 
 Then(/^the first user should have the second user's game application$/) do
-  GamePage.new.visit_page(game_path(Game.first)).and.check_for_application(from: User.first, id: 2, containing_text: "Second!")
+  GamePage.new.visit_page(game_path(Game.first)).and.check_for_application(from: User.first, containing_text: "Second!")
 end
 
 Then(/^the first user should be able to log in as themselves$/) do

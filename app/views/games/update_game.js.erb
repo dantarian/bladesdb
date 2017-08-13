@@ -5,4 +5,4 @@ $("#gamesummaryrow<%= @game.id %>").html('<%= j render :partial => "games/game_s
 $("#gamedetailsrow<%= @game.id %>").html('<%= j render :partial => "games/game_detail", :locals => { :game => @game } %>');
 $("#gamedetailsshow<%= @game.id %>").html('<%= j render :partial => "games/game", :locals => { :game => @game } %>');
 updateShowDetailsActions("gamedetailsrow<%= @game.id %>", "show_details_<%= @game.id %>", "hide_details_<%= @game.id %>");
-$("#gamesummary .gms").html('<%= j render partial: "games/gmae_gms", locals: { game: @game } %>');
+$("#gamesummary .gms").html('<%= j render partial: "games/game_gms", locals: { game: @game } %>');
