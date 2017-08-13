@@ -103,5 +103,5 @@ Then(/^the GM should appear in the GM\-created members list$/) do
 end
 
 Then(/^the debrief should be closed successfully$/) do
-  DebriefPage.new.visit_page(games_path(Game.first.id)).and.check_for_closed_debrief
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.check_for_closed_debrief
 end
