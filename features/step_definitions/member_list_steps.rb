@@ -280,7 +280,7 @@ Then(/^the first user should still be on the debrief of the first game$/) do
 end
 
 Then(/^the first user should be on the debrief of the second game$/) do
-  DebriefPage.new.visit_page(game_path(Game.all.second)).and.check_for_player(Game.last, User.first, Character.all.second)
+  DebriefPage.new.visit_page(game_path(Game.all.second)).and.check_for_player(Game.all.second, User.first, Character.all.second)
 end
 
 Then(/^the first user should still be a gm on the first game$/) do

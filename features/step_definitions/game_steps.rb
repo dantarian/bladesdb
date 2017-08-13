@@ -143,7 +143,7 @@ Given(/^the user's character is present on the game$/) do
 end
 
 Given(/^the user's character is present on the other game$/) do
-  GameTestHelper.add_player User.first, Character.first, to: Game.last
+  GameTestHelper.add_player User.first, Character.first, to: Game.all.second
 end
 
 # Actions

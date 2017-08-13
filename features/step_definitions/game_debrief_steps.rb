@@ -18,8 +18,8 @@ Given(/^the game has been debriefed$/) do
 end
 
 Given(/^the other game has been debriefed$/) do
-  GameTestHelper.start_debriefing Game.last
-  GameTestHelper.close_debrief Game.last
+  GameTestHelper.start_debriefing Game.all.second
+  GameTestHelper.close_debrief Game.all.second
 end
 
 # Action steps
@@ -103,5 +103,5 @@ Then(/^the GM should appear in the GM\-created members list$/) do
 end
 
 Then(/^the debrief should be closed successfully$/) do
-  DebriefPage.new.visit_page(game_path(Game.first.id)).and.check_for_closed_debrief
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.check_for_closed_debrief_as_player
 end
