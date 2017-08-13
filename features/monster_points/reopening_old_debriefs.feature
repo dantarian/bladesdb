@@ -4,6 +4,9 @@ Feature: Reopening and closing old debriefs
   I want to be able to correct old debriefs
   So my players and monsters have the points they should have
 
+  Background:
+    Given there is a Debriefs board
+
   Scenario: Reopened debrief is before January 7th 2017 and the character has a MP spend before January 7th 2017
     Given there is a user
     And the user has a character declared one month before the monster spend cut-off
