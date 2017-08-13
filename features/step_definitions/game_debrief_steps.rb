@@ -102,6 +102,6 @@ Then(/^the GM should appear in the GM\-created members list$/) do
   MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(User.all.second)
 end
 
-Then(/^the debrief should close successfully$/) do
-  DebriefPage.new.check_for_closed_debrief
+Then(/^the debrief should be closed successfully$/) do
+  DebriefPage.new.visit_page(games_path(Game.first.id).and.check_for_closed_debrief
 end
