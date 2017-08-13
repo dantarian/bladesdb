@@ -95,4 +95,12 @@ class DebriefPage < BladesDBPage
         page.should_not have_text(gm)
       end
     end
+
+    def check_for_closed_debrief
+      page.should have_link "Reopen Debrief"
+    end
+
+    def check_for_open_debrief
+      page.should have_link "Finish Debrief"
+    end
 end

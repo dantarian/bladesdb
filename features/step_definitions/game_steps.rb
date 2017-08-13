@@ -126,6 +126,22 @@ Given(/^the game is a non-stats game$/) do
   GameTestHelper.set_non_stats(Game.first)
 end
 
+Given(/^there is a game before the monster spend cut-off$/) do
+  GameTestHelper.create_game(start_date: '2016-12-25')
+end
+
+Given(/^there is a game after the monster spend cut\-off$/) do
+  GameTestHelper.create_game(start_date: '2017-01-20')
+end
+
+Given(/^the user's character is present on the game$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.first
+end
+
+Given(/^the user's character is present on the other game$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.last
+end
+
 # Actions
 
 When(/^the user publishes the brief for the game$/) do
@@ -139,6 +155,8 @@ end
 When(/^the user starts to create a game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.start_adding_new_game
 end
+
+
 
 # Validations
 

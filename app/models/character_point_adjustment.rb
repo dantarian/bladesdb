@@ -9,13 +9,13 @@ class CharacterPointAdjustment < ActiveRecord::Base
     validates_presence_of :declared_on
     validates_presence_of :approved_by_id, :unless => :is_provisional?
     validates_presence_of :approved_at, :unless => :is_provisional?
-    
-    validates_each :declared_on, :on => :save do |record, attr, value|
+
+    validates_each :declared_on, on: :save do |record, attr, value|
         last_mp_spend = record.character.monster_point_spends.last(:order => "spent_on ASC")
         last_date = [record.character.declared_on, (last_mp_spend ? last_mp_spend.spent_on : nil)].compact.max
         record.errors.add attr, "must be more recent than #{last_date}." unless record.declared_on > last_date
     end
-    
+
     after_update :fix_mp_spend_costs
 
     auto_strip_attributes :reason
@@ -35,25 +35,25 @@ class CharacterPointAdjustment < ActiveRecord::Base
     def is_provisional?
         self.approved == nil
     end
-    
+
     def approve(current_user)
         @approval_recently_set = true
         self.approved = true
         self.approved_at = Time.now
         self.approved_by = current_user
     end
-    
+
     def reject(current_user)
         @approval_recently_set = true
         self.approved = false
         self.approved_at = Time.now
         self.approved_by = current_user
     end
-    
+
     def approval_recently_set?
         @approval_recently_set
     end
-    
+
     protected
         def fix_mp_spend_costs
             MonsterPointSpend.fix_after(declared_on, character)
