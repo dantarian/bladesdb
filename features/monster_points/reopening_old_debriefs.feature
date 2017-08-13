@@ -65,4 +65,4 @@ Feature: Reopening and closing old debriefs
     And the user logs in
     Then the debrief should be closed successfully
     And the user should have 29 monster points
-    And the character should have 101 character points
+    And the character should have 111 character points
