@@ -7,7 +7,7 @@ Given(/^there is another game$/) do
 end
 
 Given(/^there is a game one week ago$/) do
-  GameTestHelper.create_game(start_date: 1.week.ago)
+  GameTestHelper.create_game(start_date: 1.week.ago, title: "One week ago")
 end
 
 Given(/^there is a game in the past$/) do
@@ -82,6 +82,14 @@ Given(/^the character was(?:| played) on the game$/) do
   GameTestHelper.add_player character.user, character, to: Game.first
 end
 
+Given(/^the user's character is present on the game$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.first
+end
+
+Given(/^the user's character is present on the other game$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.all.second
+end
+
 Given(/^the game is in the future$/) do
   GameTestHelper.set_date Date.today + 7.days, of: Game.first
 end
@@ -136,14 +144,6 @@ end
 
 Given(/^there is a game after the monster spend cut\-off$/) do
   GameTestHelper.create_game(start_date: '2017-01-20')
-end
-
-Given(/^the user's character is present on the game$/) do
-  GameTestHelper.add_player User.first, Character.first, to: Game.first
-end
-
-Given(/^the user's character is present on the other game$/) do
-  GameTestHelper.add_player User.first, Character.first, to: Game.all.second
 end
 
 # Actions
