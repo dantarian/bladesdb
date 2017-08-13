@@ -55,6 +55,10 @@ Given(/^there is a GM for the game$/) do
   GameTestHelper.add_gamesmaster user, to: Game.first
 end
 
+Given(/^the GM is a Character Ref$/) do
+  UserTestHelper.grant_role(User.find_by(username: "gm1"), Role.find_by(rolename: "characterref"))
+end
+
 Given(/^there is a player for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Poppy Player", email: "player@mail.com", username: "player")
   character = CharacterTestHelper.create_character(user)

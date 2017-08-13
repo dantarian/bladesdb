@@ -13,6 +13,7 @@ Feature: Reopening and closing old debriefs
     And the character has 100 monster points available two weeks before the monster spend cut-off
     And there is a game before the monster spend cut-off
     And there is a GM for the game
+    And the GM is a Character Ref
     And the user's character is present on the game
     And the game has been debriefed
     And the character has a monster point spend before the cut-off that takes the character to rank 10.0
@@ -30,6 +31,7 @@ Feature: Reopening and closing old debriefs
     And the character has 100 monster points available two weeks before the monster spend cut-off
     And there is a game after the monster spend cut-off
     And there is a GM for the game
+    And the GM is a Character Ref
     And the user's character is present on the game
     And the game has been debriefed
     And the character has a monster point spend after the cut-off that takes the character to rank 10.0
@@ -47,6 +49,7 @@ Feature: Reopening and closing old debriefs
     And the character has 100 monster points available two weeks before the monster spend cut-off
     And there is a game after the monster spend cut-off
     And there is a GM for the game
+    And the GM is a Character Ref
     And the user's character is present on the game
     And the game has been debriefed
     And the character has a monster point spend after the cut-off that takes the character to rank 10.0
