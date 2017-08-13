@@ -11,10 +11,10 @@ Given(/^there is a game one week ago$/) do
 end
 
 Given(/^there is a game in the past$/) do
-  if Date.today > new Date(2018,1,7)
+  if Date.today > Date.new(2018,1,7)
     GameTestHelper.create_game(start_date: 1.year.ago)
   else
-    GameTestHelper.create_game(start_date: new Date(2017,1,10))
+    GameTestHelper.create_game(start_date: Date.new(2017,1,10))
   end
 end
 
