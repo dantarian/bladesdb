@@ -13,13 +13,11 @@ Given(/^the game debrief has been started$/) do
 end
 
 Given(/^the game has been debriefed$/) do
-  # GameTestHelper.set_date Date.today - 7.days, of: Game.first
   GameTestHelper.start_debriefing Game.first
   GameTestHelper.close_debrief Game.first
 end
 
 Given(/^the other game has been debriefed$/) do
-  # GameTestHelper.set_date Date.today - 7.days, of: Game.all.second
   GameTestHelper.start_debriefing Game.all.second
   GameTestHelper.close_debrief Game.all.second
 end
@@ -62,6 +60,10 @@ When(/^the GM creates a new GM on the debrief$/) do
   DebriefPage.new.visit_page(game_path(Game.first.id)).and.add_gm_to_debrief(gm: nil)
 end
 
+When(/^the GM gives the character a bonus point$/) do
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.update_player_debrief(Game.first, Character.first, bonus: 1)
+end
+
 # Verification steps
 
 Then(/^the created character should appear in the debrief for the player$/) do
@@ -98,4 +100,8 @@ end
 
 Then(/^the GM should appear in the GM\-created members list$/) do
   MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(User.all.second)
+end
+
+Then(/^the debrief should be closed successfully$/) do
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.check_for_closed_debrief_as_player
 end

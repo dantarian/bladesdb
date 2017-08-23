@@ -1,8 +1,8 @@
 module CharacterTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
 
-  def create_character(user, name: "Testy McTesterson", race: Race.first, starting_points: 20, starting_florins: 0, starting_death_thresholds: 10, state: "active", title: "", no_title: false)
-      character = user.characters.create_with(race: race, starting_points: starting_points, starting_florins: starting_florins, starting_death_thresholds: starting_death_thresholds, state: state, title: title, declared_on: 5.years.ago, no_title: no_title).find_or_create_by!(name: name)
+  def create_character(user, name: "Testy McTesterson", race: Race.first, starting_points: 20, starting_florins: 0, starting_death_thresholds: 10, state: "active", title: "", no_title: false, declared_on: 5.years.ago)
+      character = user.characters.create_with(race: race, starting_points: starting_points, starting_florins: starting_florins, starting_death_thresholds: starting_death_thresholds, state: state, title: title, declared_on: declared_on, no_title: no_title).find_or_create_by!(name: name)
       guild_membership = character.guild_memberships.build
       guild_membership.character = character
       guild_membership.start_points = 0

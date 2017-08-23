@@ -7,11 +7,15 @@ Given(/^there is another game$/) do
 end
 
 Given(/^there is a game one week ago$/) do
-  GameTestHelper.create_game(start_date: 1.week.ago)
+  GameTestHelper.create_game(start_date: 1.week.ago, title: "One week ago")
 end
 
 Given(/^there is a game in the past$/) do
-  GameTestHelper.create_game(start_date: 1.year.ago)
+  if Date.today > Date.new(2018,1,7)
+    GameTestHelper.create_game(start_date: 1.year.ago)
+  else
+    GameTestHelper.create_game(start_date: Date.new(2017,1,10))
+  end
 end
 
 Given(/^the user is a GM for the game$/) do
@@ -78,6 +82,14 @@ Given(/^the character was(?:| played) on the game$/) do
   GameTestHelper.add_player character.user, character, to: Game.first
 end
 
+Given(/^the user's character is present on the game$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.first
+end
+
+Given(/^the user's character is present on the other game$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.all.second
+end
+
 Given(/^the game is in the future$/) do
   GameTestHelper.set_date Date.today + 7.days, of: Game.first
 end
@@ -126,6 +138,14 @@ Given(/^the game is a non-stats game$/) do
   GameTestHelper.set_non_stats(Game.first)
 end
 
+Given(/^there is a game before the monster spend cut-off$/) do
+  GameTestHelper.create_game(start_date: '2016-12-25')
+end
+
+Given(/^there is a game after the monster spend cut\-off$/) do
+  GameTestHelper.create_game(start_date: '2017-01-20')
+end
+
 # Actions
 
 When(/^the user publishes the brief for the game$/) do
@@ -139,6 +159,8 @@ end
 When(/^the user starts to create a game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.start_adding_new_game
 end
+
+
 
 # Validations
 
