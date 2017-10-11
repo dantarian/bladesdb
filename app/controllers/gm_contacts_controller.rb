@@ -20,7 +20,7 @@ class GmContactsController < ApplicationController
             when "players" then @game.players.all.collect(&:email).join(", ")
             when "everybody" then @game.monsters.all.collect(&:email).join(", ") + ", " + @game.players.all.collect(&:email).join(", ")
             when "attendees" then @game.attendees.all.collect(&:email).join(", ")
-            else "committee@pencethren.org"
+            else "committee@bathlarp.co.uk"
         end
         
         if params[:character_refs] then 
@@ -28,7 +28,7 @@ class GmContactsController < ApplicationController
         end
         
         if params[:committee] then 
-            @email.to_user += ", committee@pencethren.org"
+            @email.to_user += ", committee@bathlarp.co.uk"
         end
 
         respond_to do |format|

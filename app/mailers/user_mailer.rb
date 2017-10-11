@@ -76,7 +76,7 @@ class UserMailer < ActionMailer::Base
         setup_email(application.user)
         @application = application
         @subject += "Game Application #{application.game.start_date.to_s} Unsuccessful"
-        @recipients += ["committee@pencethren.org"]
+        @recipients += ["committee@bathlarp.co.uk"]
         mail(to: @recipients, subject: @subject)
     end
     
@@ -110,7 +110,7 @@ class UserMailer < ActionMailer::Base
     def approval(thing_approved)
         @recipients += case thing_approved.class.name
         when "GameApplication"
-            ["committee@pencethren.org"]
+            ["committee@bathlarp.co.uk"]
         else
             ["characterrefs@pencethren.org"]
         end
@@ -120,7 +120,7 @@ class UserMailer < ActionMailer::Base
     end
     
     def app_made(application)
-        @recipients += ["committee@pencethren.org"]
+        @recipients += ["committee@bathlarp.co.uk"]
         @subject += "Game Application #{application.game.start_date.to_s}"
         @application = application
         mail(to: @recipients, subject: @subject)

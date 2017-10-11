@@ -236,6 +236,7 @@ $(function () {
 	var guildOptionElement = function(id, title, selected) {
 		return $("<option></option>")
 			.prop("id", id)
+      .prop("value", id)
 			.prop("selected", (selected ? "selected" : ""))
 			.append(title);
 	};

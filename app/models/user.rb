@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
     include AASM
-    
+
     devise :database_authenticatable,
            :registerable,
            :recoverable,
@@ -31,29 +31,29 @@ class User < ActiveRecord::Base
     has_many :messages
     has_many :board_visits
     has_many :attended_games, :through => :debriefs, :source => :game
-    
+
     validates_presence_of   :username
     validates_length_of     :username,
                             :within => 3..40
     validates_uniqueness_of :username,
                             :case_sensitive => false,
                             :message => I18n.t("user.validation.username_uniqueness")
-    validates_format_of     :username,    
-                            :with => /\A\w[\w\.\-_@]+\z/, 
+    validates_format_of     :username,
+                            :with => /\A\w[\w\.\-_@]+\z/,
                             :message => I18n.t("user.validation.username_format")
 
     validates_presence_of   :name
-    validates_format_of     :name,     
-                            :with => /\A[^[:cntrl:]\\<>\/&]*\z/,  
+    validates_format_of     :name,
+                            :with => /\A[^[:cntrl:]\\<>\/&]*\z/,
                             :message => I18n.t("user.validation.name_format")
     validates_uniqueness_of :name,
                             :case_sensitive => false,
                             :message => I18n.t("user.validation.name_uniqueness")
-    validates_length_of     :name,     
+    validates_length_of     :name,
                             :maximum => 100
 
     validates_presence_of   :email, :unless => :passive?
-    validates_length_of     :email,    
+    validates_length_of     :email,
                             :within => 6..100, #r@a.wk
                             :unless => :passive?
     validates_uniqueness_of :email,
@@ -66,13 +66,13 @@ class User < ActiveRecord::Base
     domain_tld_regex  = '(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)'.freeze
     email_regex       = /\A#{email_name_regex}@#{domain_head_regex}#{domain_tld_regex}\z/i
 
-    validates_format_of     :email,    
-                            :with => email_regex, 
+    validates_format_of     :email,
+                            :with => email_regex,
                             :message => I18n.t("user.validation.email_format"),
                             :unless => :passive?
-                            
+
     auto_strip_attributes :username, :name, :email, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes
-    
+
     @updating = false
 
     aasm :column => 'state' do
@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
         state :active,  :before_enter => :do_activate
         state :suspended
         state :deleted, :before_enter => :do_delete
-        
+
         event :make_pending do
             transitions from: :passive, to: :pending
         end
@@ -89,21 +89,21 @@ class User < ActiveRecord::Base
         event :activate do
             transitions :from => :pending, :to => :active
         end
-        
+
         event :suspend do
             transitions :from => [:passive, :pending, :active], :to => :suspended
         end
-        
+
         event :delete do
             transitions :from => [:passive, :pending, :active, :suspended], :to => :deleted
         end
-        
+
         event :unsuspend do
             transitions :from => :suspended, :to => :active,  :if => :confirmed?
             transitions :from => :suspended, :to => :pending, :if => :has_confirmation_token?
             transitions :from => :suspended, :to => :passive
         end
-        
+
         event :undelete do
             transitions :from => :deleted, :to => :active,  :if => :confirmed?
             transitions :from => :deleted, :to => :pending, :if => :has_confirmation_token?
@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
     def after_confirmation
         self.activate!
     end
-    
+
     def active_for_authentication?
         super && (self.active? || self.pending?)
     end
@@ -134,16 +134,16 @@ class User < ActiveRecord::Base
     def email_required?
         !self.passive?
     end
-    
+
     def confirmed_at=(value)
         @updating = true
         write_attribute :confirmed_at, value
     end
-    
+
     def password_required?
         !@updating and !self.passive?
     end
-    
+
     def updating=(value)
         @updating = value
     end
@@ -168,15 +168,15 @@ class User < ActiveRecord::Base
     def has_role?( rolename )
         self.roles.to_a.select{|role| role.rolename == rolename }.size > 0
     end
-    
+
     def has_no_role?
       self.roles.empty?
     end
-    
+
     def is_admin?
         self.has_role?("administrator")
     end
-    
+
     def is_committee?
         self.has_role?("committee")
     end
@@ -184,43 +184,43 @@ class User < ActiveRecord::Base
     def is_character_ref?
         self.has_role?("characterref")
     end
-    
+
     def is_webonly?
         self.has_role?("webonly") and self.approved? and self.active?
     end
-    
+
     def is_normal?
         self.approved? && self.active? && !self.is_webonly?
     end
-    
+
     def is_recent?
         !created_at.nil? && (created_at >= (Date.today - 3.months))
     end
-    
+
     def is_first_aider?
         self.has_role?("firstaider")
     end
-    
+
     def is_insurance?
         self.has_role?("insurance")
     end
-    
+
     def is_experienced_gm?
       self.has_role?("experiencedgm")
     end
-    
+
     def is_admin_or_committee?
         is_admin? || is_committee?
     end
-    
+
     def is_admin_or_character_ref?
         is_admin? || is_character_ref?
     end
-    
+
     def is_admin_or_committee_or_character_ref?
         is_admin? || is_committee? || is_character_ref?
     end
-    
+
     def is_gm_for?( character_or_user )
         is_gm = false
         if character_or_user.is_a? Character
@@ -258,47 +258,47 @@ class User < ActiveRecord::Base
     def approved?
         !self.approved_at.blank?
     end
-    
-    def needs_medical_update? 
+
+    def needs_medical_update?
         self.is_normal? and (self.contact_name.blank? or self.contact_number.blank? or self.medical_notes.blank? or self.food_notes.blank? or self.emergency_last_updated.nil? or (self.emergency_last_updated < (Date.today - 3.months)))
     end
-    
+
     def games_gmed
         self.mastered_games.where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
             sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
         end
     end
-    
+
     def games_played
         self.debriefs.joins(:game).where(games: {non_stats: false}).where.not(character_id: nil).where("games.start_date >= ?", current_year_start_date(Date.today)).select(:game_id).distinct.to_a.inject(0) do |sum, debrief|
             sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
         end
     end
-    
+
     def games_monstered
         self.debriefs.joins(:game).where("games.start_date >= ?", current_year_start_date(Date.today)).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
             sum += ((debrief.game.nil? or debrief.game.end_date.nil?) ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
         end
     end
-    
+
     def games_gmed_ever
         self.mastered_games.where("start_date <= ?", Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
             sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
         end
     end
-    
+
     def games_played_ever
         self.debriefs.joins(:game).where(games: {non_stats: false}).where.not(character_id: nil).select(:game_id).distinct.to_a.inject(0) do |sum, debrief|
             sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
         end
     end
-    
+
     def games_monstered_ever
         self.debriefs.joins(:game).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
             sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
         end
     end
-    
+
     def display_name( viewing_user )
         case
         when viewing_user.nil? then "Log in to view"
@@ -310,7 +310,7 @@ class User < ActiveRecord::Base
     def attendance_for( game )
         game_attendances.where(game_id: game.id).first
     end
-    
+
     def visit( board )
         if board
             last_visit = board_visits.where(board_id: board.id).first || board_visits.build(board_id: board.id)
@@ -318,15 +318,15 @@ class User < ActiveRecord::Base
             last_visit.save
         end
     end
-    
+
     def last_ten_comments
         self.debriefs.joins(:game).where(games: {debrief_started: true, open: false}).where.not("debriefs.remarks IS NULL OR debriefs.remarks = ''").order("games.start_date desc").limit(10)
     end
-    
+
     def monster_points
         monster_points_available_on Date.today
     end
-    
+
     def monster_points_available_on( date )
         total = 0
         monster_point_changes.reverse.each do |change|
@@ -338,10 +338,10 @@ class User < ActiveRecord::Base
                 total = [total, total + change.points].min
             end
         end
-        
+
         total - monster_points_to_keep_in_hand_after(date)
     end
-    
+
     def monster_points_to_keep_in_hand_after( date )
         points_to_keep = 0
         running_total = 0
@@ -425,14 +425,14 @@ class User < ActiveRecord::Base
                 @changes.push(change)
             end
         end
-        
+
         @changes.sort {|x,y| y.date <=> x.date } # Sort by reverse date.
     end
 
     class MonsterPointChange < Object
         attr_accessor :date, :points, :title, :provisional, :rejected, :historical, :approval, :source_object
     end
-    
+
     def minimum_monster_points_remaining_after(date, monster_point_spend_to_ignore = nil)
         running_total = monster_points_available_on(date)
         monster_point_changes.select { |event|
@@ -445,14 +445,14 @@ class User < ActiveRecord::Base
                 running_total += event.points
                 min = [min, running_total].min
             end
-       end 
+       end
     end
-    
+
     def can_spend_monster_points?
         monster_points > 0 and monster_point_adjustments.where(approved: nil).empty? and
           (monster_point_declaration.nil? or !monster_point_declaration.is_provisional?)
     end
-    
+
     def reason_for_being_unable_to_spend_monster_points
         case
         when monster_points <= 0
@@ -463,7 +463,7 @@ class User < ActiveRecord::Base
             "Outstanding monster point declaration"
         end
     end
-    
+
     protected
 
         def recently_activated?
@@ -483,11 +483,11 @@ class User < ActiveRecord::Base
         def do_undelete
             self.deleted_at = nil
         end
-        
+
     private
         def current_year_start_date(date)
             year = (date.month < 10) ? date.year - 1 : date.year
-            year_start = DateTime.new(year, 10, 1)
+            year_start = Date.new(year, 10, 1)
         end
 
         def has_confirmation_token?
