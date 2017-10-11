@@ -15,7 +15,7 @@ en:
       not_found_in_database: "Invalid email or password."
       timeout: "Your session expired, please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your account before continuing. You should have an email with instructions on how to do this - check your Junk folder if it hasn't arrived, or add no-reply@bathlarp.pencethren.org to your Safe Senders and request a resend."
+      unconfirmed: "You have to confirm your account before continuing. You should have an email with instructions on how to do this - check your Junk folder if it hasn't arrived, or add no-reply@bathlarp.co.uk to your Safe Senders and request a resend."
       user:
         suspended: "Your account has been suspended. This may be because you haven't paid your membership fee for this year, nor indicated to the BathLARP committee that you wish to continue your membership. Please e-mail the committee if you wish to do this, or if you believe that your account has been suspended in error."
     mailer:
