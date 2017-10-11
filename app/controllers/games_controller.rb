@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
-  
+
     helper GamesHelper
-  
+
     before_filter :authenticate_user!, :except => [ :index, :list_future ]
     before_filter :check_admin_or_committee_role, :only => [ :new, :create, :destroy ]
     before_filter :find_game, :except => [ :index, :list_future, :new, :create, :outstanding_debriefs, :next_game ]
@@ -9,31 +9,31 @@ class GamesController < ApplicationController
     before_filter :check_ajax, :except => [ :index, :list_future, :show, :outstanding_debriefs, :next_game, :first_aid_report ]
     before_filter :check_game_not_closed, :except => [ :index, :list_future, :new, :create, :reopen_debrief, :show, :outstanding_debriefs, :next_game ]
     before_filter :check_gm_points_not_overspent, :only => [ :finish_debrief ]
-    
+
     # GET /games
     # GET /games.xml
     def index
         @selected_year = (params[:year] || Game.current_year).to_i
-        @games = Game.where("start_date >= ? and start_date <= ?", Date.new(@selected_year, 10, 1), [Date.today, Date.new(@selected_year+1, 10, 1)].min).order(:start_date).includes(:gamesmasters)
+        @games = Game.where("start_date >= ? and start_date < ?", Date.new(@selected_year, 10, 1), [Date.today, Date.new(@selected_year+1, 10, 1)].min).order(:start_date).includes(:gamesmasters)
 
         respond_to do |format|
             format.html # index.html.erb
             format.xml  { render :xml => @games }
         end
     end
-    
+
     def list_future
         @games = Game.future_games.includes(:gamesmasters)
-            
+
         respond_to do |format|
             format.html # list_future.html.erb
             format.xml { render xml: @games }
         end
     end
-    
+
     def outstanding_debriefs
         @games = current_user.outstanding_debriefs
-        
+
         respond_to do |format|
             format.html # outstanding_debriefs.html.erb
             format.xml { render xml: @games }
@@ -46,7 +46,7 @@ class GamesController < ApplicationController
             format.js
         end
     end
-    
+
     def next_game
         unless Game.future_games.empty?
           @game = Game.future_games.first()
@@ -74,7 +74,7 @@ class GamesController < ApplicationController
         respond_to do |format|
             format.js
         end
-        
+
     end
 
     # GET /games/1/edit
@@ -85,28 +85,28 @@ class GamesController < ApplicationController
             display_game_dialog
         end
     end
-    
+
     def edit_ic_brief
         display_ic_brief_dialog
     end
-    
+
     def edit_ooc_brief
         display_ooc_brief_dialog
     end
-    
+
     def edit_ic_debrief
         display_ic_debrief_dialog
     end
-    
+
     def edit_ooc_debrief
         display_ooc_debrief_dialog
     end
-    
+
     def start_debrief
         @game.player_money_base ||= 10
         display_debrief_dialog
     end
-    
+
     # POST /games
     # POST /games.xml
     def create
@@ -133,7 +133,7 @@ class GamesController < ApplicationController
             update_game { display_game_dialog }
         end
     end
-    
+
     def update_ic_brief
         update_game { display_ic_brief_dialog }
     end
@@ -141,7 +141,7 @@ class GamesController < ApplicationController
     def update_ooc_brief
         update_game { display_ooc_brief_dialog }
     end
-    
+
     def publish_briefs
         @game.post_brief(current_user)
         render :briefs_published
@@ -150,11 +150,11 @@ class GamesController < ApplicationController
     def update_ic_debrief
         update_game { display_ic_debrief_dialog }
     end
-    
+
     def update_ooc_debrief
         update_game { display_ooc_debrief_dialog }
     end
-    
+
     def confirm_start_debrief
         params[:game][:campaign_ids] ||= []
         params[:game][:gamesmaster_ids] ||= []
@@ -186,7 +186,7 @@ class GamesController < ApplicationController
             redirect_for_failed_save
         end
     end
-    
+
     def reopen_debrief
         @game.open = true
         if @game.save
@@ -196,7 +196,7 @@ class GamesController < ApplicationController
             redirect_for_failed_save
         end
     end
-    
+
     def destroy
         unless @game.is_debrief_started?
             @game_id = @game.id
@@ -207,24 +207,24 @@ class GamesController < ApplicationController
             reload_page
         end
     end
-    
+
     def first_aid_report
         respond_to do |format|
             format.html # first_aid_report.html.erb
             format.xml  { render xml: @game }
         end
     end
-    
+
     protected
-    
+
         def game_create_params
             params.require(:game).permit(:title, :lower_rank, :upper_rank, :ic_brief, :ooc_brief, :start_date, :end_date, :meet_time, :start_time, :food_notes, :open, :notes, :non_stats, :attendance_only, {:campaign_ids => []}, {:gamesmaster_ids => []} )
         end
-        
+
         def game_debrief_params
             params.require(:game).permit(:title, :ic_brief, :ooc_brief, :ic_debrief, :ooc_debrief, :player_points_base, :player_money_base, :monster_points_base, {:campaign_ids => []}, {:gamesmaster_ids => []})
         end
-        
+
         def check_can_edit
             unless @game.is_editable_by? current_user
                 permission_denied
@@ -246,11 +246,11 @@ class GamesController < ApplicationController
         def find_game
             @game = Game.find(params[:id])
         end
-    
+
         def update_game
             params[:game][:campaign_ids] ||= []
             params[:game][:gamesmaster_ids] ||= []
-            
+
             if @game.update_attributes(@game.is_debrief_started? ? game_debrief_params : game_create_params )
                 update_game_display
             else
@@ -279,7 +279,7 @@ class GamesController < ApplicationController
                 format.js { render :edit }
             end
         end
-        
+
         def display_ic_brief_dialog
             respond_to { |format| format.js }
         end
@@ -310,7 +310,7 @@ class GamesController < ApplicationController
             flash[:error] = "Game is closed for editing."
             reload_page
         end
-        
+
         def redirect_for_gm_overspend
             flash[:error] = "Cannot finish debrief: Too many GM points allocated."
             reload_page

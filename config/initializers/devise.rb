@@ -2,11 +2,11 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   config.secret_key = ENV["DEVISE_SECRET_KEY"] || '3c2c63f9eb7c4141498c18c1c5008a3ea327d562eb4929d971dabc41fc519c48f775e3d2337734394ce0bfe630e533645c39d1a94daf5d392dc23e9cede8bc97'
-  
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "no-reply@bathlarp.pencethren.org"
+  config.mailer_sender = "no-reply@bathlarp.co.uk"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

@@ -7,8 +7,8 @@ class CommitteeContactsController < ApplicationController
     
     def create
         @email = ContactForm.new(email_params)
-        @email.from_user = "committee@pencethren.org"
-        @email.to_user = "committee@pencethren.org"
+        @email.from_user = "committee@bathlarp.co.uk"
+        @email.to_user = "committee@bathlarp.co.uk"
         @email.subject = "[BathLARP] " + @email.subject
         
         users = User.includes(:roles).to_a
@@ -19,7 +19,7 @@ class CommitteeContactsController < ApplicationController
             when "experienced_gms" then users.select{|user| user.is_experienced_gm?}.collect(&:email).join(", ")
             when "first_aiders" then users.select{|user| user.is_first_aider?}.collect(&:email).join(", ")
             when "insurance_responsibles" then users.select{|user| user.is_insurance?}.collect(&:email).join(", ")
-            else "committee@pencethren.org"
+            else "committee@bathlarp.co.uk"
         end
 
         respond_to do |format|
