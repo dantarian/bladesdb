@@ -36,7 +36,7 @@ FoodSubCategory.create(id: 10, description: "Other") unless FoodSubCategory.exis
  {id: 12, name: "Temple of Life", tithe_percentage: 10, proscribed: false},
  {id: 13, name: "Humacti", tithe_percentage: 10, proscribed: false},
  {id: 14, name: "Illuminati", tithe_percentage: 10, proscribed: false},
- {id: 15, name: "Artificers", tithe_percentage: 10, proscribed: false},
+ {id: 15, name: "Artificers", tithe_percentage: 20, proscribed: false},
  {id: 16, name: "Artisans", tithe_percentage: 20, proscribed: false},
  {id: 17, name: "Shadow Masters", tithe_percentage: 10, proscribed: true},
  {id: 18, name: "Temple of Death", tithe_percentage: 10, proscribed: true},
