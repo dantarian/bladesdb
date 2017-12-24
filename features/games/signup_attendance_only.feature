@@ -1,3 +1,4 @@
+@javascript
 Feature: Attendance-Only Event Signups
   As a club member
   I want to be able to sign up for games and other events

@@ -35,6 +35,12 @@ module GameTestHelper
     from
   end
 
+  def set_open(game, open)
+    game.open = open
+    game.save
+    game
+  end
+
   def set_date(date, of: nil)
     of.start_date = date
     of.save

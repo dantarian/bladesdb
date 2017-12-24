@@ -7,30 +7,30 @@
 	<p>
 		<%= label_tag :state, "Status" %><br />
 		<% if @game_attendance.game.attendance_only %>
-            <%= select_tag :state, options_for_select([["Attending", "attending"], 
+            <%= select_tag :state, options_for_select([["Attending", "attending"],
                                                        ["Not attending", "not_attending"]], @game_attendance.attend_state) %>
 		<% elsif @game_attendance.user.characters.empty? %>
-			<%= select_tag :state, options_for_select([["Undecided", "undecided"], 
-													   ["Monster", "monstering"], 
+			<%= select_tag :state, options_for_select([["Undecided", "undecided"],
+													   ["Monster", "monstering"],
 													   ["Not attending", "not_attending"]], @game_attendance.attend_state) %>
 		<% else %>
-			<%= select_tag :state, options_for_select([["Undecided", "undecided"], 
-													   ["Play", "playing"], 
-	                              					   ["Monster", "monstering"], 
+			<%= select_tag :state, options_for_select([["Undecided", "undecided"],
+													   ["Play", "playing"],
+	                           ["Monster", "monstering"],
  													   ["Not attending", "not_attending"]], @game_attendance.attend_state) %>
 		<% end %>
 	</p>
-	
+
 	<% if !@game_attendance.user.characters.empty? %>
 		<p>
 			<%= f.label :character_id %><br/>
-			<%= f.select :character_id, current_user.characters.all.select{|c| c.active? }.sort{|c1,c2| c1.points <=> c2.points}.collect{|c| [c.title_name_and_rank(:unescaped => true), c.id]}, {:include_blank => true}, {:disabled => (!@game_attendance.playing?)} %>
+			<%= f.select :character_id, current_user.characters.to_a.select{|c| c.active? }.sort{|c1,c2| c1.points <=> c2.points}.collect{|c| [c.title_name_and_rank(:unescaped => true), c.id]}, {:include_blank => true}, {:disabled => (!@game_attendance.playing?)} %>
 		</p>
 	<% end %>
-	
+
 	<p>
 	    <%= f.label :notes %><br/>
 	    <%= f.text_field :notes %>
 	</p>
-	
+
 <% end %>
