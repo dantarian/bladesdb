@@ -33,11 +33,24 @@ class EventCalendarPage < BladesDBPage
         self
     end
 
-    def set_not_attending(game: nil)
+    def set_attending(game: nil)
         game ||= Game.first
 
         make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set playing status"
+        page.find("#gamedetailsrow#{game.id}").click_link "Set attendance status"
+
+        dialog = page.find("div#dialog")
+        dialog.select("Attending", from: "state")
+        page.click_button "Set"
+        self
+    end
+
+    def set_not_attending(game: nil)
+        game ||= Game.first
+        link_text = (game.attendance_only ? "Set attendance status" : "Set playing status")
+
+        make_details_visible(game)
+        page.find("#gamedetailsrow#{game.id}").click_link link_text
 
         dialog = page.find("div#dialog")
         dialog.select("Not attending", from: "state")
@@ -147,6 +160,7 @@ class EventCalendarPage < BladesDBPage
         game ||= Game.first
         make_details_visible(game)
         page.find("#gamedetailsrow#{game.id}").should have_no_link "Set playing status"
+        page.find("#gamedetailsrow#{game.id}").should have_no_link "Set attendance status"
         self
     end
 
@@ -163,6 +177,14 @@ class EventCalendarPage < BladesDBPage
         user ||= User.first
         make_details_visible(game)
         page.find("#gamedetailsrow#{game.id} .monsters").should have_text(user.name)
+        self
+    end
+
+    def check_for_attending(game, user)
+        game ||= Game.first
+        user ||= User.first
+        make_details_visible(game)
+        page.find("#gamedetailsrow#{game.id} .attending").should have_text(user.name)
         self
     end
 
