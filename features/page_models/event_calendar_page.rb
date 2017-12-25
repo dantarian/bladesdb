@@ -8,54 +8,36 @@ class EventCalendarPage < BladesDBPage
     end
 
     def request_to_play(game: nil, as: nil)
-        game ||= Game.first
         character = as || Character.first
-
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set playing status"
-
-        dialog = page.find("div#dialog")
-        dialog.select("Play", from: "state")
-        dialog.select(character.title_name_and_rank, from: "game_attendance_character_id")
-        page.click_button "Set"
-        self
+        set_attendance(game, "Play") do |dialog|
+            dialog.select(character.title_name_and_rank, from: "game_attendance_character_id")
+        end
     end
 
     def request_to_monster(game: nil)
-        game ||= Game.first
-
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set playing status"
-
-        dialog = page.find("div#dialog")
-        dialog.select("Monster", from: "state")
-        page.click_button "Set"
-        self
+        set_attendance(game, "Monster")
     end
 
     def set_attending(game: nil)
-        game ||= Game.first
-
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set attendance status"
-
-        dialog = page.find("div#dialog")
-        dialog.select("Attending", from: "state")
-        page.click_button "Set"
-        self
+        set_attendance(game, "Attending")
     end
 
     def set_not_attending(game: nil)
-        game ||= Game.first
-        link_text = (game.attendance_only ? "Set attendance status" : "Set playing status")
+        set_attendance(game, "Not attending")
+    end
 
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link link_text
+    def set_attendance(game, state)
+      game ||= Game.first
+      link_text = (game.attendance_only ? "Set attendance status" : "Set playing status")
 
-        dialog = page.find("div#dialog")
-        dialog.select("Not attending", from: "state")
-        page.click_button "Set"
-        self
+      make_details_visible(game)
+      page.find("#gamedetailsrow#{game.id}").click_link link_text
+
+      dialog = page.find("div#dialog")
+      dialog.select(state, from: "state")
+      yield(dialog) if block_given?
+      page.click_button "Set"
+      self
     end
 
     def make_details_visible(game)
@@ -164,58 +146,49 @@ class EventCalendarPage < BladesDBPage
     end
 
     def check_cannot_sign_up_to_attend_game(game)
-        game ||= Game.first
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set playing status"
-        page.find("#dialog select#state").should have_no_selector "[value='attending']"
-        self
+        check_cannot_sign_up_as(game, "playing", "attending")
     end
 
     def check_cannot_sign_up_to_play_game(game)
-        game ||= Game.first
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set attendance status"
-        page.find("#dialog select#state").should have_no_selector "[value='playing']"
-        self
+        check_cannot_sign_up_as(game, "attendance", "playing")
     end
 
     def check_cannot_sign_up_to_monster_game(game)
+        check_cannot_sign_up_as(game, "attendance", "monstering")
+    end
+
+    def check_cannot_sign_up_as(game, game_type, state)
         game ||= Game.first
         make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").click_link "Set attendance status"
-        page.find("#dialog select#state").should have_no_selector "[value='monstering']"
+        page.find("#gamedetailsrow#{game.id}").click_link "Set #{game_type} status"
+        page.find("#dialog select#state").should have_no_selector "[value='#{state}']"
         self
     end
 
     def check_for_character_request(game, character)
-        game ||= Game.first
         character ||= Character.first
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id}").should have_text(character.title_name_and_rank)
-        self
+        check_for_attendance_status(game, ".players", should: have_text(character.title_name_and_rank))
     end
 
     def check_for_monster_request(game, user)
-        game ||= Game.first
         user ||= User.first
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id} .monsters").should have_text(user.name)
-        self
+        check_for_attendance_status(game, ".monsters", should: have_text(user.name))
     end
 
     def check_for_attending(game, user)
-        game ||= Game.first
         user ||= User.first
-        make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id} .attending").should have_text(user.name)
-        self
+        check_for_attendance_status(game, ".attending", should: have_text(user.name))
     end
 
     def check_for_not_attending(game, user)
-        game ||= Game.first
         user ||= User.first
+        check_for_attendance_status(game, ".notattending", should: have_text(user.name))
+    end
+
+    def check_for_attendance_status(game, section, should: nil)
+        game ||= Game.first
         make_details_visible(game)
-        page.find("#gamedetailsrow#{game.id} .notattending").should have_text(user.name)
+        page.find("#gamedetailsrow#{game.id} #{section}").should should
         self
     end
 
