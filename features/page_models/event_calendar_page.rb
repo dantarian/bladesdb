@@ -160,7 +160,30 @@ class EventCalendarPage < BladesDBPage
         game ||= Game.first
         make_details_visible(game)
         page.find("#gamedetailsrow#{game.id}").should have_no_link "Set playing status"
-        page.find("#gamedetailsrow#{game.id}").should have_no_link "Set attendance status"
+        self
+    end
+
+    def check_cannot_sign_up_to_attend_game(game)
+        game ||= Game.first
+        make_details_visible(game)
+        page.find("#gamedetailsrow#{game.id}").click_link "Set playing status"
+        page.find("#dialog select#state").should have_no_selector "[value='attending']"
+        self
+    end
+
+    def check_cannot_sign_up_to_play_game(game)
+        game ||= Game.first
+        make_details_visible(game)
+        page.find("#gamedetailsrow#{game.id}").click_link "Set attendance status"
+        page.find("#dialog select#state").should have_no_selector "[value='playing']"
+        self
+    end
+
+    def check_cannot_sign_up_to_monster_game(game)
+        game ||= Game.first
+        make_details_visible(game)
+        page.find("#gamedetailsrow#{game.id}").click_link "Set attendance status"
+        page.find("#dialog select#state").should have_no_selector "[value='monstering']"
         self
     end
 

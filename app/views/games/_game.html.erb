@@ -86,7 +86,7 @@
     					<%= render partial: "games/game_attendance", collection: game.rejected_player_attendances %>
     				</tbody>
     			</table>
-    			
+
 				<h3 class="alt">Monsters (<%= game.monsters.count%>)</h3>
     			<table class="monsters prestyled">
     				<thead>
@@ -113,9 +113,9 @@
 					<%= render :partial => "games/game_attendance", collection: game.non_attendances %>
 				</tbody>
 			</table>
-        			
-    		<% if current_user && !(game.is_gm? current_user) && !game.is_debriefable? && current_user.is_normal? %>
-    		
+
+    		<% if current_user && !(game.is_gm? current_user) && !game.is_debriefable?  && game.open && current_user.is_normal? %>
+
                 <% if !game.game_attendances.exists?( :user_id => current_user.id ) and game.attendance_only %>
                     <p>
                         [ <%= link_to "Set attendance status", new_game_game_attendance_path(game), :method => :get, :remote => true %> ]
@@ -140,7 +140,7 @@
     <% end %>
     <% if current_user and (current_user.is_admin_or_committee? or current_user.is_first_aider? or game.is_editable_by? current_user and !game.is_debrief_started?) %>
         	<p class="form_actions">
-        	    [ 
+        	    [
         	        <% first_action = true -%>
         	        <% if !game.is_debriefable? and game.is_editable_by? current_user %>
         	        	<%= link_to "Send Email", new_game_gm_contact_path(game), :method => :get %>

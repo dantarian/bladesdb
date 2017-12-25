@@ -172,6 +172,14 @@ When(/^the user marks themselves as not attending the game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.set_not_attending(game: Game.first)
 end
 
+When(/^the user marks themselves as attending the attendance-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.set_attending(game: Game.first)
+end
+
+When(/^the user marks themselves as not attending the attendance-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.set_not_attending(game: Game.first)
+end
+
 # Validations
 
 Then(/^the default date is the next Sunday$/) do
@@ -223,11 +231,27 @@ Then(/^the user should not be able to sign up as attending the game$/) do
 end
 
 Then(/^the user should not be able to mark themselves as attending the game$/) do
-  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_attend_game(Game.first)
 end
 
 Then(/^the user should not be able to mark themselves as not attending the game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to mark themselves as not attending the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up as attending the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up to play the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_play_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up to monster the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_monster_game(Game.first)
 end
 
 Then(/^the user should appear as requesting to play the game as the character$/) do
