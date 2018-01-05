@@ -15,6 +15,7 @@ class BladesDBPage
 
     def log_out
       page.click_link("Log out")
+      self
     end
 
     ##

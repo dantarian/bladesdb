@@ -1,4 +1,4 @@
-class GameApplicationsController < ApplicationController    
+class GameApplicationsController < ApplicationController
     before_filter :authenticate_user!
     before_filter :check_application_owner, :only => [ :edit, :update, :destroy ]
     before_filter :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve_app, :approve, :reject_app, :reject ]
@@ -21,7 +21,7 @@ class GameApplicationsController < ApplicationController
         @game_application = GameApplication.new
         @game_application.user_id = current_user.id
         @game_application.game_id = params[:game_id]
-        
+
         respond_to do |format|
                 format.js
             end
@@ -41,7 +41,7 @@ class GameApplicationsController < ApplicationController
     def create
         @game_application = GameApplication.new(game_application_params)
         @game = @game_application.game
-        
+
         if @game_application.save
             UserMailer.game_application_made(@game_application).deliver
             render :close_dialog_and_update_game
@@ -68,7 +68,7 @@ class GameApplicationsController < ApplicationController
             end
         end
     end
-    
+
     def approve_app
         @game_application = GameApplication.find(params[:id])
         respond_to { |format| format.js }
@@ -78,7 +78,7 @@ class GameApplicationsController < ApplicationController
         # @game defined by check_admin_or_committee_or_campaign_gm_role().
         @game_application = GameApplication.find(params[:id])
         @game.gamesmasters = [ @game_application.user ]
-        
+
         if @game.save
             @game_application.approve
             @game_application.comment = params[:game_application][:comment]
@@ -93,12 +93,12 @@ class GameApplicationsController < ApplicationController
             render "index", :game_id => @game_application.game.id
         end
     end
-    
+
     def reject_app
         @game_application = GameApplication.find(params[:id])
         respond_to { |format| format.js }
     end
-    
+
     def reject
         # @game defined by check_admin_or_committee_or_campaign_gm_role().
         @game_application = GameApplication.find(params[:id])
@@ -113,7 +113,7 @@ class GameApplicationsController < ApplicationController
             redirect_to action: :index
         end
     end
-    
+
     # DELETE /game_applications/1
     # DELETE /game_applications/1.xml
     def destroy
@@ -122,11 +122,11 @@ class GameApplicationsController < ApplicationController
         @game_application.destroy
         UserMailer.game_application_withdrawn(@game_application).deliver
         @game_application = nil
-        
+
         render :update_game
-        
+
     end
-    
+
     private
         def check_application_owner
             @game_application = GameApplication.find(params[:id])
@@ -134,7 +134,7 @@ class GameApplicationsController < ApplicationController
                 permission_denied
             end
         end
-        
+
         def check_admin_or_committee_or_campaign_gm_role
             @game = Game.find(params[:game_id])
             all_campaign_gms = @game.campaigns.collect {|campaign| campaign.gamesmasters}.flatten
@@ -142,7 +142,7 @@ class GameApplicationsController < ApplicationController
                 check_admin_or_committee_role
             end
         end
-        
+
         def game_application_params
             params.require(:game_application).permit(:game_id,:user_id,:details,:comment)
         end

@@ -25,13 +25,13 @@ class GameAttendancesController < ApplicationController
     # POST /game_attendances.xml
     def create
         @game_attendance = GameAttendance.new(game_attendance_params)
-        game = @game_attendance.game
+        @game = @game_attendance.game
         case
-            when params[:state] == "monstering" then 
+            when params[:state] == "monstering" then
                 @game_attendance.monster
-            when params[:state] == "not_attending" then 
+            when params[:state] == "not_attending" then
                 @game_attendance.stop_attending
-            when params[:state] == "undecided" then 
+            when params[:state] == "undecided" then
                 @game_attendance.become_undecided
             when params[:state] == "playing" then
                 @game_attendance.request_to_play
@@ -52,21 +52,21 @@ class GameAttendancesController < ApplicationController
     # PUT /game_attendances/1
     # PUT /game_attendances/1.xml
     def update
-        game = @game_attendance.game
-        
+        @game = @game_attendance.game
+
         case
-            when (params[:state] == "monstering") && !@game_attendance.monstering? then 
+            when (params[:state] == "monstering") && !@game_attendance.monstering? then
                 @game_attendance.monster
-            when (params[:state] == "not_attending") && !@game_attendance.not_attending? then 
+            when (params[:state] == "not_attending") && !@game_attendance.not_attending? then
                 @game_attendance.stop_attending
-            when (params[:state] == "undecided") && !@game_attendance.undecided? then 
+            when (params[:state] == "undecided") && !@game_attendance.undecided? then
                 @game_attendance.become_undecided
             when (params[:state] == "playing") && !@game_attendance.playing? then
                 @game_attendance.request_to_play
             when (params[:state] == "attending") && !@game_attendance.attending? then
                 @game_attendance.attend
         end
-        
+
         if @game_attendance.update_attributes(game_attendance_params)
             @close_dialog = true
             update_game_display
@@ -76,42 +76,42 @@ class GameAttendancesController < ApplicationController
             end
         end
     end
-    
+
     def clear_confirm_state
         @game_attendance.request
         @game_attendance.save
         update_game_display
     end
-    
+
     def confirm
         @game_attendance.confirm
         @game_attendance.save
         UserMailer.play_attendance(@game_attendance).deliver
         update_game_display
     end
-    
+
     def prioritise
         @game_attendance.prioritise
         @game_attendance.save
         update_game_display
     end
-    
+
     def reject
         @game_attendance.reject
         @game_attendance.save
         UserMailer.play_attendance(@game_attendance).deliver
         update_game_display
     end
-    
-    protected    
+
+    protected
         def update_game_display
             render :update_game
         end
-        
+
         def find_game_attendance
             @game_attendance = GameAttendance.find(params[:id])
         end
-        
+
         def game_attendance_params
             params.require(:game_attendance).permit(:game_id, :user_id, :want_food, :food_notes, :character_id, :attend_state, :notes)
         end

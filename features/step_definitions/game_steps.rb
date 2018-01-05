@@ -6,6 +6,14 @@ Given(/^there is another game$/) do
   GameTestHelper.create_game(title: "Second game")
 end
 
+Given(/^there is a game in the future$/) do
+  GameTestHelper.create_game_next_sunday
+end
+
+Given(/^there is an attendance only game in the future$/) do
+  GameTestHelper.create_game(start_date: 1.week.from_now, attendance_only: true)
+end
+
 Given(/^there is a game one week ago$/) do
   GameTestHelper.create_game(start_date: 1.week.ago, title: "One week ago")
 end
@@ -16,6 +24,14 @@ Given(/^there is a game in the past$/) do
   else
     GameTestHelper.create_game(start_date: Date.new(2017,1,10))
   end
+end
+
+Given(/^the game is open$/) do
+  GameTestHelper.set_open(Game.first, true)
+end
+
+Given(/^the game is not open$/) do
+  GameTestHelper.set_open(Game.first, false)
 end
 
 Given(/^the user is a GM for the game$/) do
@@ -160,7 +176,29 @@ When(/^the user starts to create a game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.start_adding_new_game
 end
 
+When(/^the user signs up to play the game as the character$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.request_to_play(game: Game.first, as: Character.first)
+end
 
+When(/^the user signs up to monster the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.request_to_monster(game: Game.first)
+end
+
+When(/^the user marks themselves as attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.set_attending(game: Game.first)
+end
+
+When(/^the user marks themselves as not attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.set_not_attending(game: Game.first)
+end
+
+When(/^the user marks themselves as attending the attendance-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.set_attending(game: Game.first)
+end
+
+When(/^the user marks themselves as not attending the attendance-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.set_not_attending(game: Game.first)
+end
 
 # Validations
 
@@ -198,4 +236,56 @@ end
 
 Then(/^the user should only see the game summary$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_game_visibility(Game.first, loggedin: false)
+end
+
+Then(/^the user should not be able to sign up to play the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up to monster the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up as attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to mark themselves as attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_attend_game(Game.first)
+end
+
+Then(/^the user should not be able to mark themselves as not attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to mark themselves as not attending the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up as attending the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up to play the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_play_game(Game.first)
+end
+
+Then(/^the user should not be able to sign up to monster the attendance\-only game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_cannot_sign_up_to_monster_game(Game.first)
+end
+
+Then(/^the user should appear as requesting to play the game as the character$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_character_request(Game.first, Character.first)
+end
+
+Then(/^the user should appear as requesting to monster the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_monster_request(Game.first, User.first)
+end
+
+Then(/^the user should appear as attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_attending(Game.first, User.first)
+end
+
+Then(/^the user should appear as not attending the game$/) do
+  EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_not_attending(Game.first, User.first)
 end
