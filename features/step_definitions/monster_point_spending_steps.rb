@@ -19,15 +19,15 @@ end
 Given(/^the user has a monster point declaration since the monster point spend$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day)
 end
- 
+
 Given(/^the user has a rejected monster point declaration since the monster point spend$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day, approved: false)
 end
- 
+
 Given(/^the user has a pending monster point declaration for (\d+) monster points?$/) do |points|
   UserTestHelper.add_monster_point_declaration(User.first, points.to_i, 1.week.ago, approved: nil)
 end
- 
+
 Given(/^the user has a rejected monster point declaration one week ago$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, 1.week.ago, approved: false)
 end
@@ -94,6 +94,18 @@ end
 
 Given(/^the user has a rejected character point adjustment since the monster point spend$/) do
   CharacterTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
+end
+
+Given(/^the character has a monster point spend before the cut-off that takes the character to rank 10.0$/) do
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: '2016-12-28', character_points_gained: 70, monster_points_spent: 70)
+end
+
+Given(/^the character has a monster point spend after the cut\-off that takes the character to rank 10.0$/) do
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: '2017-01-25', character_points_gained: 70, monster_points_spent: 70)
+end
+
+Given(/^the character has 100 monster points available two weeks before the monster spend cut\-off$/) do
+  UserTestHelper.add_monster_point_declaration(User.first, 100, '2016-12-27')
 end
 
 # Action steps
@@ -275,4 +287,3 @@ end
 Then(/^the user should be told they cannot create a monster point spend before the character point adjustment$/) do
   CharacterPage.new.check_for_cannot_spend_before_character_point_adjustment(Character.first.character_point_adjustments.last.declared_on)
 end
-

@@ -95,4 +95,20 @@ class DebriefPage < BladesDBPage
         page.should_not have_text(gm)
       end
     end
+
+    def check_for_closed_debrief_as_gm
+      page.should have_link "Reopen Debrief"
+    end
+
+    def check_for_open_debrief_as_gm
+      page.should have_link "Finish Debrief"
+    end
+
+    def check_for_closed_debrief_as_player
+      page.should_not have_text "Awaiting debrief."
+    end
+
+    def check_for_open_debrief_as_player
+      page.should have_text "Awaiting debrief."
+    end
 end

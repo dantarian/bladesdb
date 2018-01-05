@@ -2,9 +2,9 @@ require 'securerandom'
 
 class Game < ActiveRecord::Base
     include Rails.application.routes.url_helpers # Slightly nasty, but necessary to get the game URL for the boards post.
-  
+
     default_scope { order(:start_date, :start_time) }
-  
+
     has_and_belongs_to_many :gamesmasters, :class_name => "User", :join_table => :games_masters
     # has_many :food_options
     has_and_belongs_to_many :campaigns
@@ -13,7 +13,7 @@ class Game < ActiveRecord::Base
     has_many :game_attendances
     has_many :characters, :through => :game_attendances
     has_many :users, :through => :game_attendances
-    
+
     has_many :monstering_attendances, -> { where attend_state: GameAttendance::MONSTERING }, class_name: "GameAttendance"
     has_many :monsters, through: :monstering_attendances, source: :user
     has_many :player_attendances, -> { where attend_state: GameAttendance::PLAYING }, class_name: "GameAttendance"
@@ -22,7 +22,7 @@ class Game < ActiveRecord::Base
     has_many :non_attendees, through: :non_attendances, source: :user
     has_many :attendances, -> { where("attend_state != '#{GameAttendance::NOT_ATTENDING}'") }, class_name: "GameAttendance"
     has_many :attendees, through: :attendances, source: :user
-    
+
     has_many :confirmed_player_attendances, -> { where(attend_state: GameAttendance::PLAYING, confirm_state: GameAttendance::CONFIRMED) }, class_name: "GameAttendance"
     has_many :confirmed_characters, through: :confirmed_player_attendances, source: :character
     has_many :prioritised_player_attendances, -> { where(attend_state: GameAttendance::PLAYING, confirm_state: GameAttendance::PRIORITY) }, class_name: "GameAttendance"
@@ -31,7 +31,7 @@ class Game < ActiveRecord::Base
     has_many :requested_characters, through: :requested_player_attendances, source: :character
     has_many :rejected_player_attendances, -> { where(attend_state: GameAttendance::PLAYING, confirm_state: GameAttendance::REJECTED) }, class_name: "GameAttendance"
     has_many :rejected_characters, through: :rejected_player_attendances, source: :character
-        
+
     validates_numericality_of :lower_rank, :only_integer => true, :greater_than_or_equal_to => 2, :allow_nil => true
     validates_numericality_of :upper_rank, :only_integer => true, :greater_than_or_equal_to => 2, :allow_nil => true
     validate :lower_rank_less_than_or_equal_to_upper_rank
@@ -48,17 +48,17 @@ class Game < ActiveRecord::Base
     validates_presence_of :player_points_base, :if => :is_debrief_started?
     validates_presence_of :monster_points_base, :if => :is_debrief_started?
     validates_presence_of :player_money_base, :if => :is_debrief_started?
-    
+
     before_validation :update_character_states
     after_update :remove_play_or_monster_attendances_for_gms
     after_update :fix_mp_spend_costs
-    
+
     auto_strip_attributes :title, :ic_brief, :ooc_brief, :ic_debrief, :ooc_debrief, :notes
-    
+
     def self.future_games
         Game.where("(games.start_date >= ?)", Date.today).order(:start_date)
     end
-    
+
     def game_title
         if self.title.nil? or self.title.blank?
             "Untitled"
@@ -66,7 +66,7 @@ class Game < ActiveRecord::Base
             self.title
         end
     end
-    
+
     def date_range(twoline = false)
         if end_date.nil? or start_date == end_date
             "#{start_date}"
@@ -74,7 +74,7 @@ class Game < ActiveRecord::Base
             "#{start_date} - #{(twoline ? '<br />' : '')}#{end_date}".html_safe
         end
     end
-    
+
     def rank_bracket
         upper = upper_rank/(upper_rank % 10 == 0 ? 10 : 10.0) unless upper_rank.nil?
         lower = lower_rank/(lower_rank % 10 == 0 ? 10 : 10.0) unless lower_rank.nil?
@@ -86,7 +86,7 @@ class Game < ActiveRecord::Base
             else "#{lower} - #{upper}"
         end
     end
-    
+
     def formatted_meet_time
         if meet_time
             meet_time.strftime('%H:%M')
@@ -94,7 +94,7 @@ class Game < ActiveRecord::Base
             "11:00"
         end
     end
-    
+
     def formatted_start_time
         if start_time
             start_time.strftime('%H:%M')
@@ -102,52 +102,52 @@ class Game < ActiveRecord::Base
             "12:00"
         end
     end
-    
+
     def has_notes?
         !notes.nil? && !notes.empty?
     end
-    
+
     def has_ic_brief?
         !ic_brief.nil? && !ic_brief.empty?
     end
-    
+
     def has_ooc_brief?
         !ooc_brief.nil? && !ooc_brief.empty?
     end
-    
+
     def has_ic_debrief?
         !ic_debrief.nil? && !ic_debrief.empty?
     end
-    
+
     def has_ooc_debrief?
         !ooc_debrief.nil? && !ooc_debrief.empty?
     end
-    
+
     def is_debrief_started?
         debrief_started
     end
-    
+
     def is_debrief_finished?
         is_debrief_started? and !open
     end
-    
+
     def setup_debrief
         (gamesmasters + monsters + rejected_characters.map{|character| character.user}).each { |monster| debriefs.build(:user_id => monster.id) }
         (confirmed_characters + prioritised_characters + requested_characters).each { |character| debriefs.build(:user_id => character.user_id, :character_id => character.id )}
     end
-    
+
     def gm_debriefs
         debriefs.joins(game: :gamesmasters).where(character_id: nil).where("debriefs.user_id = games_masters.user_id")
     end
-    
+
     def monster_debriefs
         debriefs.joins(:game).where(character_id: nil).where("user_id not in (select user_id from games_masters where game_id = #{self.id})")
     end
-    
+
     def player_debriefs
         debriefs.where.not(character_id: nil)
     end
-    
+
     def gm_points_available
         if player_points_base.nil? or monster_points_base.nil?
             0
@@ -155,23 +155,23 @@ class Game < ActiveRecord::Base
             player_points_base - monster_points_base - gm_debriefs.inject(0) { |sum, debrief| sum + (debrief.points_modifier || 0) }
         end
     end
-    
+
     def can_view_applications?(user)
         user && (user.is_admin_or_committee? || campaigns.any?{|campaign| campaign.is_gm? user})
     end
-    
+
     def is_editable_by?(user)
         user && (user.is_admin_or_committee? || (is_gm? user))
     end
-    
+
     def is_user_profile?(user)
         user && (user.is_admin_or_committee_or_character_ref? || (is_gm? user) || user.is_first_aider?)
     end
-    
+
     def is_gm?(user)
         gamesmasters.include? user
     end
-    
+
     def attendance_state(user)
         if is_gm? user
             "GM"
@@ -189,15 +189,15 @@ class Game < ActiveRecord::Base
             game_attendances.where(user_id: user.id).first.attendance_state
         end
     end
-    
+
     def application_for_user(user)
         game_applications.find_by(user_id: user.id)
     end
-    
+
     def is_debriefable?
         (Time.local(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min) <= Time.now) and not self.attendance_only
     end
-    
+
     def has_character?(character)
         if is_debrief_started?
             player_debriefs.map{|debrief| debrief.character}.member? character
@@ -209,11 +209,11 @@ class Game < ActiveRecord::Base
     def post_brief(current_user)
         make_boards_post(current_user, Board::BRIEFS, "Brief updated")
     end
-        
+
     def post_debrief(current_user)
         make_boards_post(current_user, Board::DEBRIEFS, "Debrief published")
     end
-    
+
     def is_editable?
         if attendance_only
             start_date >= Date.today
@@ -221,7 +221,7 @@ class Game < ActiveRecord::Base
             not is_debrief_finished?
         end
     end
-    
+
     def self.next_free_sunday
         used_dates = Game.where("start_date >= :date OR end_date >= :date", date: Date.today).to_a.collect{ |game| ( game.end_date ? (game.start_date..game.end_date).to_a : game.start_date ) }.flatten
         next_sunday = Date.today.sunday
@@ -231,11 +231,11 @@ class Game < ActiveRecord::Base
         end
         return next_sunday
     end
-    
+
     def self.years
         Array(Game.first_year..Game.current_year)
     end
-    
+
     def self.first_year
         first_game_date = Game.order(:start_date).first.start_date
         if first_game_date.month < 10
@@ -244,7 +244,7 @@ class Game < ActiveRecord::Base
             first_game_date.year
         end
     end
-    
+
     def self.current_year
         if Date.today.month < 10
             Date.today.year - 1
@@ -252,29 +252,29 @@ class Game < ActiveRecord::Base
             Date.today.year
         end
     end
-    
+
     def has_pending_applications?
         self.gamesmasters.empty? && self.game_applications.to_a.any?{|game_application| game_application.is_pending?}
     end
-    
+
     protected
         def lower_rank_less_than_or_equal_to_upper_rank
             unless lower_rank.nil? or upper_rank.nil?
                 errors.add(:upper_rank, "must be higher than lower rank") if upper_rank < lower_rank
             end
         end
-        
+
         def start_date_must_be_before_end_date
             unless end_date.nil?
                 errors.add(:end_date, "must not be before start date") if end_date < start_date
             end
         end
-        
+
         def start_date_must_be_reasonable
             errors.add(:start_date, "must be less than two years in the future") if start_date > Date.today + 2.years
             errors.add(:start_date, "must be after 01/01/1997") if start_date < Date.new(1997,1,1)
         end
-        
+
         def meet_time_must_be_before_start_time
             errors.add(:start_time, "must not be before meet time") if start_time < meet_time
         end
@@ -291,7 +291,7 @@ class Game < ActiveRecord::Base
             end
             return success
         end
-    
+
         def remove_play_or_monster_attendances_for_gms
             gamesmasters.each do |gm|
                 attendance = game_attendances.where(user_id: gm.id).first
@@ -306,9 +306,9 @@ class Game < ActiveRecord::Base
             board_post.request_uuid = SecureRandom.uuid
             board_post.save!
         end
-        
+
         def fix_mp_spend_costs
-            if is_debrief_finished? and open_changed?
+            if is_debrief_finished? and open_changed? and start_date > Date.new(2017,1,7)
                 MonsterPointSpend.fix_after(start_date)
             end
         end

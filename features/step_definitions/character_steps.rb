@@ -73,6 +73,11 @@ Given(/^the user has an undeclared character$/) do
   CharacterTestHelper.create_undeclared_character(User.first)
 end
 
+Given(/^the user has a character declared one month before the monster spend cut\-off$/) do
+  CharacterTestHelper.create_character(User.first, declared_on: '2016-12-07')
+  CharacterTestHelper.approve_character(User.first)
+end
+
 # Actions
 
 When(/^the character is at rank (.*?)$/) do |rank|

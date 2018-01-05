@@ -1,16 +1,16 @@
 <%= form_for([:character, @guild_membership], :remote => true) do |f| %>
     <%= f.error_messages :header_message => I18n.t("character.guild_membership.dialog_header"), :message => I18n.t("character.guild_membership.dialog_main_change_guild") %>
-    
+
     <ul class="form">
 		<li>
 			<%= f.label :guild_id %><br />
 			<%= f.select :guild_id, Guild.order(:proscribed).to_a.collect { |guild| [guild.name, guild.id] }, { :include_blank => true }, { :id => "guild_selector" } %>
-		</li>	
+		</li>
 		<li>
 			<%= f.label :guild_branch_id %><br />
-            <%= f.select :guild_branch_id, GuildBranch.all.collect { |branch| [branch.name, branch.id, {"data-guild" => branch.guild_id}] }, { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), :id => "guild_branch_selector" } %>
+            <%= f.select :guild_branch_id, [], { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), :id => "guild_branch_selector", "data-guildmap" => guild_map_json(@character) } %>
 		</li>
 
 	</ul>
-    
+
 <% end %>
