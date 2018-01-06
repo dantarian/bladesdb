@@ -64,7 +64,7 @@ class EventCalendarPage < BladesDBPage
     end
 
     def check_for_player(player, character)
-        make_details_visible(Game.find.first)
+        make_details_visible(Game.first)
         gamedetails = page.find("tbody tr#gamedetailsrow1")
         playerdetails = gamedetails.find("table.players tbody tr")
 
