@@ -127,4 +127,25 @@ class GamePage < BladesDBPage
     page.should have_text "Failed to save Debrief details"
     page.should have_text "Monster points base can't be blank"
   end
+
+  def check_character_is_in_debrief(character)
+    page.find(".debriefs.players").should have_text(character.name)
+  end
+
+  def check_character_is_not_in_debrief(character)
+    page.find(".debriefs.players").should have_no_text(character.name)
+  end
+
+  def check_user_is_in_debrief_as_gm(user)
+    page.find(".debriefs.gms").should have_text(user.name)
+  end
+
+  def check_user_is_in_debrief_as_monster(user)
+    page.find(".debriefs.monsters").should have_text(user.name)
+  end
+
+  def check_user_is_not_in_debrief_as_monster(user)
+    page.find(".debriefs.monsters").should have_no_text(user.name)
+  end
+
 end

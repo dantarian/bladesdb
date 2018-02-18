@@ -170,6 +170,18 @@ Given(/^the game is starting later today$/) do
   GameTestHelper.make_game_start_later_today(Game.first)
 end
 
+Given(/^the other user has signed up to the game as the character$/) do
+  GameTestHelper.add_player(User.last, Character.last, to: Game.first)
+end
+
+Given(/^the character has been rejected$/) do
+  GameTestHelper.reject_player(Character.last, on: Game.first)
+end
+
+Given(/^the other user has signed up to the game as a monster$/) do
+  GameTestHelper.add_monster(User.last, to: Game.first)
+end
+
 # Actions
 
 When(/^the user views the game$/) do
@@ -222,6 +234,10 @@ end
 
 When(/^the user attempts to start the debrief without supplying base points for the monsters$/) do
   GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(monster_base: "")
+end
+
+When(/^the user starts the debrief$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief
 end
 
 # Validations
@@ -332,4 +348,24 @@ end
 
 Then(/^the user should be told they must supply base monster points$/) do
   GamePage.new.check_asked_for_monster_points
+end
+
+Then(/^the character should be included in the debrief$/) do
+  GamePage.new.check_character_is_in_debrief(Character.last)
+end
+
+Then(/^the character should not be included in the debrief$/) do
+  GamePage.new.check_character_is_not_in_debrief(Character.last)
+end
+
+Then(/^the user should be included in the debrief as a GM$/) do
+  GamePage.new.check_user_is_in_debrief_as_gm(User.first)
+end
+
+Then(/^the user should not be included in the debrief as a monster$/) do
+  GamePage.new.check_user_is_not_in_debrief_as_monster(User.first)
+end
+
+Then(/^the other user should be included in the debrief as a monster$/) do
+  GamePage.new.check_user_is_in_debrief_as_monster(User.last)
 end

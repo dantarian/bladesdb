@@ -36,3 +36,28 @@ Feature: Debriefs - Starting
   Scenario: Must supply base points for monsters
     When the user attempts to start the debrief without supplying base points for the monsters
     Then the user should be told they must supply base monster points
+
+  Scenario: Players who have signed up to the game are automatically added to the debrief
+    Given there is another user
+    And the other user has a character
+    And the other user has signed up to the game as the character
+    When the user starts the debrief
+    Then the character should be included in the debrief
+
+  Scenario: Players who have been rejected are not automatically added to the debrief
+    Given there is another user
+    And the other user has a character
+    And the other user has signed up to the game as the character
+    And the character has been rejected
+    When the user starts the debrief
+    Then the character should not be included in the debrief
+
+  Scenario: GMs are automatically added to the debrief
+    When the user starts the debrief
+    Then the user should be included in the debrief as a GM
+
+  Scenario: Monsters who have signed up to the game are automatically added to the debrief
+    Given there is another user
+    And the other user has signed up to the game as a monster
+    When the user starts the debrief
+    Then the other user should be included in the debrief as a monster

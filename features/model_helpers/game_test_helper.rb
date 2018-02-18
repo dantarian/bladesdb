@@ -19,6 +19,13 @@ module GameTestHelper
     to.game_attendances.create_with(character: character, attend_state: "playing", confirm_state: "requested").find_or_create_by(user: player)
   end
 
+  def reject_player(character, on: game)
+    on ||= Game.last
+    attendance = on.player_attendances.find_by(character: character)
+    attendance.reject
+    attendance.save
+  end
+
   def add_monster(monster, to: nil)
     to.game_attendances.create_with(attend_state: "monstering").find_or_create_by(user: monster)
   end
