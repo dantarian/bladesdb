@@ -18,11 +18,11 @@ class GamePage < BladesDBPage
   end
 
   def start_debrief(player_base: 10, monster_base: 5, danger_pay: 10)
-    click_link "Start Debrief"
-    fill_in("Player Base", with: player_base)
-    fill_in("Monster Base", with: monster_base)
-    fill_in("Danger Pay", with: danger_pay)
-    click_button "Save"
+    click_link "Debrief"
+    fill_in("Player Points", with: player_base)
+    fill_in("Monster Points", with: monster_base)
+    fill_in("Danger Pay (florins)", with: danger_pay)
+    click_button "Start Debrief"
   end
 
   def apply_for_game
@@ -103,4 +103,28 @@ class GamePage < BladesDBPage
     page.should have_no_link "Apply for game"
   end
 
+  def check_can_start_debrief
+    page.should have_link "Debrief"
+    start_debrief
+    page.should have_text "GM points available for allocation"
+  end
+
+  def check_cannot_start_debrief
+    page.should have_no_link "Debrief"
+  end
+
+  def check_asked_for_player_points
+    page.should have_text "Failed to save Debrief details"
+    page.should have_text "Player points base can't be blank"
+  end
+
+  def check_asked_for_player_pay
+    page.should have_text "Failed to save Debrief details"
+    page.should have_text "Player money base can't be blank"
+  end
+
+  def check_asked_for_monster_points
+    page.should have_text "Failed to save Debrief details"
+    page.should have_text "Monster points base can't be blank"
+  end
 end

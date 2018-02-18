@@ -162,7 +162,19 @@ Given(/^there is a game after the monster spend cut\-off$/) do
   GameTestHelper.create_game(start_date: '2017-01-20')
 end
 
+Given(/^the user is not a GM for the game$/) do
+  GameTestHelper.remove_gamesmaster(User.first)
+end
+
+Given(/^the game is starting later today$/) do
+  GameTestHelper.make_game_start_later_today(Game.first)
+end
+
 # Actions
+
+When(/^the user views the game$/) do
+  GamePage.new.visit_page(game_path(Game.first.id))
+end
 
 When(/^the user publishes the brief for the game$/) do
   GamePage.new.visit_page(game_path(Game.first.id)).and.publish_briefs
@@ -198,6 +210,18 @@ end
 
 When(/^the user marks themselves as not attending the attendance-only game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.set_not_attending(game: Game.first)
+end
+
+When(/^the user attempts to start the debrief without supplying base points for the players$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(player_base: "")
+end
+
+When(/^the user attempts to start the debrief without supplying base pay for the players$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(danger_pay: "")
+end
+
+When(/^the user attempts to start the debrief without supplying base points for the monsters$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(monster_base: "")
 end
 
 # Validations
@@ -288,4 +312,24 @@ end
 
 Then(/^the user should appear as not attending the game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_not_attending(Game.first, User.first)
+end
+
+Then(/^the user should be able to start the debrief for the game$/) do
+  GamePage.new.check_can_start_debrief
+end
+
+Then(/^the user should not be able to start the debrief for the game$/) do
+  GamePage.new.check_cannot_start_debrief
+end
+
+Then(/^the user should be told they must supply base player points$/) do
+  GamePage.new.check_asked_for_player_points
+end
+
+Then(/^the user should be told they must supply base player pay$/) do
+  GamePage.new.check_asked_for_player_pay
+end
+
+Then(/^the user should be told they must supply base monster points$/) do
+  GamePage.new.check_asked_for_monster_points
 end
