@@ -182,6 +182,14 @@ Given(/^the other user has signed up to the game as a monster$/) do
   GameTestHelper.add_monster(User.last, to: Game.first)
 end
 
+Given (/^the debrief has been started for the game$/) do
+  GameTestHelper.start_debriefing(Game.last)
+end
+
+Given(/^the other user is included in the debrief as a GM$/) do
+  GameTestHelper.add_gm_to_debrief(Game.last, User.last)
+end
+
 # Actions
 
 When(/^the user views the game$/) do
@@ -238,6 +246,38 @@ end
 
 When(/^the user starts the debrief$/) do
   GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief
+end
+
+When(/^the user adds the other user to the debrief as a GM$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.add_gm_to_debrief(User.last)
+end
+
+When(/^the user removes the other user from the debrief as a GM$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.remove_gm_from_debrief(User.last)
+end
+
+When(/^the user attempts to set their base points higher than monster base$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.set_gm_base_points(User.first, 10)
+end
+
+When(/^the user attempts to allocate themselves more GM points than are available$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.set_gm_points(User.first, 10).and.close_debrief
+end
+
+When(/^the user attempts to allocate more GM points than are available across all gms$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.set_gm_points(User.first, 3).and.set_gm_points(User.last, 3).and.close_debrief
+end
+
+When(/^the user attempts to add themselves to the debrief as a monster$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.attempt_to_add_monster_to_debrief
+end
+
+When(/^the user adds themselves to the debrief as having played the character$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.add_player_to_debrief(User.last, Character.last)
+end
+
+When(/^the user closes the debrief$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.close_debrief
 end
 
 # Validations
@@ -368,4 +408,33 @@ end
 
 Then(/^the other user should be included in the debrief as a monster$/) do
   GamePage.new.check_user_is_in_debrief_as_monster(User.last)
+end
+
+Then(/^the other user should be included in the debrief as a GM$/) do
+  GamePage.new.check_user_is_in_debrief_as_gm(User.last)
+end
+
+Then(/^the other user should not be included in the debrief as a GM$/) do
+  GamePage.new.check_user_is_not_in_debrief_as_gm(User.last)
+end
+
+Then(/^the GM should start with (\d+) points$/) do |points|
+  GamePage.new.check_gm_has_base_points(User.first, points)
+  GamePage.new.check_gm_has_gm_points(User.first, 0)
+end
+
+Then(/^there should be (\d+) GM points to share between GMs$/) do |points|
+  GamePage.new.check_remaining_gm_points(points)
+end
+
+Then(/^the user should be told that GM base points cannot be higher than monster base$/) do
+  GamePage.new.check_error_message("Base points must be less than or equal to monster base for the game")
+end
+
+Then(/^the user should be told they cannot allocate more GM points than are available$/) do
+  GamePage.new.check_error_message("Cannot finish debrief: Too many GM points allocated.")
+end
+
+Then(/^the user should not be in the list of users$/) do
+  GamePage.new.check_user_is_not_in_list_of_users_who_can_be_added_to_the_debrief(User.last)
 end

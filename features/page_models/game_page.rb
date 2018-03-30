@@ -23,24 +23,85 @@ class GamePage < BladesDBPage
     fill_in("Monster Points", with: monster_base)
     fill_in("Danger Pay (florins)", with: danger_pay)
     click_button "Start Debrief"
+    self
   end
 
   def apply_for_game
     click_link "Apply to run"
     fill_in "Please enter any supporting details for your application.", with: "This is a game."
     click_button "Apply"
+    self
   end
 
   def edit_game_application
     click_link "Edit application"
     fill_in "Please enter any supporting details for your application.", with: "This is a modified game."
     click_button "Update"
+    self
   end
 
   def withdraw_game_application
     page.accept_confirm do
       click_link "Withdraw application"
     end
+    self
+  end
+
+  def add_gm_to_debrief(user)
+    click_link "Add GM"
+    select user.name, from: "debrief_user_id"
+    click_button "Select"
+    click_button "Select" # On the second dialog.
+    self
+  end
+
+  def remove_gm_from_debrief(user)
+    page.accept_confirm do
+      page.find(".debriefs.gms").find("li", text: user.name).click_link "Remove"
+    end
+    self
+  end
+
+  def set_gm_base_points(user, points)
+    page.find(".debriefs.gms").find("li", text: user.name).click_link "Edit"
+    fill_in "Base Points (if different to Monster Base)", with: points
+    click_button "Update"
+    self
+  end
+
+  def set_gm_points(user, points)
+    page.find(".debriefs.gms").find("li", text: user.name).click_link "Edit"
+    fill_in "GM Points", with: points
+    click_button "Update"
+    self
+  end
+
+  def add_monster_to_debrief(user)
+    click_link "Add Monster"
+    select user.name, from: "debrief_user_id"
+    click_button "Select"
+    click_button "Select" # On the second dialog.
+    self
+  end
+
+  def attempt_to_add_monster_to_debrief
+    click_link "Add Monster"
+    self
+  end
+
+  def add_player_to_debrief(user, character)
+    click_link "Add Character"
+    select user.name, from: "debrief_user_id"
+    click_button "Select"
+    select character.name, from: "debrief_character_id"
+    click_button "Select"
+    click_button "Select"
+    self
+  end
+
+  def close_debrief
+    click_link "Finish Debrief"
+    self
   end
 
   # Validation methods
@@ -140,12 +201,32 @@ class GamePage < BladesDBPage
     page.find(".debriefs.gms").should have_text(user.name)
   end
 
+  def check_user_is_not_in_debrief_as_gm(user)
+    page.find(".debriefs.gms").should have_no_text(user.name)
+  end
+
   def check_user_is_in_debrief_as_monster(user)
     page.find(".debriefs.monsters").should have_text(user.name)
   end
 
   def check_user_is_not_in_debrief_as_monster(user)
     page.find(".debriefs.monsters").should have_no_text(user.name)
+  end
+
+  def check_gm_has_base_points(user, points)
+    page.find(".debriefs.gms").find("li", text: user.name).should have_text("Base #{points}")
+  end
+
+  def check_gm_has_gm_points(user, points)
+    page.find(".debriefs.gms").find("li", text: user.name).should have_text("#{points} GM points")
+  end
+
+  def check_remaining_gm_points(points)
+    page.find(".gamedetails").should have_text("There are #{points} GM points available for allocation.")
+  end
+
+  def check_user_is_not_in_list_of_users_who_can_be_added_to_the_debrief(user)
+    page.find("#debrief_user_id").should have_no_text(user.name)
   end
 
 end

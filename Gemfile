@@ -72,7 +72,7 @@ end
 
 group :test do
   gem 'faker', '~> 1.6.2'
-  gem 'capybara', '~> 2.6.2'
+  gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot'
   gem 'guard-rspec', '~> 4.6.4'
   gem 'launchy', '~> 2.4.3'

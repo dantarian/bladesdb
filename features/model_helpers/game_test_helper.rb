@@ -103,6 +103,12 @@ module GameTestHelper
     game.save!
   end
 
+  def add_gm_to_debrief(game, user)
+    add_gamesmaster(user, to: game)
+    game.debriefs.find_or_create_by(user: user)
+    game.save!
+  end
+
   def create_game_next_sunday
     create_game(start_date: next_sunday)
   end
