@@ -39,6 +39,9 @@ gem 'schema_plus', '~> 1.4.1'
 gem 'mail_form', '~> 1.5.1'
 gem 'validates_timeliness', '~> 4.0'
 
+# Simplified logging
+gem "lograge"
+
 group :production do
   gem 'newrelic_rpm', '~> 3.15.0.314'
 end
