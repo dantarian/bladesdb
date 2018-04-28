@@ -42,10 +42,6 @@ gem 'validates_timeliness', '~> 4.0'
 # Simplified logging
 gem "lograge"
 
-group :production do
-  gem 'newrelic_rpm', '~> 3.15.0.314'
-end
-
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
