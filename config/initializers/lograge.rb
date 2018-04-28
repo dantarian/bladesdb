@@ -1,4 +1,4 @@
-Rails.application.configure do
+Blades::Application.configure do
   config.lograge.enabled = true
 
   # add time to lograge
