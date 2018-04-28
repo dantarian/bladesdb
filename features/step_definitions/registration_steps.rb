@@ -29,7 +29,7 @@ Then(/^the user should see a message to check their email$/) do
 end
 
 Then(/^the user should see a message telling them they must be at least (\d+)$/) do |arg1|
-  RegistrationPage.new.check_error_message "You must be over 18 to have an account on this website."
+  RegistrationPage.new.check_error_message I18n.t("activerecord.errors.models.user.attributes.over18.accepted")
 end
 
 Then(/^the user should see a restricted access message$/) do
