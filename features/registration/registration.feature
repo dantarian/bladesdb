@@ -10,6 +10,11 @@ Feature: Registration
     And the user should see a message to check their email
     And the user should receive a confirmation email
 
+	Scenario: Attempt to register without age declaration
+		Given there is an unregistered user
+		When the user attempts to register without confirming their age is over 18
+		Then the user should see a message telling them they must be at least 18
+
   Scenario: Attempt to sign in without confirming e-mail address
     Given there is an unconfirmed user
     When the user logs in
@@ -33,7 +38,7 @@ Feature: Registration
     When the user logs in
     Then the home page should be displayed
     And the user should see a successful sign-in message
-    
+
   Scenario: Logged in user cannot visit registration page
     Given there is a user
     And the user is logged in

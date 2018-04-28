@@ -2,6 +2,16 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  activerecord:
+    attributes:
+      user:
+        over18: "" # Stops the field name getting prepended to the validation message.
+    errors:
+      models:
+        user:
+          attributes:
+            over18:
+              accepted: "You must be over 18 to have an account on this website."
   approvals:
     approved: "approved"
     rejected: "rejected"

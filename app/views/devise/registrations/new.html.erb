@@ -47,6 +47,11 @@
     </p>
 
     <p>
+        <%= f.check_box :over18 %>
+        <%= f.label :over18, "I confirm I am at least 18 years old" %>
+    </p>
+
+    <p>
         <%= label_tag "Please prove you are a human being (or at least humanoid)" %>
         <%= recaptcha_tags %><br />
     </p>

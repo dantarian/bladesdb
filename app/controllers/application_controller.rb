@@ -10,13 +10,13 @@ class ApplicationController < ActionController::Base
     before_filter :configure_permitted_devise_parameters, if: :devise_controller?
 
     add_flash_types :notice, :warning, :alert, :error
-  
+
     def set_cache_buster
         response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
     end
-    
+
     def page_not_found
         @status = 404
         handle_error
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
 
     protected
-        
+
         def check_ajax
             unless request.xhr?
                 respond_to do |format|
@@ -39,49 +39,49 @@ class ApplicationController < ActionController::Base
                 end
             end
         end
-        
+
         def check_administrator_role
             unless current_user and current_user.is_admin?
                 permission_denied
             end
         end
-        
+
         def check_admin_or_committee_role
             unless current_user and (current_user.is_admin? or current_user.is_committee?)
                 permission_denied
             end
         end
-        
+
         def check_admin_or_character_ref_role
             unless current_user and (current_user.is_admin? or current_user.is_character_ref?)
                 permission_denied
             end
         end
-        
+
         def check_character_ref_role
             unless current_user and current_user.is_character_ref?
                 permission_denied
             end
         end
-        
+
         def check_committee_role
             unless current_user and current_user.is_committee?
                 permission_denied
             end
         end
-        
+
         def check_active_member
             unless current_user and current_user.approved?
                 permission_denied
             end
         end
-        
+
         def login_prohibited
             if current_user
                 permission_denied(I18n.t("failure.role_permission_denied"))
             end
         end
-        
+
         # Redirect as appropriate when an access request fails due to lack of permissions.
         def permission_denied(message = nil)
             message ||= I18n.t("failure.permission_denied")
@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
         def store_referer
             session[:refer_to] = request.env["HTTP_REFERER"]
         end
-        
+
         # Redirect to the URI in the HTTP referer property, or to the passed default.
         def redirect_to_referer_or_default( default )
             if request.xhr?
@@ -130,14 +130,14 @@ class ApplicationController < ActionController::Base
         def reload_page
             render :js => "location.reload(true);"
         end
-        
+
         def redirect_by_javascript_to(url)
             render :js => "window.location = '#{escape_javascript url}'"
         end
-        
+
         def configure_permitted_devise_parameters
-            devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :name, :email, :password, :password_confirmation) }
-            devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :name, :email, :password, :password_confirmation, :current_password, :state, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes) }
+            devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :name, :email, :password, :password_confirmation, :over18) }
+            devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :name, :email, :password, :password_confirmation, :current_password, :state, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes, :over18) }
         end
 
     private
@@ -148,5 +148,5 @@ class ApplicationController < ActionController::Base
                 format.all { render nothing: true, status: @status }
             end
         end
-     
+
 end
