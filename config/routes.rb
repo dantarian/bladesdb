@@ -1,5 +1,7 @@
 Blades::Application.routes.draw do
 
+  resources :acceptables
+
   devise_for :users, :controllers => { :sessions => "sessions", :registrations => "registrations" }
 
   resources :guild_memberships

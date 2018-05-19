@@ -6,12 +6,15 @@ en:
     attributes:
       user:
         over18: "" # Stops the field name getting prepended to the validation message.
+        accept_terms_and_conditions: ""
     errors:
       models:
         user:
           attributes:
             over18:
               accepted: "You must be over 18 to have an account on this website."
+            accept_terms_and_conditions:
+              accepted: "You must accept the terms and conditions to have an account on this website."
   approvals:
     approved: "approved"
     rejected: "rejected"

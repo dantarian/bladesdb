@@ -71,7 +71,8 @@ class User < ActiveRecord::Base
                             :message => I18n.t("user.validation.email_format"),
                             :unless => :passive?
 
-    validates :over18, acceptance: true
+    validates :over18, acceptance: true, on: :create
+    validates :accept_terms_and_conditions, acceptance: true, on: :create
 
     auto_strip_attributes :username, :name, :email, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes
 

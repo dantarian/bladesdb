@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @acceptable.type %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @acceptable.text %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @acceptable.version %>
+</p>
+
+<%= link_to 'Edit', edit_acceptable_path(@acceptable) %> |
+<%= link_to 'Back', acceptables_path %>

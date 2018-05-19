@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722205455) do
+ActiveRecord::Schema.define(version: 20180519161316) do
+
+  create_table "acceptables", force: true do |t|
+    t.string   "flavour",    null: false
+    t.text     "text",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
