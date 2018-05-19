@@ -3,8 +3,16 @@ Feature: Registration
 	I want to be able to register for the website and confirm I'm real
 	So I can use all website features
 
-  Scenario: Register account
+	Scenario: Register account
     Given there is an unregistered user
+    When the user attempts to register
+    Then the home page should be displayed
+    And the user should see a message to check their email
+    And the user should receive a confirmation email
+
+	Scenario: Register account with Terms and Conditions
+    Given there is an unregistered user
+		And there is a Terms and Conditions statement
     When the user attempts to register
     Then the home page should be displayed
     And the user should see a message to check their email
@@ -14,6 +22,12 @@ Feature: Registration
 		Given there is an unregistered user
 		When the user attempts to register without confirming their age is over 18
 		Then the user should see a message telling them they must be at least 18
+
+	Scenario: Attempt to register without accepting Terms and Conditions
+		Given there is a Terms and Conditions statement
+		And there is an unregistered user
+		When the user attempts to register without accepting the Terms and Conditions
+		Then the user should see a message telling them they must accept the Terms and Conditions to create an account
 
   Scenario: Attempt to sign in without confirming e-mail address
     Given there is an unconfirmed user
