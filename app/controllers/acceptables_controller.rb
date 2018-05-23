@@ -1,4 +1,6 @@
 class AcceptablesController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :check_is_admin
   before_action :set_acceptable, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
