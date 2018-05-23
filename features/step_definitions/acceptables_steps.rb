@@ -26,5 +26,5 @@ end
 # Verification steps
 
 Then(/^the user should see the Terms and Conditions Acceptance screen$/) do
-  pending
+  current_path.should == terms_and_conditions_user_path(User.first.id)
 end
