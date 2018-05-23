@@ -1,9 +1,9 @@
-<%=             
+<%=
 render_dialog "edit_field_form", "Edit Emergency Details", "Save", "update_emergency_details",
 [
     {:field => "contact_name", :field_name => "Contact Name", :field_type => "text"},
-    {:field => "contact_number", :field_name => "Contact Number", :field_type => "text", :notes => "Please enter N/A in both fields if you do not wish to list a contact."},
-    {:field => "medical_notes", :field_name => "Medical Notes", :field_type => "text_area", :notes => "Please enter N/A if you have no known medical conditions."},
-    {:field => "food_notes", :field_name => "Food Notes", :field_type => "text_area", :notes => "Please enter N/A if you have no known allergies or intolerances. Please make very clear what is an allergy rather than an intolerance."}
+    {:field => "contact_number", :field_name => "Contact Number", :field_type => "text", :notes => "Please enter N/A in both fields if you do not wish to list a contact, or if you do not want us to store your emergency contact details."},
+    {:field => "medical_notes", :field_name => "Medical Notes", :field_type => "text_area", :notes => "Please enter N/A if you have no known medical conditions, or if you do not wish us to store your medical details."},
+    {:field => "food_notes", :field_name => "Food Notes", :field_type => "text_area", :notes => "Please enter N/A if you have no known allergies or intolerances, or if you do not wish us to store your food allergy details. Please make very clear what is an allergy rather than an intolerance."}
 ]
 %>
