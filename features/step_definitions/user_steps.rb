@@ -210,6 +210,14 @@ end
 
 # Condition steps
 
+Then(/^the user should be logged out$/) do
+  pending
+end
+
+Then(/^the user's account should be suspended$/) do
+  pending
+end
+
 Then(/^they should see all their own profile fields$/) do
   profile = ProfilePage.new.visit_page(user_path(User.first))
   profile.check_for_core_fields(User.first)

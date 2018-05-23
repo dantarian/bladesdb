@@ -38,7 +38,7 @@ end
 
 # Actions
 
-When(/^the user is on the home page$/) do
+When(/^the user (?:is on|visits) the home page$/) do
   visit root_path
 end
 

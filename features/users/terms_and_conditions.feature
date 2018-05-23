@@ -4,28 +4,28 @@ Feature: Terms and Conditions
   So that I can protect myself from vexatious users
 
   Scenario: No T&C acceptance screen with no T&C statements
-    Given there is a user who has not yet accepted the Terms and Conditions
+    Given there is a user
     And the user is logged in
     When the user visits the home page
-    Then the user should see the home page
+    Then the home page should be displayed
 
   Scenario: T&C acceptance screen shown for users who haven't accepted any T&Cs
-    Given there is a Terms and Conditions statement
-    And there is a user who has not yet accepted the Terms and Conditions
+    Given there is a user
+    And there is a Terms and Conditions statement
     When the user logs in
     Then the user should see the Terms and Conditions Acceptance screen
 
   Scenario: Acceptance of T&Cs for legacy users
-    Given there is a Terms and Conditions statement
-    Given there is a user who has not yet accepted the Terms and Conditions
+    Given there is a user
+    And there is a Terms and Conditions statement
     And the user is logged in
     When the user visits the home page
     And the user accepts the Terms and Conditions
-    Then the user should see the home page
+    Then the home page should be displayed
 
   Scenario: Rejection of T&Cs for legacy users
-    Given there is a Terms and Conditions statement
-    Given there is a user who has not yet accepted the Terms and Conditions
+    Given there is a user
+    And there is a Terms and Conditions statement
     And the user is logged in
     When the user visits the home page
     And the user rejects the Terms and Conditions
@@ -35,7 +35,7 @@ Feature: Terms and Conditions
 
   Scenario: T&C acceptance screen shown for users who haven't accepted the most recent T&Cs
     Given there is a Terms and Conditions statement
-    Given there is a user
+    And there is a user
     And there is a new Terms and Conditions statement
     When the user logs in
     Then the user should see the Terms and Conditions Acceptance screen
@@ -47,7 +47,7 @@ Feature: Terms and Conditions
     And the user is logged in
     When the user visits the home page
     And the user accepts the Terms and Conditions
-    Then the user should see the home page
+    Then the home page should be displayed
 
   Scenario: Rejection of changed T&Cs
     Given there is a Terms and Conditions statement
