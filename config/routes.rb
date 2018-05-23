@@ -238,6 +238,10 @@ Blades::Application.routes.draw do
       get :edit_general_notes
       patch :update_general_notes
       patch :enable
+      get :terms_and_conditions
+      post :accept_terms_and_conditions
+      post :reject_terms_and_conditions
+      post :reject_terms_and_conditions_and_accept_suspension
     end
 
     resources :monster_point_adjustments, :except => [ :index, :show, :destroy ] do
