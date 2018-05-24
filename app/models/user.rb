@@ -237,7 +237,7 @@ class User < ActiveRecord::Base
             end
         elsif character_or_user.is_a? User
             unless character_or_user == self
-                self.mastered_games.select{|game| !game.is_debrief_finished?}.each do |game|
+                self.mastered_games.select{|game| !game.is_debrief_finished? && !game.attendance_only}.each do |game|
                     if game.users.include?(character_or_user)
                         is_gm = true
                         break
