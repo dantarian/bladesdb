@@ -8,6 +8,9 @@ class ApplicationController < ActionController::Base
 
     before_filter :set_cache_buster
     before_filter :configure_permitted_devise_parameters, if: :devise_controller?
+    before_filter :redirect_to_terms_and_conditions_page,
+                  if: Proc.new { current_user && !current_user.latest_terms_and_conditions_accepted? },
+                  unless: :viewing_terms_and_conditions?
 
     add_flash_types :notice, :warning, :alert, :error
 
@@ -125,6 +128,17 @@ class ApplicationController < ActionController::Base
                 redirect_to( session[:refer_to] || default )
             end
             session[:refer_to] = nil
+        end
+
+        def redirect_to_terms_and_conditions_page
+          unless request.xhr?
+            session[:original_target] = request.url
+            redirect_to terms_and_conditions_user_path(current_user.id)
+          end
+        end
+
+        def viewing_terms_and_conditions?
+          request.url.ends_with? terms_and_conditions_user_path(current_user.id)
         end
 
         def reload_page

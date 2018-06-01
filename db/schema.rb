@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180519161316) do
+ActiveRecord::Schema.define(version: 20180601204345) do
 
   create_table "acceptables", force: true do |t|
     t.string   "flavour",    null: false
     t.text     "text",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "acceptances", force: true do |t|
+    t.integer  "acceptable_id"
+    t.integer  "user_id"
+    t.boolean  "accepted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["acceptable_id"], :name => "index_acceptances_on_acceptable_id"
+    t.index ["user_id"], :name => "index_acceptances_on_user_id"
   end
 
   create_table "board_visits", force: true do |t|
@@ -99,7 +109,7 @@ ActiveRecord::Schema.define(version: 20180519161316) do
     t.string   "title"
     t.string   "state",                     default: "active",     null: false
     t.text     "notes"
-    t.date     "declared_on",               default: '2010-04-19', null: false
+    t.date     "declared_on",               default: '2017-01-02', null: false
     t.integer  "approved_by_id"
     t.date     "approved_on"
     t.boolean  "approved"

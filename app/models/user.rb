@@ -266,6 +266,11 @@ class User < ActiveRecord::Base
         self.is_normal? and (self.contact_name.blank? or self.contact_number.blank? or self.medical_notes.blank? or self.food_notes.blank? or self.emergency_last_updated.nil? or (self.emergency_last_updated < (Date.today - 3.months)))
     end
 
+    def latest_terms_and_conditions_accepted?
+      return true unless Acceptable.latest_terms_and_conditions
+      Acceptable.latest_terms_and_conditions.accepted_by?(self)
+    end
+
     def games_gmed
         self.mastered_games.where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
             sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
