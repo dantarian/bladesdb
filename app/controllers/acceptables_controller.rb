@@ -6,7 +6,7 @@ class AcceptablesController < ApplicationController
   respond_to :html
 
   def index
-    @acceptables = Acceptable.all
+    @acceptables = Acceptable.all.order(created_at: :desc)
     respond_with(@acceptables)
   end
 

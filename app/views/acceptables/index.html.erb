@@ -5,7 +5,6 @@
     <tr>
       <th>Type</th>
       <th>Text</th>
-      <th>Version</th>
       <th></th>
       <th></th>
       <th></th>
@@ -15,9 +14,8 @@
   <tbody>
     <% @acceptables.each do |acceptable| %>
       <tr>
-        <td><%= acceptable.type %></td>
+        <td><%= acceptable.flavour %></td>
         <td><%= acceptable.text %></td>
-        <td><%= acceptable.version %></td>
         <td><%= link_to 'Show', acceptable %></td>
         <td><%= link_to 'Edit', edit_acceptable_path(acceptable) %></td>
         <td><%= link_to 'Destroy', acceptable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
