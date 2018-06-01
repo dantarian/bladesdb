@@ -1,6 +1,6 @@
 class AcceptablesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_is_admin
+  before_filter :check_administrator_role
   before_action :set_acceptable, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -44,6 +44,6 @@ class AcceptablesController < ApplicationController
     end
 
     def acceptable_params
-      params.require(:acceptable).permit(:type, :text, :version)
+      params.require(:acceptable).permit(:flavour, :text)
     end
 end

@@ -1,14 +1,9 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Flavour:</strong>
+<h1 class="alt">
   <%= @acceptable.flavour %>
-</p>
+</h1>
 
-<p>
-  <strong>Text:</strong>
-  <%= @acceptable.text %>
-</p>
+<%= RedCloth.new( @acceptable.text, [:filter_html] ).to_html.html_safe %>
 
-<%= link_to 'Edit', edit_acceptable_path(@acceptable) %> |
-<%= link_to 'Back', acceptables_path %>
+<% if current_user.is_admin? %>
+  [ <%= link_to 'Edit', edit_acceptable_path(@acceptable) %> ]
+<% end %>
