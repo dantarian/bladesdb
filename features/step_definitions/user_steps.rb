@@ -22,6 +22,11 @@ Given(/^there is an admin user$/) do
   reset_mailer
 end
 
+Given(/^the admin user is a character ref$/) do
+  user = UserTestHelper.create_or_find_user(name: "Alicia Admin", email: "alicia@mail.com", username: "adminuser")
+  UserTestHelper.grant_role(user, Role.find_by(rolename: "characterref"))  
+end
+
 Given(/^there is a web-only user$/) do
   user = UserTestHelper.create_or_find_user(name: "Warren Webonly", email: "warren@mail.com", username: "webonlyuser")
   UserTestHelper.confirm(user)

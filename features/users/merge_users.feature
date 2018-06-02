@@ -151,6 +151,7 @@ Feature: Merge Users
 		And there is another user
 		And the other user has a monster point declaration
 		And there is an admin user
+		And the admin user is a character ref
 		And the admin user is logged in
 		When the admin user merges the second user into the first user
 		Then the members list should be displayed
@@ -164,6 +165,7 @@ Feature: Merge Users
 		And there is another user
 		And the other user has a monster point declaration
 		And there is an admin user
+		And the admin user is a character ref
 		And the admin user is logged in
 		When the admin user merges the second user into the first user
 		Then the members list should be displayed
@@ -177,6 +179,7 @@ Feature: Merge Users
 		And there is another user
 		And the other user has a monster point adjustment
 		And there is an admin user
+		And the admin user is a character ref
 		And the admin user is logged in
 		When the admin user merges the second user into the first user
 		Then the members list should be displayed
@@ -189,6 +192,7 @@ Feature: Merge Users
 		And there is another user
 		And the other user has a monster point adjustment
 		And there is an admin user
+		And the admin user is a character ref
 		And the admin user is logged in
 		When the admin user merges the second user into the first user
 		Then the members list should be displayed
