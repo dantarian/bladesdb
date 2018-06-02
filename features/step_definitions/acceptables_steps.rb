@@ -11,15 +11,15 @@ end
 # Action steps
 
 When(/^the user accepts the Terms and Conditions$/) do
-  AcceptablePage.new.accept
+  TermsAndConditionsPage.new.accept
 end
 
 When(/^the user rejects the Terms and Conditions$/) do
-  AcceptablePage.new.reject
+  TermsAndConditionsPage.new.reject
 end
 
 When(/^the user accepts that their account will be suspended$/) do
-  AcceptablePage.new.confirm_reject
+  TermsAndConditionsPage.new.confirm_reject
 end
 
 # Verification steps

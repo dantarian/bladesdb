@@ -4,6 +4,10 @@
 
 <%= RedCloth.new( @acceptable.text, [:filter_html] ).to_html.html_safe %>
 
-<% if current_user.is_admin? %>
-  [ <%= link_to 'Edit', edit_acceptable_path(@acceptable) %> ]
+<% unless current_user.latest_terms_and_conditions_accepted? %>
+  <% if @display_suspension_warning %>
+    [ <%= link_to 'Accept', accept_terms_and_conditions_user_path(current_user), method: :post %> | <%= link_to 'Reject and suspend my account', reject_terms_and_conditions_and_accept_suspension_user_path(current_user), method: :post %> ]
+  <% else %>
+    [ <%= link_to 'Accept', accept_terms_and_conditions_user_path(current_user), method: :post %> | <%= link_to 'Reject', reject_terms_and_conditions_user_path(current_user), method: :post %> ]
+  <% end %>
 <% end %>

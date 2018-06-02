@@ -138,7 +138,10 @@ class ApplicationController < ActionController::Base
         end
 
         def viewing_terms_and_conditions?
-          request.url.ends_with? terms_and_conditions_user_path(current_user.id)
+          request.url.ends_with?(terms_and_conditions_user_path(current_user.id)) ||
+            request.url.ends_with?(accept_terms_and_conditions_user_path(current_user.id)) ||
+            request.url.ends_with?(reject_terms_and_conditions_user_path(current_user.id)) ||
+            request.url.ends_with?(reject_terms_and_conditions_and_accept_suspension_user_path(current_user.id))
         end
 
         def reload_page

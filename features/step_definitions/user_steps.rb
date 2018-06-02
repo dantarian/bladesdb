@@ -211,11 +211,11 @@ end
 # Condition steps
 
 Then(/^the user should be logged out$/) do
-  pending
+  page.should have_text("Not logged in")
 end
 
 Then(/^the user's account should be suspended$/) do
-  pending
+  assert User.first.suspended?
 end
 
 Then(/^they should see all their own profile fields$/) do

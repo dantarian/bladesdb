@@ -1,4 +1,4 @@
-class AcceptablePage < BladesDBPage
+class TermsAndConditionsPage < BladesDBPage
     PAGE_TITLE = BladesDBPage::PAGE_TITLE
 
     def accept

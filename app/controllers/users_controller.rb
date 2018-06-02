@@ -19,7 +19,10 @@ class UsersController < ApplicationController
                                         :edit_emergency_details,
                                         :update_emergency_details,
                                         :edit_general_notes,
-                                        :update_general_notes]
+                                        :update_general_notes,
+                                        :accept_terms_and_conditions,
+                                        :reject_terms_and_conditions,
+                                        :reject_terms_and_conditions_and_accept_suspension]
     before_filter :login_prohibited, :only => [:create]
     before_filter :check_administrator_role, :only => [:purge, :merge]
     before_filter :check_admin_or_committee_role, :only => [:destroy, :approve, :suspend, :unsuspend, :undelete, :edit, :resend_activation]
@@ -56,6 +59,7 @@ class UsersController < ApplicationController
                             :update_medical_notes,
                             :edit_general_notes,
                             :update_general_notes]
+    before_filter :check_self, :only => [:accept_terms_and_conditions, :reject_terms_and_conditions, :reject_terms_and_conditions_and_accept_suspension]
 
     def index
         @users = User.includes(:roles).to_a
@@ -169,6 +173,37 @@ class UsersController < ApplicationController
     def terms_and_conditions
       @acceptable = Acceptable.latest_terms_and_conditions
       render :template => "acceptables/show"
+    end
+
+    def accept_terms_and_conditions
+      @acceptable = Acceptable.latest_terms_and_conditions
+      if Acceptance.create(acceptable_id: @acceptable.id, user_id: current_user.id, accepted: true)
+        redirect_to( session[:original_target] || default )
+        session[:original_target] = nil
+      else
+        flash[:error] = "Failed to save your acceptance of the Terms and Conditions."
+        redirect_to terms_and_conditions_user_path(current_user)
+      end
+    end
+
+    def reject_terms_and_conditions
+      @acceptable = Acceptable.latest_terms_and_conditions
+      @display_suspension_warning = true
+      flash[:warning] = "Your account will be suspended if you reject the Terms and Conditions. Click the relevant link below to confirm that you wish to continue with this course of action."
+      render :template => "acceptables/show"
+    end
+
+    def reject_terms_and_conditions_and_accept_suspension
+      @acceptable = Acceptable.latest_terms_and_conditions
+      if Acceptance.create(acceptable_id: @acceptable.id, user_id: current_user.id, accepted: false)
+        current_user.suspend
+        current_user.updating = true
+        current_user.save!
+        redirect_to destroy_user_session_path
+      else
+        flash[:error] = "Failed to save your rejection of the Terms and Conditions."
+        redirect_to terms_and_conditions_user_path(current_user)
+      end
     end
 
     # There's no page here to update or destroy a user.  If you add those, be
@@ -351,11 +386,21 @@ class UsersController < ApplicationController
         end
 
         def check_self_or_character_ref_role
-            @user == current_user || current_user.is_character_ref?
+            unless (@user == current_user || current_user.is_character_ref?)
+              permission_denied
+            end
         end
 
         def check_self_or_administrator_role
-            @user == current_user || current_user.is_admin?
+          unless (@user == current_user || current_user.is_admin?)
+            permission_denied
+          end
+        end
+
+        def check_self
+            unless (@user == current_user)
+              permission_denied
+            end
         end
 
         def check_distinct_users(params)
