@@ -31,3 +31,7 @@ end
 Then(/^the user should see the Terms and Conditions Acceptance screen$/) do
   current_path.should == terms_and_conditions_user_path(User.first.id)
 end
+
+Then(/^there should be a record of the user's acceptance of the Terms and Conditions$/) do
+  AcceptableTestHelper.check_acceptance(of: Acceptable.latest_terms_and_conditions, by: User.first)
+end

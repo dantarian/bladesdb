@@ -14,7 +14,13 @@ class User < ActiveRecord::Base
            :encryptor => :restful_authentication_sha1
 
     before_save do |user|
-        user.make_pending if (user.passive? and !user.encrypted_password.blank?)
+      if (user.passive? and !user.encrypted_password.blank?)
+        user.make_pending
+      end
+    end
+
+    after_create do |user|
+      user.acceptances.create(acceptable_id: Acceptable.latest_terms_and_conditions.id, accepted: true) unless user.passive? || Acceptable.latest_terms_and_conditions.nil?
     end
 
     has_many :permissions
@@ -31,6 +37,7 @@ class User < ActiveRecord::Base
     has_many :messages
     has_many :board_visits
     has_many :attended_games, :through => :debriefs, :source => :game
+    has_many :acceptances
 
     validates_presence_of   :username
     validates_length_of     :username,

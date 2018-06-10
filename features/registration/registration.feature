@@ -17,6 +17,7 @@ Feature: Registration
     Then the home page should be displayed
     And the user should see a message to check their email
     And the user should receive a confirmation email
+		And there should be a record of the user's acceptance of the Terms and Conditions
 
 	Scenario: Attempt to register without age declaration
 		Given there is an unregistered user
