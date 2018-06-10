@@ -5,4 +5,7 @@ module AcceptableTestHelper
     Acceptable.create!(text: text, created_at: timestamp, flavour: Acceptable::TERMS_AND_CONDITIONS)
   end
 
+  def add_acceptance(of: nil, by: nil)
+    Acceptance.create!(acceptable_id: of.id, user_id: by.id, accepted: true)
+  end
 end

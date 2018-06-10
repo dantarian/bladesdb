@@ -8,6 +8,10 @@ Given(/^there is a new Terms and Conditions statement$/) do
   AcceptableTestHelper.add_terms_and_conditions(text: "Some terms and conditions", timestamp: 1.day.ago)
 end
 
+Given(/^the user has accepted the Terms and Conditions statement$/) do
+  AcceptableTestHelper.add_acceptance(of: Acceptable.latest_terms_and_conditions, by: User.first)
+end
+
 # Action steps
 
 When(/^the user accepts the Terms and Conditions$/) do
