@@ -47,7 +47,8 @@ FoodSubCategory.create(id: 10, description: "Other") unless FoodSubCategory.exis
  {id: 23, name: "Druids", tithe_percentage: 0, proscribed: false},
  {id: 24, name: "Amazons", tithe_percentage: 0, proscribed: false},
  {id: 25, name: "Barbarians", tithe_percentage: 0, proscribed: false},
- {id: 26, name: "Bounty Hunters", tithe_percentage: 0, proscribed: false}].each { |guild|
+ {id: 26, name: "Bounty Hunters", tithe_percentage: 0, proscribed: false},
+ {id: 27, name: "Foresters", tithe_percentage: 10, proscribed: false}].each { |guild|
    g = Guild.find_or_initialize_by(id: guild[:id])
    g.name = guild[:name]
    g.tithe_percentage = guild[:tithe_percentage]
