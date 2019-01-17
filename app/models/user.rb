@@ -267,39 +267,60 @@ class User < ActiveRecord::Base
     end
 
     def games_gmed
-        self.mastered_games.where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
-            sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
-        end
+        mastered_games
+            .where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today)
+            .where(attendance_only: false)
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_played
-        self.debriefs.joins(:game).where(games: {non_stats: false}).where.not(character_id: nil).where("games.start_date >= ?", current_year_start_date(Date.today)).select(:game_id).distinct.to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(non_stats: false, attendance_only: false)
+            .where.not(debriefs: { character_id: nil })
+            .where("start_date >= ?", current_year_start_date(Date.today))
+            .dates_only
+            .distinct
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_monstered
-        self.debriefs.joins(:game).where("games.start_date >= ?", current_year_start_date(Date.today)).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
-            sum += ((debrief.game.nil? or debrief.game.end_date.nil?) ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(attendance_only: false, debriefs: { character_id: nil })
+            .where("start_date >= ?", current_year_start_date(Date.today))
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_gmed_ever
-        self.mastered_games.where("start_date <= ?", Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
-            sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
-        end
+        mastered_games
+            .where("start_date <= ?", Date.today)
+            .where(attendance_only: false)
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_played_ever
-        self.debriefs.joins(:game).where(games: {non_stats: false}).where.not(character_id: nil).select(:game_id).distinct.to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(non_stats: false, attendance_only: false)
+            .where.not(debriefs: { character_id: nil })
+            .dates_only
+            .distinct
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_monstered_ever
-        self.debriefs.joins(:game).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(attendance_only: false, debriefs: { character_id: nil })
+            .where("start_date >= ?", current_year_start_date(Date.today))
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def display_name( viewing_user )
