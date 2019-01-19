@@ -317,7 +317,6 @@ class User < ActiveRecord::Base
     def games_monstered_ever
         attended_games.joins(:debriefs)
             .where(attendance_only: false, debriefs: { character_id: nil })
-            .where("start_date >= ?", current_year_start_date(Date.today))
             .dates_only
             .map(&:pm_ratio_value)
             .sum
