@@ -8,15 +8,15 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "games_gmed gives correct count with no games" do
-    assert_equal(0, @user.games_gmed)
-    assert_equal(0, @user.games_gmed_ever)
+    assert_equal(0, @user.games_gmed, "games_gmed is non-zero with no games in the system")
+    assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero with no games in the system")
   end
 
   test "games_gmed gives correct count with no games GMed" do
     make_game
 
-    assert_equal(0, @user.games_gmed)
-    assert_equal(0, @user.games_gmed_ever)
+    assert_equal(0, @user.games_gmed, "games_gmed is non-zero with no games GMed")
+    assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero with no games GMed")
   end
 
   test "games_gmed gives correct count with one game GMed this year" do
@@ -24,8 +24,8 @@ class UserTest < ActiveSupport::TestCase
     game.gamesmasters << @user
     game.save
 
-    assert_equal(1, @user.games_gmed)
-    assert_equal(1, @user.games_gmed_ever)
+    assert_equal(1, @user.games_gmed, "games_gmed does not equal 1 when 1 normal game has been GMed")
+    assert_equal(1, @user.games_gmed_ever, "games_gmed_ever does not equal 1 when 1 normal game has been GMed")
   end
 
   test "games_gmed gives correct count with one game GMed last year" do
@@ -33,20 +33,51 @@ class UserTest < ActiveSupport::TestCase
     game.gamesmasters << @user
     game.save
 
-    assert_equal(0, @user.games_gmed)
-    assert_equal(1, @user.games_gmed_ever)
+    assert_equal(0, @user.games_gmed, "games_gmed is non-zero when only GMed game is one year ago")
+    assert_equal(1, @user.games_gmed_ever, "games_gmed_ever does not equal 1 when 1 normal game was GMed one year ago")
+  end
+
+  test "games_gmed does not count games played if not also GMing" do
+    game = make_game
+    debrief(game)
+    add_character_to_debrief(game, @character)
+
+    assert_equal(0, @user.games_gmed, "games_gmed is non-zero when only game was played and not GMed")
+    assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero when only game was played and not GMed")
+  end
+
+  test "games_gmed and games_played both count if game played and GMed" do
+    game = make_game
+    game.gamesmasters << @user
+    game.save
+    debrief(game)
+    add_character_to_debrief(game, @character)
+
+    assert_equal(1, @user.games_gmed, "games_gmed does not equal 1 when 1 normal game has been both played and GMed")
+    assert_equal(1, @user.games_gmed_ever, "games_gmed_ever does not equal 1 when 1 normal game has been both played and GMed")
+    assert_equal(1, @user.games_played, "games_played does not equal 1 when 1 normal game has been both played and GMed")
+    assert_equal(1, @user.games_played_ever, "games_played_ever does not equal 1 when 1 normal game has been both played and GMed")
+  end
+
+  test "games_gmed does not count games monstered" do
+    game = make_game
+    debrief(game)
+    add_monster_to_debrief(game, @user)
+
+    assert_equal(0, @user.games_gmed, "games_gmed is non-zero when only game was monstered and not GMed")
+    assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero when only game was monstered and not GMed")
   end
 
   test "game_played gives correct count with no games" do
-    assert_equal(0, @user.games_played)
-    assert_equal(0, @user.games_played_ever)
+    assert_equal(0, @user.games_played, "games_played is non-zero with no games in the system")
+    assert_equal(0, @user.games_played_ever, "games_played_ever is non-zero with no games in the system")
   end
 
   test "game_played gives correct count with no games played" do
     make_game
 
-    assert_equal(0, @user.games_played)
-    assert_equal(0, @user.games_played_ever)
+    assert_equal(0, @user.games_played, "games_played is non-zero with no games played")
+    assert_equal(0, @user.games_played_ever, "games_played_ever is non-zero with no games played")
   end
 
   test "games_played gives correct count with one game played this year" do
@@ -54,8 +85,8 @@ class UserTest < ActiveSupport::TestCase
     debrief(game)
     add_character_to_debrief(game, @character)
     
-    assert_equal(1, @user.games_played)
-    assert_equal(1, @user.games_played_ever)
+    assert_equal(1, @user.games_played, "games_played does not equal 1 when 1 normal game has been played")
+    assert_equal(1, @user.games_played_ever, "games_played_ever does not equal 1 when 1 normal game has been played")
   end
 
   test "games_played gives correct count with one game played last year" do
@@ -63,8 +94,68 @@ class UserTest < ActiveSupport::TestCase
     debrief(game)
     add_character_to_debrief(game, @character)
     
-    assert_equal(0, @user.games_played)
-    assert_equal(1, @user.games_played_ever)
+    assert_equal(0, @user.games_played, "games_played is non-zero with no games played this year")
+    assert_equal(1, @user.games_played_ever, "games_played_ever does not equal 1 when 1 normal game has been played a year ago")
+  end
+
+  test "games_played gives correct count with two characters played on the same game" do
+    game = make_game
+    debrief(game)
+    add_character_to_debrief(game, @character)
+    add_character_to_debrief(game, make_character(@user, name: "Second Character"))
+
+    assert_equal(1, @user.games_played, "games_played does not equal 1 when 2 characters were played on the same game")
+    assert_equal(1, @user.games_played_ever, "games_played_ever does not equal 1 when 2 characters were played on the same game")
+  end
+
+  test "games_monstered gives correct count with no games" do
+    assert_equal(0, @user.games_monstered, "games_monstered is non-zero with no games in the system")
+    assert_equal(0, @user.games_monstered_ever, "games_monstered_ever is non-zero with no games in the system")
+  end
+
+  test "games_monstered gives correct count with no games monstered" do
+    make_game
+
+    assert_equal(0, @user.games_monstered, "games_monstered is non-zero with no games monstered")
+    assert_equal(0, @user.games_monstered_ever, "games_monstered_ever is non-zero with no games monstered")
+  end
+
+  test "games_monstered gives correct count with one game monstered this year" do
+    game = make_game
+    debrief(game)
+    add_monster_to_debrief(game, @user)
+
+    assert_equal(1, @user.games_monstered, "games_monstered does not equal 1 when 1 normal game monstered")
+    assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game monstered")
+  end
+
+  test "games_monstered gives correct count with one game monstered last year" do
+    game = make_game(start_date: 1.year.ago)
+    debrief(game)
+    add_monster_to_debrief(game, @user)
+
+    assert_equal(0, @user.games_monstered, "games_monstered is non-zero with no games monstered this year")
+    assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game monstered")
+  end
+
+  test "games_monstered gives correct count with one game GMed this year" do
+    game = make_game
+    game.gamesmasters << @user
+    game.save!
+    debrief(game)
+
+    assert_equal(1, @user.games_monstered, "games_monstered does not equal 1 when 1 normal game GMed")
+    assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game GMed")
+  end
+
+  test "games_monstered gives correct count with one game GMed last year" do
+    game = make_game(start_date: 1.year.ago)
+    game.gamesmasters << @user
+    game.save!
+    debrief(game)
+
+    assert_equal(0, @user.games_monstered, "games_monstered is non-zero with no games GMed this year")
+    assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game GMed")
   end
 
   private
@@ -109,6 +200,11 @@ class UserTest < ActiveSupport::TestCase
     game.save!
   end
 
+  def add_monster_to_debrief(game, user, points: 5)
+    debrief = game.debriefs.find_or_create_by(user: user)
+    debrief.points_modifier = points = game.monster_points_base
+    game.save!
+  end
 
 end
 
