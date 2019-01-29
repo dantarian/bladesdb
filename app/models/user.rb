@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     has_many :characters
     has_many :messages
     has_many :board_visits
-    has_many :attended_games, :through => :debriefs, :source => :game
+    has_many :attended_games, -> { distinct }, :through => :debriefs, :source => :game
 
     validates_presence_of   :username
     validates_length_of     :username,
@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
                             :case_sensitive => false,
                             :message => I18n.t("user.validation.username_uniqueness")
     validates_format_of     :username,
-                            :with => /\A\w[\w\.\-_@]+\z/,
+                            :with => /\A\w[\w\.\-@]+\z/,
                             :message => I18n.t("user.validation.username_format")
 
     validates_presence_of   :name
@@ -510,7 +510,7 @@ class User < ActiveRecord::Base
     private
         def current_year_start_date(date)
             year = (date.month < 10) ? date.year - 1 : date.year
-            year_start = Date.new(year, 10, 1)
+            Date.new(year, 10, 1)
         end
 
         def has_confirmation_token?

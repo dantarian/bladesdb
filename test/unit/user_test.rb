@@ -158,6 +158,18 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game GMed")
   end
 
+  test "games_played and games_monstered both count games that the user played and monstered" do
+    game = make_game
+    debrief(game)
+    add_character_to_debrief(game, @character)
+    add_monster_to_debrief(game, @user)
+    
+    assert_equal(1, @user.games_played, "games_played does not equal 1 when 1 normal game played and monstered")
+    assert_equal(1, @user.games_played_ever, "games_played_ever does not equal 1 when 1 normal game played and monstered")
+    assert_equal(1, @user.games_monstered, "games_monstered does not equal 1 when 1 normal game played and monstered")
+    assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game played and monstered")
+  end
+
   private
 
   def make_user(username: "normal_user", name: "Normal User", email: "test@example.com", password: "some_password", state: "active")
@@ -195,14 +207,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def add_character_to_debrief(game, character, points: 10)
-    debrief = game.debriefs.find_or_create_by(user: character.user, character: character)
+    debrief = game.debriefs.create(user: character.user, character: character)
     debrief.points_modifier = points - game.player_points_base
     game.save!
   end
 
   def add_monster_to_debrief(game, user, points: 5)
-    debrief = game.debriefs.find_or_create_by(user: user)
-    debrief.points_modifier = points = game.monster_points_base
+    debrief = game.debriefs.create(user: user)
+    debrief.points_modifier = points - game.monster_points_base
     game.save!
   end
 
