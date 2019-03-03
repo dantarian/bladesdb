@@ -4,6 +4,7 @@ class Game < ActiveRecord::Base
     include Rails.application.routes.url_helpers # Slightly nasty, but necessary to get the game URL for the boards post.
 
     default_scope { order(:start_date, :start_time) }
+    scope :dates_only, -> { select(:start_date, :end_date) }
 
     has_and_belongs_to_many :gamesmasters, :class_name => "User", :join_table => :games_masters
     # has_many :food_options
@@ -220,6 +221,14 @@ class Game < ActiveRecord::Base
         else
             not is_debrief_finished?
         end
+    end
+
+    # Value of the game towards play:monster ratios. 36 Hours (i.e. 3-day games) don't count.
+    # Note this doesn't take account of game type.
+    def pm_ratio_value
+        return 1 if end_date.nil?
+        num_days = (end_date - start_date).to_i + 1
+        num_days == 3 ? 0 : num_days
     end
 
     def self.next_free_sunday
