@@ -23,12 +23,19 @@ Feature: Spending monster points with previous spends
     When the user buys 79 character points for the character
     Then the character should have 100 character points
   
-  Scenario: Can buy up to 30 CP in total for one character in multiple spends if final rank is > 10
-    Given the user has 100 monster points available
-    And the character has 71 character points
-    And the user bought 1 character point for the character yesterday
-    When the user buys 29 character points for the character
-    Then the character should have 101 character points
+  Scenario Outline: Can buy up to 30 CP in total for one character in multiple spends if final rank is > 10
+    # Note that starting MP has to cover previous buy and current buy
+    Given the user has <starting_mp> monster points available
+    And the character has <starting_cp> character points
+    And the user bought <previous_cp_bought> character points for <previous_mp_cost> monster points for the character yesterday
+    When the user buys <cp_bought> character points for the character
+    Then the character should have <final_cp> character points
+    And the user should have <final_mp> monster points
+
+    Examples:
+      | starting_mp | starting_cp | previous_cp_bought | previous_mp_cost | cp_bought | final_cp | final_mp |
+      | 100         | 71          | 1                  | 1                | 29        | 101      | 69       |
+      | 100         | 150         | 4                  | 8                | 26        | 180      | 40       |
   
   Scenario: Cannot buy more than 30 CP in total for one character in multiple spends if final rank is > 10
     Given the user has 100 monster points available

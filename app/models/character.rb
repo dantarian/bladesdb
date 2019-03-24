@@ -279,7 +279,7 @@ class Character < ActiveRecord::Base
         unless debriefs.empty?
             last_game_date = debriefs.joins(:game).where(games: {non_stats: false}).where("games.start_date <= ?", date).maximum("games.start_date") || declared_on
         end
-        monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:monster_points_spent)
+        monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:character_points_gained)
     end
 
     def monster_points_available_to_spend_on(date, precalculated_character_points = nil, monster_point_spend_to_ignore = nil)

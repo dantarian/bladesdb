@@ -64,6 +64,10 @@ Given(/^the user bought 1 character point for the character yesterday$/) do
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Date.yesterday, character_points_gained: 1, monster_points_spent: 1)
 end
 
+Given(/^the user bought (\d+) character points? for (\d+) monster points? for the character yesterday$/) do |cp, mp|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Date.yesterday, character_points_gained: cp, monster_points_spent: mp)
+end
+
 Given(/^the user bought (\d+) character points? for the character before the game$/) do |points|
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: Game.first.start_date - 1.day, character_points_gained: points, monster_points_spent: points)
 end
