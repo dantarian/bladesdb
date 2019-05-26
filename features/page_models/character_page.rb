@@ -75,6 +75,12 @@ class CharacterPage < BladesDBPage
       end
     end
 
+    def recycle_character
+      accept_confirm do
+        click_link("Recycle")
+      end
+    end
+
     # Checks for Then steps
 
     def check_for_core_fields(character_name: "Testy McTesterson", state: "Active", race: "Human", dts: 10, rank: "2.0")
@@ -154,6 +160,10 @@ class CharacterPage < BladesDBPage
 
     def confirm_absence_of_spend_monster_points_link
         page.find("li#rank").find("div.fieldactions").should have_no_link "Spend monster points" if page.has_selector?("li#rank")
+    end
+
+    def confirm_absence_of_recycle_link
+      page.find("li#state").find("div.fieldactions").should have_no_link "Recycle" if page.has_selector?("li#state")
     end
 
     def check_no_monster_point_spend

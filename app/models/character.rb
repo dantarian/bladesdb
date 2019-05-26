@@ -65,7 +65,7 @@ class Character < ActiveRecord::Base
     end
 
     def can_recycle?
-        (points < 200) and (debriefs.joins(:game).where(games: { non_stats: false }).count <= 3) and not recycled?
+        (debriefs.joins(:game).where(games: { non_stats: false }).count <= 3) and not recycled?
     end
 
     def is_provisional?
@@ -546,9 +546,11 @@ class Character < ActiveRecord::Base
     protected
         def add_monster_point_adjustment_for_recycling
             if recycled? and state_was == Active
-                earned_points = points - 20
+                mp_spends = monster_point_spends.to_a
+                mp_regained = mp_spends.map(&:monster_points_spent).sum
+                earned_points = points - 20 - mp_spends.map(&:character_points_gained).sum
                 adjustment = user.monster_point_adjustments.new
-                adjustment.points = earned_points
+                adjustment.points = mp_regained + earned_points
                 adjustment.reason = "Character recycled: #{name}"
                 adjustment.declared_on = Date.today
                 adjustment.save!
