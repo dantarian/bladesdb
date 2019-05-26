@@ -78,6 +78,22 @@ Given(/^the user has a character declared one month before the monster spend cut
   CharacterTestHelper.approve_character(User.first)
 end
 
+Given(/^the character has played (\d+) games$/) do |games|
+  games.to_i.times do |offset|
+    GameTestHelper.create_debriefed_game_for_first_character(10, offset)
+  end
+end
+
+Given(/^the character has played (\d+) games, earning (\d+) character points per game$/) do |games, points|
+  games.to_i.times do |offset|
+    GameTestHelper.create_debriefed_game_for_first_character(points.to_i, offset)
+  end
+end
+
+Given(/^the character has bought (\d+) character points for (\d+) monster points$/) do |cp, mp|
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, character_points_gained: cp, monster_points_spent: mp)
+end
+
 # Actions
 
 When(/^the character is at rank (.*?)$/) do |rank|
@@ -204,6 +220,14 @@ When(/^the user gives their character no title$/) do
   CharacterPage.new.visit_page(character_path(1)).and.update_title(no_title: true)
 end
 
+When(/^the user recycles the character$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.recycle_character
+end
+
+When(/^the user tries to recycle the character$/) do
+  CharacterPage.new.visit_page(character_path(1))
+end
+
 # Validations
 
 Then(/^the user should see a short user name and character link on the character$/) do
@@ -259,4 +283,12 @@ end
 
 Then(/^no title should be displayed on the character's profile$/) do
   CharacterPage.new.check_for_character_title(nil)
+end
+
+Then(/^the character should be recycled$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.check_for_state("Recycled")
+end
+
+Then(/^the user should be unable to recycle the character$/) do
+    CharacterPage.new.visit_page(character_path(1)).and.confirm_absence_of_recycle_link
 end

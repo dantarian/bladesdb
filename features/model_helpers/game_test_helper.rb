@@ -99,8 +99,8 @@ module GameTestHelper
     (Date.today.sunday > Date.today ? Date.today.sunday : Date.today.sunday + 7.days)
   end
 
-  def create_debriefed_game_for_first_character(points)
-    game = create_game(start_date: 14.days.ago)
+  def create_debriefed_game_for_first_character(points, offset = 0)
+    game = create_game(start_date: 14.days.ago + offset.days, title: "New Game #{offset}")
     add_player(Character.first.user, Character.first, to: game)
     debrief(game, player_points: points)
     game
