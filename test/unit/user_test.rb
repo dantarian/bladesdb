@@ -13,7 +13,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "games_gmed gives correct count with no games GMed" do
-    make_game
+    debrief(make_game)
 
     assert_equal(0, @user.games_gmed, "games_gmed is non-zero with no games GMed")
     assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero with no games GMed")
@@ -22,7 +22,8 @@ class UserTest < ActiveSupport::TestCase
   test "games_gmed gives correct count with one game GMed this year" do
     game = make_game
     game.gamesmasters << @user
-    game.save
+    game.save!
+    debrief(game)
 
     assert_equal(1, @user.games_gmed, "games_gmed does not equal 1 when 1 normal game has been GMed")
     assert_equal(1, @user.games_gmed_ever, "games_gmed_ever does not equal 1 when 1 normal game has been GMed")
@@ -31,7 +32,8 @@ class UserTest < ActiveSupport::TestCase
   test "games_gmed gives correct count with one game GMed last year" do
     game = make_game(start_date: 1.year.ago)
     game.gamesmasters << @user
-    game.save
+    game.save!
+    debrief(game)
 
     assert_equal(0, @user.games_gmed, "games_gmed is non-zero when only GMed game is one year ago")
     assert_equal(1, @user.games_gmed_ever, "games_gmed_ever does not equal 1 when 1 normal game was GMed one year ago")
@@ -49,7 +51,7 @@ class UserTest < ActiveSupport::TestCase
   test "games_gmed and games_played both count if game played and GMed" do
     game = make_game
     game.gamesmasters << @user
-    game.save
+    game.save!
     debrief(game)
     add_character_to_debrief(game, @character)
 
@@ -68,13 +70,23 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero when only game was monstered and not GMed")
   end
 
+  test "games_gmed does not count games with a monter base of 0" do
+    game = make_game
+    game.gamesmasters << @user
+    game.save!
+    debrief(game, monster_points: 0)
+
+    assert_equal(0, @user.games_gmed, "games_gmed is non-zero when the only game has 0 monster base")
+    assert_equal(0, @user.games_gmed_ever, "games_gmed_ever is non-zero when the only game has 0 monster base")
+  end
+
   test "game_played gives correct count with no games" do
     assert_equal(0, @user.games_played, "games_played is non-zero with no games in the system")
     assert_equal(0, @user.games_played_ever, "games_played_ever is non-zero with no games in the system")
   end
 
   test "game_played gives correct count with no games played" do
-    make_game
+    debrief(make_game)
 
     assert_equal(0, @user.games_played, "games_played is non-zero with no games played")
     assert_equal(0, @user.games_played_ever, "games_played_ever is non-zero with no games played")
@@ -108,13 +120,31 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @user.games_played_ever, "games_played_ever does not equal 1 when 2 characters were played on the same game")
   end
 
+  test "games_played does not count games with a player base of 0" do
+    game = make_game
+    debrief(game, player_points: 0)
+    add_character_to_debrief(game, @character)
+
+    assert_equal(0, @user.games_played, "games_played is non-zero when the only game has 0 player base")
+    assert_equal(0, @user.games_played_ever, "games_played_ever is non-zero when the only game has 0 player base")
+  end
+
+  test "games_played does not count games with a player debrief base of 0" do
+    game = make_game
+    debrief(game)
+    add_character_to_debrief(game, @character, base_points: 0)
+
+    assert_equal(0, @user.games_played, "games_played is non-zero when the only game has 0 player base")
+    assert_equal(0, @user.games_played_ever, "games_played_ever is non-zero when the only game has 0 player base")
+  end
+
   test "games_monstered gives correct count with no games" do
     assert_equal(0, @user.games_monstered, "games_monstered is non-zero with no games in the system")
     assert_equal(0, @user.games_monstered_ever, "games_monstered_ever is non-zero with no games in the system")
   end
 
   test "games_monstered gives correct count with no games monstered" do
-    make_game
+    debrief(make_game)
 
     assert_equal(0, @user.games_monstered, "games_monstered is non-zero with no games monstered")
     assert_equal(0, @user.games_monstered_ever, "games_monstered_ever is non-zero with no games monstered")
@@ -158,6 +188,24 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @user.games_monstered_ever, "games_monstered_ever does not equal 1 when 1 normal game GMed")
   end
 
+  test "games_monstered does not count games with a player base of 0" do
+    game = make_game
+    debrief(game, monster_points: 0)
+    add_monster_to_debrief(game, @user)
+
+    assert_equal(0, @user.games_monstered, "games_monstered is non-zero when the only game has 0 player base")
+    assert_equal(0, @user.games_monstered_ever, "games_monstered_ever is non-zero when the only game has 0 player base")
+  end
+
+  test "games_monstered does not count games with a player debrief base of 0" do
+    game = make_game
+    debrief(game)
+    add_monster_to_debrief(game, @user, base_points: 0)
+
+    assert_equal(0, @user.games_monstered, "games_monstered is non-zero when the only game has 0 player base")
+    assert_equal(0, @user.games_monstered_ever, "games_monstered_ever is non-zero when the only game has 0 player base")
+  end
+
   test "games_played and games_monstered both count games that the user played and monstered" do
     game = make_game
     debrief(game)
@@ -177,7 +225,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def make_game(title: "New Game", start_date: (Date.yesterday), end_date: nil, meet_time: "11:00", start_time: "12:00", open: true, attendance_only: false)
-    Game.create_with(start_date: start_date, end_date: end_date, meet_time: meet_time, start_time: start_time, open: open, attendance_only: attendance_only).find_or_create_by(title: title)
+    Game.create_with(start_date: start_date, 
+                     end_date: end_date, 
+                     meet_time: meet_time, 
+                     start_time: start_time, 
+                     open: open, 
+                     attendance_only: attendance_only)
+      .find_or_create_by(title: title)
   end
 
   def make_race
@@ -206,15 +260,15 @@ class UserTest < ActiveSupport::TestCase
     game.save!
   end
 
-  def add_character_to_debrief(game, character, points: 10)
-    debrief = game.debriefs.create(user: character.user, character: character)
-    debrief.points_modifier = points - game.player_points_base
+  def add_character_to_debrief(game, character, points: 10, base_points: nil)
+    debrief = game.debriefs.create(user: character.user, character: character, base_points: base_points)
+    debrief.points_modifier = points - (base_points.nil? ? game.player_points_base : base_points)
     game.save!
   end
 
-  def add_monster_to_debrief(game, user, points: 5)
-    debrief = game.debriefs.create(user: user)
-    debrief.points_modifier = points - game.monster_points_base
+  def add_monster_to_debrief(game, user, points: 5, base_points: nil)
+    debrief = game.debriefs.create(user: user, base_points: base_points)
+    debrief.points_modifier = points - (base_points.nil? ? game.monster_points_base : base_points)
     game.save!
   end
 
