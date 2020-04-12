@@ -270,6 +270,7 @@ class User < ActiveRecord::Base
         mastered_games
             .where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today)
             .where(attendance_only: false)
+            .where.not(monster_points_base: 0)
             .dates_only
             .map(&:pm_ratio_value)
             .sum
@@ -280,6 +281,7 @@ class User < ActiveRecord::Base
             .where(non_stats: false, attendance_only: false)
             .where.not(debriefs: { character_id: nil })
             .where("start_date >= ?", current_year_start_date(Date.today))
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and player_points_base = 0))")
             .dates_only
             .distinct
             .map(&:pm_ratio_value)
@@ -290,6 +292,7 @@ class User < ActiveRecord::Base
         attended_games.joins(:debriefs)
             .where(attendance_only: false, debriefs: { character_id: nil })
             .where("start_date >= ?", current_year_start_date(Date.today))
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and monster_points_base = 0))")
             .dates_only
             .map(&:pm_ratio_value)
             .sum
@@ -299,6 +302,7 @@ class User < ActiveRecord::Base
         mastered_games
             .where("start_date <= ?", Date.today)
             .where(attendance_only: false)
+            .where.not(monster_points_base: 0)
             .dates_only
             .map(&:pm_ratio_value)
             .sum
@@ -308,6 +312,7 @@ class User < ActiveRecord::Base
         attended_games.joins(:debriefs)
             .where(non_stats: false, attendance_only: false)
             .where.not(debriefs: { character_id: nil })
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and player_points_base = 0))")
             .dates_only
             .distinct
             .map(&:pm_ratio_value)
@@ -317,6 +322,7 @@ class User < ActiveRecord::Base
     def games_monstered_ever
         attended_games.joins(:debriefs)
             .where(attendance_only: false, debriefs: { character_id: nil })
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and monster_points_base = 0))")
             .dates_only
             .map(&:pm_ratio_value)
             .sum
