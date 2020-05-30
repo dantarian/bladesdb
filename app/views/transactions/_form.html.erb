@@ -40,7 +40,7 @@
             <% if @transfer_from %>
                 <li class="radiocontainer">
                     <%= radio_button_tag "to", "character", !@to_other, :class => "radiocontroller" %><%= cf.label :character_id, "To character" %><br />
-                    <%= cf.select :character_id, Character.all(:order => "name ASC").reject{|character|
+                    <%= cf.select :character_id, Character.order(:name).reject{|character|
                             character.user == current_user
                         }.collect {|character| [character.name_and_title, character.id] }, {}, { :class => "radiocontrolled", :disabled => @to_other } %><br />
                 </li>
