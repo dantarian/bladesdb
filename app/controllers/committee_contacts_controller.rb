@@ -23,7 +23,7 @@ class CommitteeContactsController < ApplicationController
         end
 
         respond_to do |format|
-            if @email.deliver
+            if @email.deliver_now
                 flash[:notice] = 'Email sent.'
                 format.html { redirect_to action: :new }
             else

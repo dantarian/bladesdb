@@ -110,7 +110,7 @@ class CharacterPointAdjustmentsController < ApplicationController
             if @character_point_adjustment.is_provisional?
                 approved ? @character_point_adjustment.approve(current_user) : @character_point_adjustment.reject(current_user)
                 if @character_point_adjustment.save
-                    UserMailer.character_point_adjustment_approval(@character_point_adjustment).deliver
+                    UserMailer.character_point_adjustment_approval(@character_point_adjustment).deliver_now
                     flash[:notice] = "Character Point adjustment #{approved ? "approved" : "rejected"}."
                 else
                     flash[:error] = "Character Point adjustment #{approved ? "approval" : "rejection"} failed."

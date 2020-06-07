@@ -8,7 +8,7 @@ Blades::Application.configure do
   config.cache_classes = true
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.static_cache_control = "public, max-age=3600"
   config.assets.compress = true
   config.assets.js_compressor = :uglifier
@@ -24,13 +24,14 @@ Blades::Application.configure do
   config.action_controller.allow_forgery_protection    = false
 
   # Tell Action Mailer not to deliver emails to the real world.
-  # The :test delivery method accumulates sent emails in the
-  # ActionMailer::Base.deliveries array.
-  config.action_mailer.delivery_method = :test
-  config.action_mailer.perform_deliveries = false
+  # The :cache delivery method accumulates sent emails in the
+  # ActionMailer::Base.cached_deliveries array.
+  config.action_mailer.delivery_method = :cache
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 
-  # Print deprecation notices to the stderr
-  config.active_support.deprecation = :stderr
+  # Raise errors for deprecations
+  config.active_support.deprecation = :raise
 
   # Host for inclusion in e-mails.
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
@@ -38,4 +39,7 @@ Blades::Application.configure do
   config.eager_load = false
   
   config.allow_concurrency = false
+
+  config.active_record.raise_in_transactional_callbacks = true
+  config.active_support.test_order = :random
 end

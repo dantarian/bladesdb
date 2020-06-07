@@ -1,5 +1,5 @@
 <%
-rerun_tests = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
+rerun_tests = File.file?('rerun.txt') ? IO.read('rerun.txt').gsub(/\n/, ' ') : ""
 rerun_opts = if rerun_tests.to_s.strip.empty?
 "--tags @none_so_will_pass --strict"
 else

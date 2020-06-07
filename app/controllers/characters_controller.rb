@@ -334,7 +334,7 @@ class CharactersController < ApplicationController
         
         def save_character
             if @character.save
-                UserMailer.character_approval(@character).deliver if @character.approval_recently_set?
+                UserMailer.character_approval(@character).deliver_now if @character.approval_recently_set?
                 flash[:notice] = I18n.t("character.success.updated")
                 reload_page
             else
