@@ -3,6 +3,7 @@ Feature: Registration
 	I want to be able to register for the website and confirm I'm real
 	So I can use all website features
 
+  @javascript
 	Scenario: Register account
     Given there is an unregistered user
     When the user attempts to register
@@ -10,6 +11,7 @@ Feature: Registration
     And the user should see a message to check their email
     And the user should receive a confirmation email
 
+  @javascript
 	Scenario: Register account with Terms and Conditions
     Given there is an unregistered user
 		And there is a Terms and Conditions statement
@@ -35,6 +37,7 @@ Feature: Registration
     Then the login page should be displayed
     And the user should see an unconfirmed message
 
+  @javascript
   Scenario: Confirm e-mail address
     Given there is an unconfirmed user
     When the user clicks the first link in the confirmation email

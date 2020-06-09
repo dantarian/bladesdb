@@ -72,6 +72,7 @@ Feature: Member List - Administrator
     When the user rejects the other user 
     Then the other user should be in the Deleted table
 
+  @javascript
   Scenario: User activation email resend
     Given there is an unconfirmed user
   	And the user is on the members page
