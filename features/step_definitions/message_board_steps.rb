@@ -28,6 +28,14 @@ Given(/^there is a message from the user$/) do
   BoardTestHelper.create_message(Board.first, User.first, message: "First!")
 end
 
+Given(/^there is a message on the OOC message board$/) do
+  BoardTestHelper.create_message(Board.where(in_character: false).first, User.first, message: "First!")
+end
+
+Given(/^there is a message on the IC message board$/) do
+  BoardTestHelper.create_message(Board.where(in_character: true).first, User.first, name: "Character Name", message: "First!")
+end
+
 Given(/^there is a message from the other user$/) do
   BoardTestHelper.create_message(Board.first, User.last, message: "Second!")
 end
@@ -44,6 +52,16 @@ end
 
 When(/^the user posts a message to the board$/) do
   BoardPage.new.visit_page(board_path(Board.first)).and.post_message(containing_text: "Text to check for")
+end
+
+When(/^the user posts a message to the board as the character$/) do
+  BoardPage.new.visit_page(board_path(Board.first)).and.post_message(from: Character.first,
+                                                                     containing_text: "Text to check for")
+end
+
+When(/^the user posts a message to the board as an arbitrary poster$/) do
+  BoardPage.new.visit_page(board_path(Board.first)).and.post_message(from: "Arbitrary Poster",
+                                                                     containing_text: "Text to check for")
 end
 
 When(/^the user creates a new OOC message board$/) do
@@ -102,10 +120,33 @@ When(/^the user moves the OOC board down the list$/) do
   MessageBoardsAdminPage.new.visit_page(admin_boards_path).and.move_board_down(name: "New OOC Board")
 end
 
+When(/^the user views the list of message boards$/) do
+  BoardsPage.new.visit_page(boards_path)
+end
+
+When(/^the user visits the OOC message board$/) do
+  BoardPage.new.visit_page(board_path(Board.where(in_character: false).first.id))
+end
+
+When(/^the user marks the boards as read$/) do
+  BoardsPage.new.visit_page(boards_path).and.click_on("Mark all boards read")
+end
+
 # Validations
 
 Then(/^the message should appear on the message board$/) do
-  BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: User.first, containing_text: "Text to check for")
+  BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: User.first, 
+                                                                          containing_text: "Text to check for")
+end
+
+Then(/^the message should appear on the message board from the character$/) do
+  BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: Character.first, 
+                                                                          containing_text: "Text to check for")
+end
+
+Then(/^the message should appear on the message board from the arbitrary poster$/) do
+  BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: "Arbitrary Poster", 
+                                                                          containing_text: "Text to check for")
 end
 
 Then(/^a Brief Published message should appear on the Briefs board$/) do
@@ -196,4 +237,12 @@ end
 
 Then(/^the OOC board should appear between the other OOC and IC boards$/) do
   MessageBoardsAdminPage.new.check_for_position("New OOC Board 2", "New IC Board")
+end
+
+Then(/^there should be (\d+) unread messages? for the OOC message board$/) do |messages|
+  BoardsPage.new.visit_page(boards_path).and.check_for_unread_messages(messages)
+end
+
+Then(/^there should be (\d+) unread messages? for the IC message board$/) do |messages|
+  BoardsPage.new.visit_page(boards_path).and.check_for_unread_messages(messages, ic_board: true)
 end
