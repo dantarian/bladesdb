@@ -81,6 +81,25 @@ class CharacterPage < BladesDBPage
       end
     end
 
+    def transfer_money(amount, to: nil)
+      click_link("Transfer money")
+      fill_in("Amount to transfer (in florins)", with: amount)
+      fill_in("Description", with: "Hush money")
+      if to.respond_to?(:name_and_title)
+        choose("to_character")
+        select(to.name_and_title, from: "transaction_credit_attributes_character_id")
+      else
+        choose("to_other")
+        fill_in("To other recipient", with: to)
+      end
+      set_datepicker_date("transaction_transaction_date", Date.today)
+      click_button("Transfer")
+    end
+
+    def start_money_transfer
+      click_link("Transfer money")
+    end
+
     # Checks for Then steps
 
     def check_for_core_fields(character_name: "Testy McTesterson", state: "Active", race: "Human", dts: 10, rank: "2.0")
@@ -264,5 +283,13 @@ class CharacterPage < BladesDBPage
 
     def check_for_cannot_delete_spend_on_recycled_character
         check_error_message(I18n.t("character.monster_points.delete_last_spend.not_when_recycled"))
+    end
+
+    def check_for_not_enough_money_available_message
+        check_is_displaying_message(I18n.t("character.money_transfers.validation.not_enough_money", money: "10"))
+    end
+
+    def check_for_target_character_list_without_own_characters
+        expect(page).to have_no_select("#transaction_credit_attributes_character_id", with_options: ["Second Character"])
     end
 end

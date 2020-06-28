@@ -104,6 +104,10 @@ When(/^the user logs in$/) do
   LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.first.username, UserTestHelper::DEFAULT_PASSWORD
 end
 
+When(/^the other user logs in$/) do
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.last.username, UserTestHelper::DEFAULT_PASSWORD
+end
+
 When(/^the GM logs in$/) do
   LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.find_by_email("gm@mail.com").username, UserTestHelper::DEFAULT_PASSWORD
 end

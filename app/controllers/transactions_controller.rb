@@ -40,7 +40,7 @@ class TransactionsController < ApplicationController
             @transaction = Transaction.new(transaction_params)
             
             if @transaction.save
-                character = Character.find(@transfer_from ? @transaction.debit.character : @transaction.credit.character)
+                character = Character.find(@transfer_from ? @transaction.debit.character.id : @transaction.credit.character.id)
                 flash[:notice] = 'Money transferred successfully.'
                 reload_page
             else

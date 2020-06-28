@@ -94,6 +94,14 @@ Given(/^the character has bought (\d+) character points for (\d+) monster points
   MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, character_points_gained: cp, monster_points_spent: mp)
 end
 
+Given(/^the character has (\d+) groats?$/) do |groats|
+  CharacterTestHelper.set_starting_florins(Character.first, groats.to_i * 10)
+end
+
+Given(/^the other character has (\d+) groats?$/) do |groats|
+  CharacterTestHelper.set_starting_florins(Character.last, groats.to_i * 10)
+end
+
 # Actions
 
 When(/^the character is at rank (.*?)$/) do |rank|
@@ -228,6 +236,19 @@ When(/^the user tries to recycle the character$/) do
   CharacterPage.new.visit_page(character_path(1))
 end
 
+When(/^the user transfers (\d+) groats? from the character to the other user's character$/) do |groats|
+  CharacterPage.new.visit_page(character_path(1)).and.transfer_money(groats.to_i * 10, to: Character.last)
+end
+
+When(/^the user transfers (\d+) groats? from the character to an NPC$/) do |groats|
+  CharacterPage.new.visit_page(character_path(1)).and.transfer_money(groats.to_i * 10, to: "NPC")
+end
+
+When(/^the user tries to transfer (\d+) groats? from the character to the other character$/) do |groats|
+  CharacterPage.new.visit_page(character_path(1)).and.start_money_transfer
+end
+
+
 # Validations
 
 Then(/^the user should see a short user name and character link on the character$/) do
@@ -291,4 +312,20 @@ end
 
 Then(/^the user should be unable to recycle the character$/) do
     CharacterPage.new.visit_page(character_path(1)).and.confirm_absence_of_recycle_link
+end
+
+Then(/^the character should have (\d+) groats?$/) do |groats|
+  CharacterPage.new.visit_page(character_path(1)).and.check_for_money(money: "#{groats}g")
+end
+
+Then(/^the other character should have (\d+) groats?$/) do |groats|
+  CharacterPage.new.visit_page(character_path(Character.last.id)).and.check_for_money(money: "#{groats}g")
+end
+
+Then(/^the user should be unable to transfer money between their own characters$/) do
+  CharacterPage.new.check_for_target_character_list_without_own_characters
+end
+
+Then(/^the user should be told they cannot transfer more money than they have$/) do
+  CharacterPage.new.check_for_not_enough_money_available_message
 end
