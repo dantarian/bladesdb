@@ -20,6 +20,11 @@ Given(/^the other user has a character$/) do
   CharacterTestHelper.approve_character(User.all.second, Character.all.second)
 end
 
+Given(/^the other user has another character$/) do
+  CharacterTestHelper.create_character(User.all.second, name: "Brian Bloodaxe")
+  CharacterTestHelper.approve_character(User.all.second, Character.last)
+end
+
 Given(/^the other user has a GM\-created character$/) do
   CharacterTestHelper.create_undeclared_character(User.all.second, name: "Ginny Greenteeth")
 end
@@ -236,7 +241,7 @@ When(/^the user tries to recycle the character$/) do
   CharacterPage.new.visit_page(character_path(1))
 end
 
-When(/^the user transfers (\d+) groats? from the character to the other user's character$/) do |groats|
+When(/^the user transfers (\d+) groats? from the character to the other (?:user's )?character$/) do |groats|
   CharacterPage.new.visit_page(character_path(1)).and.transfer_money(groats.to_i * 10, to: Character.last)
 end
 
@@ -244,7 +249,15 @@ When(/^the user transfers (\d+) groats? from the character to an NPC$/) do |groa
   CharacterPage.new.visit_page(character_path(1)).and.transfer_money(groats.to_i * 10, to: "NPC")
 end
 
+When(/^the user transfers (\d+) groats? from an NPC to the character$/) do |groats|
+  CharacterPage.new.visit_page(character_path(1)).and.transfer_money_from_npc(groats.to_i * 10)
+end
+
 When(/^the user tries to transfer (\d+) groats? from the character to the other character$/) do |groats|
+  CharacterPage.new.visit_page(character_path(1)).and.start_money_transfer
+end
+
+When(/^the user tries to transfer (\d+) groats? from the character to their character$/) do |groats|
   CharacterPage.new.visit_page(character_path(1)).and.start_money_transfer
 end
 
@@ -322,7 +335,7 @@ Then(/^the other character should have (\d+) groats?$/) do |groats|
   CharacterPage.new.visit_page(character_path(Character.last.id)).and.check_for_money(money: "#{groats}g")
 end
 
-Then(/^the user should be unable to transfer money between their own characters$/) do
+Then(/^the user should be unable to transfer money (?:between|to) their own characters$/) do
   CharacterPage.new.check_for_target_character_list_without_own_characters
 end
 

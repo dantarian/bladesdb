@@ -82,7 +82,7 @@ class CharacterPage < BladesDBPage
     end
 
     def transfer_money(amount, to: nil)
-      click_link("Transfer money")
+      start_money_transfer
       fill_in("Amount to transfer (in florins)", with: amount)
       fill_in("Description", with: "Hush money")
       if to.respond_to?(:name_and_title)
@@ -96,8 +96,22 @@ class CharacterPage < BladesDBPage
       click_button("Transfer")
     end
 
+    def transfer_money_from_npc(amount)
+      click_link("Transfer money to character")
+      fill_in("Amount to transfer (in florins)", with: amount)
+      fill_in("Description", with: "Hush money")
+      choose("from_other")
+      fill_in("From other source", with: "NPC")
+      set_datepicker_date("transaction_transaction_date", Date.today)
+      click_button("Transfer")
+    end
+
     def start_money_transfer
-      click_link("Transfer money")
+      if page.has_link?("Transfer money from character")
+        click_link("Transfer money from character")
+      else
+        click_link("Transfer money")
+      end
     end
 
     # Checks for Then steps
