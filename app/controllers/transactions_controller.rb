@@ -2,9 +2,7 @@ class TransactionsController < ApplicationController
   
     before_filter :authenticate_user!
     before_filter :check_ajax
-    before_filter :find_character, :except => [ :create, :destroy ]
-    before_filter :find_transaction, :only => [ :destroy ]
-    before_filter :check_recipient_or_character_ref, :only => [ :destroy ]
+    before_filter :find_character, :except => [ :create ]
   
     def new
         @to_other = false
@@ -50,26 +48,10 @@ class TransactionsController < ApplicationController
             end
         end
     end
-
-    def destroy
-        character = @transaction.credit.character
-        @transaction.destroy
-        reload_page
-    end
     
     protected
         def find_character
             @character = Character.find(params[:character_id])
-        end
-        
-        def find_transaction
-            @transaction = Transaction.find(params[:id])
-        end
-        
-        def check_recipient_or_character_ref
-            unless (@transaction.credit.character.user == current_user) or (current_user.is_character_ref? and @transaction.debit.character.user == current_user)
-                permission_denied
-            end
         end
         
         def transaction_params
