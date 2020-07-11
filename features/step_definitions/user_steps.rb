@@ -14,6 +14,13 @@ Given(/^there is another user$/) do
   reset_mailer
 end
 
+Given(/^there is a third user$/) do
+  user = UserTestHelper.create_or_find_another_user(name: "Richard the Third", email: "third@example.com", username: "thirduser")
+  UserTestHelper.confirm(user)
+  UserTestHelper.approve(user)
+  reset_mailer
+end
+
 Given(/^there is an admin user$/) do
   user = UserTestHelper.create_or_find_user(name: "Alicia Admin", email: "alicia@mail.com", username: "adminuser")
   UserTestHelper.confirm(user)
@@ -94,8 +101,44 @@ Given(/^the other user is a web-only user$/) do
   UserTestHelper.grant_role(User.all.second, Role.find_by(rolename: "webonly"))
 end
 
+Given(/^the third user is not a web-only user$/) do
+  # No action needed
+end
+
 Given(/^the GM is logged in$/) do
   LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.all.second.username, UserTestHelper::DEFAULT_PASSWORD
+end
+
+Given(/^the other user is a current member$/) do
+  # No action needed
+end
+
+Given(/^the third user is not a current member$/) do
+  UserTestHelper.suspend(User.last)
+end
+
+Given(/^the other user is an? experienced GM$/) do
+  UserTestHelper.grant_role(User.all.second, Role.find_by(rolename: "experiencedgm"))
+end
+
+Given(/^the third user is not an? experienced GM$/) do
+  # No action needed
+end
+
+Given(/^the other user is a first-aider$/) do
+  UserTestHelper.grant_role(User.all.second, Role.find_by(rolename: "firstaider"))
+end
+
+Given(/^the third user is not a first-aider$/) do
+  # No action needed
+end
+
+Given(/^the other user is an? insurance-responsible person$/) do
+  UserTestHelper.grant_role(User.all.second, Role.find_by(rolename: "insurance"))
+end
+
+Given(/^the third user is not an? insurance-responsible person$/) do
+  # No action needed
 end
 
 # Action steps
