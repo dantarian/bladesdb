@@ -2,7 +2,7 @@
 Feature: Committee E-mails
     As a committee member
     I want to be able to send e-mails to various subsets of the club membership
-    So that I can the appropriate people informed of club developments
+    So that I can keep the appropriate people informed of club developments
 
     Scenario Outline: Committee can e-mail holders of various roles
         Given there is a committee user
