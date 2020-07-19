@@ -246,34 +246,6 @@ class CharactersController < ApplicationController
         end
     end
     
-    protected
-        
-        def check_same_owner(params)
-            @primary = params[:primary]
-            @secondary = params[:secondary]
-            @primary_character = Character.find(@primary) unless @primary.nil? or @primary == ""
-            @secondary_character = Character.find(@secondary) unless @secondary.nil? or @secondary == ""
-            if !(@primary_character.user_id == @secondary_character.user_id)
-                flash[:error] = "Characters must belong to the same user."
-                render "merge_select_characters"
-            else
-                yield
-            end
-        end
-        
-        def check_distinct_characters(params)
-            @primary = params[:primary]
-            @secondary = params[:secondary]
-            @primary_character = Character.find(@primary) unless @primary.nil? or @primary == ""
-            @secondary_character = Character.find(@secondary) unless @secondary.nil? or @secondary == ""
-            if @primary_character.nil? or @secondary_character.nil? or @primary == @secondary
-                flash[:error] = "Please ensure you have selected two distinct characters to merge."
-                render "merge_select_characters"
-            else
-                yield
-            end
-        end
-
     private
         def full_declaration_params
             params.require(:character).permit(:name, :title, :no_title, :race_id, {:guild_memberships_attributes => [:id, :guild_id, :guild_branch_id, :start_points]}, :starting_points, :starting_florins, :starting_death_thresholds, :declared_on, :state)
