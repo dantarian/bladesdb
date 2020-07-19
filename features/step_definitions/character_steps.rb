@@ -221,6 +221,26 @@ When(/^the user updates their character's name$/) do
   CharacterPage.new.visit_page(character_path(1)).and.update_name("Robert McLogin")
 end
 
+When(/^the user updates their character's bio$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.update_bio("Was born and is still not dead.")
+end
+
+When(/^the user updates their character's date of birth$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.update_date_of_birth(Date.new(1999, 3, 13))
+end
+
+When(/^the user updates their character's address$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.update_address("The Barony")
+end
+
+When(/^the user updates their character's notes$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.update_notes("Has a sword.")
+end
+
+When(/^the user updates their character's private notes$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.update_private_notes("Secretly misses their mum.")
+end
+
 When(/^the user tries to update their character's name to nothing$/) do
   CharacterPage.new.visit_page(character_path(1)).and.update_name("")
 end
@@ -235,6 +255,22 @@ end
 
 When(/^the user recycles the character$/) do
   CharacterPage.new.visit_page(character_path(1)).and.recycle_character
+end
+
+When(/^the user retires the character$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.retire_character
+end
+
+When(/^the user reactivates the character$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.reactivate_character
+end
+
+When(/^the user perm-kills the character$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.permkill_character
+end
+
+When(/^the user requests resurrection of the character$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.request_resurrection
 end
 
 When(/^the user tries to recycle the character$/) do
@@ -308,7 +344,27 @@ Then(/^the character should be created with no title$/) do
 end
 
 Then(/^the updated name should be displayed on the character's profile$/) do
-  CharacterPage.new.check_for_core_fields(character_name: "Robert McLogin")
+  CharacterPage.new.check_for_character_name("Robert McLogin")
+end
+
+Then(/^the updated bio should be displayed on the character's profile$/) do
+  CharacterPage.new.check_for_biography("Was born and is still not dead.")
+end
+
+Then(/^the updated date of birth should be displayed on the character's profile$/) do
+  CharacterPage.new.check_for_date_of_birth("13 Mar 99 AE")
+end
+
+Then(/^the updated address should be displayed on the character's profile$/) do
+  CharacterPage.new.check_for_address("The Barony")
+end
+
+Then(/^the updated notes should be displayed on the character's profile$/) do
+  CharacterPage.new.check_for_notes("Has a sword.")
+end
+
+Then(/^the updated private notes should be displayed on the character's profile$/) do
+  CharacterPage.new.check_for_private_notes("Secretly misses their mum.")
 end
 
 Then(/^the title should be displayed on the character's profile$/) do
@@ -321,6 +377,22 @@ end
 
 Then(/^the character should be recycled$/) do
   CharacterPage.new.visit_page(character_path(1)).and.check_for_state("Recycled")
+end
+
+Then(/^the character should be retired$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.check_for_state("Retired")
+end
+
+Then(/^the character should be active$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.check_for_state("Active")
+end
+
+Then(/^the character should be provisionally active$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.check_for_state("Active (Not yet approved)")
+end
+
+Then(/^the character should be dead$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.check_for_state("Dead")
 end
 
 Then(/^the user should be unable to recycle the character$/) do

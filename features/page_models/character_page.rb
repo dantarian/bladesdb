@@ -43,6 +43,41 @@ class CharacterPage < BladesDBPage
       self
     end
 
+    def update_bio(bio)
+      page.find("li#biography").click_link("Edit")
+      fill_in("Biography", with: bio)
+      click_button("Save")
+      self
+    end
+
+    def update_date_of_birth(date_of_birth)
+      page.find("li#dateof_birth").click_link("Edit")
+      set_datepicker_date("character_date_of_birth", date_of_birth)
+      click_button("Save")
+      self
+    end
+
+    def update_address(address)
+      page.find("li#address").click_link("Edit")
+      fill_in("Address", with: address)
+      click_button("Save")
+      self
+    end
+
+    def update_notes(notes)
+      page.find("li#notes").click_link("Edit")
+      fill_in("Notes", with: notes)
+      click_button("Save")
+      self
+    end
+
+    def update_private_notes(notes)
+      page.find("li#private_notes").click_link("Edit")
+      fill_in("Private Notes", with: notes)
+      click_button("Save")
+      self
+    end
+
     def join_guild(guild, branch: nil)
       click_link("Join guild")
       select(guild, from: "guild_selector")
@@ -79,6 +114,24 @@ class CharacterPage < BladesDBPage
       accept_confirm do
         click_link("Recycle")
       end
+    end
+
+    def retire_character
+      click_link("Retire")
+    end
+
+    def reactivate_character
+      click_link("Reactivate")
+    end
+
+    def permkill_character
+      accept_confirm do
+        click_link("Perm-kill")
+      end
+    end
+
+    def request_resurrection
+      click_link("Request resurrection from perm-death")
     end
 
     def transfer_money(amount, to: nil)
@@ -189,6 +242,26 @@ class CharacterPage < BladesDBPage
 
     def check_for_money(money: "0g")
       page.find("li#money").should have_content(money)
+    end
+
+    def check_for_biography(bio)
+      page.find("li#biography").should have_content(bio)
+    end
+
+    def check_for_date_of_birth(date_of_birth)
+      page.find("li#dateof_birth").should have_content(date_of_birth)
+    end
+
+    def check_for_address(address)
+      page.find("li#address").should have_content(address)
+    end
+
+    def check_for_notes(notes)
+      page.find("li#notes").should have_content(notes)
+    end
+
+    def check_for_private_notes(private_notes)
+      page.find("li#private_notes").should have_content(private_notes)
     end
 
     def confirm_absence_of_spend_monster_points_link
