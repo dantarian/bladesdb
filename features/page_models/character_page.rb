@@ -130,6 +130,14 @@ class CharacterPage < BladesDBPage
       end
     end
 
+    def request_character_point_adjustment(date, amount, reason)
+      find("#rank").click_link("Request adjustment")
+      set_datepicker_date("character_point_adjustment_declared_on", date)
+      fill_in("Number of points to add or remove", with: amount)
+      fill_in("Reason", with: reason)
+      click_button("Request")
+    end
+
     def request_resurrection
       click_link("Request resurrection from perm-death")
     end
@@ -270,6 +278,11 @@ class CharacterPage < BladesDBPage
 
     def confirm_absence_of_recycle_link
       page.find("li#state").find("div.fieldactions").should have_no_link "Recycle" if page.has_selector?("li#state")
+    end
+
+    def check_for_provisional_cp_adjustment(points)
+      page.should have_content("Character Points Adjusted")
+      page.should have_content(points)
     end
 
     def check_no_monster_point_spend
