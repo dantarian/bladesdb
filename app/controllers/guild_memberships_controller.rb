@@ -140,7 +140,7 @@ class GuildMembershipsController < ApplicationController
         
         def attempt_save_without_dialog(success_message, failure_message)
             if @guild_membership.save
-                UserMailer.guild_change_approval(@guild_membership).deliver if @guild_membership.approval_recently_set?
+                UserMailer.guild_change_approval(@guild_membership).deliver_now if @guild_membership.approval_recently_set?
                 flash[:notice] = success_message
             else
                 flash[:error] = failure_message + @guild_membership.errors.full_messages.to_sentence

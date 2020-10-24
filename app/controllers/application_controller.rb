@@ -136,8 +136,8 @@ class ApplicationController < ActionController::Base
         end
 
         def configure_permitted_devise_parameters
-            devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :name, :email, :password, :password_confirmation, :over18, :accept_terms_and_conditions) }
-            devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :name, :email, :password, :password_confirmation, :current_password, :state, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes) }
+            devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :name, :email, :password, :password_confirmation, :over18, :accept_terms_and_conditions])
+            devise_parameter_sanitizer.permit(:account_update, keys: [:username, :name, :email, :password, :password_confirmation, :current_password, :state, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes])
         end
 
     private

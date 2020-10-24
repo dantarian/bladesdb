@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~>4.0.0'
+gem 'rails', '~>4.2.0'
 gem 'rake', '~>10.1.0'
 
 # Bundle edge Rails instead:
@@ -30,12 +30,14 @@ gem "test-unit", '~> 2.5.5'
 gem "recaptcha", '~> 3.2.0', require: "recaptcha/rails"
 gem "custom_error_message", '~> 1.1.1'
 gem "aasm", '~> 4.8.0'
-gem "devise", '~> 3.5.6'
+gem "devise", '~> 4.7.0'
 gem "devise-encryptable", '~> 0.2.0'
 gem 'dynamic_form', '~> 1.1.4'
 gem 'font-awesome-rails', '~> 4.5.0.1'
 gem 'auto_strip_attributes', '~> 2.0'
-gem 'schema_plus', '~> 1.4.1'
+gem 'schema_plus_foreign_keys', '~> 0.1.8'
+gem 'schema_plus_views', '~> 0.3.1'
+gem 'schema_auto_foreign_keys', '~> 0.1.3'
 gem 'mail_form', '~> 1.5.1'
 gem 'validates_timeliness', '~> 4.0'
 
@@ -76,10 +78,12 @@ group :test do
   gem 'guard-rspec', '~> 4.6.4'
   gem 'launchy', '~> 2.4.3'
   gem 'selenium-webdriver', '~> 2.52.0'
-  gem 'cucumber-rails', '~> 1.4.3', require: false
-  gem 'simplecov', '~> 0.7.1', require: false
+  gem 'cucumber-rails', '~> 1.7.0', require: false
+  gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.5.1'
-  gem 'email_spec', '~> 2.0.0'
+  gem 'email_spec', '~> 2.2.0'
   gem 'action_mailer_cache_delivery', '~> 0.3.7'
   gem 'poltergeist', '~> 1.12.0'
+  gem 'rails-perftest', '~> 0.0.7'
+  gem 'ruby-prof', '~> 1.4.1'
 end

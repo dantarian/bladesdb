@@ -28,7 +28,7 @@ Blades::Application.routes.draw do
     end
   end
 
-  resources :transactions
+  resources :transactions, except: [:destroy]
   resources :campaigns
 
   resources :games do

@@ -133,7 +133,7 @@ class UsersController < ApplicationController
     def approve
         @user.approve
         @user.save!
-        UserMailer.user_approval(@user).deliver
+        UserMailer.user_approval(@user).deliver_now
         redirect_to users_path
     end
 

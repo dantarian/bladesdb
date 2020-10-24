@@ -43,6 +43,41 @@ class CharacterPage < BladesDBPage
       self
     end
 
+    def update_bio(bio)
+      page.find("li#biography").click_link("Edit")
+      fill_in("Biography", with: bio)
+      click_button("Save")
+      self
+    end
+
+    def update_date_of_birth(date_of_birth)
+      page.find("li#dateof_birth").click_link("Edit")
+      set_datepicker_date("character_date_of_birth", date_of_birth)
+      click_button("Save")
+      self
+    end
+
+    def update_address(address)
+      page.find("li#address").click_link("Edit")
+      fill_in("Address", with: address)
+      click_button("Save")
+      self
+    end
+
+    def update_notes(notes)
+      page.find("li#notes").click_link("Edit")
+      fill_in("Notes", with: notes)
+      click_button("Save")
+      self
+    end
+
+    def update_private_notes(notes)
+      page.find("li#private_notes").click_link("Edit")
+      fill_in("Private Notes", with: notes)
+      click_button("Save")
+      self
+    end
+
     def join_guild(guild, branch: nil)
       click_link("Join guild")
       select(guild, from: "guild_selector")
@@ -78,6 +113,65 @@ class CharacterPage < BladesDBPage
     def recycle_character
       accept_confirm do
         click_link("Recycle")
+      end
+    end
+
+    def retire_character
+      click_link("Retire")
+    end
+
+    def reactivate_character
+      click_link("Reactivate")
+    end
+
+    def permkill_character
+      accept_confirm do
+        click_link("Perm-kill")
+      end
+    end
+
+    def request_character_point_adjustment(date, amount, reason)
+      find("#rank").click_link("Request adjustment")
+      set_datepicker_date("character_point_adjustment_declared_on", date)
+      fill_in("Number of points to add or remove", with: amount)
+      fill_in("Reason", with: reason)
+      click_button("Request")
+    end
+
+    def request_resurrection
+      click_link("Request resurrection from perm-death")
+    end
+
+    def transfer_money(amount, to: nil)
+      start_money_transfer
+      fill_in("Amount to transfer (in florins)", with: amount)
+      fill_in("Description", with: "Hush money")
+      if to.respond_to?(:name_and_title)
+        choose("to_character")
+        select(to.name_and_title, from: "transaction_credit_attributes_character_id")
+      else
+        choose("to_other")
+        fill_in("To other recipient", with: to)
+      end
+      set_datepicker_date("transaction_transaction_date", Date.today)
+      click_button("Transfer")
+    end
+
+    def transfer_money_from_npc(amount)
+      click_link("Transfer money to character")
+      fill_in("Amount to transfer (in florins)", with: amount)
+      fill_in("Description", with: "Hush money")
+      choose("from_other")
+      fill_in("From other source", with: "NPC")
+      set_datepicker_date("transaction_transaction_date", Date.today)
+      click_button("Transfer")
+    end
+
+    def start_money_transfer
+      if page.has_link?("Transfer money from character")
+        click_link("Transfer money from character")
+      else
+        click_link("Transfer money")
       end
     end
 
@@ -158,12 +252,37 @@ class CharacterPage < BladesDBPage
       page.find("li#money").should have_content(money)
     end
 
+    def check_for_biography(bio)
+      page.find("li#biography").should have_content(bio)
+    end
+
+    def check_for_date_of_birth(date_of_birth)
+      page.find("li#dateof_birth").should have_content(date_of_birth)
+    end
+
+    def check_for_address(address)
+      page.find("li#address").should have_content(address)
+    end
+
+    def check_for_notes(notes)
+      page.find("li#notes").should have_content(notes)
+    end
+
+    def check_for_private_notes(private_notes)
+      page.find("li#private_notes").should have_content(private_notes)
+    end
+
     def confirm_absence_of_spend_monster_points_link
         page.find("li#rank").find("div.fieldactions").should have_no_link "Spend monster points" if page.has_selector?("li#rank")
     end
 
     def confirm_absence_of_recycle_link
       page.find("li#state").find("div.fieldactions").should have_no_link "Recycle" if page.has_selector?("li#state")
+    end
+
+    def check_for_provisional_cp_adjustment(points)
+      page.should have_content("Character Points Adjusted")
+      page.should have_content(points)
     end
 
     def check_no_monster_point_spend
@@ -264,5 +383,13 @@ class CharacterPage < BladesDBPage
 
     def check_for_cannot_delete_spend_on_recycled_character
         check_error_message(I18n.t("character.monster_points.delete_last_spend.not_when_recycled"))
+    end
+
+    def check_for_not_enough_money_available_message
+        check_is_displaying_message(I18n.t("character.money_transfers.validation.not_enough_money", money: "10"))
+    end
+
+    def check_for_target_character_list_without_own_characters
+        expect(page).to have_no_select("#transaction_credit_attributes_character_id", with_options: ["Second Character"])
     end
 end

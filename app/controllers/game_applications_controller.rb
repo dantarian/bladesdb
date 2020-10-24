@@ -43,7 +43,7 @@ class GameApplicationsController < ApplicationController
         @game = @game_application.game
 
         if @game_application.save
-            UserMailer.game_application_made(@game_application).deliver
+            UserMailer.game_application_made(@game_application).deliver_now
             render :close_dialog_and_update_game
         else
             respond_to do |format|
@@ -59,7 +59,7 @@ class GameApplicationsController < ApplicationController
         @game = @game_application.game
         @game_application.reset
         if @game_application.update_attributes(game_application_params)
-            UserMailer.game_application_made(@game_application).deliver
+            UserMailer.game_application_made(@game_application).deliver_now
             
             render :close_dialog_and_update_game
         else
@@ -83,9 +83,9 @@ class GameApplicationsController < ApplicationController
             @game_application.approve
             @game_application.comment = params[:game_application][:comment]
             @game_application.save
-            UserMailer.game_application_approval(@game_application).deliver
+            UserMailer.game_application_approval(@game_application).deliver_now
             @game.game_applications.each do |game_application|
-                UserMailer.game_application_unsuccessful(game_application).deliver if game_application.is_pending?
+                UserMailer.game_application_unsuccessful(game_application).deliver_now if game_application.is_pending?
             end
             redirect_to event_calendar_path
         else
@@ -105,7 +105,7 @@ class GameApplicationsController < ApplicationController
         @game_application.reject
         @game_application.comment = params[:game_application][:comment]
         if @game_application.save
-            UserMailer.game_application_approval(@game_application).deliver
+            UserMailer.game_application_approval(@game_application).deliver_now
             flash[:notice] = "Game application rejected."
             redirect_to action: :index
         else
@@ -120,7 +120,7 @@ class GameApplicationsController < ApplicationController
         # @game_application defined by check_application_owner().
         @game = @game_application.game
         @game_application.destroy
-        UserMailer.game_application_withdrawn(@game_application).deliver
+        UserMailer.game_application_withdrawn(@game_application).deliver_now
         @game_application = nil
 
         render :update_game

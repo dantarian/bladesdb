@@ -14,12 +14,12 @@ class GmContactsController < ApplicationController
         @email.subject = "[BathLARP] " + @email.subject
 
         users = User.includes(:roles).to_a
-
+        
         @email.bcc_list = case params[:radio_type]
-            when "monsters" then @game.monsters.all.collect(&:email).join(", ")
-            when "players" then @game.players.all.collect(&:email).join(", ")
-            when "everybody" then @game.monsters.all.collect(&:email).join(", ") + ", " + @game.players.all.collect(&:email).join(", ")
-            when "attendees" then @game.attendees.all.collect(&:email).join(", ")
+            when "monsters" then @game.monsters.collect(&:email).join(", ")
+            when "players" then @game.players.collect(&:email).join(", ")
+            when "everybody" then @game.monsters.collect(&:email).join(", ") + ", " + @game.players.collect(&:email).join(", ")
+            when "attendees" then @game.attendees.collect(&:email).join(", ")
             else "committee@bathlarp.co.uk"
         end
 

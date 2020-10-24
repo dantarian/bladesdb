@@ -55,11 +55,10 @@ en:
         more_than_character_points: "cannot be higher than current point total."
         no_change: "Either Guild or Branch must differ from the current guild membership."
         left_guild: "Failed to create request to leave guild."
-    success:
-      created: "Character was successfully created."
-      updated: "Character was successfully updated."
-    failure:
-      updated: "Failed to update character."
+    points_adjustment:
+      validation:
+        future_date: "cannot be in the future."
+      requested: "Character Point adjustment requested."
     monster_points:
       not_enough_mp: "must be at most %{points}."
       too_many_cp: "must be at most %{points}."
@@ -84,6 +83,9 @@ en:
         not_when_retired: "Cannot delete monster point spends from a retired character."
         not_when_recycled: "Cannot delete monster point spends from a recycled character."
         not_when_perm_dead: "Cannot delete monster point spends from a dead character."
+    money_transfers:
+      validation:
+        not_enough_money: "cannot be more than %{money} florins."
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."

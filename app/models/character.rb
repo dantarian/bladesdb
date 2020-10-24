@@ -463,10 +463,10 @@ class Character < ActiveRecord::Base
             end
             credits.each do |credit|
                 event = MoneyEvent.new
-                event.date = credit.transaction.transaction_date
-                event.money = credit.transaction.value
-                event.other_party = credit.transaction.debit.subject_name
-                event.comment = credit.transaction.description
+                event.date = credit.money_transaction.transaction_date
+                event.money = credit.money_transaction.value
+                event.other_party = credit.money_transaction.debit.subject_name
+                event.comment = credit.money_transaction.description
                 event.provisional = false
                 event.rejected = false
                 event.historical = (event.date < self.declared_on)
@@ -476,10 +476,10 @@ class Character < ActiveRecord::Base
             end
             debits.each do |debit|
                 event = MoneyEvent.new
-                event.date = debit.transaction.transaction_date
-                event.money = -debit.transaction.value
-                event.other_party = debit.transaction.credit.subject_name
-                event.comment = debit.transaction.description
+                event.date = debit.money_transaction.transaction_date
+                event.money = -debit.money_transaction.value
+                event.other_party = debit.money_transaction.credit.subject_name
+                event.comment = debit.money_transaction.description
                 event.provisional = false
                 event.rejected = false
                 event.historical = (event.date < self.declared_on)

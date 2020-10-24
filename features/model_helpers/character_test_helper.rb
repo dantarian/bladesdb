@@ -18,6 +18,11 @@ module CharacterTestHelper
       character.save!
   end
 
+  def set_starting_florins(character, florins)
+      character.starting_florins = florins
+      character.save!
+  end
+
   def approve_character(character, user)
       character.approve(user)
       character.save!
