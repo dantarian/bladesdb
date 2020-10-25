@@ -138,6 +138,20 @@ class EventCalendarPage < BladesDBPage
         self
     end
 
+    def check_new_game_gms_include(user)
+        page.find("div#dialog")
+            .find_field('Gamesmasters')
+            .should have_selector "option[value='#{user.id}']"
+        self
+    end         
+
+    def check_new_game_gms_do_not_include(user)
+        page.find("div#dialog")
+            .find_field('Gamesmasters')
+            .should have_no_selector "option[value='#{user.id}']"
+        self
+    end         
+
     def check_cannot_sign_up_to_game(game)
         game ||= Game.first
         make_details_visible(game)

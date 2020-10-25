@@ -58,7 +58,7 @@
 
 				<li>
 					<%= f.label :gamesmaster_ids, "Gamesmasters" %><br />
-					<%= f.collection_select :gamesmaster_ids, User.order(:name).select{|user| (user.deleted_at.nil? && (user.is_normal? || user.is_recent?))}, :id, :name, { :selected => @game.gamesmaster_ids }, { :multiple => true, :name => 'game[gamesmaster_ids][]' } %>
+					<%= f.collection_select :gamesmaster_ids, User.order(:name).select{|user| (user.deleted_at.nil? && user.is_normal?)}, :id, :name, { :selected => @game.gamesmaster_ids }, { :multiple => true, :name => 'game[gamesmaster_ids][]' } %>
 				</li>
 			</ul>
 
