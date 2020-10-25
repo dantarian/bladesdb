@@ -293,3 +293,27 @@ end
 Then(/^the user should appear as not attending the game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_not_attending(Game.first, User.first)
 end
+
+Then("the other user should be in the list of available GMs") do
+  EventCalendarPage.new.check_new_game_gms_include(User.second)
+end
+
+Then("the web-only user should not be in the list of available GMs") do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then("the suspended user should not be in the list of available GMs") do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then("the unapproved user should not be in the list of available GMs") do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then("the unconfirmed user shoud not be in the list of available GMs") do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then("the deleted user shoud not be in the list of available GMs") do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
