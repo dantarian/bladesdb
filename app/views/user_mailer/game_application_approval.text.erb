@@ -1,8 +1,8 @@
-Dear <%=h @thing_approved.user.name %>,
+Dear <%= @thing_approved.user.name %>,
 
-The Committee has <%= (@thing_approved.approved ? "approved" : "rejected") %> your game application for <%=h @thing_approved.game.start_date.to_s%>. <%= (@thing_approved.approved ? "Have fun!" : "Please withdraw or edit your application.") %>
+The Committee has <%= (@thing_approved.approved ? "approved" : "rejected") %> your game application for <%= @thing_approved.game.start_date.to_s%>. <%= (@thing_approved.approved ? "Have fun!" : "Please withdraw or edit your application.") %>
 
-<%=h @thing_approved.comment %>
+<%= @thing_approved.comment %>
 
 Regards,
 The Committee

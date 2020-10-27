@@ -1,8 +1,8 @@
 The request for an adjustment of <%= "+" if @thing_approved.points > 0 %><%= @thing_approved.points %> monster points for:
 
-<%=h @thing_approved.user.name %>
+<%= @thing_approved.user.name %>
 
-on <%= @thing_approved.declared_on %> was <%= (@thing_approved.approved ? "approved" : "rejected") %> by <%=h @thing_approved.approved_by.name %>.
+on <%= @thing_approved.declared_on %> was <%= (@thing_approved.approved ? "approved" : "rejected") %> by <%= @thing_approved.approved_by.name %>.
 
 Regards,
 The BathLARP website administrators
