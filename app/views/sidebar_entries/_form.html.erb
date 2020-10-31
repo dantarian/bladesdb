@@ -7,11 +7,11 @@
         <%= f.label :name %>
         <%= f.text_field :name %>
         <br />
-        <%= f.label "Static Page" %>
+        <%= f.label "page_id", "Static Page" %>
         <%= f.collection_select :page_id, 
                                 Page.all, :id, :title, 
                                 { :include_blank => true },
-                                { :onchange => "if ( $('sidebar_entry_page_id').value == '' ) { $('sidebar_entry_url').enable(); } else { $('sidebar_entry_url').disable(); }; return false;" } %>
+                                { :onchange => "if ( $('#sidebar_entry_page_id').val() == '' ) { $('#sidebar_entry_url').prop('disabled', false); } else { $('#sidebar_entry_url').prop('disabled', true); }; return false;" } %>
         <br />
         <%= f.label :url, "URL" %>
         <%= f.text_field :url %>
