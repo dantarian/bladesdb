@@ -1,8 +1,11 @@
 development:
   adapter: async
 
-test:
+test: &test
   adapter: async
+
+cucumber: 
+  <<: *test 
 
 production:
   adapter: redis

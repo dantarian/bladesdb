@@ -35,7 +35,7 @@ Rails.application.configure do
   # The :cache delivery method accumulates sent emails in the
   # ActionMailer::Base.cached_deliveries array.
   config.action_mailer.delivery_method = :cache
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   # Raise errors for deprecations
   config.active_support.deprecation = :raise

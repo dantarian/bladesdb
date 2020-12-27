@@ -1,5 +1,5 @@
 # Sets up the Rails environment for Cucumber
-ENV["RAILS_ENV"] = "test"
+ENV["RAILS_ENV"] = "cucumber"
 
 Recaptcha.configure do |config|
   config.site_key = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
