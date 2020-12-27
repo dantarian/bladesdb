@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     # Protect these actions behind an admin login
-    before_filter :find_user, :only => [:approve, 
+    before_action :find_user, :only => [:approve, 
                                         :suspend, 
                                         :unsuspend, 
                                         :destroy, 
@@ -20,14 +20,14 @@ class UsersController < ApplicationController
                                         :update_emergency_details,
                                         :edit_general_notes, 
                                         :update_general_notes]
-    before_filter :login_prohibited, :only => [:create]
-    before_filter :check_administrator_role, :only => [:purge, :merge]
-    before_filter :check_admin_or_committee_role, :only => [:destroy, :approve, :suspend, :unsuspend, :undelete, :edit, :resend_activation]
-    before_filter :check_self_or_character_ref_role, :only => [:monster_points]
-    before_filter :authenticate_user!, :only => [:index, :show, :new_gm, :new_player, :new_monster, :create_gm, :create_player, :create_monster]
-    before_filter :check_active_member, :only => [:index]
-    before_filter :new_user, :only => [:new_gm, :new_player, :new_monster]
-    before_filter :check_ajax, :only => [:edit_user_name, 
+    before_action :login_prohibited, :only => [:create]
+    before_action :check_administrator_role, :only => [:purge, :merge]
+    before_action :check_admin_or_committee_role, :only => [:destroy, :approve, :suspend, :unsuspend, :undelete, :edit, :resend_activation]
+    before_action :check_self_or_character_ref_role, :only => [:monster_points]
+    before_action :authenticate_user!, :only => [:index, :show, :new_gm, :new_player, :new_monster, :create_gm, :create_player, :create_monster]
+    before_action :check_active_member, :only => [:index]
+    before_action :new_user, :only => [:new_gm, :new_player, :new_monster]
+    before_action :check_ajax, :only => [:edit_user_name, 
                                          :update_user_name,
                                          :edit_login, 
                                          :update_login,
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
                                          :update_medical_notes,
                                          :edit_general_notes, 
                                          :update_general_notes]
-    before_filter :check_self_or_administrator_role, 
+    before_action :check_self_or_administrator_role, 
                   :only => [:edit_user_name,
                             :update_user_name,
                             :edit_login, 

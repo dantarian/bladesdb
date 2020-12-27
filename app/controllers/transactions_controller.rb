@@ -1,8 +1,8 @@
 class TransactionsController < ApplicationController
   
-    before_filter :authenticate_user!
-    before_filter :check_ajax
-    before_filter :find_character, :except => [ :create ]
+    before_action :authenticate_user!
+    before_action :check_ajax
+    before_action :find_character, :except => [ :create ]
   
     def new
         @to_other = false

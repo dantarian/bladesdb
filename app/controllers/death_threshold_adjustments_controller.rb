@@ -1,11 +1,11 @@
 class DeathThresholdAdjustmentsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_character
-    before_filter :find_death_threshold_adjustment, :except => [:new, :create]
-    before_filter :check_own_character_or_ref_or_admin
-    before_filter :check_ajax
-    before_filter :check_admin_or_character_ref_role, :only => [:approve, :reject]
-    before_filter :check_not_own_character, :only => [:approve, :reject]
+    before_action :authenticate_user!
+    before_action :find_character
+    before_action :find_death_threshold_adjustment, :except => [:new, :create]
+    before_action :check_own_character_or_ref_or_admin
+    before_action :check_ajax
+    before_action :check_admin_or_character_ref_role, :only => [:approve, :reject]
+    before_action :check_not_own_character, :only => [:approve, :reject]
     
     def new
         @death_threshold_adjustment = DeathThresholdAdjustment.new

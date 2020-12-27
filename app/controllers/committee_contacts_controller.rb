@@ -1,5 +1,5 @@
 class CommitteeContactsController < ApplicationController
-    before_filter :check_admin_or_committee_role, :only => [:new, :create]
+    before_action :check_admin_or_committee_role, :only => [:new, :create]
     
     def new
         @email = ContactForm.new

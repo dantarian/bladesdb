@@ -1,17 +1,17 @@
 class GuildMembershipsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_character
-    before_filter :set_approvals_origin, :only => [:make_full_from_approvals, :eject_from_approvals, :approve_from_approvals, :provisionally_approve_from_approvals, :reject_from_approvals]
-    before_filter :set_non_approvals_origin, :except => [:make_full_from_approvals, :approve_from_approvals, :provisionally_approve_from_approvals, :reject_from_approvals]
-    before_filter :find_guild_membership, :except => [:new, :create, :branch_change, :create_guild_branch_change, :leave, :make_full, :make_full_from_approvals, :eject, :eject_from_approvals]
-    before_filter :get_current_guild_membership, :only => [:eject, :eject_from_approvals]
-    before_filter :check_guild_membership_request_provisional, :only => [:approve, :provisionally_approve, :reject, :approve_from_approvals, :provisionally_approve_from_approvals, :reject_from_approvals]
-    before_filter :new_or_unprocessed_guild_membership, :only => [:leave, :eject, :eject_from_approvals]
-    before_filter :new_guild_membership, :only => [:new, :make_full, :make_full_from_approvals]
-    before_filter :check_current_guild_membership_provisional, :only => [:make_full, :make_full_from_approvals]
-    before_filter :create_from_params, :only => [:create, :create_guild_branch_change]
-    before_filter :check_own_character, :only => [:leave, :destroy]
-    before_filter :check_ajax
+    before_action :authenticate_user!
+    before_action :find_character
+    before_action :set_approvals_origin, :only => [:make_full_from_approvals, :eject_from_approvals, :approve_from_approvals, :provisionally_approve_from_approvals, :reject_from_approvals]
+    before_action :set_non_approvals_origin, :except => [:make_full_from_approvals, :approve_from_approvals, :provisionally_approve_from_approvals, :reject_from_approvals]
+    before_action :find_guild_membership, :except => [:new, :create, :branch_change, :create_guild_branch_change, :leave, :make_full, :make_full_from_approvals, :eject, :eject_from_approvals]
+    before_action :get_current_guild_membership, :only => [:eject, :eject_from_approvals]
+    before_action :check_guild_membership_request_provisional, :only => [:approve, :provisionally_approve, :reject, :approve_from_approvals, :provisionally_approve_from_approvals, :reject_from_approvals]
+    before_action :new_or_unprocessed_guild_membership, :only => [:leave, :eject, :eject_from_approvals]
+    before_action :new_guild_membership, :only => [:new, :make_full, :make_full_from_approvals]
+    before_action :check_current_guild_membership_provisional, :only => [:make_full, :make_full_from_approvals]
+    before_action :create_from_params, :only => [:create, :create_guild_branch_change]
+    before_action :check_own_character, :only => [:leave, :destroy]
+    before_action :check_ajax
 
     def leave
         attempt_save_without_dialog(

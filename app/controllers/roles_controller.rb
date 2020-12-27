@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-    before_filter :check_admin_or_committee_role
+    before_action :check_admin_or_committee_role
 
     # GET /roles
     # GET /roles.xml

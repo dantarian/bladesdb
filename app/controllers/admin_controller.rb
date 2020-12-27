@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :check_is_character_ref
+    before_action :authenticate_user!
+    before_action :check_is_character_ref
 
     def approvals
         @character_requests = Character.pending_characters(current_user)

@@ -1,10 +1,10 @@
 class MonsterPointAdjustmentsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_monster_point_adjustment, :except => [:new, :create]
-    before_filter :check_own_adjustment_or_ref_or_admin, :except => [:new, :create]
-    before_filter :check_ajax
-    before_filter :check_admin_or_character_ref_role, :only => [:approve, :reject]
-    before_filter :check_not_own_adjustment, :only => [:approve, :reject]
+    before_action :authenticate_user!
+    before_action :find_monster_point_adjustment, :except => [:new, :create]
+    before_action :check_own_adjustment_or_ref_or_admin, :except => [:new, :create]
+    before_action :check_ajax
+    before_action :check_admin_or_character_ref_role, :only => [:approve, :reject]
+    before_action :check_not_own_adjustment, :only => [:approve, :reject]
     
     def new
         @monster_point_adjustment = MonsterPointAdjustment.new

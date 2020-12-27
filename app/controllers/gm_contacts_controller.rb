@@ -1,6 +1,6 @@
 class GmContactsController < ApplicationController
-    before_filter :find_game
-    before_filter :check_can_edit
+    before_action :find_game
+    before_action :check_can_edit
 
     def new
         @email = ContactForm.new
