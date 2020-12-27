@@ -290,15 +290,13 @@ class Game < ApplicationRecord
 
         def update_character_states
             # If we're closing a debrief, check through and see if anyone's become perm-dead as a result of dying with no DTs left.
-            success = true
             if is_debrief_finished? and open_changed?
                 player_debriefs.each do |debrief|
                     if !debrief.character.undeclared? and debrief.character.death_thresholds - (debrief.deaths || 0) < 0 and not debrief.character.dead?
-                        success &&= debrief.character.update_attribute(:state, Character::PermDead)
+                        throw(:abort) unless debrief.character.update_attribute(:state, Character::PermDead)
                     end
                 end
             end
-            return success
         end
 
         def remove_play_or_monster_attendances_for_gms
