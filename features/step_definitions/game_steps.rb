@@ -166,7 +166,39 @@ Given(/^there is a game after the monster spend cut\-off$/) do
   GameTestHelper.create_game(start_date: '2017-01-20')
 end
 
+Given(/^the user is not a GM for the game$/) do
+  GameTestHelper.remove_gamesmaster(User.first)
+end
+
+Given(/^the game is starting later today$/) do
+  GameTestHelper.make_game_start_later_today(Game.first)
+end
+
+Given(/^the other user has signed up to the game as the character$/) do
+  GameTestHelper.add_player(User.last, Character.last, to: Game.first)
+end
+
+Given(/^the character has been rejected$/) do
+  GameTestHelper.reject_player(Character.last, on: Game.first)
+end
+
+Given(/^the other user has signed up to the game as a monster$/) do
+  GameTestHelper.add_monster(User.last, to: Game.first)
+end
+
+Given (/^the debrief has been started for the game$/) do
+  GameTestHelper.start_debriefing(Game.last)
+end
+
+Given(/^the other user is included in the debrief as a GM$/) do
+  GameTestHelper.add_gm_to_debrief(Game.last, User.last)
+end
+
 # Actions
+
+When(/^the user views the game$/) do
+  GamePage.new.visit_page(game_path(Game.first.id))
+end
 
 When(/^the user publishes the brief for the game$/) do
   GamePage.new.visit_page(game_path(Game.first.id)).and.publish_briefs
@@ -202,6 +234,54 @@ end
 
 When(/^the user marks themselves as not attending the attendance-only game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.set_not_attending(game: Game.first)
+end
+
+When(/^the user attempts to start the debrief without supplying base points for the players$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(player_base: "")
+end
+
+When(/^the user attempts to start the debrief without supplying base pay for the players$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(danger_pay: "")
+end
+
+When(/^the user attempts to start the debrief without supplying base points for the monsters$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief(monster_base: "")
+end
+
+When(/^the user starts the debrief$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.start_debrief
+end
+
+When(/^the user adds the other user to the debrief as a GM$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.add_gm_to_debrief(User.last)
+end
+
+When(/^the user removes the other user from the debrief as a GM$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.remove_gm_from_debrief(User.last)
+end
+
+When(/^the user attempts to set their base points higher than monster base$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.set_gm_base_points(User.first, 10)
+end
+
+When(/^the user attempts to allocate themselves more GM points than are available$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.set_gm_points(User.first, 10).and.close_debrief
+end
+
+When(/^the user attempts to allocate more GM points than are available across all gms$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.set_gm_points(User.first, 3).and.set_gm_points(User.last, 3).and.close_debrief
+end
+
+When(/^the user attempts to add themselves to the debrief as a monster$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.attempt_to_add_monster_to_debrief
+end
+
+When(/^the user adds themselves to the debrief as having played the character$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.add_player_to_debrief(User.last, Character.last)
+end
+
+When(/^the user closes the debrief$/) do
+  GamePage.new.visit_page(game_path(Game.first.id)).and.close_debrief
 end
 
 # Validations
@@ -294,26 +374,95 @@ Then(/^the user should appear as not attending the game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_not_attending(Game.first, User.first)
 end
 
-Then("the other user should be in the list of available GMs") do
+Then(/^the user should be able to start the debrief for the game$/) do
+  GamePage.new.check_can_start_debrief
+end
+
+Then(/^the user should not be able to start the debrief for the game$/) do
+  GamePage.new.check_cannot_start_debrief
+end
+
+Then(/^the user should be told they must supply base player points$/) do
+  GamePage.new.check_asked_for_player_points
+end
+
+Then(/^the user should be told they must supply base player pay$/) do
+  GamePage.new.check_asked_for_player_pay
+end
+
+Then(/^the user should be told they must supply base monster points$/) do
+  GamePage.new.check_asked_for_monster_points
+end
+
+Then(/^the character should be included in the debrief$/) do
+  GamePage.new.check_character_is_in_debrief(Character.last)
+end
+
+Then(/^the character should not be included in the debrief$/) do
+  GamePage.new.check_character_is_not_in_debrief(Character.last)
+end
+
+Then(/^the user should be included in the debrief as a GM$/) do
+  GamePage.new.check_user_is_in_debrief_as_gm(User.first)
+end
+
+Then(/^the user should not be included in the debrief as a monster$/) do
+  GamePage.new.check_user_is_not_in_debrief_as_monster(User.first)
+end
+
+Then(/^the other user should be included in the debrief as a monster$/) do
+  GamePage.new.check_user_is_in_debrief_as_monster(User.last)
+end
+
+Then(/^the other user should be included in the debrief as a GM$/) do
+  GamePage.new.check_user_is_in_debrief_as_gm(User.last)
+end
+
+Then(/^the other user should not be included in the debrief as a GM$/) do
+  GamePage.new.check_user_is_not_in_debrief_as_gm(User.last)
+end
+
+Then(/^the GM should start with (\d+) points$/) do |points|
+  GamePage.new.check_gm_has_base_points(User.first, points)
+  GamePage.new.check_gm_has_gm_points(User.first, 0)
+end
+
+Then(/^there should be (\d+) GM points to share between GMs$/) do |points|
+  GamePage.new.check_remaining_gm_points(points)
+end
+
+Then(/^the user should be told that GM base points cannot be higher than monster base$/) do
+  GamePage.new.check_error_message("Base points must be less than or equal to monster base for the game")
+end
+
+Then(/^the user should be told they cannot allocate more GM points than are available$/) do
+  GamePage.new.check_error_message("Cannot finish debrief: Too many GM points allocated.")
+end
+
+Then(/^the user should not be in the list of users$/) do
+  GamePage.new.check_user_is_not_in_list_of_users_who_can_be_added_to_the_debrief(User.last)
+end
+
+Then(/^the other user should be in the list of available GMs$/) do
   EventCalendarPage.new.check_new_game_gms_include(User.second)
 end
 
-Then("the web-only user should not be in the list of available GMs") do
+Then(/^the web-only user should not be in the list of available GMs$/) do
   EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
 end
 
-Then("the suspended user should not be in the list of available GMs") do
+Then(/^the suspended user should not be in the list of available GMs$/) do
   EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
 end
 
-Then("the unapproved user should not be in the list of available GMs") do
+Then(/^the unapproved user should not be in the list of available GMs$/) do
   EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
 end
 
-Then("the unconfirmed user shoud not be in the list of available GMs") do
+Then(/^the unconfirmed user shoud not be in the list of available GMs$/) do
   EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
 end
 
-Then("the deleted user shoud not be in the list of available GMs") do
+Then(/^the deleted user shoud not be in the list of available GMs$/) do
   EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
 end

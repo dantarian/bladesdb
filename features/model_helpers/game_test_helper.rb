@@ -6,11 +6,24 @@ module GameTestHelper
   end
 
   def add_gamesmaster(gamesmaster, to: nil)
+    to ||= Game.last
     to.gamesmasters << gamesmaster
+  end
+
+  def remove_gamesmaster(user, from: nil)
+    from ||= Game.last
+    from.gamesmasters.delete user
   end
 
   def add_player(player, character, to: nil)
     to.game_attendances.create_with(character: character, attend_state: "playing", confirm_state: "requested").find_or_create_by(user: player)
+  end
+
+  def reject_player(character, on: game)
+    on ||= Game.last
+    attendance = on.player_attendances.find_by(character: character)
+    attendance.reject
+    attendance.save
   end
 
   def add_monster(monster, to: nil)
@@ -43,6 +56,13 @@ module GameTestHelper
 
   def set_date(date, of: nil)
     of.start_date = date
+    of.save
+    of
+  end
+
+  def set_start_time(time, of: nil)
+    of ||= Game.first
+    of.start_time = time
     of.save
     of
   end
@@ -83,6 +103,12 @@ module GameTestHelper
     game.save!
   end
 
+  def add_gm_to_debrief(game, user)
+    add_gamesmaster(user, to: game)
+    game.debriefs.find_or_create_by(user: user)
+    game.save!
+  end
+
   def create_game_next_sunday
     create_game(start_date: next_sunday)
   end
@@ -97,6 +123,12 @@ module GameTestHelper
 
   def next_sunday
     (Date.today.sunday > Date.today ? Date.today.sunday : Date.today.sunday + 7.days)
+  end
+
+  def make_game_start_later_today(game)
+    date_time = DateTime.now + 1.minute
+    set_date(date_time.to_date, of: game)
+    set_start_time(date_time.to_time, of: game)
   end
 
   def create_debriefed_game_for_first_character(points, offset = 0)

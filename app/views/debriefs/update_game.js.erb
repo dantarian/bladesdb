@@ -1,4 +1,6 @@
-$("#dialog").dialog("close");
+if ($("#dialog").hasClass('ui-dialog-content')) {
+  $("#dialog").dialog("close");
+}
 $("#gamesummaryrow<%= @game.id %>").html('<%= j render :partial => "games/game_summary", :locals => { :game => @game, :shown => true } %>');
 $("#gamedetailsrow<%= @game.id %>").html('<%= j render :partial => "games/game_detail", :locals => { :game => @game } %>');
 $("#gamedetailsshow<%= @game.id %>").html('<%= j render :partial => "games/game", :locals => { :game => @game } %>');
