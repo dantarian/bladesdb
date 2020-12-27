@@ -21,13 +21,13 @@ class User < ApplicationRecord
     has_many :roles, :through => :permissions
     has_one :monster_point_declaration
     has_many :monster_point_adjustments
+    has_many :characters
     has_many :monster_point_spends, :through => :characters
     has_and_belongs_to_many :mastered_games, :class_name => "Game", :join_table => :games_masters
     has_and_belongs_to_many :mastered_campaigns, :class_name => "Campaign", :join_table => :campaign_games_masters
     has_many :game_attendances
     has_many :debriefs
     has_many :game_applications
-    has_many :characters
     has_many :messages
     has_many :board_visits
     has_many :attended_games, -> { distinct }, :through => :debriefs, :source => :game
