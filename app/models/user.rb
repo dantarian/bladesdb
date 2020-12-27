@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
     include AASM
 
     devise :database_authenticatable,
@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
             transitions :from => [:passive, :pending, :active], :to => :suspended
         end
 
-        event :delete do
+        event :delete_user do
             transitions :from => [:passive, :pending, :active, :suspended], :to => :deleted
         end
 

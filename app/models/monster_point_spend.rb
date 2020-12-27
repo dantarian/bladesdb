@@ -1,4 +1,4 @@
-class MonsterPointSpend < ActiveRecord::Base
+class MonsterPointSpend < ApplicationRecord
     belongs_to :character
 
     validates_presence_of :spent_on, on: :create

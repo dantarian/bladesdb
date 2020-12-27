@@ -1,7 +1,7 @@
 class GameApplicationsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :check_application_owner, :only => [ :edit, :update, :destroy ]
-    before_filter :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve_app, :approve, :reject_app, :reject ]
+    before_action :authenticate_user!
+    before_action :check_application_owner, :only => [ :edit, :update, :destroy ]
+    before_action :check_admin_or_committee_or_campaign_gm_role, :only => [ :index, :approve_app, :approve, :reject_app, :reject ]
 
     # GET /game_applications
     # GET /game_applications.xml

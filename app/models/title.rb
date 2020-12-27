@@ -1,4 +1,4 @@
-class Title < ActiveRecord::Base
+class Title < ApplicationRecord
     belongs_to :guild
 
     validates_presence_of :name

@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
     helper :all # include all helpers, all the time
     protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-    before_filter :set_cache_buster
-    before_filter :configure_permitted_devise_parameters, if: :devise_controller?
+    before_action :set_cache_buster
+    before_action :configure_permitted_devise_parameters, if: :devise_controller?
 
     add_flash_types :notice, :warning, :alert, :error
 

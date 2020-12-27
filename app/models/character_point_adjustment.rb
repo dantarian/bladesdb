@@ -1,4 +1,4 @@
-class CharacterPointAdjustment < ActiveRecord::Base
+class CharacterPointAdjustment < ApplicationRecord
     belongs_to :character
     belongs_to :approved_by, :class_name => "User"
 

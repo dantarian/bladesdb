@@ -1,4 +1,4 @@
-class Guild < ActiveRecord::Base
+class Guild < ApplicationRecord
     has_many :guild_branches
     has_many :titles
     has_many :characters

@@ -1,4 +1,4 @@
-class BoardVisit < ActiveRecord::Base
+class BoardVisit < ApplicationRecord
     belongs_to :board
     belongs_to :user
   

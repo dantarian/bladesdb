@@ -1,5 +1,5 @@
 class SidebarCategoriesController < ApplicationController
-    before_filter :check_admin_or_committee_role
+    before_action :check_admin_or_committee_role
 
     def new
         @category = SidebarCategory.new

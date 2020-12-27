@@ -1,4 +1,4 @@
-class MonsterPointDeclaration < ActiveRecord::Base
+class MonsterPointDeclaration < ApplicationRecord
     belongs_to :user
     belongs_to :approved_by, :class_name => "User"
 

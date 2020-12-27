@@ -1,4 +1,4 @@
-class GuildMembership < ActiveRecord::Base
+class GuildMembership < ApplicationRecord
     belongs_to :character
     belongs_to :guild
     belongs_to :guild_branch
@@ -18,7 +18,7 @@ class GuildMembership < ActiveRecord::Base
     end
 
     def self.provisional_guild_memberships(except_user)
-        GuildMembership.joins(character: :character_state).where(guild_memberships: {approved: true, provisional:true}).where.not(characters: {user_id: except_user.id}).where("guild_memberships.id = current_character_status.guild_membership")
+        GuildMembership.joins(character: :character_state).where(guild_memberships: {approved: true, provisional:true}).where.not(characters: {user_id: except_user.id}).where("guild_memberships.id = current_character_statuses.guild_membership")
     end
 
     # This refers to whether or not the membership change has been approved, not whether the character is a provisional guild member.

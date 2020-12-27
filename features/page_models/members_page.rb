@@ -88,11 +88,11 @@ class MembersPage < BladesDBPage
   def check_for_role(rolename:, user:, display: true)
     search = "table#active tbody tr#user" + user.id.to_s
     userrow = page.find(search)
-    path = "//img[@src=\"/assets/#{rolename}.png\"]"
+    selector = "img[src*='#{rolename}']"
     if display
-      userrow.should have_xpath(path)
+      userrow.should have_selector(selector)
     else
-      userrow.should have_no_xpath(path)
+      userrow.should have_no_selector(selector)
     end
   end
 

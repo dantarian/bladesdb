@@ -1,4 +1,4 @@
-class FoodOption < ActiveRecord::Base
+class FoodOption < ApplicationRecord
     belongs_to :game
     belongs_to :food_category
     belongs_to :food_sub_category

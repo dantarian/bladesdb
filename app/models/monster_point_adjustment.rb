@@ -1,4 +1,4 @@
-class MonsterPointAdjustment < ActiveRecord::Base
+class MonsterPointAdjustment < ApplicationRecord
     belongs_to :user
     belongs_to :approved_by, :class_name => "User"
 

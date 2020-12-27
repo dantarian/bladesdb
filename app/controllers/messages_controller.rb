@@ -1,9 +1,9 @@
 class MessagesController < ApplicationController
-    before_filter :check_admin_or_committee_role, :only => [:purge]
-    before_filter :check_active_member, :only => [:edit, :create, :update, :delete, :undelete]
-    before_filter :find_message, :except => [:create]
-    before_filter :check_can_edit, :only => [:edit, :move, :update, :save_move, :destroy]
-    before_filter :check_not_deleted, :only => [:edit, :move, :update, :save_move]
+    before_action :check_admin_or_committee_role, :only => [:purge]
+    before_action :check_active_member, :only => [:edit, :create, :update, :delete, :undelete]
+    before_action :find_message, :except => [:create]
+    before_action :check_can_edit, :only => [:edit, :move, :update, :save_move, :destroy]
+    before_action :check_not_deleted, :only => [:edit, :move, :update, :save_move]
     
     # GET /messages/1/edit
     def edit

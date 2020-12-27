@@ -1,11 +1,11 @@
 class MonsterPointSpendsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_character
-    before_filter :find_last_monster_point_spend, :only => [:delete]
-    before_filter :check_own_character
-    before_filter :check_ajax, :except => [:delete]
-    before_filter :check_can_spend_points, :only => [:new, :create]
-    before_filter :check_can_delete_spend, :only => [:delete]
+    before_action :authenticate_user!
+    before_action :find_character
+    before_action :find_last_monster_point_spend, :only => [:delete]
+    before_action :check_own_character
+    before_action :check_ajax, :except => [:delete]
+    before_action :check_can_spend_points, :only => [:new, :create]
+    before_action :check_can_delete_spend, :only => [:delete]
 
     def new
         @monster_point_spend = MonsterPointSpend.new

@@ -1,6 +1,6 @@
 class GameAttendancesController < ApplicationController
-    before_filter :check_ajax
-    before_filter :find_game_attendance, :except => [:new, :create]
+    before_action :check_ajax
+    before_action :find_game_attendance, :except => [:new, :create]
 
 
     # GET /game_attendances/new
