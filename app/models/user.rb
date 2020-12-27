@@ -97,7 +97,7 @@ class User < ApplicationRecord
             transitions :from => [:passive, :pending, :active], :to => :suspended
         end
 
-        event :delete do
+        event :delete_user do
             transitions :from => [:passive, :pending, :active, :suspended], :to => :deleted
         end
 
