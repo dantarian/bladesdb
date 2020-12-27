@@ -78,7 +78,7 @@ group :test do
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
   gem 'selenium-webdriver', '~> 3.142.7'
-  gem 'cucumber-rails', '~> 1.7.0', require: false
+  gem 'cucumber-rails', '~> 2.2.0', require: false
   gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.8.5'
   gem 'email_spec', '~> 2.2.0'
