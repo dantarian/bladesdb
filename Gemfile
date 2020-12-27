@@ -27,7 +27,7 @@ gem "RedCloth", '~> 4.3.2'
 gem "rdoc", '~> 6.3.0'
 gem "seed-fu", '~> 2.3.9'
 gem "test-unit", '~> 3.3.8'
-gem "recaptcha", '~> 5.6.0', require: "recaptcha/rails"
+gem "recaptcha", '~> 5.6.0'
 gem "custom_error_message", '~> 1.1.1'
 gem "aasm", '~> 5.1.1'
 gem "devise", '~> 4.7.3'

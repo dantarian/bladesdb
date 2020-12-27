@@ -1,7 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :acceptable do
-    type ""
-    text "MyText"
-    version 1
+#    flavour "Terms and Conditions"
+#    text "MyText"
   end
 end
