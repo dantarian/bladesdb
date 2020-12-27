@@ -32,11 +32,11 @@ ActionController::Base.allow_rescue = false
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
   Before do
-    Cucumber::Rails::World.use_transactional_fixtures = true
+    Cucumber::Rails::World.use_transactional_tests = true
     DatabaseCleaner.strategy = :transaction
   end
   Before('@javascript') do
-    Cucumber::Rails::World.use_transactional_fixtures = false
+    Cucumber::Rails::World.use_transactional_tests = false
     DatabaseCleaner.strategy = :truncation
   end
   Before do
