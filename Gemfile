@@ -20,7 +20,7 @@ gem 'therubyracer', '~> 0.12.3', :platforms => :ruby
 gem 'uglifier', '>= 4.2.0'
 
 gem 'jquery-rails', '~> 4.4.0'
-gem 'jquery-ui-rails', '~> 5.0.5'
+gem 'jquery-ui-rails', '~> 6.0.1'
 # gem 'jquery-ui-sass-rails', '~> 4.0.3.0'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem "RedCloth", '~> 4.3.2'
