@@ -8,6 +8,5 @@ script:
   - bundle exec rake db:schema:load
   - bundle exec rake db:test:prepare
   - bundle exec rails test
-  - bundle exec cucumber || true
-  - bundle exec cucumber -p rerun
+  - bundle exec cucumber || bundle exec cucumber -p rerun
   #- cat tmp/capybara/*html
