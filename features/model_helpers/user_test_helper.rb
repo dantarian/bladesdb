@@ -43,7 +43,7 @@ module UserTestHelper
   end
 
   def delete(user)
-    user.delete
+    user.delete_user
     user.save
   end
 
