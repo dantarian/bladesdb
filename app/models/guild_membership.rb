@@ -6,10 +6,10 @@ class GuildMembership < ApplicationRecord
 
     #validates_presence_of :character_id
     validates_presence_of :declared_on
-    validates_presence_of :approved_by_id, :unless => :is_provisional_or_starting_guild?
-    validates_presence_of :approved_at, :unless => :is_provisional_or_starting_guild?
-    validates_presence_of :guild_branch_id, :unless => "guild_id.nil? || guild.guild_branches.empty?"
-    validates_numericality_of :start_points, :only_integer => true, :greater_than_or_equal_to => 0, :allow_nil => true
+    validates_presence_of :approved_by_id, unless: :is_provisional_or_starting_guild?
+    validates_presence_of :approved_at, unless: :is_provisional_or_starting_guild?
+    validates_presence_of :guild_branch_id, unless: -> { guild_id.nil? || guild.guild_branches.empty? }
+    validates_numericality_of :start_points, only_integer: true, greater_than_or_equal_to: 0, allow_nil: true
     validate :guild_start_points_less_than_or_equal_to_total_points
     validate :guild_or_branch_are_different_to_previous, on: :create
 

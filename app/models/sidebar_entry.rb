@@ -10,8 +10,8 @@ class SidebarEntry < ApplicationRecord
     has_many :sidebar_entries, inverse_of: :parent_entry, foreign_key: :parent_entry_id
 
     validates_presence_of :name
-    validates_presence_of :page_id, :if => "url.nil?"
-    validates_presence_of :url, :if => "page_id.nil?"
+    validates_presence_of :page_id, if: -> { url.nil? }
+    validates_presence_of :url, if: { page_id.nil? }
     validates_presence_of :order
     
     auto_strip_attributes :name, :url
