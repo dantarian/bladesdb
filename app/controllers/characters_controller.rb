@@ -1,10 +1,10 @@
 class CharactersController < ApplicationController
     
-    before_filter :authenticate_user!
-    before_filter :new_character, :only => [:new]
-    before_filter :find_character, :except => [:my_characters, :index, :new, :create, :new_player, :create_player, :show_all]
-    before_filter :check_ajax, :except => [:my_characters, :index, :new, :create, :show, :show_all]
-    before_filter :check_own_character_or_ref, 
+    before_action :authenticate_user!
+    before_action :new_character, :only => [:new]
+    before_action :find_character, :except => [:my_characters, :index, :new, :create, :new_player, :create_player, :show_all]
+    before_action :check_ajax, :except => [:my_characters, :index, :new, :create, :show, :show_all]
+    before_action :check_own_character_or_ref, 
                   :only => [:edit, 
                             :edit_bio, 
                             :edit_date_of_birth, 
@@ -26,18 +26,18 @@ class CharactersController < ApplicationController
                             :declare,
                             :save_declaration,
                             :recycle]
-    before_filter :check_character_ref_role, :only => [:approve, :reject]
-    before_filter :check_not_own_character, :only => [:approve, :reject, :edit_gm_notes, :update_gm_notes]
-    before_filter :check_not_already_approved_or_rejected, :only => [:approve, :reject]
-    before_filter :check_gm_or_character_ref, :only => [:edit_gm_notes, :update_gm_notes]
+    before_action :check_character_ref_role, :only => [:approve, :reject]
+    before_action :check_not_own_character, :only => [:approve, :reject, :edit_gm_notes, :update_gm_notes]
+    before_action :check_not_already_approved_or_rejected, :only => [:approve, :reject]
+    before_action :check_gm_or_character_ref, :only => [:edit_gm_notes, :update_gm_notes]
 
     def my_characters
-        @characters = current_user.characters.joins(:character_state).order("current_character_status.points DESC")
+        @characters = current_user.characters.joins(:character_state).order("current_character_statuses.points DESC")
         respond_to {|format| format.html }
     end
     
     def index
-        @characters = Character.joins(:character_state).where(state: :active).order("current_character_status.points DESC")
+        @characters = Character.joins(:character_state).where(state: :active).order("current_character_statuses.points DESC")
         respond_to {|format| format.html }
     end
 
@@ -47,7 +47,7 @@ class CharactersController < ApplicationController
     
     def show_all
         @showall = true
-        @characters = Character.joins(:character_state).order("current_character_status.points DESC")
+        @characters = Character.joins(:character_state).order("current_character_statuses.points DESC")
         respond_to {|format| format.html {render :index}}
     end
 
@@ -246,34 +246,6 @@ class CharactersController < ApplicationController
         end
     end
     
-    protected
-        
-        def check_same_owner(params)
-            @primary = params[:primary]
-            @secondary = params[:secondary]
-            @primary_character = Character.find(@primary) unless @primary.nil? or @primary == ""
-            @secondary_character = Character.find(@secondary) unless @secondary.nil? or @secondary == ""
-            if !(@primary_character.user_id == @secondary_character.user_id)
-                flash[:error] = "Characters must belong to the same user."
-                render "merge_select_characters"
-            else
-                yield
-            end
-        end
-        
-        def check_distinct_characters(params)
-            @primary = params[:primary]
-            @secondary = params[:secondary]
-            @primary_character = Character.find(@primary) unless @primary.nil? or @primary == ""
-            @secondary_character = Character.find(@secondary) unless @secondary.nil? or @secondary == ""
-            if @primary_character.nil? or @secondary_character.nil? or @primary == @secondary
-                flash[:error] = "Please ensure you have selected two distinct characters to merge."
-                render "merge_select_characters"
-            else
-                yield
-            end
-        end
-
     private
         def full_declaration_params
             params.require(:character).permit(:name, :title, :no_title, :race_id, {:guild_memberships_attributes => [:id, :guild_id, :guild_branch_id, :start_points]}, :starting_points, :starting_florins, :starting_death_thresholds, :declared_on, :state)
@@ -334,7 +306,7 @@ class CharactersController < ApplicationController
         
         def save_character
             if @character.save
-                UserMailer.character_approval(@character).deliver if @character.approval_recently_set?
+                UserMailer.character_approval(@character).deliver_now if @character.approval_recently_set?
                 flash[:notice] = I18n.t("character.success.updated")
                 reload_page
             else

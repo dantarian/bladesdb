@@ -1,10 +1,10 @@
 class DebriefsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_game
-    before_filter :find_debrief, :except => [ :new_gm, :new_monster, :new_player, :create ]
-    before_filter :check_can_edit_game
-    before_filter :check_ajax
-    before_filter :check_game_not_closed
+    before_action :authenticate_user!
+    before_action :find_game
+    before_action :find_debrief, :except => [ :new_gm, :new_monster, :new_player, :create ]
+    before_action :check_can_edit_game
+    before_action :check_ajax
+    before_action :check_game_not_closed
 
     def new_gm
         @debrief = @game.debriefs.build

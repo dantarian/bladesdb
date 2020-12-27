@@ -1,5 +1,5 @@
-class Credit < ActiveRecord::Base
-    belongs_to :transaction
+class Credit < ApplicationRecord
+    belongs_to :money_transaction, class_name: "Transaction", foreign_key: "transaction_id"
     belongs_to :character
   
     validates_presence_of :character_id, :if => "other_recipient.nil?"

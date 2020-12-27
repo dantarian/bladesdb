@@ -1,4 +1,4 @@
-class Transaction < ActiveRecord::Base
+class Transaction < ApplicationRecord
     belongs_to :approved_by, :class_name => "User"
     has_one :credit, :dependent => :destroy
     has_one :debit, :dependent => :destroy
@@ -16,7 +16,8 @@ class Transaction < ActiveRecord::Base
     
     def creditor_has_enough_money
         unless debit.character.nil? or value.nil? or value == ""
-            errors.add(:value, "cannot be more money than the character has available") if debit.character.money_on(transaction_date) < value
+            available = debit.character.money_on(transaction_date)
+            errors.add(:value, I18n.t("character.money_transfers.validation.not_enough_money", money: available)) if available < value
         end
     end
     

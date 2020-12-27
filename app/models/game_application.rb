@@ -1,4 +1,4 @@
-class GameApplication < ActiveRecord::Base
+class GameApplication < ApplicationRecord
     belongs_to :game
     belongs_to :user
   

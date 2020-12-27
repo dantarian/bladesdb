@@ -1,11 +1,11 @@
 class CharacterPointAdjustmentsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_character
-    before_filter :find_character_point_adjustment, :except => [:new, :create]
-    before_filter :check_own_character_or_ref_or_admin
-    before_filter :check_ajax
-    before_filter :check_admin_or_character_ref_role, :only => [:approve, :reject]
-    before_filter :check_not_own_character, :only => [:approve, :reject]
+    before_action :authenticate_user!
+    before_action :find_character
+    before_action :find_character_point_adjustment, :except => [:new, :create]
+    before_action :check_own_character_or_ref_or_admin
+    before_action :check_ajax
+    before_action :check_admin_or_character_ref_role, :only => [:approve, :reject]
+    before_action :check_not_own_character, :only => [:approve, :reject]
     
     def new
         @character_point_adjustment = CharacterPointAdjustment.new
@@ -110,7 +110,7 @@ class CharacterPointAdjustmentsController < ApplicationController
             if @character_point_adjustment.is_provisional?
                 approved ? @character_point_adjustment.approve(current_user) : @character_point_adjustment.reject(current_user)
                 if @character_point_adjustment.save
-                    UserMailer.character_point_adjustment_approval(@character_point_adjustment).deliver
+                    UserMailer.character_point_adjustment_approval(@character_point_adjustment).deliver_now
                     flash[:notice] = "Character Point adjustment #{approved ? "approved" : "rejected"}."
                 else
                     flash[:error] = "Character Point adjustment #{approved ? "approval" : "rejection"} failed."

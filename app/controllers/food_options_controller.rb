@@ -1,6 +1,6 @@
 class FoodOptionsController < ApplicationController
-    before_filter :check_ajax
-    before_filter :find_food_options, :except => [:new, :create]
+    before_action :check_ajax
+    before_action :find_food_options, :except => [:new, :create]
 
     def new
         @food_option = FoodOption.new

@@ -1,4 +1,4 @@
-class Board < ActiveRecord::Base
+class Board < ApplicationRecord
     default_scope { order(:order) }
 
     has_many :messages, -> { order created_at: :desc }

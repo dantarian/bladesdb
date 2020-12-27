@@ -23,17 +23,19 @@ class BladesDBPage
     def set_datepicker_date(id, date)
       page.find("##{id}").send_keys '\t'
       execute_script("$('##{id}').val('#{date.to_formatted_s}')")
+      execute_script("$('##{id}').datepicker('hide')")
     end
 
     def check_is_displaying_message(message)
         page.should have_content(message)
     end
 
-    def check_for_links(text:, display: true)
+    def check_for_links(text:, element: nil, display: true)
+        parent = element ? page.find(element) : page
         if display
-          page.should have_link(text)
+          parent.should have_link(text)
         else
-          page.should have_no_link(text)
+          parent.should have_no_link(text)
         end
     end
 

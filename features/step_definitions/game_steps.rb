@@ -75,21 +75,25 @@ Given(/^there is a player for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Poppy Player", email: "player@mail.com", username: "player")
   character = CharacterTestHelper.create_character(user)
   CharacterTestHelper.approve_character(user)
+  reset_mailer
   GameTestHelper.add_player user, character, to: Game.first
 end
 
 Given(/^there is a monster for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Manfred Monster", email: "monster@mail.com", username: "monster")
+  reset_mailer
   GameTestHelper.add_monster user, to: Game.first
 end
 
 Given(/^there is a non-attendee for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Nick Albright", email: "na@mail.com", username: "not")
+  reset_mailer
   GameTestHelper.add_non_attendee user, to: Game.first
 end
 
 Given(/^there is an attendee for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Alan The Terrible", email: "att@mail.com", username: "att")
+  reset_mailer
   GameTestHelper.add_attendee user, to: Game.first
 end
 
@@ -437,4 +441,28 @@ end
 
 Then(/^the user should not be in the list of users$/) do
   GamePage.new.check_user_is_not_in_list_of_users_who_can_be_added_to_the_debrief(User.last)
+end
+
+Then(/^the other user should be in the list of available GMs$/) do
+  EventCalendarPage.new.check_new_game_gms_include(User.second)
+end
+
+Then(/^the web-only user should not be in the list of available GMs$/) do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then(/^the suspended user should not be in the list of available GMs$/) do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then(/^the unapproved user should not be in the list of available GMs$/) do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then(/^the unconfirmed user shoud not be in the list of available GMs$/) do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
+end
+
+Then(/^the deleted user shoud not be in the list of available GMs$/) do
+  EventCalendarPage.new.check_new_game_gms_do_not_include(User.second)
 end

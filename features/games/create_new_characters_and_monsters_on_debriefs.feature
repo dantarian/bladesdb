@@ -32,6 +32,13 @@ Feature: Create new characters and monsters on debriefs
 		And the monster should appear in the GM-created members list
 
 	@javascript
+	Scenario: Create a new monster with a Terms and Conditions statement in place
+		Given there is a Terms and Conditions statement
+		When the GM creates a new monster on the debrief
+		Then the created monster should appear in the debrief
+		And the monster should appear in the GM-created members list
+
+	@javascript
 	Scenario: Create a new GM
 		When the GM creates a new GM on the debrief
 		Then the created GM should appear in the debrief

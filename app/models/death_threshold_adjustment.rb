@@ -1,4 +1,4 @@
-class DeathThresholdAdjustment < ActiveRecord::Base
+class DeathThresholdAdjustment < ApplicationRecord
     belongs_to :character
     belongs_to :approved_by, :class_name => "User"
 

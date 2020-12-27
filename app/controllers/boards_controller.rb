@@ -1,8 +1,8 @@
 require 'securerandom'
 
 class BoardsController < ApplicationController
-    before_filter :check_admin_or_committee_role, :only => [:admin, :new, :create, :update, :destroy ]
-    before_filter :authenticate_user!, :only => [:index, :show]
+    before_action :check_admin_or_committee_role, :only => [:admin, :new, :create, :update, :destroy ]
+    before_action :authenticate_user!, :only => [:index, :show]
         
     # GET /boards
     # GET /boards.xml
@@ -114,7 +114,7 @@ class BoardsController < ApplicationController
     
     def move_up
         selected_board = Board.find( params[:id] )
-        target_board = Board.where('"order" < ?', selected_board.order).last
+        target_board = Board.where('"order" < ? and closed = ?', selected_board.order, false).last
         
         if target_board
             selected_board.order, target_board.order = target_board.order, selected_board.order
@@ -128,7 +128,7 @@ class BoardsController < ApplicationController
 
     def move_down
         selected_board = Board.find( params[:id] )
-        target_board = Board.where('"order" > ?', selected_board.order).first
+        target_board = Board.where('"order" > ? and closed = ?', selected_board.order, false).first
 
         if target_board
             selected_board.order, target_board.order = target_board.order, selected_board.order

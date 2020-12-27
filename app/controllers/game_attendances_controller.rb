@@ -1,6 +1,6 @@
 class GameAttendancesController < ApplicationController
-    before_filter :check_ajax
-    before_filter :find_game_attendance, :except => [:new, :create]
+    before_action :check_ajax
+    before_action :find_game_attendance, :except => [:new, :create]
 
 
     # GET /game_attendances/new
@@ -86,7 +86,7 @@ class GameAttendancesController < ApplicationController
     def confirm
         @game_attendance.confirm
         @game_attendance.save
-        UserMailer.play_attendance(@game_attendance).deliver
+        UserMailer.play_attendance(@game_attendance).deliver_now
         update_game_display
     end
 
@@ -99,7 +99,7 @@ class GameAttendancesController < ApplicationController
     def reject
         @game_attendance.reject
         @game_attendance.save
-        UserMailer.play_attendance(@game_attendance).deliver
+        UserMailer.play_attendance(@game_attendance).deliver_now
         update_game_display
     end
 

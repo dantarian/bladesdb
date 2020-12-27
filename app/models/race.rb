@@ -1,3 +1,3 @@
-class Race < ActiveRecord::Base
+class Race < ApplicationRecord
     has_many :characters
 end

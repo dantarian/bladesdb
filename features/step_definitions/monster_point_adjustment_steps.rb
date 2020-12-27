@@ -40,6 +40,11 @@ Then(/^a pending positive monster point adjustment should be created$/) do
   MonsterPointsPage.new.check_for_adjustment(20, state: "provisional")
 end
 
+Then(/^the user should have a pending monster point adjustment for (\d+) monster points$/) do |points|
+  MonsterPointsPage.new.visit_page(monster_points_path).and.check_for_adjustment(points, state: "provisional")
+end
+
+
 Then(/^a pending negative monster point adjustment should be created$/) do
   MonsterPointsPage.new.check_for_adjustment(-20, state: "provisional")
 end

@@ -1,4 +1,4 @@
-class Character < ActiveRecord::Base
+class Character < ApplicationRecord
     belongs_to :user
     belongs_to :race
     belongs_to :approved_by, :class_name => "User"
@@ -65,7 +65,7 @@ class Character < ActiveRecord::Base
     end
 
     def can_recycle?
-        (points < 200) and (debriefs.joins(:game).where(games: { non_stats: false }).count <= 3) and not recycled?
+        (debriefs.joins(:game).where(games: { non_stats: false }).count <= 3) and not recycled?
     end
 
     def is_provisional?
@@ -279,7 +279,7 @@ class Character < ActiveRecord::Base
         unless debriefs.empty?
             last_game_date = debriefs.joins(:game).where(games: {non_stats: false}).where("games.start_date <= ?", date).maximum("games.start_date") || declared_on
         end
-        monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:monster_points_spent)
+        monster_point_spends.where("spent_on > ? and spent_on < ?", last_game_date, date).sum(:character_points_gained)
     end
 
     def monster_points_available_to_spend_on(date, precalculated_character_points = nil, monster_point_spend_to_ignore = nil)
@@ -463,10 +463,10 @@ class Character < ActiveRecord::Base
             end
             credits.each do |credit|
                 event = MoneyEvent.new
-                event.date = credit.transaction.transaction_date
-                event.money = credit.transaction.value
-                event.other_party = credit.transaction.debit.subject_name
-                event.comment = credit.transaction.description
+                event.date = credit.money_transaction.transaction_date
+                event.money = credit.money_transaction.value
+                event.other_party = credit.money_transaction.debit.subject_name
+                event.comment = credit.money_transaction.description
                 event.provisional = false
                 event.rejected = false
                 event.historical = (event.date < self.declared_on)
@@ -476,10 +476,10 @@ class Character < ActiveRecord::Base
             end
             debits.each do |debit|
                 event = MoneyEvent.new
-                event.date = debit.transaction.transaction_date
-                event.money = -debit.transaction.value
-                event.other_party = debit.transaction.credit.subject_name
-                event.comment = debit.transaction.description
+                event.date = debit.money_transaction.transaction_date
+                event.money = -debit.money_transaction.value
+                event.other_party = debit.money_transaction.credit.subject_name
+                event.comment = debit.money_transaction.description
                 event.provisional = false
                 event.rejected = false
                 event.historical = (event.date < self.declared_on)
@@ -546,9 +546,11 @@ class Character < ActiveRecord::Base
     protected
         def add_monster_point_adjustment_for_recycling
             if recycled? and state_was == Active
-                earned_points = points - 20
+                mp_spends = monster_point_spends.to_a
+                mp_regained = mp_spends.map(&:monster_points_spent).sum
+                earned_points = points - 20 - mp_spends.map(&:character_points_gained).sum
                 adjustment = user.monster_point_adjustments.new
-                adjustment.points = earned_points
+                adjustment.points = mp_regained + earned_points
                 adjustment.reason = "Character recycled: #{name}"
                 adjustment.declared_on = Date.today
                 adjustment.save!

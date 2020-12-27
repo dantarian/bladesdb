@@ -1,4 +1,4 @@
-class MonsterPointSpend < ActiveRecord::Base
+class MonsterPointSpend < ApplicationRecord
     belongs_to :character
 
     validates_presence_of :spent_on, on: :create
@@ -133,9 +133,9 @@ class MonsterPointSpend < ActiveRecord::Base
         if monster_points_spent != new_cost
             update!(monster_points_spent: new_cost)
             if new_cost > original_cost
-                UserMailer.mp_spend_cost_increase(self, original_cost).deliver
+                UserMailer.mp_spend_cost_increase(self, original_cost).deliver_now
             else
-                UserMailer.mp_spend_cost_decrease(self, original_cost).deliver
+                UserMailer.mp_spend_cost_decrease(self, original_cost).deliver_now
             end
         end
     end

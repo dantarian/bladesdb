@@ -15,6 +15,14 @@ When(/^the user attempts to register$/) do
    RegistrationPage.new.visit_page(new_user_registration_path).and.register_as("normaluser", "Norman", "norman@mail.com", "Passw0rd")
 end
 
+When(/^the user attempts to register without confirming their age is over (\d+)$/) do |arg1|
+  RegistrationPage.new.visit_page(new_user_registration_path).and.register_as("normaluser", "Norman", "norman@mail.com", "Passw0rd", over18: false)
+end
+
+When(/^the user attempts to register without accepting the Terms and Conditions$/) do
+  RegistrationPage.new.visit_page(new_user_registration_path).and.register_as("normaluser", "Norman", "norman@mail.com", "Passw0rd", accept_terms_and_conditions: false)
+end
+
 When(/^the user clicks the first link in the confirmation email$/) do
   open_email(User.first.email)
   click_first_link_in_email
@@ -22,6 +30,14 @@ end
 
 Then(/^the user should see a message to check their email$/) do
   HomePage.new.check_is_displaying_message I18n.t("devise.registrations.signed_up_but_unconfirmed")
+end
+
+Then(/^the user should see a message telling them they must be at least 18$/) do
+  RegistrationPage.new.check_error_message I18n.t("activerecord.errors.models.user.attributes.over18.accepted")
+end
+
+Then(/^the user should see a message telling them they must accept the Terms and Conditions to create an account$/) do
+  RegistrationPage.new.check_error_message I18n.t("activerecord.errors.models.user.attributes.accept_terms_and_conditions.accepted")
 end
 
 Then(/^the user should see a restricted access message$/) do

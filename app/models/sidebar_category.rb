@@ -1,4 +1,4 @@
-class SidebarCategory < ActiveRecord::Base
+class SidebarCategory < ApplicationRecord
     include Rails.application.routes.url_helpers
     default_scope { order(:order) }
     
@@ -30,11 +30,20 @@ class SidebarCategory < ActiveRecord::Base
     end
 
     def self.fix_category_order
-        categories = SidebarCategory.all :order => '"order" ASC'
+        categories = SidebarCategory.all
         order = 0
         for category in categories
             category.order = ( order += 1 )
             category.save
         end
     end
+
+    def self.next_order
+        (SidebarCategory.reorder(order: :desc).limit(1).pluck(:order).first || 0) + 1
+    end
+
+    def next_entry_order
+        (self.sidebar_entries.reorder(order: :desc).limit(1).pluck(:order).first || 0) + 1
+    end
+
 end

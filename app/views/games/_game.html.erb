@@ -114,7 +114,7 @@
 				</tbody>
 			</table>
 
-    		<% if current_user && !(game.is_gm? current_user) && !game.is_debriefable?  && game.open && current_user.is_normal? %>
+    		<% if current_user && !(game.is_gm? current_user) && !game.is_debriefable?  && (game.open || game.attendance_only) && current_user.is_normal? %>
 
                 <% if !game.game_attendances.exists?( :user_id => current_user.id ) and game.attendance_only %>
                     <p>

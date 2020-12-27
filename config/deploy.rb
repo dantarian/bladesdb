@@ -19,7 +19,7 @@ set :deploy_to, '/var/www/bladesdb'
 #set :copy_exclude, ['.git']
 
 set :rvm_type, :system
-set :rvm_ruby_version, '2.1.1@blades'
+set :rvm_ruby_version, '2.4.5@blades'
 
 set :bundle_path, nil
 set :bundle_binstubs, nil
@@ -41,7 +41,7 @@ set :log_level, :info
 set :linked_files, %w{db/production.sqlite3}
 
 # Default value for linked_dirs is []
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -69,7 +69,7 @@ namespace :deploy do
       # end
     end
   end
-  
+
   # Run 'cap production deploy:seed' to seed your database
   desc 'Runs rake db:seed'
   task :seed => [:set_rails_env] do

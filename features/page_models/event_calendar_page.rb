@@ -64,7 +64,7 @@ class EventCalendarPage < BladesDBPage
     end
 
     def check_for_player(player, character)
-        make_details_visible(Game.find.first)
+        make_details_visible(Game.first)
         gamedetails = page.find("tbody tr#gamedetailsrow1")
         playerdetails = gamedetails.find("table.players tbody tr")
 
@@ -137,6 +137,20 @@ class EventCalendarPage < BladesDBPage
         page.find("div#dialog").find_field('Start date').value.should eq((next_sunday + 7.days).to_formatted_s)
         self
     end
+
+    def check_new_game_gms_include(user)
+        page.find("div#dialog")
+            .find_field('Gamesmasters')
+            .should have_selector "option[value='#{user.id}']"
+        self
+    end         
+
+    def check_new_game_gms_do_not_include(user)
+        page.find("div#dialog")
+            .find_field('Gamesmasters')
+            .should have_no_selector "option[value='#{user.id}']"
+        self
+    end         
 
     def check_cannot_sign_up_to_game(game)
         game ||= Game.first

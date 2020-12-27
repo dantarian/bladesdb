@@ -1,7 +1,38 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    attributes:
+      user:
+        over18: "" # Stops the field name getting prepended to the validation message.
+        accept_terms_and_conditions: ""
+    errors:
+      models:
+        user:
+          attributes:
+            over18:
+              accepted: "You must be over 18 to have an account on this website."
+            accept_terms_and_conditions:
+              accepted: "You must accept the terms and conditions to have an account on this website."
   approvals:
     approved: "approved"
     rejected: "rejected"
@@ -42,11 +73,10 @@ en:
         more_than_character_points: "cannot be higher than current point total."
         no_change: "Either Guild or Branch must differ from the current guild membership."
         left_guild: "Failed to create request to leave guild."
-    success:
-      created: "Character was successfully created."
-      updated: "Character was successfully updated."
-    failure:
-      updated: "Failed to update character."
+    points_adjustment:
+      validation:
+        future_date: "cannot be in the future."
+      requested: "Character Point adjustment requested."
     monster_points:
       not_enough_mp: "must be at most %{points}."
       too_many_cp: "must be at most %{points}."
@@ -71,6 +101,9 @@ en:
         not_when_retired: "Cannot delete monster point spends from a retired character."
         not_when_recycled: "Cannot delete monster point spends from a recycled character."
         not_when_perm_dead: "Cannot delete monster point spends from a dead character."
+    money_transfers:
+      validation:
+        not_enough_money: "cannot be more than %{money} florins."
   game:
     failure:
       no_next_game: "No future games currently exist in the Event Calendar. Please inform the Committee."

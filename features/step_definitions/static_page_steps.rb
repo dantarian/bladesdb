@@ -1,5 +1,9 @@
 # Set-up steps
 
+Given(/^there is a page$/) do
+  PageTestHelper.create_page
+end
+
 Given(/^there is a general page$/) do
   PageTestHelper.create_page
 end

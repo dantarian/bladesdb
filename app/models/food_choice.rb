@@ -1,4 +1,4 @@
-class FoodChoice < ActiveRecord::Base
+class FoodChoice < ApplicationRecord
     belongs_to :game_attendance
   
     validates_presence_of :game_attendance_id

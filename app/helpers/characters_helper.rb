@@ -18,9 +18,9 @@ module CharactersHelper
             if character.user == current_user or current_user.is_character_ref?
                 actions << { :name => "Reactivate", :url => reactivate_character_path(character), :method => :patch } if character.retired?
                 actions << { :name => "Retire", :url => retire_character_path(character), :method => :patch } if character.active?
-                actions << { :name => "Perm-kill", :url => perm_kill_character_path(character), :method => :patch, data: { confirm: "Are you sure you want to permanently kill this character?"} } if character.active? or character.retired?
+                actions << { :name => "Perm-kill", :url => perm_kill_character_path(character), :method => :patch, confirm: "Are you sure you want to permanently kill this character?" } if character.active? or character.retired?
                 actions << { :name => (character.user == current_user ? "Request resurrection from perm-death" : "Resurrect from perm-death"), :url => resurrect_character_path(character), :method => :patch } if character.dead?
-                actions << { :name => "Recycle", :url => recycle_character_path(character), :method => :patch, data: { confirm: "Are you sure you want to recycle this character? This action cannot be undone." } } if character.can_recycle?
+                actions << { :name => "Recycle", :url => recycle_character_path(character), :method => :patch, confirm: "Are you sure you want to recycle this character? This action cannot be undone." } if character.can_recycle?
             end
             if current_user.is_character_ref? and character.approved.nil? and character.user != current_user
                 actions << { :name => "Approve", :url => approve_character_path(character), :method => :patch }

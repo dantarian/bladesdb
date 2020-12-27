@@ -1,10 +1,10 @@
 class MonsterPointDeclarationsController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :find_monster_point_declaration, :except => [:new, :create]
-    before_filter :check_own_declaration_or_ref_or_admin, :except => [:new, :create]
-    before_filter :check_ajax
-    before_filter :check_admin_or_character_ref_role, :only => [:approve, :reject]
-    before_filter :check_not_own_declaration, :only => [:approve, :reject]
+    before_action :authenticate_user!
+    before_action :find_monster_point_declaration, :except => [:new, :create]
+    before_action :check_own_declaration_or_ref_or_admin, :except => [:new, :create]
+    before_action :check_ajax
+    before_action :check_admin_or_character_ref_role, :only => [:approve, :reject]
+    before_action :check_not_own_declaration, :only => [:approve, :reject]
     
     def new
         @monster_point_declaration = MonsterPointDeclaration.new
@@ -104,7 +104,7 @@ class MonsterPointDeclarationsController < ApplicationController
             if @monster_point_declaration.is_provisional?
                 (state ? @monster_point_declaration.approve(current_user) : @monster_point_declaration.reject(current_user))
                 if @monster_point_declaration.save
-                    UserMailer.monster_point_declaration_approval(@monster_point_declaration).deliver
+                    UserMailer.monster_point_declaration_approval(@monster_point_declaration).deliver_now
                     flash[:notice] = success_message
                     reload_page
                 else

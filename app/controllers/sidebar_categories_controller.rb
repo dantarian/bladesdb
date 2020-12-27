@@ -1,5 +1,5 @@
 class SidebarCategoriesController < ApplicationController
-    before_filter :check_admin_or_committee_role
+    before_action :check_admin_or_committee_role
 
     def new
         @category = SidebarCategory.new
@@ -17,8 +17,7 @@ class SidebarCategoriesController < ApplicationController
 
     def create
         @category = SidebarCategory.new( sidebar_category_params )
-        last_category = SidebarCategory.order(:order).first
-        @category.order = last_category.order + 1
+        @category.order = SidebarCategory.next_order
         if @category.save
             @categories = SidebarCategory.order(:order)
             render :update_sidebar

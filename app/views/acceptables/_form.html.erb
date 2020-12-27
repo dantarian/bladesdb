@@ -1,0 +1,29 @@
+<%= form_for(@acceptable) do |f| %>
+  <% if @acceptable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@acceptable.errors.count, "error") %> prohibited this acceptable from being saved:</h2>
+
+      <ul>
+      <% @acceptable.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.text_field :type %>
+  </div>
+  <div class="field">
+    <%= f.label :text %><br>
+    <%= f.text_area :text %>
+  </div>
+  <div class="field">
+    <%= f.label :version %><br>
+    <%= f.number_field :version %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

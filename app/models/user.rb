@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
     include AASM
 
     devise :database_authenticatable,
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     has_many :characters
     has_many :messages
     has_many :board_visits
-    has_many :attended_games, :through => :debriefs, :source => :game
+    has_many :attended_games, -> { distinct }, :through => :debriefs, :source => :game
 
     validates_presence_of   :username
     validates_length_of     :username,
@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
                             :case_sensitive => false,
                             :message => I18n.t("user.validation.username_uniqueness")
     validates_format_of     :username,
-                            :with => /\A\w[\w\.\-_@]+\z/,
+                            :with => /\A\w[\w\.\-@]+\z/,
                             :message => I18n.t("user.validation.username_format")
 
     validates_presence_of   :name
@@ -71,6 +71,9 @@ class User < ActiveRecord::Base
                             :message => I18n.t("user.validation.email_format"),
                             :unless => :passive?
 
+    validates :over18, acceptance: true, on: :create, unless: Proc.new {|user| user.email.blank? }
+    validates :accept_terms_and_conditions, acceptance: true, on: :create, unless: Proc.new {|user| user.email.blank? }
+
     auto_strip_attributes :username, :name, :email, :mobile_number, :contact_name, :contact_number, :medical_notes, :notes
 
     @updating = false
@@ -94,7 +97,7 @@ class User < ActiveRecord::Base
             transitions :from => [:passive, :pending, :active], :to => :suspended
         end
 
-        event :delete do
+        event :delete_user do
             transitions :from => [:passive, :pending, :active, :suspended], :to => :deleted
         end
 
@@ -234,7 +237,7 @@ class User < ActiveRecord::Base
             end
         elsif character_or_user.is_a? User
             unless character_or_user == self
-                self.mastered_games.select{|game| !game.is_debrief_finished?}.each do |game|
+                self.mastered_games.select{|game| !game.is_debrief_finished? && !game.attendance_only}.each do |game|
                     if game.users.include?(character_or_user)
                         is_gm = true
                         break
@@ -264,39 +267,65 @@ class User < ActiveRecord::Base
     end
 
     def games_gmed
-        self.mastered_games.where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
-            sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
-        end
+        mastered_games
+            .where("start_date >= ? and start_date <= ?", current_year_start_date(Date.today), Date.today)
+            .where(attendance_only: false)
+            .where.not(monster_points_base: 0)
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_played
-        self.debriefs.joins(:game).where(games: {non_stats: false}).where.not(character_id: nil).where("games.start_date >= ?", current_year_start_date(Date.today)).select(:game_id).distinct.to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(non_stats: false, attendance_only: false)
+            .where.not(debriefs: { character_id: nil })
+            .where("start_date >= ?", current_year_start_date(Date.today))
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and player_points_base = 0))")
+            .dates_only
+            .distinct
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_monstered
-        self.debriefs.joins(:game).where("games.start_date >= ?", current_year_start_date(Date.today)).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
-            sum += ((debrief.game.nil? or debrief.game.end_date.nil?) ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(attendance_only: false, debriefs: { character_id: nil })
+            .where("start_date >= ?", current_year_start_date(Date.today))
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and monster_points_base = 0))")
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_gmed_ever
-        self.mastered_games.where("start_date <= ?", Date.today).where(attendance_only: false).to_a.inject(0) do |sum, game|
-            sum += (game.end_date.nil? ? 1 : (game.end_date - game.start_date) + 1).to_i
-        end
+        mastered_games
+            .where("start_date <= ?", Date.today)
+            .where(attendance_only: false)
+            .where.not(monster_points_base: 0)
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_played_ever
-        self.debriefs.joins(:game).where(games: {non_stats: false}).where.not(character_id: nil).select(:game_id).distinct.to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(non_stats: false, attendance_only: false)
+            .where.not(debriefs: { character_id: nil })
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and player_points_base = 0))")
+            .dates_only
+            .distinct
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def games_monstered_ever
-        self.debriefs.joins(:game).where(character_id: nil, games: {attendance_only: false}).to_a.inject(0) do |sum, debrief|
-            sum += (debrief.game.end_date.nil? ? 1 : (debrief.game.end_date - debrief.game.start_date) + 1).to_i
-        end
+        attended_games.joins(:debriefs)
+            .where(attendance_only: false, debriefs: { character_id: nil })
+            .where.not("((debriefs.base_points is not null and debriefs.base_points = 0) OR (debriefs.base_points is null and monster_points_base = 0))")
+            .dates_only
+            .map(&:pm_ratio_value)
+            .sum
     end
 
     def display_name( viewing_user )
@@ -487,7 +516,7 @@ class User < ActiveRecord::Base
     private
         def current_year_start_date(date)
             year = (date.month < 10) ? date.year - 1 : date.year
-            year_start = Date.new(year, 10, 1)
+            Date.new(year, 10, 1)
         end
 
         def has_confirmation_token?

@@ -11,7 +11,7 @@
 
 <h2 class="alt">Registration</h2>
 <p>
-	By registering for this website you agree to abide by the BathLARP Code of Conduct and the Website Terms and Conditions.
+	By registering for this website you agree to abide by the BathLARP Code of Conduct.
 </p>
 <p>
 	You must be 18 or older to be a member of BathLARP.
@@ -45,6 +45,20 @@
         <%= f.label :password_confirmation, 'Confirm password' %><br/>
         <%= f.password_field :password_confirmation %>
     </p>
+
+    <p>
+        <%= f.check_box :over18 %>
+        <%= f.label :over18, "I confirm I am at least 18 years old" %>
+    </p>
+
+    <% if Acceptable.latest_terms_and_conditions %>
+      <p>Terms and Conditions:</p>
+      <%= RedCloth.new( Acceptable.latest_terms_and_conditions.text, [:filter_html] ).to_html.html_safe %>
+      <p>
+          <%= f.check_box :accept_terms_and_conditions %>
+          <%= f.label :accept_terms_and_conditions, "I accept the Terms and Conditions" %>
+      </p>
+    <% end %>
 
     <p>
         <%= label_tag "Please prove you are a human being (or at least humanoid)" %>

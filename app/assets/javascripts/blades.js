@@ -1,40 +1,6 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-function setMenuStatus( id, state ) {
-    var exDate = new Date();
-    exDate.setTime( exDate.getTime() + 60000 );
-    document.cookie = escape(id) + "=" + ( state ? "1" : "0" ) + ";expires=" + exDate.toUTCString();
-}
-
-function loadMenus() {
-    var sections = $( ".sidebarsection" );
-    sections.each(function () {
-        var section = $(this);
-        if ( document.cookie.length > 0 ) {
-            var c_start, c_end;
-            c_start = document.cookie.indexOf( section.attr("id") + "=" );
-            if ( c_start != -1 ) {
-                c_start = c_start + section.attr("id").length + 1;
-                c_end = document.cookie.indexOf(";", c_start);
-                if ( c_end == -1 ) c_end = document.cookie.length;
-                var value = unescape( document.cookie.substring( c_start, c_end ) );
-                section.toggle( value == "1" );
-            }
-        }
-    });
-}
-
-function saveMenus() {
-    if ($("#logged_in").val() == "true") {
-        var sections = $(".sidebarsection");
-        var size = sections.size();
-        sections.each(function () {
-            setMenuStatus( $(this).id, $(this).is(":visible") );
-        });
-    }
-}
-
 function toggleGameDetails(id) {
 	$("#gamedetailsrow" + id).toggle();
 	$("#show_details_" + id).toggle();
@@ -116,10 +82,7 @@ function printpage() {
   window.print();
 };
 
-window.onbeforeunload = function(event) { saveMenus(); };
-
 $(function () {
-	loadMenus();
 	if ($("table.source").size() > 0) {
 	    updateMergeSelections();
 	}
