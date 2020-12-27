@@ -47,6 +47,4 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
   config.allow_concurrency = false
-
-  config.active_support.test_order = :random
 end
