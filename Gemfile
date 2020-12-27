@@ -20,7 +20,7 @@ gem 'therubyracer', '~> 0.12.3', :platforms => :ruby
 gem 'uglifier', '>= 4.2.0'
 
 gem 'jquery-rails', '~> 4.4.0'
-gem 'jquery-ui-rails', '~> 6.0.1'
+gem 'jquery-ui-rails', '~> 5.0.5'
 # gem 'jquery-ui-sass-rails', '~> 4.0.3.0'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem "RedCloth", '~> 4.3.2'
@@ -79,7 +79,7 @@ group :test do
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
   gem 'selenium-webdriver', '~> 3.142.7'
-  gem 'cucumber-rails', '~> 2.2.0', require: false
+  gem 'cucumber-rails', '~> 1.7.0', require: false
   gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.8.5'
   gem 'email_spec', '~> 2.2.0'
