@@ -1,4 +1,4 @@
-class SidebarCategory < ActiveRecord::Base
+class SidebarCategory < ApplicationRecord
     include Rails.application.routes.url_helpers
     default_scope { order(:order) }
     

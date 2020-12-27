@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
     belongs_to :board
     belongs_to :user
     belongs_to :character

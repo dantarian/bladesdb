@@ -1,4 +1,4 @@
-class Caterer < ActiveRecord::Base
+class Caterer < ApplicationRecord
     belongs_to :game
   
     validates_presence_of :game_id

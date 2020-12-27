@@ -1,4 +1,4 @@
-class GuildMembership < ActiveRecord::Base
+class GuildMembership < ApplicationRecord
     belongs_to :character
     belongs_to :guild
     belongs_to :guild_branch

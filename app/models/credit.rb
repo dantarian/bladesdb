@@ -1,4 +1,4 @@
-class Credit < ActiveRecord::Base
+class Credit < ApplicationRecord
     belongs_to :money_transaction, class_name: "Transaction", foreign_key: "transaction_id"
     belongs_to :character
   

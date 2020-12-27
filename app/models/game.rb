@@ -1,6 +1,6 @@
 require 'securerandom'
 
-class Game < ActiveRecord::Base
+class Game < ApplicationRecord
     include Rails.application.routes.url_helpers # Slightly nasty, but necessary to get the game URL for the boards post.
 
     default_scope { order(:start_date, :start_time) }

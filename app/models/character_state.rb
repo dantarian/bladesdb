@@ -1,4 +1,4 @@
-class CharacterState < ActiveRecord::Base
+class CharacterState < ApplicationRecord
     self.primary_key = :id
     self.table_name = "current_character_status"
     belongs_to :character

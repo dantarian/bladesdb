@@ -1,4 +1,4 @@
-class Transaction < ActiveRecord::Base
+class Transaction < ApplicationRecord
     belongs_to :approved_by, :class_name => "User"
     has_one :credit, :dependent => :destroy
     has_one :debit, :dependent => :destroy

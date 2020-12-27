@@ -1,4 +1,4 @@
-class Acceptable < ActiveRecord::Base
+class Acceptable < ApplicationRecord
 
   TERMS_AND_CONDITIONS = "Terms and Conditions"
 

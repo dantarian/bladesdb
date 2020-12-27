@@ -1,4 +1,4 @@
-class FoodSubCategory < ActiveRecord::Base
+class FoodSubCategory < ApplicationRecord
     has_many :food_option
   
     validates_presence_of :description

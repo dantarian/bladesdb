@@ -1,4 +1,4 @@
-class Debrief < ActiveRecord::Base
+class Debrief < ApplicationRecord
     belongs_to :game
     belongs_to :user
     belongs_to :character

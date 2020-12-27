@@ -1,4 +1,4 @@
-class Character < ActiveRecord::Base
+class Character < ApplicationRecord
     belongs_to :user
     belongs_to :race
     belongs_to :approved_by, :class_name => "User"

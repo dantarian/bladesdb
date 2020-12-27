@@ -1,4 +1,4 @@
-class SidebarEntry < ActiveRecord::Base
+class SidebarEntry < ApplicationRecord
     default_scope { order(:order) }
   
     after_save :clear_category_cache

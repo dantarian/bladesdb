@@ -1,4 +1,4 @@
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
     has_one :sidebar_entry
 
     validates_presence_of   :title
