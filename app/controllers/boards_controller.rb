@@ -122,7 +122,7 @@ class BoardsController < ApplicationController
             target_board.save
             update_boards
         else
-            render :nothing => true, :status => "ok"
+            head :ok
         end
     end
 
@@ -136,7 +136,7 @@ class BoardsController < ApplicationController
             target_board.save
             update_boards
         else
-            render :nothing => true, :status => "ok"
+            head :ok
         end
     end
     
