@@ -1,8 +1,8 @@
 class Message < ApplicationRecord
     belongs_to :board
     belongs_to :user
-    belongs_to :character
-    belongs_to :last_edited_by, :class_name => "User"
+    belongs_to :character, optional: true
+    belongs_to :last_edited_by, class_name: "User", optional: true
     
     attr_accessor :merge
     

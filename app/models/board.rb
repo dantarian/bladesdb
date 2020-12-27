@@ -3,7 +3,7 @@ class Board < ApplicationRecord
 
     has_many :messages, -> { order created_at: :desc }
     has_many :board_visits
-    belongs_to :campaign
+    belongs_to :campaign, optional: true
     
     validates_presence_of :name
     validates_inclusion_of :in_character, :in => [ true, false ]

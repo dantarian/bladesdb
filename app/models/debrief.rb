@@ -1,7 +1,7 @@
 class Debrief < ApplicationRecord
     belongs_to :game
     belongs_to :user
-    belongs_to :character
+    belongs_to :character, optional: true
   
     validates_presence_of :game_id
     validates_presence_of :user_id

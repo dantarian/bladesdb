@@ -1,8 +1,8 @@
 class GuildMembership < ApplicationRecord
     belongs_to :character
-    belongs_to :guild
-    belongs_to :guild_branch
-    belongs_to :approved_by, :class_name => "User"
+    belongs_to :guild, optional: true
+    belongs_to :guild_branch, optional: true
+    belongs_to :approved_by, class_name: "User", optional: true
 
     #validates_presence_of :character_id
     validates_presence_of :declared_on

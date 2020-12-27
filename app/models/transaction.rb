@@ -1,5 +1,5 @@
 class Transaction < ApplicationRecord
-    belongs_to :approved_by, :class_name => "User"
+    belongs_to :approved_by, class_name: "User", optional: true
     has_one :credit, :dependent => :destroy
     has_one :debit, :dependent => :destroy
   

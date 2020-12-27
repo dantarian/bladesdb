@@ -1,7 +1,7 @@
 class Character < ApplicationRecord
     belongs_to :user
-    belongs_to :race
-    belongs_to :approved_by, :class_name => "User"
+    belongs_to :race, optional: true
+    belongs_to :approved_by, :class_name => "User", optional: true
     has_many :guild_memberships, -> { order declared_on: :asc, id: :asc }
     accepts_nested_attributes_for :guild_memberships
     has_many :game_attendances

@@ -1,7 +1,7 @@
 class GameAttendance < ApplicationRecord
     belongs_to :game
     belongs_to :user
-    belongs_to :character
+    belongs_to :character, optional: true
     
     has_many :food_choice
   
