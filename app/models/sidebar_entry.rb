@@ -11,7 +11,7 @@ class SidebarEntry < ApplicationRecord
 
     validates_presence_of :name
     validates_presence_of :page_id, if: -> { url.nil? }
-    validates_presence_of :url, if: { page_id.nil? }
+    validates_presence_of :url, if: -> { page_id.nil? }
     validates_presence_of :order
     
     auto_strip_attributes :name, :url
