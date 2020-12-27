@@ -23,6 +23,7 @@ class BladesDBPage
     def set_datepicker_date(id, date)
       page.find("##{id}").send_keys '\t'
       execute_script("$('##{id}').val('#{date.to_formatted_s}')")
+      execute_script("$('##{id}').datepicker('hide')")
     end
 
     def check_is_displaying_message(message)
