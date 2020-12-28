@@ -1,7 +1,7 @@
 bladesdb
 ========
 
-[![Build Status](https://github.com/dantarian/bladedb/workflows/continuous-integration/badge.svg)](https://github.com/dantarian/bladesdb/actions?query=workflow%3Acontinuous-integration)
+[![Build Status](https://github.com/dantarian/bladesdb/workflows/continuous-integration/badge.svg)](https://github.com/dantarian/bladesdb/actions?query=workflow%3Acontinuous-integration)
 
 BathLARP game and character management webapp.
 
