@@ -9,6 +9,7 @@ jobs:
               uses: ruby/setup-ruby@v1
               with:
                 bundler-cache: true
+            - name: Set up test database
               run: |
                 bundle exec rake db:schema:load
                 bundle exec rake db:test:prepare
