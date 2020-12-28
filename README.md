@@ -1,13 +1,13 @@
 bladesdb
 ========
 
-[![Build Status](https://secure.travis-ci.org/dantarian/bladesdb.svg)](https://travis-ci.org/dantarian/bladesdb)
+[![Build Status](https://github.com/dantarian/bladedb/workflows/continuous-integration/badge.svg)](https://github.com/dantarian/bladesdb/actions?query=workflow%3Acontinuous-integration)
 
 BathLARP game and character management webapp.
 
 # Getting started
 
-You'll need `rvm` installed. See http://rvm.io for more information.
+You'll need `rvm` (or some other Ruby version management tool) installed. See http://rvm.io for more information.
 
 You'll also need Bundler. Run `gem install bundler` once you've got your Ruby and gemset defined. Once that's done, do `bundle install`.
 
@@ -28,19 +28,32 @@ rake db:setup
 Assuming that you've got everything installed and an up to date database, you can create a test database using:
 
 ```
-rake db:test:clone_structure
+bundle exec rake db:schema:load
+bundle exec rake db:test:prepare
 ```
 
-You can then run the tests using:
+Unit tests can be run with:
 
 ```
-rake cucumber
+bundle exec rails test
+```
+
+System tests can be run with:
+
+```
+bundle exec cucumber
+```
+
+If you get a failure, you can rerun just the failed tests with:
+
+```
+bundle exec cucumber -p rerun
 ```
 
 To run a specific feature or even more specific scenario, you can call them like this:
 
 ```
-cucumber --require features --require lib features/subdir/test.feature:line
+bundle exec cucumber --require features --require lib features/subdir/test.feature:line
 ```
 
 where line is the line number of the start of the scenario.
