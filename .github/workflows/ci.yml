@@ -2,10 +2,11 @@ name: continuous-integration
 on: [push, pull_request]
 jobs:
     run-tests:
-        runs_on: ubuntu-latest
+        runs-on: ubuntu-latest
         steps:
-            - name: Set up environment
+            - name: Check out code
               uses: actions/checkout@v2
+            - name: Set up Ruby
               uses: ruby/setup-ruby@v1
               with:
                 bundler-cache: true
