@@ -1,4 +1,4 @@
-<%= form_for(@game, :remote => true, :url => { :action => action }) do |f| %>
+<%= form_with model: @game, url: { action: action } do |f| %>
     <%= f.error_messages :header_message => "Failed to save Debrief details", :message => "The following problems prevented the Debrief from being saved:" %>
     
     <div class="hidden">
@@ -9,19 +9,19 @@
     <ul class="form">
         <li>
             <%= f.label :title, "Game title" %><br />
-            <%= f.text_field :title %>
+            <%= f.text_field :title, id: :game_title %>
         </li>
         <li>
             <%= f.label :player_points_base, "Player Points" %><br />
-            <%= f.text_field :player_points_base %>
+            <%= f.text_field :player_points_base, id: :game_player_points_base %>
         </li>
         <li>
             <%= f.label :monster_points_base, "Monster Points" %><br />
-            <%= f.text_field :monster_points_base %>
+            <%= f.text_field :monster_points_base, id: :game_monster_points_base %>
         </li>
         <li>
             <%= f.label :player_money_base, "Danger Pay (florins)" %><br />
-            <%= f.text_field :player_money_base %>
+            <%= f.text_field :player_money_base, id: :game_player_money_base %>
         </li>
     </ul>
 

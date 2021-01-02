@@ -1,7 +1,8 @@
 <% message_title ||= "Message Text" %>
 <% button_text ||= nil %>
+<% user = @message.user || current_user %>
 <div id="messageform">
-	<%= form_for @message, :remote => true do |f| %>
+	<%= form_with model: @message do |f| %>
 	  	<%= f.error_messages %>
 	
 		<%= f.hidden_field :user_id %>
@@ -12,7 +13,7 @@
 	  		<li>
 		    	<%= f.label :message, message_title %><br />
 		        Click <%= link_to "here", "/pages/196", { :target => '_new' } %> to view formatting options. Raw HTML is prohibited.<br />
-		    	<%= f.text_area :message, :class => "messagearea" %>
+		    	<%= f.text_area :message, class: "messagearea", id: :message_message %>
 	  		</li>
 		</ul>
 		
@@ -22,15 +23,13 @@
 	  				Select one of your characters as whom to post, or type an NPC name into the field below.<br />
 	  				<div class="options_container">
 	  					<%= radio_button_tag(:radio_type, "character_id", !@message.character_id.blank? || @message.id.nil? ) %><%= label_tag "radio_type_character_id", "Character" %><br />
-		  				<% if @message.user_id.nil? %>
-							<%= f.select :character_id, current_user.characters.order(:name).to_a.select{|character| character.state == "active"}.collect { |character| [character.name_and_title, character.id] }, {}, {:class => "switch_enabled"} %>
-						<% else %>
-							<%= f.select :character_id, @message.user.characters.order(:name).to_a.select{|character| character.state == "active"}.collect { |character| [character.name_and_title, character.id] }, {}, {:class => "switch_enabled"} %>
-						<% end %>
+						<%= f.collection_select :character_id, 
+												user.characters.order(:name).to_a.select{|character| character.state == "active"},
+												:id, :name_and_title, {}, {class: "switch_enabled", id: :message_character_id} %>
 					</div>
 					<div class="options_container">
 						<%= radio_button_tag(:radio_type, "name", @message.character_id.blank? && !@message.id.nil?) %><%= label_tag "radio_type_name", "NPC Name or Scenery Description" %><br />
-						<%= f.text_field :name, :class => "switch_enabled", :disabled => true %>
+						<%= f.text_field :name, class: "switch_enabled", disabled: true, id: :message_name %>
 					</div>
 				</li>
 			</ul>

@@ -1,4 +1,4 @@
-<%= form_for(@game, :remote => true, :url => { :action => action }) do |f| %>
+<%= form_with model: @game, url: { action: action } do |f| %>
     <%= f.error_messages :header_message => "Failed to save Game details", :message => "The following problems prevented the Game from being saved:" %>
 
 	<div class="hidden">
@@ -13,14 +13,14 @@
                     <%= f.label field[:field], field[:field_name] %><br />
                 <% end %>
                 <% if field[:field_type] == "text" %>
-                    <%= f.text_field field[:field] %>
+                    <%= f.text_field field[:field], id: "game_#{field[:field]}" %>
                 <% elsif field[:field_type] == "text_area" %>
                     Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
-                    <%= f.text_area field[:field], :class => "messagearea" %>
+                    <%= f.text_area field[:field], class: "messagearea", id: "game_#{field[:field]}" %>
                 <% elsif field[:field_type] == "date" %>
-                    <%= f.text_field field[:field], class: "datepicker", :readonly => true %>
+                    <%= f.text_field field[:field], class: "datepicker", readonly: true, id: "game_#{field[:field]}" %>
                 <% elsif field[:field_type] == "boolean" %>
-                    <%= f.check_box field[:field] %>
+                    <%= f.check_box field[:field], id: "game_#{field[:field]}" %>
                     <%= f.label field[:field], field[:field_name] %>
                 <% else %>
                     <strong>Error: Unknown field type.</strong>

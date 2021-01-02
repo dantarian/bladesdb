@@ -1,15 +1,15 @@
 <h1>Editing food_option</h1>
 
-<% form_for(@food_option) do |f| %>
+<% form_with model: @food_option, local: true do |f| %>
   <%= f.error_messages %>
 
   <p>
     <%= f.label :game %><br />
-    <%= f.text_field :game %>
+    <%= f.text_field :game, id: :food_option_game %>
   </p>
   <p>
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :name, id: :food_option_name %>
   </p>
   <p>
     <%= f.submit 'Update' %>

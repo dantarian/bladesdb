@@ -1,6 +1,6 @@
 <li>
 	<%= f.fields_for(role, :index => role.rolename) do |rf| %>
-		<%= rf.check_box :hasrole, :checked => user.has_role?(role.rolename), disabled: (!current_user.is_admin? && role.admin_only) %>
-		<%= rf.label :hasrole, role.rolename %>
+		<%= rf.check_box :hasrole, checked: user.has_role?(role.rolename), disabled: (!current_user.is_admin? && role.admin_only), id: "role_#{role.rolename}" %>
+		<%= rf.label :hasrole, role.rolename, for: "role_#{role.rolename}" %>
 	<% end %>
 </li>

@@ -1,4 +1,4 @@
-<%= form_for(@user, :url => { :action => action }, :remote => true ) do |f| %>
+<%= form_with model: @user, url: { action: action } do |f| %>
     <%= f.error_messages :header_message => I18n.t("user.validation.dialog_header"), :message => I18n.t("user.validation.dialog_main") %>
 	
 	<ul class="form">
@@ -8,14 +8,14 @@
 			    	<%= f.label field[:field], field[:field_name] %><br />
 				<% end %>
                 <% if field[:field_type] == "text" %>
-                    <%= f.text_field field[:field] %>
+                    <%= f.text_field field[:field], id: "user_#{field[:field]}" %>
                 <% elsif field[:field_type] == "email" %>
-                    <%= f.text_field field[:field] %>
+                    <%= f.text_field field[:field], id: "user_#{field[:field]}" %>
 				<% elsif field[:field_type] == "text_area" %>
 			        Click <%= link_to "here", "/pages/196", { :target => '_new' } %> to view formatting options. Raw HTML is prohibited.<br />
-					<%= f.text_area field[:field], :class => "messagearea" %>
+					<%= f.text_area field[:field], class: "messagearea", id: "user_#{field[:field]}" %>
 				<% elsif field[:field_type] == "boolean" %>
-					<%= f.check_box field[:field] %>
+					<%= f.check_box field[:field], id: "user_#{field[:field]}" %>
 					<%= f.label field[:field], field[:field_name] %>
 				<% else %>
 					<strong>Error: Unknown field type.</strong>

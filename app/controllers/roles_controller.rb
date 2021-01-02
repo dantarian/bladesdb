@@ -21,7 +21,7 @@ class RolesController < ApplicationController
         if current_user.is_admin?
           @user.roles.clear
           @roles.each do |role|
-              if (params[:post][:role][role.rolename][:hasrole].to_s == 1.to_s)
+              if (params[:role][:role][role.rolename][:hasrole].to_s == 1.to_s)
                 @user.roles << role
               end
           end
@@ -31,7 +31,7 @@ class RolesController < ApplicationController
               if @user.has_role?(role.rolename)
                   @user.roles.destroy(role)
               end
-              if (params[:post][:role][role.rolename][:hasrole].to_s == 1.to_s)
+              if (params[:role][:role][role.rolename][:hasrole].to_s == 1.to_s)
                 @user.roles << role
               end
             end

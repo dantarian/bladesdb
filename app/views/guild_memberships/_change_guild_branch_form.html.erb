@@ -1,4 +1,4 @@
-<%= form_for([:character, @guild_membership], :remote => true, :url => { :action => "create_guild_branch_change" }, :html => { :method => :post }) do |f| %>
+<%= form_with model: [:character, @guild_membership], url: { action: "create_guild_branch_change" }, method: :post do |f| %>
     <%= f.error_messages :header_message => I18n.t("character.guild_membership.dialog_header"), :message => I18n.t("character.guild_membership.dialog_main_change_branch") %>
     
     <ul class="form">
@@ -10,7 +10,11 @@
         
         <li>
             <%= f.label :guild_branch_id %><br />
-            <%= f.select :guild_branch_id, GuildBranch.where('guild_id = ?', @guild_membership.guild.id).collect { |branch| [branch.name, branch.id] }, { :include_blank => false }, { :disabled => ( @guild_membership.guild.nil? || @guild_membership.guild.guild_branches.empty? ) } %>
+            <%= f.collection_select :guild_branch_id, 
+                                    GuildBranch.where('guild_id = ?', @guild_membership.guild.id),
+                                    :id, :name,
+                                    { include_blank: false }, 
+                                    { disabled: ( @guild_membership.guild.nil? || @guild_membership.guild.guild_branches.empty? ), id: :guild_membership_guild_branch_id } %>
         </li>
     </ul>
     

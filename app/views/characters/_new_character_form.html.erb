@@ -1,11 +1,11 @@
-<%= form_for(@character, :remote => true) do |f| %>
+<%= form_with model: @character do |f| %>
     <%= f.error_messages :header_message => I18n.t("character.validation.dialog_header"), :message => I18n.t("character.validation.dialog_main") %>
 
 	<div class="fullwidthcolumn">
 		<ul class="form">
             <li>
                 <%= f.label :declared_on, "Declaration date" %><br />
-                <%= f.text_field :declared_on, class: "datepicker", :readonly => true %><br />
+                <%= f.text_field :declared_on, class: "datepicker", readonly: true, id: :character_declared_on %><br />
                 <em>This date should be before the first game you play as the character.</em>
             </li>
 		</ul>
@@ -16,14 +16,14 @@
 			<ul class="form">
 				<li>
 					<%= f.label :name %><br />
-					<%= f.text_field :name, { class: "fullwidth"} %>
+					<%= f.text_field :name, class: "fullwidth", id: :character_name %>
 				</li>
 				<li>
-					<%= label_tag "Title" %><br />
+					<%= f.label :title %><br />
 					<%= radio_button_tag(:radio_title, "guild", (@character.title.blank? && !@character.no_title) ) %><%= label_tag "radio_title_guild", "Use Guild titles" %><br />
 		  			<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
 		  			<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
-					<%= f.text_field :title, { class: "fullwidth", disabled: @character.title.blank? } %>
+					<%= f.text_field :title, class: "fullwidth", disabled: @character.title.blank?, id: :character_title %>
 				</li>
 			</ul>
 		</div>
@@ -32,15 +32,15 @@
     			<ul class="form">
     				<li>
 						<%= f.label :race_id %><br/>
-						<%= f.select :race_id, Race.all.collect { |race| [race.name, race.id] } %>
+						<%= f.collection_select :race_id, Race.all, :id, :name, {}, id: :character_race_id %>
 					</li>
     				<li>
-    					<%= guild_fields.label :guild_id %><br />
-    					<%= guild_fields.select :guild_id, Guild.order(:proscribed).to_a.collect { |guild| [guild.name, guild.id] }, { :include_blank => true }, { :id => "guild_selector" } %>
+    					<%= guild_fields.label :guild_id, for: :guild_selector %><br />
+    					<%= guild_fields.collection_select :guild_id, Guild.order(:proscribed), :id, :name, { include_blank: true }, id: :guild_selector %>
     				</li>
     				<li>
-    					<%= guild_fields.label :guild_branch_id %><br />
-              <%= guild_fields.select :guild_branch_id, [], { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), :id => "guild_branch_selector", "data-guildmap" => guild_map_json(@character) } %>
+    					<%= guild_fields.label :guild_branch_id, for: :guild_branch_selector %><br />
+		        		<%= guild_fields.select :guild_branch_id, [], { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), id: :guild_branch_selector, "data-guildmap" => guild_map_json(@character) } %>
     				</li>
     			</ul>
     		<% end %>
