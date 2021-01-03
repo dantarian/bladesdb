@@ -1,11 +1,9 @@
 <%
-rerun_tests = File.file?('rerun.txt') ? IO.read('rerun.txt').gsub(/\n/, ' ') : ""
-rerun_opts = if rerun_tests.to_s.strip.empty?
-"--tags @none_so_will_pass --strict"
-else
-"--format pretty --strict #{rerun_tests}"
-end
-first_try = "--format pretty --format rerun --out rerun.txt"
+rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
+rerun = rerun.strip.gsub /\s/, ' '
+rerun_opts = rerun.empty? ? "--publish --format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--publish --format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
+std_opts = "--publish --format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --format rerun --out rerun.txt --strict --tags 'not @wip'"
 %>
-first_try: <%= first_try %> features
-second_try: <%= rerun_opts %>
+default: <%= std_opts %> features
+wip: --tags @wip:3 --wip features --publish-quiet
+rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags 'not @wip'

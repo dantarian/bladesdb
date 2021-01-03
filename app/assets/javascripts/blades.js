@@ -266,6 +266,7 @@ $(function() {
 
 $(function () {
 	$("body").delegate("a[data-primary]", "click", function (event) {
+		event.preventDefault();
 		var id = $(event.target).data("primary");
 	    makePrimaryForMerge(id);
     });
@@ -273,6 +274,7 @@ $(function () {
 
 $(function () {
 	$("body").delegate("a[data-secondary]", "click", function (event) {
+		event.preventDefault();
 		var id = $(event.target).data("secondary");
 	    makeSecondaryForMerge(id);
     });
@@ -280,6 +282,7 @@ $(function () {
 
 $(function () {
 	$("body").delegate("a[data-deselect]", "click", function (event) {
+		event.preventDefault();
 		var id = $(event.target).data("deselect");
 	    deselectForMerge(id);
     });

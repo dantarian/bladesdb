@@ -13,6 +13,7 @@ end
 
 When(/^the user attempts to register$/) do
    RegistrationPage.new.visit_page(new_user_registration_path).and.register_as("normaluser", "Norman", "norman@mail.com", "Passw0rd")
+   sleep 1 # Give it a chance to complete...
 end
 
 When(/^the user attempts to register without confirming their age is over (\d+)$/) do |arg1|

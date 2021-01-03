@@ -1,17 +1,17 @@
-<%= form_for @category, :remote => true do |f| %>
+<%= form_with model: @category do |f| %>
     <%= f.error_messages %>
 
     <p>
         <%= f.label :name %>
-        <%= f.text_field :name %>
+        <%= f.text_field :name, id: :sidebar_category_name %>
         <br/>
-        <%= f.check_box :show_for_non_users %>
+        <%= f.check_box :show_for_non_users, id: :sidebar_category_show_for_non_users %>
         <%= f.label "Visible to non-users" %>
         <br/>
-        <%= f.check_box :show_for_admin_users_only %>
+        <%= f.check_box :show_for_admin_users_only, id: :sidebar_category_show_for_admin_users_only %>
         <%= f.label "Visible to administrators and committee only" %>
 		<br/>
-		<%= f.check_box :always_open %>
+		<%= f.check_box :always_open, id: :sidebar_category_always_open %>
 		<%= f.label "Default to open in sidebar" %>
     </p>
 <% end %>

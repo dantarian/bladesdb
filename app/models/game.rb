@@ -315,7 +315,7 @@ class Game < ApplicationRecord
         end
 
         def fix_mp_spend_costs
-            if is_debrief_finished? and open_changed? and start_date > Date.new(2017,1,7)
+            if is_debrief_finished? and saved_change_to_open? and start_date > Date.new(2017,1,7)
                 MonsterPointSpend.fix_after(start_date)
             end
         end

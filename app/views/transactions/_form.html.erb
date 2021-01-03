@@ -1,4 +1,4 @@
-<%= form_for @transaction, :remote => true do |f| %>
+<%= form_with model: @transaction do |f| %>
     <%= f.error_messages :header_message => "Failed to save money transfer", :message => "The following problems prevented the money transfer from being saved:" %>
 
     <%= hidden_field_tag :transfer_from, @transfer_from %>
@@ -6,15 +6,15 @@
     <ul class="form">
         <li>
             <%= f.label :value, "Amount to transfer (in florins)" %><br />
-            <%= f.text_field :value %>
+            <%= f.text_field :value, id: :transaction_value %>
         </li>
         <li>
             <%= f.label :description, "Description" %><br />
-            <%= f.text_field :description %>
+            <%= f.text_field :description, id: :transaction_description %>
         </li>
         <li>
             <%= f.label :transaction_date, "Date" %><br />
-            <%= f.text_field :transaction_date, class: "datepicker", :readonly => true, :value => @transaction.transaction_date.to_s %>
+            <%= f.text_field :transaction_date, class: "datepicker", readonly: true, value: @transaction.transaction_date.to_s, id: :transaction_transaction_date %>
         </li>
         <%= f.fields_for :debit do |df| %>
             <% if @transfer_from %>

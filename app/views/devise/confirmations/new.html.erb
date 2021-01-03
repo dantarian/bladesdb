@@ -1,11 +1,11 @@
 <h1 class="alt">Account Confirmation</h1>
 
-<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+<%= form_with model: resource, as: resource_name, url: confirmation_path(resource_name), method: :post, local: true do |f| %>
     <%= devise_error_messages! %>
 
     <p>
   	    <%= f.label :email, "E-mail address" %><br />
-        <%= f.email_field :email, :autofocus => true %>
+        <%= f.email_field :email, autofocus: true, id: "#{resource_name}_email" %>
     </p>
 
 	<%= f.submit "Resend Confirmation" %>

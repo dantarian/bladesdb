@@ -4,14 +4,14 @@ class SidebarEntry < ApplicationRecord
     after_save :clear_category_cache
     after_destroy :clear_category_cache
   
-    belongs_to :page
-    belongs_to :sidebar_category, inverse_of: :sidebar_entries
-    belongs_to :parent_entry, class_name: "SidebarEntry", inverse_of: :sidebar_entries
+    belongs_to :page, optional: true
+    belongs_to :sidebar_category, inverse_of: :sidebar_entries, optional: true
+    belongs_to :parent_entry, class_name: "SidebarEntry", inverse_of: :sidebar_entries, optional: true
     has_many :sidebar_entries, inverse_of: :parent_entry, foreign_key: :parent_entry_id
 
     validates_presence_of :name
-    validates_presence_of :page_id, :if => "url.nil?"
-    validates_presence_of :url, :if => "page_id.nil?"
+    validates_presence_of :page_id, if: -> { url.nil? }
+    validates_presence_of :url, if: -> { page_id.nil? }
     validates_presence_of :order
     
     auto_strip_attributes :name, :url

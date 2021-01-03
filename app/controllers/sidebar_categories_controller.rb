@@ -76,7 +76,7 @@ class SidebarCategoriesController < ApplicationController
             @categories = SidebarCategory.order(:order)
             render :update_sidebar
         else
-            render :nothing => true, :status => "ok"
+            head :ok
         end
     end
 
@@ -92,7 +92,7 @@ class SidebarCategoriesController < ApplicationController
             @categories = SidebarCategory.order(:order)
             render :update_sidebar
         else
-            render :nothing => true, :status => "ok"
+            head :ok
         end
     end
     

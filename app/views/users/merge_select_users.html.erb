@@ -34,10 +34,10 @@
     </tbody>
 </table>
 
-<%= form_tag merge_select_data_users_path, :method => :post do %>
-    <%= hidden_field_tag :primary, @primary %>
-    <%= hidden_field_tag :secondary, @secondary %>
-    <p class="actions"><%= submit_tag "Merge selected users" %></p>
+<%= form_with url: merge_select_data_users_path, method: :post, local: true do |form| %>
+    <%= form.hidden_field :primary, value: @primary, id: :primary %>
+    <%= form.hidden_field :secondary, value: @secondary, id: :secondary %>
+    <p class="actions"><%= form.submit "Merge selected users" %></p>
 <% end %>
 
 <h2 class="alt">Available Users</h2>

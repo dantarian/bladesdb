@@ -1,6 +1,6 @@
 class MonsterPointDeclaration < ApplicationRecord
     belongs_to :user
-    belongs_to :approved_by, :class_name => "User"
+    belongs_to :approved_by, class_name: "User", optional: true
 
     validates_presence_of :user_id
     validates_presence_of :points

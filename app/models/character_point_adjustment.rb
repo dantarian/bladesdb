@@ -1,6 +1,6 @@
 class CharacterPointAdjustment < ApplicationRecord
     belongs_to :character
-    belongs_to :approved_by, :class_name => "User"
+    belongs_to :approved_by, class_name: "User", optional: true
 
     validates_presence_of :character_id
     validates_presence_of :points

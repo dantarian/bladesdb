@@ -1,20 +1,23 @@
-<%= form_for @entry, :remote => true do |f| %>
+<%= form_with model: @entry do |f| %>
     <%= f.error_messages %>
 
     <p>
         <%= f.hidden_field :sidebar_category_id %>
         <%= f.hidden_field :parent_entry_id %>
         <%= f.label :name %>
-        <%= f.text_field :name %>
+        <%= f.text_field :name, id: :sidebar_entry_name %>
         <br />
         <%= f.label "page_id", "Static Page" %>
         <%= f.collection_select :page_id, 
                                 Page.all, :id, :title, 
-                                { :include_blank => true },
-                                { :onchange => "if ( $('#sidebar_entry_page_id').val() == '' ) { $('#sidebar_entry_url').prop('disabled', false); } else { $('#sidebar_entry_url').prop('disabled', true); }; return false;" } %>
+                                { include_blank: true },
+                                { 
+                                    onchange: "if ( $('#sidebar_entry_page_id').val() == '' ) { $('#sidebar_entry_url').prop('disabled', false); } else { $('#sidebar_entry_url').prop('disabled', true); }; return false;",
+                                    id: :sidebar_entry_page_id
+                                } %>
         <br />
         <%= f.label :url, "URL" %>
-        <%= f.text_field :url %>
+        <%= f.text_field :url, id: :sidebar_entry_url %>
         <br />
     </p>
 <% end %>

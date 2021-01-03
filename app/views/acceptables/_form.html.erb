@@ -1,4 +1,4 @@
-<%= form_for(@acceptable) do |f| %>
+<%= form_with model: @acceptable, local: true do |f| %>
   <% if @acceptable.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@acceptable.errors.count, "error") %> prohibited this acceptable from being saved:</h2>
@@ -13,15 +13,15 @@
 
   <div class="field">
     <%= f.label :type %><br>
-    <%= f.text_field :type %>
+    <%= f.text_field :type, id: :acceptable_type %>
   </div>
   <div class="field">
     <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= f.text_area :text, id: :acceptable_text %>
   </div>
   <div class="field">
     <%= f.label :version %><br>
-    <%= f.number_field :version %>
+    <%= f.number_field :version, id: :acceptable_version %>
   </div>
   <div class="actions">
     <%= f.submit %>

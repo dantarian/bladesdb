@@ -104,8 +104,8 @@
     </tbody>
 </table>
 
-<%= form_tag merge_users_path, :method => :post do %>
-    <%= hidden_field_tag :primary, @primary %>
-    <%= hidden_field_tag :secondary, @secondary %>
-    <p class="actions"><%= submit_tag "Confirm merge" %></p>
+<%= form_with url: merge_users_path, method: :post, local: true do |form| %>
+    <%= form.hidden_field :primary, value: @primary, id: :primary %>
+    <%= form.hidden_field :secondary, value: @secondary, id: :secondary %>
+    <p class="actions"><%= form.submit "Confirm merge" %></p>
 <% end %>

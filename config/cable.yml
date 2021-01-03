@@ -1,7 +1,7 @@
 development:
   adapter: async
 
-test: &test
+  test: &test
   adapter: async
 
 cucumber: 
@@ -10,3 +10,4 @@ cucumber:
 production:
   adapter: redis
   url: redis://localhost:6379/1
+  channel_prefix: blades_production

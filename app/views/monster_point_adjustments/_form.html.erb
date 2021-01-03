@@ -1,19 +1,19 @@
-<%= form_for([:user, @monster_point_adjustment], :remote => true) do |f| %>
+<%= form_with model: [:user, @monster_point_adjustment] do |f| %>
     <%= f.error_messages :header_message => I18n.t("user.monster_point_adjustment.dialog_header"), :message => I18n.t("user.monster_point_adjustment.dialog_main") %>
 
 	<ul class="form">
 		<li>
 			<%= f.label :declared_on %><br />
-      <%= f.text_field :declared_on, class: "datepicker", :data => {:maxDate => "#{Date.today}"}, :readonly => true %>
+      <%= f.text_field :declared_on, class: "datepicker", data: {maxDate: "#{Date.today}"}, readonly: true, id: :monster_point_adjustment_declared_on %>
 		</li>
 		<li>
 			<%= f.label :points, I18n.t("user.monster_point_adjustment.points_label") %><br />
-			<%= f.text_field :points %>
+			<%= f.text_field :points, id: :monster_point_adjustment_points %>
 			<p><em><%= I18n.t("user.monster_point_adjustment.points_info_1") %><br /><%= I18n.t("user.monster_point_adjustment.points_info_2") %></em></p>
 		</li>
 		<li>
 			<%= f.label :reason %><br />
-			<%= f.text_field :reason %>
+			<%= f.text_field :reason, id: :monster_point_adjustment_reason %>
 		</li>
 	</ul>
 <% end %>

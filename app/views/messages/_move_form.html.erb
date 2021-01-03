@@ -1,5 +1,5 @@
 <div id="messageform">
-	<%= form_for @message, :url => { :action => :save_move }, :remote => true do |f| %>
+	<%= form_with model: @message, url: { action: :save_move } do |f| %>
 	  	<%= f.error_messages %>
 	
 		<%= f.hidden_field :user_id %>
@@ -8,7 +8,9 @@
 	  	<ul class="form">
 	  		<li>
 		    	<%= f.label :board_id, "Board" %><br />
-                <%= f.select :board_id, Board.where(closed: false).collect{|board| [board.name, board.id]} %>
+				<%= f.collection_select :board_id, 
+										Board.where(closed: false),
+										:id, :name, {}, id: :message_board_id %>
 	  		</li>
 		</ul>
 			

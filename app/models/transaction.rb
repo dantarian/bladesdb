@@ -1,13 +1,13 @@
 class Transaction < ApplicationRecord
-    belongs_to :approved_by, :class_name => "User"
-    has_one :credit, :dependent => :destroy
-    has_one :debit, :dependent => :destroy
+    belongs_to :approved_by, class_name: "User", optional: true
+    has_one :credit, :dependent => :destroy, inverse_of: :money_transaction
+    has_one :debit, :dependent => :destroy, inverse_of: :money_transaction
   
     accepts_nested_attributes_for :credit, :debit
   
     validates_presence_of :transaction_date
     validates_presence_of :value
-    validates_numericality_of :value, :only_integer => true, :greater_than => 0
+    validates :value, numericality: { only_integer: true, greater_than: 0}
     validates_presence_of :description
     validate :creditor_has_enough_money
     validate :character_declared_before_transaction

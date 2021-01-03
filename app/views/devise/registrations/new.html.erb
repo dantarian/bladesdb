@@ -19,35 +19,35 @@
 
 <% @user.password = @user.password_confirmation = nil %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<%= form_with model: resource, as: resource_name, url: registration_path(resource_name), local: true do |f| %>
     <%= devise_error_messages! %>
     <p>
         <%= f.label :name, "Real name" %><br/>
-        <%= f.text_field :name, :autofocus => true %>
+        <%= f.text_field :name, autofocus: true, id: "#{resource_name}_name" %>
     </p>
 
     <p>
         <%= f.label :username, 'Username' %><br/>
-        <%= f.text_field :username %>
+        <%= f.text_field :username, id: "#{resource_name}_username" %>
     </p>
 
     <p>
         <%= f.label :email, 'E-mail address' %><br/>
-        <%= f.text_field :email %>
+        <%= f.text_field :email, id: "#{resource_name}_email" %>
     </p>
 
     <p>
         <%= f.label :password, 'Password' %><br/>
-        <%= f.password_field :password %>
+        <%= f.password_field :password, id: "#{resource_name}_password" %>
     </p>
 
     <p>
         <%= f.label :password_confirmation, 'Confirm password' %><br/>
-        <%= f.password_field :password_confirmation %>
+        <%= f.password_field :password_confirmation, id: "#{resource_name}_password_confirmation" %>
     </p>
 
     <p>
-        <%= f.check_box :over18 %>
+        <%= f.check_box :over18, id: "#{resource_name}_over18" %>
         <%= f.label :over18, "I confirm I am at least 18 years old" %>
     </p>
 
@@ -55,7 +55,7 @@
       <p>Terms and Conditions:</p>
       <%= RedCloth.new( Acceptable.latest_terms_and_conditions.text, [:filter_html] ).to_html.html_safe %>
       <p>
-          <%= f.check_box :accept_terms_and_conditions %>
+          <%= f.check_box :accept_terms_and_conditions, id: "#{resource_name}_accept_terms_and_conditions" %>
           <%= f.label :accept_terms_and_conditions, "I accept the Terms and Conditions" %>
       </p>
     <% end %>

@@ -1,14 +1,14 @@
-<%= form_for([:user, @monster_point_declaration], :remote => true, :url => user_monster_point_declaration_path) do |f| %>
+<%= form_with model: [:user, @monster_point_declaration], url: user_monster_point_declaration_path do |f| %>
     <%= f.error_messages :header_message => I18n.t("user.monster_point_declaration.dialog_header"), :message => I18n.t("user.monster_point_declaration.dialog_main") %>
 
 	<ul class="form">
 		<li>
 			<%= f.label :declared_on %><br />
-			<%= f.text_field :declared_on, class: "datepicker", :data => {:maxDate => "#{Date.today}"}, :readonly => true %>
+			<%= f.text_field :declared_on, class: "datepicker", data: {maxDate: "#{Date.today}"}, readonly: true, id: :monster_point_declaration_declared_on %>
 		</li>
 		<li>
 			<%= f.label :points %><br />
-			<%= f.text_field :points %>
+			<%= f.text_field :points, id: :monster_point_declaration_points %>
 		</li>
 	</ul>
 <% end %>
