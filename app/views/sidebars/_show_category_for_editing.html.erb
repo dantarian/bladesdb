@@ -1,7 +1,7 @@
 <div class="category" id="category<%= category.id %>_and_entries">
     <div id="category<%= category.id %>">
-        <%= link_to image_tag( "move_up.png", :border => 0, :size => "10x10" ), move_up_sidebar_category_path( category.id ), :method => :patch, :remote => true %>
-        <%= link_to image_tag( "move_down.png", :border => 0, :size => "10x10" ), move_down_sidebar_category_path( category.id ), :method => :patch, :remote => true %>
+        <%= link_to image_tag( "move_up.png", border: 0, size: "10x10", alt: "Move up" ), move_up_sidebar_category_path( category.id ), method: :patch, remote: true %>
+        <%= link_to image_tag( "move_down.png", border: 0, size: "10x10", alt: "Move down" ), move_down_sidebar_category_path( category.id ), method: :patch, remote: true %>
         <h4 class="alt" style="display: inline;"><%= category.name %></h4>
         [
             <% if category.editable %>

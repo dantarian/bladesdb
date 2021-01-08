@@ -1,6 +1,6 @@
 <div class="entry" id="entry<%= entry.id %>_and_subentries">
-    <%= link_to image_tag( "move_up.png", :border => 0, :size => "10x10" ), move_up_sidebar_entry_path( entry.id ), :method => :patch, :remote => true %>
-    <%= link_to image_tag( "move_down.png", :border => 0, :size => "10x10" ), move_down_sidebar_entry_path( entry.id ), :method => :patch, :remote => true %>
+    <%= link_to image_tag( "move_up.png", border: 0, size: "10x10", alt: "Move up" ), move_up_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
+    <%= link_to image_tag( "move_down.png", border: 0, size: "10x10", alt: "Move down" ), move_down_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
     <%= entry.name %>
     [
         <%= link_to "Edit", edit_sidebar_entry_path( entry.id ), :method => :get, :remote => true %> |

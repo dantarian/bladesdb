@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201227054118) do
+ActiveRecord::Schema.define(version: 2021_01_07_233130) do
 
 
   create_view "current_character_statuses", sql_definition: <<-SQL
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20201227054118) do
               SELECT id
               FROM guild_memberships gm
               WHERE gm.character_id = c.id
-                  AND approved = 't'
+                  AND approved = 1
               ORDER BY declared_on DESC,
                   id DESC
               LIMIT 1
@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20201227054118) do
           FROM characters c
               INNER JOIN debriefs d ON d.character_id = c.id
               INNER JOIN games g ON d.game_id = g.id
-          WHERE g.debrief_started = 't'
-              AND g.open = 'f'
+          WHERE g.debrief_started = 1
+              AND g.open = 0
               AND g.start_date >= c.declared_on
           GROUP BY c.id
       ) d ON c.id = d.id
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20201227054118) do
           FROM characters c
               INNER JOIN character_point_adjustments cpa ON cpa.character_id = c.id
           WHERE cpa.declared_on >= c.declared_on
-              AND cpa.approved = 't'
+              AND cpa.approved = 1
           GROUP BY c.id
       ) cpa ON c.id = cpa.id
       LEFT JOIN (
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20201227054118) do
           FROM characters c
               INNER JOIN death_threshold_adjustments dta ON dta.character_id = c.id
           WHERE dta.declared_on >= c.declared_on
-              AND dta.approved = 't'
+              AND dta.approved = 1
           GROUP BY c.id
       ) dta ON c.id = dta.id
   SQL
@@ -102,8 +102,6 @@ ActiveRecord::Schema.define(version: 20201227054118) do
     t.string   "value"
     t.datetime "created_at", :null=>false
     t.datetime "updated_at", :null=>false
-
-    t.index ["key"], :name=>"sqlite_autoindex_ar_internal_metadata_1", :unique=>true
   end
 
   create_table "board_visits", force: :cascade do |t|
