@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~>5.1.0'
+gem 'rails', '~>5.2.0'
 gem 'rake', '~>12.3.0'
+gem 'bootsnap', '~>1.5.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

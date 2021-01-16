@@ -62,11 +62,12 @@ namespace :deploy do
   after :publishing, :restart
 
   after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
+    on primary(:app) do
+      within_release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, :fix_sqlite_booleans
+        end
+      end
     end
   end
 
