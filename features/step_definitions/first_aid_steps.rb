@@ -1,7 +1,7 @@
 # Set-ups
 
 Given(/^the GM has set their medical details$/) do
-  user = UserTestHelper.create_or_find_another_user(name: "Gerald Mann")
+  user = UserTestHelper.create_or_find_another_user(name: "Gerald Mann", username: "gm1")
   UserTestHelper.fill_in_all_details(user, contact_name: "Contact GM", contact_number: "11111", medical_notes: "GM medical notes", food_notes: "GM food notes")
 end
 
@@ -10,12 +10,12 @@ Given(/^the GM has not set their medical details$/) do
 end
 
 Given(/^the player has set their medical details$/) do
-  user = UserTestHelper.create_or_find_another_user(name: "Poppy Player")
+  user = UserTestHelper.create_or_find_another_user(name: "Poppy Player", username: "player")
   UserTestHelper.fill_in_all_details(user, contact_name: "Contact Player", contact_number: "22222", medical_notes: "Player medical notes", food_notes: "Player food notes")
 end
 
 Given(/^the monster has set their medical details$/) do
-  user = UserTestHelper.create_or_find_another_user(name: "Manfred Monster")
+  user = UserTestHelper.create_or_find_another_user(name: "Manfred Monster", username: "monster")
   UserTestHelper.fill_in_all_details(user, contact_name: "Contact Monster", contact_number: "33333", medical_notes: "Monster medical notes", food_notes: "Monster food notes")
 end
 
