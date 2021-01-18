@@ -221,7 +221,7 @@ class UserTest < ActiveSupport::TestCase
   private
 
   def make_user(username: "normal_user", name: "Normal User", email: "test@example.com", password: "some_password", state: "active")
-    User.create_with(name: name, email: email, password: password, state: state).find_or_create_by(username: username)
+    User.create_with(name: name, email: email, password: password, password_confirmation: password, state: state).find_or_create_by!(username: username)
   end
 
   def make_game(title: "New Game", start_date: (Date.yesterday), end_date: nil, meet_time: "11:00", start_time: "12:00", open: true, attendance_only: false)
@@ -231,7 +231,7 @@ class UserTest < ActiveSupport::TestCase
                      start_time: start_time, 
                      open: open, 
                      attendance_only: attendance_only)
-      .find_or_create_by(title: title)
+      .find_or_create_by!(title: title)
   end
 
   def make_race
