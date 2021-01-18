@@ -71,6 +71,10 @@ class User < ApplicationRecord
                             :message => I18n.t("user.validation.email_format"),
                             :unless => :passive?
 
+    validates_presence_of :password, on: :create, unless: Proc.new {|user| user.email.blank? }
+    validates_presence_of :password_confirmation, if: :encrypted_password_changed?
+    validates_confirmation_of :password, if: :encrypted_password_changed?
+
     validates :over18, acceptance: true, on: :create, unless: Proc.new {|user| user.email.blank? }
     validates :accept_terms_and_conditions, acceptance: true, on: :create, unless: Proc.new {|user| user.email.blank? }
 
