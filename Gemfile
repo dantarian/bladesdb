@@ -42,6 +42,8 @@ gem 'schema_auto_foreign_keys', '~> 0.1.3'
 gem 'mail_form', '~> 1.8.1'
 gem 'validates_timeliness', '~> 4.1.1'
 
+gem 'nokogiri', '~>1.11.1'
+
 # Simplified logging
 gem "lograge"
 
