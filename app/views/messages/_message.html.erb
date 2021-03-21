@@ -11,8 +11,8 @@
 			<div class="adminfunctions">
 				[ <%= link_to "Undelete", undelete_message_path(message), :method => :patch %> 
 				<% if current_user.is_admin_or_committee? %>
-				    | <%= link_to_function "Show message", "toggleMessage(#{message.id})", :id => "show_message_#{message.id}" %>
-                      <%= link_to_function "Hide message", "toggleMessage(#{message.id})", { :id => "hide_message_#{message.id}", :style => "display: none;" } %>
+				    | <%= link_to "Show message", "#", id: "show_message_#{message.id}", data: { message: "#{message.id}" }, remote: true, class: "toggle_message" %>
+              <%= link_to "Hide message", "#", id: "hide_message_#{message.id}", data: { message: "#{message.id}" }, remote: true, class: "toggle_message", style: "display: none;" %>
 					| <%= link_to "Purge", purge_message_path(message), :method => :delete, data: { confirm: "Are you sure you want to permanently remove this message?" } %> 
 				<% end %>
 				]

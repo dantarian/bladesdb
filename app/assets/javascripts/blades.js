@@ -297,3 +297,11 @@ $(function () {
 		$(event.target).datepicker('show');
   });
 });
+
+$(function () {
+	$("body").delegate("a.toggle_message", "click", function (event) {
+		event.preventDefault();
+		var id = $(event.target).data("message");
+	    toggleMessage(id);
+    });
+});

@@ -29,7 +29,7 @@ Given(/^there is a message from the user$/) do
 end
 
 Given(/^there is a message on the OOC message board$/) do
-  BoardTestHelper.create_message(Board.where(in_character: false).first, User.first, message: "First!")
+  BoardTestHelper.create_message(Board.where(in_character: false).first, User.first, message: "Text to check for")
 end
 
 Given(/^there is a message on the IC message board$/) do
@@ -132,11 +132,25 @@ When(/^the user marks the boards as read$/) do
   BoardsPage.new.visit_page(boards_path).and.click_on("Mark all boards read")
 end
 
+When(/^the user deletes the message$/) do
+  BoardPage.new.visit_page(board_path(Board.first.id)).and.delete_message
+end
+
 # Validations
 
 Then(/^the message should appear on the message board$/) do
   BoardPage.new.visit_page(board_path(Board.first)).and.check_for_message(from: User.first, 
                                                                           containing_text: "Text to check for")
+end
+
+Then(/^the message should not appear on the message board$/) do
+  BoardPage.new.visit_page(board_path(Board.first))
+           .and.check_for_no_message(containing_text: "Text to check for")
+end
+
+Then(/^a placeholder should indicate that the message has been deleted$/) do
+  BoardPage.new.visit_page(board_path(Board.first))
+           .and.check_for_deleted_message_placeholder
 end
 
 Then(/^the message should appear on the message board from the character$/) do
