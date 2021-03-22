@@ -44,4 +44,26 @@ class BoardPage < BladesDBPage
         self
     end
 
+    def check_for_no_message(id: 1, containing_text: nil)
+        search = "div#message" + id.to_s
+        message_div = page.find(search)
+        if containing_text
+            message_div.should have_no_text(containing_text)
+        end
+        self
+    end
+
+    def check_for_deleted_message_placeholder
+        page.should have_text "Message deleted"
+        self
+    end
+
+    def delete_message(id: 1)
+        search = "div#message" + id.to_s
+        message_div = page.find(search)
+        accept_confirm do
+            message_div.click_link("Delete")
+        end
+        self
+    end
 end
