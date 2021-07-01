@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~>5.2.0'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.5'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
@@ -12,7 +12,7 @@ gem 'sqlite3', '~> 1.3.11'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails',   '~> 5.0.7'
+gem 'sass-rails', '~> 5.0.8'
 gem 'coffee-rails', '~> 4.2.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -25,25 +25,25 @@ gem 'jquery-ui-rails', '~> 6.0.1'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem "RedCloth", '~> 4.3.2'
 gem "rdoc", '~> 6.3.0'
-gem "seed-fu", '~> 2.3.9'
+gem "seed-fu", "~> 2.3.9"
 gem "test-unit", '~> 3.3.8'
 gem "recaptcha", '~> 5.6.0'
 gem "custom_error_message", '~> 1.1.1'
 gem "aasm", '~> 5.1.1'
-gem "devise", '~> 4.7.3'
-gem "devise-encryptable", '~> 0.2.0'
+gem "devise", "~> 4.7.3"
+gem "devise-encryptable", "~> 0.2.0"
 gem 'dynamic_form', '~> 1.1.4'
-gem 'font-awesome-rails', '~> 4.7.0.5'
+gem 'font-awesome-rails', '~> 4.7.0.6'
 gem 'auto_strip_attributes', '~> 2.6.0'
 gem 'schema_plus_foreign_keys', '~> 0.1.8'
-gem 'scenic', '~>1.5.4'
-gem 'scenic_sqlite_adapter', '~>0.1.0'
+gem 'scenic', '~> 1.5.4'
+gem 'scenic_sqlite_adapter', '~> 0.1.0'
 gem 'schema_auto_foreign_keys', '~> 0.1.3'
 gem 'mail_form', '~> 1.8.1'
 gem 'validates_timeliness', '~> 4.1.1'
 
 # Simplified logging
-gem "lograge"
+gem "lograge", ">= 0.11.2"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -65,7 +65,7 @@ gem 'capistrano-rvm', '~> 0.1.2'
 
 group :development, :test do
   gem 'rspec-rails', '~> 4.0.2'
-  gem 'factory_bot_rails', '~> 5.0.0'
+  gem 'factory_bot_rails', '~> 5.0.2'
   gem 'foreman', '~> 0.87.2'
   gem 'capistrano-rails', '~> 1.1.6', require: false
   gem 'capistrano-bundler', '~> 1.1.4', require: false
