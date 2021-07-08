@@ -75,7 +75,7 @@ end
 group :test do
   gem 'faker', '~> 1.6.2'
   gem 'capybara', '~> 2.18.0'
-  gem 'capybara-screenshot'
+  gem 'capybara-screenshot', '>= 1.0.25'
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
   gem 'selenium-webdriver', '~> 3.142.7'
