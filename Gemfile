@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.6', '>= 5.2.6.2'
+gem 'rails', '~> 5.2.8'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
