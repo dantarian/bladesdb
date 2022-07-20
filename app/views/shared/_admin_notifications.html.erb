@@ -1,4 +1,4 @@
-<% if current_user and current_user.is_admin? %>
+<% if current_user and (current_user.is_admin? or current_user.is_committee?) %>
 	<% pending_users = User.where(state: Character::Active, approved_at: nil, deleted_at: nil).count %>
     <% if pending_users > 0 %>
         <div class="admin_notifications"
