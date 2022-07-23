@@ -4,7 +4,7 @@
 	<ul class="form">
 		<%= hidden_field_tag :commit, "date" %>
 		<li>
-			<%= f.label :spent_on %><br />
+			<%= f.label :spent_on %>
 			<%= f.text_field :spent_on, 
 							 class: "datepicker", 
 							 data: {maxDate: "#{Date.today}", minDate: "#{monster_point_spend_earliest_allowed_date(@character, @monster_point_spend)}"}, 

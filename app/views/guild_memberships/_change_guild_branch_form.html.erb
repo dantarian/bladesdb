@@ -4,12 +4,12 @@
     <ul class="form">
         <li>
             <%= f.hidden_field :guild_id %>
-            <%= f.label :guild_id %><br />
+            <%= f.label :guild_id %>
             <%= @guild_membership.guild.name %>
         </li>
         
         <li>
-            <%= f.label :guild_branch_id %><br />
+            <%= f.label :guild_branch_id %>
             <%= f.collection_select :guild_branch_id, 
                                     GuildBranch.where('guild_id = ?', @guild_membership.guild.id),
                                     :id, :name,

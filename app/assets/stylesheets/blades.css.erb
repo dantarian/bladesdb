@@ -200,7 +200,8 @@ label.shiftedlabel {
 }
 
 textarea.fullwidtharea, textarea.messagearea {
-    width: 700px;
+    width: 100%;
+    font-family: monospace;
 }
 
 textarea.pagearea { height: 20em; }
@@ -356,8 +357,9 @@ div.edited_by { float: left; }
 
 table.game_applications th, table.game_applications td { vertical-align: top; }
 
-div#dialog input[type="text"].fullwidth, div#dialog select { width: 100%; }
+input[type="text"].fullwidth, div#dialog select { width: 100%; }
 div#dialog input[type="text"].datepicker { width: 85%; }
+div#dialog textarea { width: 700px; }
 div#dialog select.timepicker { width: 4em; }
 
 div.column { width: 50%; float: left; }
@@ -424,3 +426,14 @@ span.record_section_header { font-style: italic; }
 dl dt { font-weight: bold; }
 dd { margin-inline-start: 2em; }
 blockquote { font-style: italic; }
+
+.ui-datepicker-month, .ui-datepicker-year { color: #222222; }
+input[type=checkbox] + label, input[type=radio] + label { display: inline-block; font-weight: 400; padding-left: 0.5rem; }
+
+.error, .notice, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+.error {background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}
+.notice {background:#FFF6BF;color:#514721;border-color:#FFD324;}
+.success {background:#E6EFC2;color:#264409;border-color:#C6D880;}
+.error a {color:#8a1f11;}
+.notice a {color:#514721;}
+.success a {color:#264409;}

@@ -3,16 +3,16 @@
 
 	<ul class="form">
 		<li>
-			<%= f.label :declared_on %><br />
+			<%= f.label :declared_on %>
 			<%= f.text_field :declared_on, class: "datepicker", data: {maxDate: "#{Date.today}", minDate: "#{@character.declared_on + 1.day}"}, readonly: true, id: :death_threshold_adjustment_declared_on %>
 		</li>
 		<li>
-			<%= f.label :change, "Number of DTs to add or remove" %><br />
+			<%= f.label :change, "Number of DTs to add or remove" %>
 			<%= f.text_field :change, id: :death_threshold_adjustment_change %>
 		</li>
 		<li>
-			<%= f.label :reason %><br />
-			<%= f.text_field :reason, id: :death_threshold_adjustment_reason %>
+			<%= f.label :reason %>
+			<%= f.text_field :reason, id: :death_threshold_adjustment_reason, class: "fullwidth" %>
 		</li>
 	</ul>
 

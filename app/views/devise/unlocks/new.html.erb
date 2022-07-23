@@ -3,7 +3,7 @@
 <%= form_with model: resource, as: resource_name, url: unlock_path(resource_name), method: :post, local: true do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
+  <div><%= f.label :email %>
   <%= f.email_field :email, autofocus: true, id: "#{resource_name}_email" %></div>
 
   <div><%= f.submit "Resend unlock instructions" %></div>

@@ -5,22 +5,22 @@
 
     <ul class="form">
         <li>
-            <%= f.label :value, "Amount to transfer (in florins)" %><br />
-            <%= f.text_field :value, id: :transaction_value %>
+            <%= f.label :value, "Amount to transfer (in florins)" %>
+            <%= f.number_field :value, id: :transaction_value %>
         </li>
         <li>
-            <%= f.label :description, "Description" %><br />
-            <%= f.text_field :description, id: :transaction_description %>
+            <%= f.label :description, "Description" %>
+            <%= f.text_field :description, id: :transaction_description, class: "fullwidth" %>
         </li>
         <li>
-            <%= f.label :transaction_date, "Date" %><br />
+            <%= f.label :transaction_date, "Date" %>
             <%= f.text_field :transaction_date, class: "datepicker", readonly: true, value: @transaction.transaction_date.to_s, id: :transaction_transaction_date %>
         </li>
         <%= f.fields_for :debit do |df| %>
             <% if @transfer_from %>
                 <li>
                     <p>
-                        <%= df.label :character_id, "From" %><br />
+                        <%= df.label :character_id, "From" %>
                         <%= df.hidden_field :character_id %>
                         <%=h @transaction.debit.character.name_and_title %>
                     </p>
@@ -32,7 +32,7 @@
                 </li>
                 <li class="radiocontainer">
                     <%= radio_button_tag "from", "other", @from_other, :class => "radiocontroller" %><%= df.label :other_source, "From other source" %><br />
-                    <%= df.text_field :other_source, :class => "radiocontrolled", :disabled => !@from_other %>
+                    <%= df.text_field :other_source, :class => "radiocontrolled fullwidth", :disabled => !@from_other %>
                 </li>
             <% end %>
         <% end %>
@@ -46,12 +46,12 @@
                 </li>
                 <li class="radiocontainer">
                     <%= radio_button_tag "to", "other", @to_other, :class => "radiocontroller" %><%= cf.label :other_recipient, "To other recipient" %><br />
-                    <%= cf.text_field :other_recipient, :class => "radiocontrolled", :disabled => !@to_other %>
+                    <%= cf.text_field :other_recipient, :class => "radiocontrolled fullwidth", :disabled => !@to_other %>
                 </li>
             <% else %>
                 <li>
                     <p>
-                        <%= cf.label :character_id, "To" %><br />
+                        <%= cf.label :character_id, "To" %>
                         <%= cf.hidden_field :character_id %>
                         <%=h @transaction.credit.character.name_and_title %>
                     </p>

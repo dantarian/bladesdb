@@ -11,7 +11,7 @@
 	
 	  	<ul class="form">
 	  		<li>
-		    	<%= f.label :message, message_title %><br />
+		    	<%= f.label :message, message_title %>
 		        Click <%= link_to "here", "/pages/196", { :target => '_new' } %> to view formatting options. Raw HTML is prohibited.<br />
 		    	<%= f.text_area :message, class: "messagearea", id: :message_message %>
 	  		</li>
@@ -19,17 +19,19 @@
 		
 		<% if @message.board.in_character %>
 			<ul class="form">
-	  			<li>
-	  				Select one of your characters as whom to post, or type an NPC name into the field below.<br />
-	  				<div class="options_container">
-	  					<%= radio_button_tag(:radio_type, "character_id", !@message.character_id.blank? || @message.id.nil? ) %><%= label_tag "radio_type_character_id", "Character" %><br />
+				<li>
+					Select one of your characters as whom to post, or type an NPC name into the field below.<br />
+					<div class="options_container">
+						<%= radio_button_tag(:radio_type, "character_id", !@message.character_id.blank? || @message.id.nil? ) %><%= label_tag "radio_type_character_id", "Character" %><br />
 						<%= f.collection_select :character_id, 
-												user.characters.order(:name).to_a.select{|character| character.state == "active"},
-												:id, :name_and_title, {}, {class: "switch_enabled", id: :message_character_id} %>
+											user.characters.order(:name).to_a.select{|character| character.state == "active"},
+											:id, :name_and_title, {}, {class: "switch_enabled", id: :message_character_id} %>
 					</div>
+				</li>
+				<li>
 					<div class="options_container">
 						<%= radio_button_tag(:radio_type, "name", @message.character_id.blank? && !@message.id.nil?) %><%= label_tag "radio_type_name", "NPC Name or Scenery Description" %><br />
-						<%= f.text_field :name, class: "switch_enabled", disabled: true, id: :message_name %>
+						<%= f.text_field :name, class: "switch_enabled fullwidth", disabled: true, id: :message_name %>
 					</div>
 				</li>
 			</ul>

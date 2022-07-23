@@ -1,9 +1,9 @@
 <%= form_with model: [:character, @guild_membership] do |f| %>
-    <%= f.error_messages :header_message => I18n.t("character.guild_membership.dialog_header"), :message => I18n.t("character.guild_membership.dialog_main_change_guild") %>
+  <%= f.error_messages :header_message => I18n.t("character.guild_membership.dialog_header"), :message => I18n.t("character.guild_membership.dialog_main_change_guild") %>
 
-    <ul class="form">
+  <ul class="form">
 		<li>
-			<%= f.label :guild_id, for: :guild_selector %><br />
+			<%= f.label :guild_id, for: :guild_selector %>
 			<%= f.collection_select :guild_id, 
 									Guild.order(:proscribed),
 									:id, :name,
@@ -11,8 +11,8 @@
 									{ id: :guild_selector } %>
 		</li>
 		<li>
-			<%= f.label :guild_branch_id, for: :guild_branch_selector %><br />
-            <%= f.select :guild_branch_id, [], { include_blank: true }, { disabled: ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), id: :guild_branch_selector, "data-guildmap" => guild_map_json(@character) } %>
+			<%= f.label :guild_branch_id, for: :guild_branch_selector %>
+      <%= f.select :guild_branch_id, [], { include_blank: true }, { disabled: ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), id: :guild_branch_selector, "data-guildmap" => guild_map_json(@character) } %>
 		</li>
 
 	</ul>

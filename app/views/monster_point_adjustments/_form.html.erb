@@ -3,17 +3,17 @@
 
 	<ul class="form">
 		<li>
-			<%= f.label :declared_on %><br />
+			<%= f.label :declared_on %>
       <%= f.text_field :declared_on, class: "datepicker", data: {maxDate: "#{Date.today}"}, readonly: true, id: :monster_point_adjustment_declared_on %>
 		</li>
 		<li>
-			<%= f.label :points, I18n.t("user.monster_point_adjustment.points_label") %><br />
-			<%= f.text_field :points, id: :monster_point_adjustment_points %>
+			<%= f.label :points, I18n.t("user.monster_point_adjustment.points_label") %>
+			<%= f.number_field :points, id: :monster_point_adjustment_points %>
 			<p><em><%= I18n.t("user.monster_point_adjustment.points_info_1") %><br /><%= I18n.t("user.monster_point_adjustment.points_info_2") %></em></p>
 		</li>
 		<li>
 			<%= f.label :reason %><br />
-			<%= f.text_field :reason, id: :monster_point_adjustment_reason %>
+			<%= f.text_field :reason, id: :monster_point_adjustment_reason, class: "fullwidth" %>
 		</li>
 	</ul>
 <% end %>
