@@ -5,50 +5,46 @@
         <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
         <link rel="icon" type="image/png" href="<%= asset_path 'favicon.png' %>" />
         <%= csrf_meta_tag %>
-	<%= javascript_include_tag 'application' %>
-	<%= stylesheet_link_tag 'application', media: 'all' %>
-	<%= stylesheet_link_tag 'application', media: 'screen, projection' %>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@1&display=swap" rel="stylesheet">
+        <%= javascript_include_tag 'application' %>
+        <%= stylesheet_link_tag 'application', media: 'all' %>
+        <%= stylesheet_link_tag 'application', media: 'screen, projection' %>
         <%= stylesheet_link_tag 'application', media: 'print' %>
-	<% if @content_for_title %>
-		<title>BathLARP - <%= yield :title %></title>
-	<% else %>
-		<title>BathLARP</title>
-	<% end %>
+        <% if @content_for_title %>
+            <title>BathLARP - <%= yield :title %></title>
+        <% else %>
+            <title>BathLARP</title>
+        <% end %>
         <%= yield :head %>
     </head>
     <body>
-        <div class="container">
+        <!-- Page banner -->
 
-            <!-- Page banner -->
-
-            <div id="banner" class="span-24 last non-printing">
-                <p align="center">
+        <header id="banner" class="non-printing">
+            <div class="container">
+                <div id="logo">
                     <a href="/" border="0">
-                        <%= image_tag "bathlarp_sword.png", class: "swordimage" %><%= image_tag "bathlarp.png", class: "titleimage" %>
+                        <%= image_tag "2022/bathlarp_sword.svg", class: "swordimage" %><%= image_tag "2022/bathlarp_logo.svg", class: "titleimage" %>
                     </a>
-                </p>
+                </div>
+                <div class="strapline alt">Saving the world on a Sunday afternoon</div>
             </div>
 
-            <!-- Sidebar -->
+            <nav id="sidebar" class="non-printing">
+                <div class="container">
+                    <%= render partial: "sidebars/show" %>
+                    <!-- <% render(:partial => "shared/sidebar") %> -->
+                </div>
+            </nav>
+        </header>
 
-            <div id="sidebar" class="span-6 non-printing">
-                <div id="sidebar-top" class="span-6 last">
-                    <%= image_tag "sidebar-top.png" %>
-                </div>
-                <div id="leftborder" class="span-1">
-                    &nbsp;
-                </div>
-                <div class="span-5 last">
-                    <%= render(:partial => "shared/sidebar") %>
-                </div>
-                <div id="sidebar-bottom" class="span-6 last">
-                    <%= image_tag "sidebar-bottom.png" %>
-                </div>
-            </div>
 
-            <!-- Content -->
+        <!-- Content -->
 
-            <div id="content-space" class="span-18 last">
+        <div id="content-space">
+            <div class="container">
                 <!-- Show any warnings, errors or other messages. -->
                 <% if flash[ :notice ] %>
                     <div class="success"><%= flash[ :notice ] %></div>
@@ -65,17 +61,23 @@
 
                 <%= yield %>
             </div>
-
-            <!-- Footer -->
-
-            <div id="footer" class="span-12 push-12 alt small last non-printing" align="right">
-                <p>
-                    Site design is copyright &copy; Warren Jones 2009-<%= Time.now.strftime("%Y") %><br/>
-                    If you spot any bugs or have an idea for a new feature, please visit <a href="http://bugs.bathlarp.co.uk">our bug tracker</a>.
-                </p>
-            </div>
-
         </div>
+
+        <!-- Footer -->
+
+        <footer id="footer" class="small non-printing">
+            <div class="container">
+                <div class="footerflex">
+                    <p>
+                        Copyright &copy; BathLARP 2009-<%= Time.now.strftime("%Y") %>. All rights reserved.
+                    </p>
+                    <p>
+                        <a href="http://bugs.bathlarp.co.uk">Report a bug</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
         <div id="fader" style="display: none;"></div>
         <div id="dialog" style="display: none;"></div>
     </body>

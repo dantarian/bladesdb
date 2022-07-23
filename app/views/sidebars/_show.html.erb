@@ -1,3 +1,18 @@
-<div id="menu" class="span-5 last">
+<ul id="menu">
+    <!-- User menu - bit of a hack. -->
+    <% if current_user %>
+        <li class="sidebarcategory">
+            <div class="menulabel">
+                <span><%= fa_icon(:user) %></span>
+            </div>
+            <ul class="sidebarsection">
+                <li><%= link_to current_user.name, user_profile_path() %></li>
+                <li><%= link_to "Monster Points", monster_points_path() %></li>
+                <li><%= link_to "Characters", characters_path() %></li>
+                <li><%= link_to "Log Out", destroy_user_session_path %></li>
+            </ul>
+        </li>
+    <% end %>
+
     <%= render :partial => "sidebars/category", collection: SidebarCategory.all %>
-</div>
+</ul>
