@@ -32,3 +32,7 @@ a:link, a:visited {text-decoration:none;color:#000000;}
 tr.title { background: #454545 ; color: #ffffff; }
 tr.title a { color: #ffffff; }
 span.record_section_header { font-style: italic; }
+h1.alt { font-size: 2.5rem; }
+h2.alt { font-size: 2rem; }
+tr.title { font-size: 1.5rem; }
+table { font-size: 1rem; }
