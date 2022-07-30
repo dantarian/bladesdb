@@ -1,5 +1,5 @@
 <li>
-    <div class="menuentry"><%= link_to entry.name, entry.get_target %></div>
+    <div class="menuentry <%= entry.sidebar_entries.count > 0 ? 'with-submenu' : ''%>"><%= link_to entry.name, entry.get_target %></div>
     <% if entry.sidebar_entries.count > 0 %>
         <ul>
         	<%= render :partial => "sidebars/entry", collection: entry.sidebar_entries %>
