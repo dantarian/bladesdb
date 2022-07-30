@@ -157,6 +157,7 @@ label.shiftedlabel {
     height: 100vh;
     transition: all 0.5s ease;
     justify-content: flex-start;
+    align-content: flex-start;
     overflow-y: scroll;
 }
 
@@ -181,11 +182,49 @@ label.shiftedlabel {
     color: var(--standout-color);
     z-index: 12;
     list-style: none;
-    padding-top: 1rem;
+    padding-top: 2rem;
 }
 
-#menu > li {
+#menu a {
+    display: block;
+}
+
+#menu input {
+    display: none;
+}
+
+#menu > li label {
     font-weight: 600;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#menu > li label::before {
+    display: inline-block;
+    content: '\25b6';
+    margin: 1rem;
+}
+
+#menu > li > ul {
+    height: 0;
+    visibility: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#menu > li label:hover {
+    background-color: var(--translucence-color);
+}
+
+#menu > li > input:checked ~ ul {
+    height: inherit;
+    visibility: visible;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#menu > li input:checked ~ label::before {
+    transform: rotate(90deg);
 }
 
 #menu li {
@@ -195,6 +234,7 @@ label.shiftedlabel {
 #menu ul {
     font-weight: 400;
     list-style: none;
+    margin-top: 1rem;
 }
 
 #menu ul li div.menuentry {
@@ -295,6 +335,23 @@ label.shiftedlabel {
         font-weight: 400;
     }
 
+    #menu > li label {
+        font-weight: 400;
+        width: auto;
+    } 
+
+    #menu > li label::before {
+        display: none;
+        content: '';
+        margin: 0;
+    }
+
+    #menu > li > input:checked ~ ul {
+        height: inherit;
+        visibility: inherit;
+        margin: 0;
+    }
+
     #menu .with-submenu {
         display: flex;
         justify-content: space-between;
@@ -311,7 +368,11 @@ label.shiftedlabel {
         margin-bottom: 0;
     }
 
-    #menu > li > div.menulabel {
+    #menu > li > ul {
+        height: auto;
+    }
+
+    #menu > li > .menulabel {
         padding: 0 1.5rem;
         display: flex;
         flex-direction: column;

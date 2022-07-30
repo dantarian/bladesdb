@@ -1,8 +1,7 @@
 <% if category.show? current_user and category.entries(current_user).length > 0 %>
     <li class="sidebarcategory">
-				<div class="menulabel">
-						<span><a href="#"><%= category.name %></a></span>
-				</div>
+		    <input type="checkbox" id="menu<%= category.id %>">
+				<label class="menulabel" for="menu<%= category.id %>"><%= category.name %></label>
         <% cache_unless(category.name == "Message Boards", category, skip_digest: true) do %>
 						<ul class="sidebarsection" id="sidebarsection<%= category.id %>">
 								<%= render :partial => "sidebars/entry", collection: category.entries(current_user) %>
