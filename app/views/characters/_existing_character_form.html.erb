@@ -4,8 +4,8 @@
 	<div class="fullwidthcolumn">
 		<ul class="form">
 			<li>
-				<%= f.label :declared_on, "Character Details correct as of" %><br />
-                <%= f.text_field :declared_on, class: "datepicker", readonly: true, id: :character_declared_on %><br />
+				<%= f.label :declared_on, "Character Details correct as of" %>
+        <%= f.text_field :declared_on, class: "datepicker", readonly: true, id: :character_declared_on %><br />
 				<em>This date should not coincide with a game.</em>
 			</li>
 		</ul>
@@ -18,62 +18,61 @@
     		<div class="formcolumn">
     			<ul class="form">
     				<li>
-						<%= f.label :name %><br />
-						<%= f.text_field :name, class: "fullwidth", id: :character_name %>
-					</li>
+						  <%= f.label :name %>
+						  <%= f.text_field :name, class: "fullwidth", id: :character_name %>
+					  </li>
 
     				<li>
-						<%= f.label :state %><br />
-						<%= f.select :state, options_for_select([["Active", Character::Active],
+						  <%= f.label :state %>
+						  <%= f.select :state, options_for_select([["Active", Character::Active],
 															     ["Retired", Character::Retired],
 															     ["Perm-Dead", Character::PermDead]], @character.state),
 											 {}, id: :character_state %>
-					</li>
+					  </li>
 
-					<li>
-    					<%= f.label :starting_points, "Character Point Total" %><br/>
+					  <li>
+    					<%= f.label :starting_points, "Character Point Total" %>
     					<%= f.text_field :starting_points, class: "fullwidth", id: :character_starting_points %>
     				</li>
 
     				<li>
-						<%= f.label :title %><br />
-						<%= radio_button_tag(:radio_title, "guild", (@character.title.blank? && !@character.no_title) ) %><%= label_tag "radio_title_guild", "Use Guild titles" %><br />
+						  <%= f.label :title %>
+						  <%= radio_button_tag(:radio_title, "guild", (@character.title.blank? && !@character.no_title) ) %><%= label_tag "radio_title_guild", "Use Guild titles" %><br />
 			  			<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
 			  			<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
-						<%= f.text_field :title, class: "fullwidth", disabled: @character.title.blank?, id: :character_title %>
-					</li>
-
+						  <%= f.text_field :title, class: "fullwidth", disabled: @character.title.blank?, id: :character_title %>
+					  </li>
     			</ul>
     		</div>
     		<div class="formcolumn">
     			<ul class="form">
 
     				<li>
-    					<%= f.label :race_id %><br/>
-						<%= f.collection_select :race_id, Race.all, :id, :name, {}, id: :character_race_id %>
+    					<%= f.label :race_id %>
+						  <%= f.collection_select :race_id, Race.all, :id, :name, {}, id: :character_race_id %>
     				</li>
 
     				<li>
-    					<%= f.label :starting_death_thresholds, "Death Thresholds Remaining" %><br />
+    					<%= f.label :starting_death_thresholds, "Death Thresholds Remaining" %>
     					<%= f.text_field :starting_death_thresholds, class: "fullwidth", id: :character_starting_death_thresholds %>
     				</li>
 
     				<li>
-    					<%= f.label :starting_florins, "Money (in florins)" %><br/>
+    					<%= f.label :starting_florins, "Money (in florins)" %>
     					<%= f.text_field :starting_florins, class: "fullwidth", id: :character_starting_florins %>
     				</li>
 
     				<li>
-    					<%= guild_fields.label :guild_id, "Current Guild", for: :guild_selector %><br />
+    					<%= guild_fields.label :guild_id, "Current Guild", for: :guild_selector %>
     					<%= guild_fields.select :guild_id, Guild.order(:proscribed).to_a.collect { |guild| [guild.name, guild.id] }, { include_blank: true }, { id: :guild_selector } %>
     				</li>
     				<li>
-    					<%= guild_fields.label :guild_branch_id, for: :guild_branch_selector %><br />
-              			<%= guild_fields.select :guild_branch_id, [], { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), id: :guild_branch_selector, "data-guildmap" => guild_map_json(@character) } %>
+    					<%= guild_fields.label :guild_branch_id, for: :guild_branch_selector %>
+              <%= guild_fields.select :guild_branch_id, [], { :include_blank => true }, { :disabled => ( @character.guild_memberships.first.guild.nil? || @character.guild_memberships.first.guild.guild_branches.empty? ), id: :guild_branch_selector, "data-guildmap" => guild_map_json(@character) } %>
     				</li>
 
     				<li>
-    					<%= guild_fields.label :start_points, "Character Point Total at which you joined your current guild" %><br />
+    					<%= guild_fields.label :start_points, "Character Point Total at which you joined your current guild" %>
     					<%= guild_fields.text_field :start_points, class: "fullwidth", id: :character_guild_memberships_attributes_0_start_points %>
     				</li>
 

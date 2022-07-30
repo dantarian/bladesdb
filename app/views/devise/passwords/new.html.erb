@@ -3,7 +3,7 @@
 <%= form_with model: resource, as: resource_name, url: password_path(resource_name), method: :post, local: true do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email, "E-mail address" %><br />
+  <div><%= f.label :email, "E-mail address" %>
   <%= f.email_field :email, autofocus: true, id: "#{resource_name}_email" %></div>
 
   <div><%= f.submit "Request Password Reset" %></div>

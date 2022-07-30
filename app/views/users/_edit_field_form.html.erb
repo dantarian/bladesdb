@@ -5,7 +5,7 @@
 		<% fields.each do |field| %>
 	  		<li>
 	  			<% if field[:field_type] != "boolean" %>
-			    	<%= f.label field[:field], field[:field_name] %><br />
+			    	<%= f.label field[:field], field[:field_name] %>
 				<% end %>
                 <% if field[:field_type] == "text" %>
                     <%= f.text_field field[:field], id: "user_#{field[:field]}" %>

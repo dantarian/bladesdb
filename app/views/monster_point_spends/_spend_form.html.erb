@@ -11,30 +11,30 @@
 		<span id="playedChar" class="hidden"><%= @monster_point_spend.character.played_before @monster_point_spend.spent_on %></span>
 		<ul class="form">
 			<li>
-				<%= f.label :spent_on %><br />
+				<%= f.label :spent_on %>
 				<%= @monster_point_spend.spent_on %>
 				<%= f.hidden_field :spent_on %>
 			</li>
 			<li>
-				<%= f.label nil, "Total monster points available on date of spend" %><br />
+				<%= f.label nil, "Total monster points available on date of spend" %>
 				<span id="mpTotal"><%= @monster_point_spend.monster_points_available %></span><br />
 				<em>Note: This may include any pending monster point adjustments.</em>
 			</li>
 			<li>
-				<%= f.label nil, "Rank on date of spend" %><br />
-                <span id="charRank"><%= @monster_point_spend.character_rank_before_spend %></span><br />
-                <em>Note: This may include any pending character point adjustments.</em>
+				<%= f.label nil, "Rank on date of spend" %>
+				<span id="charRank"><%= @monster_point_spend.character_rank_before_spend %></span><br />
+				<em>Note: This may include any pending character point adjustments.</em>
 			</li>
 			<li>
-				<%= f.label nil, "Maximum character points available to buy for #{@monster_point_spend.character.name}" %><br />
-                <span id="mpAvailable"><%= @monster_point_spend.max_character_points %></span>
+				<%= f.label nil, "Maximum character points available to buy for #{@monster_point_spend.character.name}" %>
+				<span id="mpAvailable"><%= @monster_point_spend.max_character_points %></span>
 			</li>
 			<li>
-				<%= f.label :character_points_gained, "Character Points to buy" %><br />
-				<%= f.text_field :character_points_gained, id: :monster_point_spend_character_points_gained %>
+				<%= f.label :character_points_gained, "Character Points to buy" %>
+				<%= f.number_field :character_points_gained, id: :monster_point_spend_character_points_gained %>
 			</li>
 			<li>
-				<%= f.label :monster_points_spent, "Cost in Monster Points" %><br />
+				<%= f.label :monster_points_spent, "Cost in Monster Points" %>
 				<span id="mpCost"><%= @monster_point_spend.monster_points_spent %></span>
 			</li>
 		</ul>

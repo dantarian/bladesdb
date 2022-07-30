@@ -50,7 +50,7 @@ class BladesDBPage
 
     def check_pm_ratio(user)
         page.should have_selector("div#sessionpanel")
-        page.find("div#sessionpanel").should have_text("Your current P:M ratio is")
+        page.find("div#sessionpanel").should have_text("P:M ratio is")
     end
 
     def check_monster_points(points)

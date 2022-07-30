@@ -1,21 +1,13 @@
 <% if category.show? current_user and category.entries(current_user).length > 0 %>
-    <div class="span-5 last sidebarcategory">
-        <h3>
-            <%= link_to category.name, "#", class: "alt" %>
-        </h3>
+    <li class="sidebarcategory">
+				<div class="menulabel">
+						<span><a href="#"><%= category.name %></a></span>
+				</div>
         <% cache_unless(category.name == "Message Boards", category, skip_digest: true) do %>
-	        <div class="span-5 last sidebarsection"
-	             id="sidebarsection<%= category.id %>"
-	             <% if !category.always_open %>
-				 	style="display:none;"
-				 <% end %>>
-	            <div>
-	                <ul>
-	                	<%= render :partial => "sidebars/entry", collection: category.entries(current_user) %>
-	                </ul>
-	            </div>
-	        </div>
-	    <% end %>
-    </div>
+						<ul class="sidebarsection" id="sidebarsection<%= category.id %>">
+								<%= render :partial => "sidebars/entry", collection: category.entries(current_user) %>
+						</ul>
+	    	<% end %>
+    </li>
 <% end %>
 

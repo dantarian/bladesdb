@@ -3,12 +3,12 @@
 
 	<ul class="form">
 		<li>
-			<%= f.label :declared_on %><br />
+			<%= f.label :declared_on %>
 			<%= f.text_field :declared_on, class: "datepicker", data: {maxDate: "#{Date.today}"}, readonly: true, id: :monster_point_declaration_declared_on %>
 		</li>
 		<li>
-			<%= f.label :points %><br />
-			<%= f.text_field :points, id: :monster_point_declaration_points %>
+			<%= f.label :points %>
+			<%= f.number_field :points, id: :monster_point_declaration_points %>
 		</li>
 	</ul>
 <% end %>

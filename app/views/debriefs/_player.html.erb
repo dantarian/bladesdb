@@ -8,7 +8,7 @@
         <%= hidden_field_tag :character_selected, "false" %>
         <ul class="form">
             <li>
-                <%= f.label :user_id, "Select User, or #{link_to 'Create New User', new_player_new_game_user_path(@game), :method => :get, :remote => true}".html_safe %><br />
+                <%= f.label :user_id, "Select User, or #{link_to 'Create New User', new_player_new_game_user_path(@game), :method => :get, :remote => true}".html_safe %>
                 <%= f.collection_select :user_id, 
                                         User.order(:name).select{ |user| (user.deleted_at.nil? && (user.is_normal? || user.is_recent?)) },
                                         :id, :name, {}, id: :debrief_user_id %>
@@ -20,7 +20,7 @@
         <%= f.hidden_field :user_id %>
         <ul class="form">
             <li>
-                <%= f.label :character_id, "Select Character, or #{link_to 'Create New Character', new_player_new_game_user_character_path(@game, @debrief.user), :method => :get, :remote => true}".html_safe %><br />
+                <%= f.label :character_id, "Select Character, or #{link_to 'Create New Character', new_player_new_game_user_character_path(@game, @debrief.user), :method => :get, :remote => true}".html_safe %>
                 <%= f.collection_select :character_id, 
                                         @debrief.user.characters.order(:name).reject{ |character| @game.player_debriefs.any? {|debrief| debrief.character == character } },
                                         :id, :name_and_title, {}, id: :debrief_character_id %>
@@ -33,33 +33,33 @@
         <%= f.hidden_field :character_id %>
         <ul class="form">
             <li>
-                <%= f.label :base_points, "Base Points (if different to Player Base)" %><br />
-                <%= f.text_field :base_points, id: :debrief_base_points %>
+                <%= f.label :base_points, "Base Points (if different to Player Base)" %>
+                <%= f.number_field :base_points, id: :debrief_base_points %>
             </li>
             <li>
-                <%= f.label :deaths, "Deaths" %><br />
-                <%= f.text_field :deaths, id: :debrief_deaths %>
+                <%= f.label :deaths, "Deaths" %>
+                <%= f.number_field :deaths, id: :debrief_deaths %>
             </li>
             <li>
-                <%= f.label :points_modifier, "Bonus Points" %><br />
-                <%= f.text_field :points_modifier, id: :debrief_points_modifier %>
+                <%= f.label :points_modifier, "Bonus Points" %>
+                <%= f.number_field :points_modifier, id: :debrief_points_modifier %>
             </li>
             <li>
-                <%= f.label :money_modifier, "Pay Adjustment" %><br />
-                <%= f.text_field :money_modifier, id: :debrief_money_modifier %>
+                <%= f.label :money_modifier, "Pay Adjustment" %>
+                <%= f.number_field :money_modifier, id: :debrief_money_modifier %>
             </li>
             <li>
-                <%= f.label :loot, "Loot/Fines" %><br />
-                <%= f.text_field :loot, id: :debrief_loot %>
+                <%= f.label :loot, "Loot/Fines" %>
+                <%= f.number_field :loot, id: :debrief_loot %>
             </li>
             <li>
-                <%= f.label :remarks, "Comments" %><br />
+                <%= f.label :remarks, "Comments" %>
                 <%= f.text_area :remarks, id: :debrief_remarks %>
             </li>
             <%= f.fields_for :character do |cf| %>
             	<%= cf.hidden_field :id %>
             <li>
-                <%= cf.label :gm_notes, "GM Notes" %><br />
+                <%= cf.label :gm_notes, "GM Notes" %>
                 <%= cf.text_area :gm_notes, id: :debrief_character_attributes_gm_notes %>
             </li>
             <% end %>

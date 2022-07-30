@@ -1,20 +1,16 @@
 <% if current_user and (current_user.is_admin? or current_user.is_committee?) %>
 	<% pending_users = User.where(state: Character::Active, approved_at: nil, deleted_at: nil).count %>
     <% if pending_users > 0 %>
-        <div class="admin_notifications"
-            <p>
-                There <%= ( pending_users == 1 ? "is" : "are" ) %> <%= pending_users %> user<%= "s" unless pending_users == 1 %> 
-                <%= link_to "awaiting approval", users_path %>.
-            </p>
-        </div>
+        <p>
+            There <%= ( pending_users == 1 ? "is" : "are" ) %> <%= pending_users %> user<%= "s" unless pending_users == 1 %> 
+            <%= link_to "awaiting approval", users_path %>.
+        </p>
     <% end %>
 <% end %>
 <% if current_user and current_user.has_outstanding_debriefs? %>
-    <div class="admin_notifications">
-        <p>
-            You have <%= link_to "games awaiting debrief", outstanding_debriefs_games_path %>.
-        </p>
-    </div>
+    <p>
+        You have <%= link_to "games awaiting debrief", outstanding_debriefs_games_path %>.
+    </p>
 <% end %>
 <% if current_user and current_user.is_character_ref? %>
     <%
@@ -27,48 +23,42 @@
     	pending_dt_adjustments = DeathThresholdAdjustment.pending_adjustments(current_user).count
     %>
     <% if pending_characters + pending_guild_changes + provisional_guild_memberships + pending_cp_adjustments + pending_mp_declarations + pending_mp_adjustments + pending_dt_adjustments > 0 %>
-        <div class="admin_notifications">
-            Awaiting <%= link_to "approval", approvals_path %>:
-            <ul>
-                <% if pending_characters > 0 %>
-                    <li><%= pending_characters %> character<%= "s" unless pending_characters == 1 %></li>
-                <% end %>
-                <% if pending_guild_changes > 0 %>
-                    <li><%= pending_guild_changes %> guild change<%= "s" unless pending_guild_changes == 1 %></li>
-                <% end %>
-                <% if provisional_guild_memberships > 0 %>
-                    <li><%= provisional_guild_memberships %> provisional guild membership<%= "s" unless provisional_guild_memberships == 1 %></li>
-                <% end %>
-                <% if pending_cp_adjustments > 0 %>
-                    <li><%= pending_cp_adjustments %> character point adjustment<%= "s" unless pending_cp_adjustments == 1 %></li>
-                <% end %>
-                <% if pending_mp_declarations > 0 %>
-                    <li><%= pending_mp_declarations %> monster point declaration<%= "s" unless pending_mp_declarations == 1 %></li>
-                <% end %>
-                <% if pending_mp_adjustments > 0 %>
-                    <li><%= pending_mp_adjustments %> monster point adjustment<%= "s" unless pending_mp_adjustments == 1 %></li>
-                <% end %>
-                <% if pending_dt_adjustments > 0 %>
-                    <li><%= pending_dt_adjustments %> death threshold adjustment<%= "s" unless pending_dt_adjustments == 1 %></li>
-                <% end %>
-            </ul>
-        </div>
+        <p>Awaiting <%= link_to "approval", approvals_path %>:</p>
+        <ul>
+            <% if pending_characters > 0 %>
+                <li><%= pending_characters %> character<%= "s" unless pending_characters == 1 %></li>
+            <% end %>
+            <% if pending_guild_changes > 0 %>
+                <li><%= pending_guild_changes %> guild change<%= "s" unless pending_guild_changes == 1 %></li>
+            <% end %>
+            <% if provisional_guild_memberships > 0 %>
+                <li><%= provisional_guild_memberships %> provisional guild membership<%= "s" unless provisional_guild_memberships == 1 %></li>
+            <% end %>
+            <% if pending_cp_adjustments > 0 %>
+                <li><%= pending_cp_adjustments %> character point adjustment<%= "s" unless pending_cp_adjustments == 1 %></li>
+            <% end %>
+            <% if pending_mp_declarations > 0 %>
+                <li><%= pending_mp_declarations %> monster point declaration<%= "s" unless pending_mp_declarations == 1 %></li>
+            <% end %>
+            <% if pending_mp_adjustments > 0 %>
+                <li><%= pending_mp_adjustments %> monster point adjustment<%= "s" unless pending_mp_adjustments == 1 %></li>
+            <% end %>
+            <% if pending_dt_adjustments > 0 %>
+                <li><%= pending_dt_adjustments %> death threshold adjustment<%= "s" unless pending_dt_adjustments == 1 %></li>
+            <% end %>
+        </ul>
     <% end %>
 <% end %>
 <% if current_user and current_user.is_committee? %>
     <% if pending_game_apps > 0 %>
-        <div class="admin_notifications"
-            <p>
-                There <%= ( pending_game_apps == 1 ? "is" : "are" ) %> <%= pending_game_apps %> game<%= "s" unless pending_game_apps == 1 %> 
-                <%= link_to "with pending applications", event_calendar_path %>.
-            </p>
-        </div>
+        <p>
+            There <%= ( pending_game_apps == 1 ? "is" : "are" ) %> <%= pending_game_apps %> game<%= "s" unless pending_game_apps == 1 %> 
+            <%= link_to "with pending applications", event_calendar_path %>.
+        </p>
     <% end %>
 <% end %>
 <% if current_user and current_user.needs_medical_update? %>
-    <div class="admin_notifications"
-        <p>
-            Your medical details <%= link_to "need updating", edit_emergency_details_user_path(current_user), :method => :get, :remote => true %>.
-        </p>
-    </div>
+    <p>
+        Your medical details <%= link_to "need updating", edit_emergency_details_user_path(current_user), :method => :get, :remote => true %>.
+    </p>
 <% end %>

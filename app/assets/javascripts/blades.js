@@ -152,8 +152,7 @@ $(function() {
 });
 
 $(function () {
-	$("div.sidebarcategory h3 a").click(function (event) {
-		$(this).closest("div.sidebarcategory").find(".sidebarsection").toggle();
+	$("div.sidebarcategory .menulabel a").click(function (event) {
 		event.preventDefault();
 	});
 });

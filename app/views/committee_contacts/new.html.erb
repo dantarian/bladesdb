@@ -13,11 +13,11 @@
 	  			<%= radio_button_tag(:radio_type, "insurance_responsibles") %><%= label_tag "radio_type_insurance_responsibles", "Insurance Responsibles" %>
 	  		</li>
 	  		<li>
-		    	<%= f.label :subject %><br />
-		    	<%= f.text_field :subject, id: :contact_form_subject %>
+		    	<%= f.label :subject %>
+		    	<%= f.text_field :subject, id: :contact_form_subject, class: "fullwidth" %>
 		    </li>
 		    <li>
-		    	<%= f.label :message %><br />
+		    	<%= f.label :message %>
 		    	<%= f.text_area :message, class: "messagearea", id: :contact_form_message %>
 	  		</li>
 		</ul>

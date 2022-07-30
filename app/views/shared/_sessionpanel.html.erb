@@ -1,0 +1,23 @@
+<div id="sessionpanel">
+    <div class="container">
+        <div class="row">
+            <% if user_signed_in? %>
+                <span class="nobr">Logged in as <%=h current_user.username %></span> 
+                &bull;
+                <span class="nobr"><span id="current_monster_points"><%=h current_user.monster_points %></span> monster points</span>
+                &bull;
+                <span class="nobr">P:M ratio is <%=h current_user.games_played %>:<%=h current_user.games_monstered %></span>
+                &bull;
+                <span class="nobr"><%= link_to 'Log out', destroy_user_session_path, method: :delete %></span>
+                <%= hidden_field_tag "logged_in", true %>
+            <% else %>
+                <span class="nobr">Not logged in</span> 
+                &bull;
+                <span class="nobr"><%= link_to 'Login', new_user_session_path %></span>
+                &bull;
+                <span class="nobr"><%= link_to "Register", new_user_registration_path %></span>
+                <%= hidden_field_tag "logged_in", false %>
+            <% end %> 
+        </div>
+    </div>
+</div>

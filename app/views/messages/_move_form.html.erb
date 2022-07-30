@@ -1,17 +1,17 @@
 <div id="messageform">
 	<%= form_with model: @message, url: { action: :save_move } do |f| %>
-	  	<%= f.error_messages %>
+	  <%= f.error_messages %>
 	
 		<%= f.hidden_field :user_id %>
 		<%= f.hidden_field :request_uuid %>
 	
-	  	<ul class="form">
-	  		<li>
-		    	<%= f.label :board_id, "Board" %><br />
+		<ul class="form">
+			<li>
+				<%= f.label :board_id, "Board" %>
 				<%= f.collection_select :board_id, 
 										Board.where(closed: false),
 										:id, :name, {}, id: :message_board_id %>
-	  		</li>
+			</li>
 		</ul>
 			
 	<% end %>

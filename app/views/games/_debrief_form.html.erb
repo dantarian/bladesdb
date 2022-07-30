@@ -8,20 +8,20 @@
     
     <ul class="form">
         <li>
-            <%= f.label :title, "Game title" %><br />
+            <%= f.label :title, "Game title" %>
             <%= f.text_field :title, id: :game_title %>
         </li>
         <li>
-            <%= f.label :player_points_base, "Player Points" %><br />
-            <%= f.text_field :player_points_base, id: :game_player_points_base %>
+            <%= f.label :player_points_base, "Player Points" %>
+            <%= f.number_field :player_points_base, id: :game_player_points_base %>
         </li>
         <li>
-            <%= f.label :monster_points_base, "Monster Points" %><br />
-            <%= f.text_field :monster_points_base, id: :game_monster_points_base %>
+            <%= f.label :monster_points_base, "Monster Points" %>
+            <%= f.number_field :monster_points_base, id: :game_monster_points_base %>
         </li>
         <li>
-            <%= f.label :player_money_base, "Danger Pay (florins)" %><br />
-            <%= f.text_field :player_money_base, id: :game_player_money_base %>
+            <%= f.label :player_money_base, "Danger Pay (florins)" %>
+            <%= f.number_field :player_money_base, id: :game_player_money_base %>
         </li>
     </ul>
 

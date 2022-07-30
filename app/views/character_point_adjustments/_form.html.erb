@@ -6,17 +6,17 @@
 	        <p><em>Note: This form should only be used if your character has the wrong number<br>of Character Points. It should not be used for spending Monster Points.</em></p>
 	    </li>
 		<li>
-			<%= f.label :declared_on %><br />
+			<%= f.label :declared_on %>
 			<%= f.text_field :declared_on, class: "datepicker", :data => {:maxDate => "#{Date.today}", :minDate => "#{character_point_adjustment_earliest_allowed_date(@character)}"}, :readonly => true, id: :character_point_adjustment_declared_on %>
 		</li>
 		<li>
-			<%= f.label :points, "Number of points to add or remove" %><br />
-			<%= f.text_field :points, id: :character_point_adjustment_points %><br/>
+			<%= f.label :points, "Number of points to add or remove" %>
+			<%= f.number_field :points, id: :character_point_adjustment_points %><br/>
 			<p><em>Enter a positive number to add points or a negative number to remove points.</em></p>
 		</li>
 		<li>
-			<%= f.label :reason %><br />
-			<%= f.text_field :reason, id: :character_point_adjustment_reason %>
+			<%= f.label :reason %>
+			<%= f.text_field :reason, id: :character_point_adjustment_reason, class: "fullwidth" %>
 		</li>
 	</ul>
 
