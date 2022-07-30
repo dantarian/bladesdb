@@ -21,7 +21,6 @@
     </head>
     <body>
         <!-- Page banner -->
-
         <header id="banner" class="non-printing">
             <div class="container">
                 <div id="logo">
@@ -33,17 +32,25 @@
             </div>
 
             <nav id="sidebar" class="non-printing">
-                <div class="container">
-                    <%= render partial: "sidebars/show" %>
-                    <!-- <% render(:partial => "shared/sidebar") %> -->
+                <div id="hamburger">
+                    <div class="icon"><%= fa_icon :bars %></div>
+                    <div class="container">
+                        <%= render partial: "sidebars/show" %>
+                        <!-- <% render(:partial => "shared/sidebar") %> -->
+                    </div>
                 </div>
             </nav>
+
+            <div id="faux-menu">&nbsp;</div>
+
         </header>
 
+        <%= render partial: "shared/sessionpanel" %>
 
         <!-- Content -->
 
         <div id="content-space">
+
             <div class="container">
                 <!-- Show any warnings, errors or other messages. -->
                 <% if flash[ :notice ] %>
@@ -59,6 +66,15 @@
                     <div class="error"><%= flash[ :error ] %></div>
                 <% end %>
 
+                <!-- Show any admin notifications. -->
+                <% admin_notifications = render :partial => "shared/admin_notifications" %>
+                <% if admin_notifications.present? %>
+                    <div class="admin_notifications">
+                        <%= admin_notifications %>
+                    </div>
+                <% end %>
+
+                <!-- Show the actual page content. -->
                 <%= yield %>
             </div>
         </div>

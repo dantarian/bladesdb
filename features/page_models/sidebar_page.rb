@@ -64,12 +64,13 @@ class SidebarPage < BladesDBPage
     end
 
     def expand_sidebar_category(name)
-        page.find('#menu').click_link(name)
+        page.find('#menu').find("a", text: name).ancestor("li").hover()
         self
     end
 
     def click_sidebar_link(name)
-        page.find('#menu').click_link(name)
+        page.find('#menu').find("a", text: name, visible: false).trigger(:click)
+        sleep 0.1
         self
     end
 

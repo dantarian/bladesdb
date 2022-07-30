@@ -49,7 +49,7 @@ class MonsterPointsPage < BladesDBPage
     end
 
     def check_for_monster_points(points)
-      page.find("div#sessionpanel").should have_text("You have " + points.to_s + " monster points.")
+      page.find("div#sessionpanel").should have_text(points.to_s + " monster points")
       page.find("p#total").should have_text("Current total: " + points.to_s)
     end
 end

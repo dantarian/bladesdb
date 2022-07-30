@@ -1,7 +1,7 @@
 <% if category.show? current_user and category.entries(current_user).length > 0 %>
     <li class="sidebarcategory">
 				<div class="menulabel">
-						<span><%= category.name %></span>
+						<span><a href="#"><%= category.name %></a></span>
 				</div>
         <% cache_unless(category.name == "Message Boards", category, skip_digest: true) do %>
 						<ul class="sidebarsection" id="sidebarsection<%= category.id %>">

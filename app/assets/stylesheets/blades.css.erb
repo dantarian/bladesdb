@@ -40,7 +40,6 @@ a.icboard {
 	font-style: italic;
 }
 
-
 body {
     display: flex;
     flex-direction: column;
@@ -50,18 +49,44 @@ body {
     background-color: var(--standout-color);
 }
 
-#logo {
-    padding-bottom: 1em;
+#banner .container {
+    width: auto;
+    padding: 0;
 }
 
 .strapline {
-    font-size: 2.45rem;
-    padding-left: 15rem;
-    margin-top: -3.5rem;
+    display: none;
+}
+
+img.swordimage {
+    width: 15vw;
+    padding-left: 5vw;
+    padding-top: 2vw;
+    position: absolute;
+    z-index: 10;
+}
+
+img.titleimage {
+    vertical-align: top;
+    width: 75vw;
+    padding-top: 4vw;
+    padding-left: 20vw;
 }
 
 nav {
 	background-color: var(--primary-color);
+}
+
+#sessionpanel {
+    text-align: center;
+    background-color: var(--primary-dark-color);
+    color: var(--standout-color);
+    z-index: 11;
+    padding: 0.5rem;
+}
+
+#sessionpanel a, #sessionpanel a:visited {
+    color: var(--standout-color);
 }
 
 #content-space {
@@ -96,107 +121,255 @@ footer a, footer a:hover, footer a:focus {
     color: #fff;
 }
 
-img.swordimage {
-  height: 12.5em;
-  padding-left: 0;
-  padding-top: 1em;
-  position: absolute;
-  z-index: 10;
-}
-
-img.titleimage {
-  vertical-align: top;
-  height: 6em;
-  padding-top: 2em;
-  padding-left: 10em;
-}
-
 label.shiftedlabel {
     position: relative;
     top: -3px;
 }
 
+#hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    color: var(--standout-color);
+    width: 8vw;
+    height: 8vw;
+    font-size: 5vw;
+    z-index: 12;
+    transition: all 0.5s ease;
+}
+
+#hamburger > div:first-child {
+    display: block;
+}
+
+#hamburger > div:last-child {
+    display: none;
+}
+
+#hamburger:hover {
+    box-shadow: rgba(0, 0, 0, 0.25) 0rem 1.4rem 2.8rem, rgba(0, 0, 0, 0.22) 0rem 1rem 1rem;
+    width: 50vw;
+    height: 100vh;
+    transition: all 0.5s ease;
+    justify-content: flex-start;
+    overflow-y: scroll;
+}
+
+#hamburger > div.icon {
+    text-align: center;
+}
+
+#hamburger:hover > div:first-child {
+    display: none;
+}
+
+#hamburger:hover > div:last-child {
+    display: block;
+}
+
+#faux-menu {
+    background-color: var(--primary-color);
+    height: 1.5vw;
+}
+
 #menu {
     color: var(--standout-color);
-    margin-left: 13rem;
-    height: 3em;
-    overflow: hidden;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: no-wrap;
-    justify-content: flex-start;
-    gap: 1rem;
-    align-items: stretch;
+    z-index: 12;
     list-style: none;
+    padding-top: 1rem;
+}
+
+#menu > li {
+    font-weight: 600;
 }
 
 #menu li {
     font-size: 2rem;
 }
 
-#menu > li {
-    transition-duration: 0.5s;
-    margin-bottom: 0;
-}
-
-#menu > li > div.menulabel {
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    height: 100%;
-}
-
-#menu li:hover, #menu li:focus-within {
-    cursor: pointer;
-    background-color: var(--translucence-color);
-}
-
 #menu ul {
+    font-weight: 400;
     list-style: none;
-    padding-top: 0.5em;
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    transition: all 0.5s ease;
-    margin: 0;
-    display: none;
-    z-index: 12;
-    background-color: var(--primary-color);
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-    min-width: 20rem;
 }
 
-#menu ul li {
-    padding-left: 1em;
-    padding-right: 1em;
-    box-sizing: border-box;
+#menu ul li div.menuentry {
+    padding-left: 0.5em;
 }
 
-#menu ul li:hover {
+#menu ul li div.menuentry:hover {
     background-color: var(--translucence-color);
 }
 
-#menu ul ul {
-    margin-left: 5rem;
-}
+@media (min-width: 1000px) {
+    #banner .container {
+        width: 80%;
+        padding: 0 20px;
+    }
 
-#menu li:hover > ul, #menu li:focus-within > ul, #menu li ul:hover {
-    visibility: visible;
-    opacity: 1;
-    display: block;
-}
+    #logo {
+        padding-bottom: 1em;
+    }
 
-#menu li ul li {
-    clear: both;
-    width: 100%;
+    .strapline {
+        display: block;
+        font-size: 2.45rem;
+        padding-left: 15rem;
+        margin-top: -3.5rem;
+        x-overflow: hidden;
+        y-overflow: hidden;
+        width: 50rem;
+    }
+
+    img.swordimage {
+        height: 12.5em;
+        width: auto;
+        padding-left: 0;
+        padding-top: 1em;
+        position: absolute;
+        z-index: 10;
+    }
+
+    img.titleimage {
+        vertical-align: top;
+        height: 6em;
+        width: auto;
+        padding-top: 2em;
+        padding-left: 10em;
+    }
+
+    #hamburger {
+        display: block;
+        position: static;
+        height: 3em;
+        width: inherit;
+        transition: inherit;
+        font-size: inherit;
+        overflow-y: visible;
+    }
+
+    #hamburger:hover {
+        height: 3em;
+        width: inherit;
+        box-shadow: inherit;
+        transition: inherit;
+        overflow-y: visible;
+    }
+
+    #hamburger > div:first-child,
+    #hamburger:hover > div:first-child {
+        display: none;
+    }
+
+    #hamburger > div:last-child,
+    #hamburger:hover > div:last-child {
+        display: block;
+    }
+
+    #faux-menu {
+        display: none;
+    }
+
+    #menu {
+        position: static;
+        margin-left: 13.5rem;
+        height: 3em;
+        overflow: hidden;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        list-style: none;
+        width: inherit;
+        padding-top: 0;
+    }
+
+    #menu li {
+        font-size: 1.8rem;
+        font-weight: 400;
+    }
+
+    #menu > li {
+        transition-duration: 0.5s;
+        margin-bottom: 0;
+    }
+
+    #menu > li > div.menulabel {
+        padding: 0 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    #menu li:hover, #menu li:focus-within {
+        cursor: pointer;
+        background-color: var(--translucence-color);
+    }
+
+    #menu ul {
+        list-style: none;
+        padding-top: 0.5em;
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        transition: all 0.5s ease;
+        margin: 0;
+        display: none;
+        z-index: 12;
+        background-color: var(--primary-color);
+        box-shadow: rgba(0, 0, 0, 0.25) 0rem 1.4rem 2.8rem, rgba(0, 0, 0, 0.22) 0rem 1rem 1rem;
+        min-width: 20rem;
+    }
+
+    #menu ul li {
+        padding-left: 1em;
+        padding-right: 1em;
+        box-sizing: border-box;
+    }
+
+    #menu ul ul {
+        margin-left: 5rem;
+    }
+
+    #menu li:hover > ul, #menu li:focus-within > ul, #menu li ul:hover, #menu ul.force-visible {
+        visibility: visible;
+        opacity: 1;
+        display: block;
+    }
+
+    #meny ul.force-visible {
+        transition-duration: 0s;
+    }
+
+    #menu ul li div.menuentry:hover {
+        background: none;
+    }
+
+    #menu li ul li {
+        clear: both;
+        width: 100%;
+    }
 }
 
 .sidebarcategory a, .sidebarcategory a:hover, .sidebarcategory a:focus {
     color: var(--standout-color);
     text-decoration: none;
+}
+
+.admin_notifications {
+    background-color: var(--standout-color);
+    border: 0.2rem solid var(--primary-dark-color);
+    box-shadow: rgba(0, 0, 0, 0.25) 0rem 1.4rem 2.8rem, rgba(0, 0, 0, 0.22) 0rem 0.5rem 0.5rem;
+    padding: 1rem 2rem 0 2rem;
+    margin-bottom: 2rem;
 }
 
 textarea.fullwidtharea, textarea.messagearea {
@@ -437,3 +610,14 @@ input[type=checkbox] + label, input[type=radio] + label { display: inline-block;
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
+
+.sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.nobr { white-space: nowrap; }
