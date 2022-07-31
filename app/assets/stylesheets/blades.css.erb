@@ -3,7 +3,31 @@
     --primary-dark-rgb: 104, 4, 4;
     --background-rgb: 255, 249, 215;
     --standout-rgb: 255, 255, 255;
+}
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-rgb: 255, 215, 0;
+        --primary-dark-rgb: 255, 249, 215;
+        --background-rgb: 40, 4, 4;
+        --standout-rgb: 0, 0, 0;
+    }
+
+    #banner {
+        background-color: var(--background-color);
+    }
+}
+
+/*@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-rgb: 40, 0, 0;
+        --primary-dark-rgb: 255, 249, 215;
+        --background-rgb: 30, 30, 30;
+        --standout-rgb: 0, 0, 0;
+    }
+}*/
+
+:root {
     --primary-color: rgb(var(--primary-rgb));
     --primary-dark-color: rgb(var(--primary-dark-rgb));
     --background-color: rgb(var(--background-rgb));
@@ -48,6 +72,17 @@ body {
 #banner {
     background-color: var(--standout-color);
 }
+
+@media (prefers-color-scheme: dark) {
+    #banner {
+        /*background-color: var(--background-color);*/
+    }
+
+    img.titleimage {
+        filter: invert(1) hue-rotate(235deg);
+    }
+}
+
 
 #banner .container {
     width: auto;
@@ -97,8 +132,21 @@ nav {
     flex: 1 0 auto;
 }
 
+#content-space input[type="email"],
+#content-space input[type="number"],
+#content-space input[type="search"],
+#content-space input[type="text"],
+#content-space input[type="tel"],
+#content-space input[type="url"],
+#content-space input[type="password"],
+#content-space textarea,
+#content-space select {
+    background-color: var(--standout-color);
+    border: 1px solid var(--primary-dark-color);
+}
+
 #content-space a, #content-space a:visited {
-    color: #ad0606;
+    color: var(--primary-color);
 }
 
 footer {
@@ -118,7 +166,7 @@ footer p {
 }
 
 footer a, footer a:hover, footer a:focus {
-    color: #fff;
+    color: var(--standout-color);
 }
 
 label.shiftedlabel {
@@ -263,6 +311,7 @@ label.shiftedlabel {
         x-overflow: hidden;
         y-overflow: hidden;
         width: 50rem;
+        color: var(--primary-dark-color);
     }
 
     img.swordimage {

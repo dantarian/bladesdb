@@ -1,10 +1,10 @@
 <div class="entry" id="entry<%= entry.id %>_and_subentries">
-    <%= link_to image_tag( "move_up.png", border: 0, size: "10x10", alt: "Move up" ), move_up_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
-    <%= link_to image_tag( "move_down.png", border: 0, size: "10x10", alt: "Move down" ), move_down_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
+    <%= link_to "🡅", move_up_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
+    <%= link_to "🡇", move_down_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
     <%= entry.name %>
     [
         <%= link_to "Edit", edit_sidebar_entry_path( entry.id ), :method => :get, :remote => true %> |
-        <%= link_to "Delete", sidebar_entry_path( entry.id ), :method => :delete, data: { confirm: 'Are you sure you wish to delete this entry and its subentries?' }, :remote => true  %>|
+        <%= link_to "Delete", sidebar_entry_path( entry.id ), :method => :delete, data: { confirm: 'Are you sure you wish to delete this entry and its subentries?' }, :remote => true  %> |
         <%= link_to "Add entry", new_sidebar_entry_path( :parent_entry_id => entry.id ), :method => :get, :remote => true %>
     ]
     <% subentries = SidebarEntry.where(parent_entry_id: entry.id).order(:order) %>
