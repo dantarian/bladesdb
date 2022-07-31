@@ -8,24 +8,15 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --primary-rgb: 255, 215, 0;
-        --primary-dark-rgb: 255, 249, 215;
+        --primary-dark-rgb: 235, 229, 195;
         --background-rgb: 40, 4, 4;
         --standout-rgb: 0, 0, 0;
     }
 
-    #banner {
-        background-color: var(--background-color);
-    }
+    .request {}
+    .restrict {}
+    .newtext { color: #aaffaa; }
 }
-
-/*@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-rgb: 40, 0, 0;
-        --primary-dark-rgb: 255, 249, 215;
-        --background-rgb: 30, 30, 30;
-        --standout-rgb: 0, 0, 0;
-    }
-}*/
 
 :root {
     --primary-color: rgb(var(--primary-rgb));
@@ -145,8 +136,43 @@ nav {
     border: 1px solid var(--primary-dark-color);
 }
 
+#content-space input[type="submit"],
+#content-space a.button-primary {
+    background-color: var(--primary-color);
+    color: var(--standout-color);
+}
+
+#content-space input[type="submit"] + input[type="submit"] {
+    margin-left: 1em;
+}
+
 #content-space a, #content-space a:visited {
     color: var(--primary-color);
+}
+
+#content-space ul {
+    margin-left: 2.5rem;
+    list-style: disc;
+}
+
+#content-space ul.form {
+    margin-left: 0;
+    list-style: none;
+}
+
+#content-space ul ul {
+    font-size: inherit;
+    list-style: circle;
+    margin-top: 1rem
+}
+
+#content-space ul ul ul {
+    list-style: square;
+}
+
+#content-space ol {
+    list-style: decimal outside;
+    margin-left: 2.5rem;
 }
 
 footer {
@@ -599,6 +625,12 @@ div.field_with_errors {
 	color: #035604;
 }
 
+@media (prefers-color-scheme: dark) {
+    .request { color: #ffaaaa; }
+    .restrict { color: #aaaaff; }
+    .newtext { color: #aaffaa; }
+}
+
 :disabled { opacity: 0.5; }
 
 table { width: 100% }
@@ -643,8 +675,9 @@ div.adminfunctions { text-align: right; }
 div.odd { background: var(--translucence-color); }
 div.even { background: var(--translucence-alt-color); }
 
-div.message { padding: 0.5em; border-top: 1px solid black; border-bottom: 1px solid black; overflow: hidden; }
+div.message { padding: 2em; border-top: 1px solid black; border-bottom: 1px solid black; overflow: hidden; }
 div.message + div.message { border-top: none; }
+div.messagebody { padding-left: 1em; }
 div.edited_by { float: left; }
 
 .hidden { display: none; }
