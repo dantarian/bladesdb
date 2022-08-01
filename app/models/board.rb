@@ -17,7 +17,7 @@ class Board < ApplicationRecord
         Board.left_outer_joins(:board_visits)
              .joins(:messages)
              .where('messages.created_at > board_visits.last_visit OR board_visits.last_visit IS NULL')
-             .where("closed = 'f'") # SQLite specific!
+             .where(closed: false)
              .where(board_visits: { user_id: user.id })
              .count || 0
     end
