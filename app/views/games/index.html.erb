@@ -5,9 +5,9 @@
 <ul class="game-years">
     <% for year in Game.years %>
         <% if year == @selected_year %>
-            <li class="nobr"><strong><%= "#{year} - #{year + 1}" %></strong></li>
+            <li><strong><%= "#{year} - #{year + 1}" %></strong></li>
         <% else %>
-            <li class="nobr"><%= link_to "#{year} - #{year + 1}", past_games_path(year) %></li>
+            <li><%= link_to "#{year} - #{year + 1}", past_games_path(year) %></li>
         <% end %>
     <% end %>
 </ul>
