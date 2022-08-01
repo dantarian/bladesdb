@@ -13,6 +13,15 @@ class Board < ApplicationRecord
     BRIEFS = 2
     DEBRIEFS = 3
 
+    def self.total_unread_messages(user)
+        Board.left_outer_joins(:board_visits)
+             .joins(:messages)
+             .where('messages.created_at > board_visits.last_visit OR board_visits.last_visit IS NULL')
+             .where("closed = 'f'") # SQLite specific!
+             .where(board_visits: { user_id: user.id })
+             .count || 0
+    end
+
     def name_and_unread_messages(user)
         new_messages = unread_messages(user)
                 
@@ -24,16 +33,10 @@ class Board < ApplicationRecord
     end
     
     def unread_messages(user)
-        if user
-            visit = board_visits.find_by(user_id: user.id)
-            if visit
-                new_message_count(visit.last_visit)
-            else
-                messages.size
-            end
-        else
-            0
-        end
+        return 0 unless user
+
+        visit = board_visits.find_by(user_id: user.id)
+        visit ? new_message_count(visit.last_visit) : messages.size
     end
     
     def new_message_count(last_visit)

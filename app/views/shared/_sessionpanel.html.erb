@@ -8,6 +8,9 @@
                 &bull;
                 <span class="nobr">P:M ratio is <%=h current_user.games_played %>:<%=h current_user.games_monstered %></span>
                 &bull;
+                <% unread_messages = Board.total_unread_messages(current_user) %>
+                <span class="nobr"><%= unread_messages %> <%= link_to "unread message#{unread_messages == 1 ? '' : 's'}", boards_path %>
+                &bull;
                 <span class="nobr"><%= link_to 'Log out', destroy_user_session_path, method: :delete %></span>
                 <%= hidden_field_tag "logged_in", true %>
             <% else %>
