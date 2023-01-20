@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.8', '>= 5.2.8.1'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.1'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
@@ -12,7 +12,7 @@ gem 'sqlite3', '~> 1.3.11'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 5.0.8'
+gem 'sass-rails', '~> 6.0.0'
 gem 'coffee-rails', '~> 4.2.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -35,10 +35,10 @@ gem "devise-encryptable", "~> 0.2.0"
 gem 'dynamic_form', '~> 1.1.4'
 gem 'font-awesome-rails', '~> 4.7.0.8'
 gem 'auto_strip_attributes', '~> 2.6.0'
-gem 'schema_plus_foreign_keys', '~> 0.1.8'
+gem 'schema_plus_foreign_keys', '~> 1.0.1'
 gem 'scenic', '~> 1.5.5'
 gem 'scenic_sqlite_adapter', '~> 0.1.0'
-gem 'schema_auto_foreign_keys', '~> 0.1.3'
+gem 'schema_auto_foreign_keys', '~> 1.0.0'
 gem 'mail_form', '~> 1.8.1'
 gem 'validates_timeliness', '~> 4.1.1'
 
