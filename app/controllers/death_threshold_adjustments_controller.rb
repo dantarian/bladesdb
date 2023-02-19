@@ -48,7 +48,7 @@ class DeathThresholdAdjustmentsController < ApplicationController
 
     def update
         if @death_threshold_adjustment.is_provisional?
-            if @death_threshold_adjustment.update_attributes(death_threshold_adjustment_params)
+            if @death_threshold_adjustment.update(death_threshold_adjustment_params)
                 flash[:notice] = 'Death Threshold adjustment request updated.'
                 reload_page
             else

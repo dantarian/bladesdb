@@ -48,7 +48,7 @@ class CharacterPointAdjustmentsController < ApplicationController
 
     def update
         if @character_point_adjustment.is_provisional?
-            if @character_point_adjustment.update_attributes(character_point_adjustment_params)
+            if @character_point_adjustment.update(character_point_adjustment_params)
                 flash[:notice] = 'Character Point adjustment request updated.'
                 reload_page
             else

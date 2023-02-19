@@ -1,4 +1,4 @@
-class CreateGames < ActiveRecord::Migration
+class CreateGames < ActiveRecord::Migration[4.2]
   def self.up
     create_table :games do |t|
       t.string :title, :null => true

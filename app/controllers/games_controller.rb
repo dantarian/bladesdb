@@ -162,7 +162,7 @@ class GamesController < ApplicationController
 
         unless @game.is_debrief_started?
             @game.debrief_started = true
-            if @game.update_attributes(game_debrief_params)
+            if @game.update(game_debrief_params)
                 @game.game_attendances.destroy_all
                 @game.game_applications.destroy_all
                 @game.debriefs.reload
@@ -251,7 +251,7 @@ class GamesController < ApplicationController
             params[:game][:campaign_ids] ||= []
             params[:game][:gamesmaster_ids] ||= []
 
-            if @game.update_attributes(@game.is_debrief_started? ? game_debrief_params : game_create_params )
+            if @game.update(@game.is_debrief_started? ? game_debrief_params : game_create_params )
                 update_game_display
             else
                 yield

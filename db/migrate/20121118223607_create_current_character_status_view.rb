@@ -1,4 +1,4 @@
-class CreateCurrentCharacterStatusView < ActiveRecord::Migration
+class CreateCurrentCharacterStatusView < ActiveRecord::Migration[4.2]
   def self.up
     execute <<-SQL
       CREATE VIEW IF NOT EXISTS current_character_status AS

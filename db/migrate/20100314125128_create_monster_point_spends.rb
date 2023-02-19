@@ -1,4 +1,4 @@
-class CreateMonsterPointSpends < ActiveRecord::Migration
+class CreateMonsterPointSpends < ActiveRecord::Migration[4.2]
   def self.up
     create_table :monster_point_spends do |t|
       t.references :character

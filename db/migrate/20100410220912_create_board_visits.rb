@@ -1,4 +1,4 @@
-class CreateBoardVisits < ActiveRecord::Migration
+class CreateBoardVisits < ActiveRecord::Migration[4.2]
   def self.up
     create_table :board_visits do |t|
       t.references :board, :null => false

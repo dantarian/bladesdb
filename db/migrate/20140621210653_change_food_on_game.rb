@@ -1,4 +1,4 @@
-class ChangeFoodOnGame < ActiveRecord::Migration
+class ChangeFoodOnGame < ActiveRecord::Migration[4.2]
   def change
     remove_column :games, :food, :boolean
     add_column :games, :food_notes, :string

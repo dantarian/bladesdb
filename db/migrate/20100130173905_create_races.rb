@@ -1,4 +1,4 @@
-class CreateRaces < ActiveRecord::Migration
+class CreateRaces < ActiveRecord::Migration[4.2]
   def self.up
     create_table :races do |t|
       t.string :name, :null => false

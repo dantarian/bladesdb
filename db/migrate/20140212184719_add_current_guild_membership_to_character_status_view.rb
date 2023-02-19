@@ -1,4 +1,4 @@
-class AddCurrentGuildMembershipToCharacterStatusView < ActiveRecord::Migration
+class AddCurrentGuildMembershipToCharacterStatusView < ActiveRecord::Migration[4.2]
   def self.up
     execute("DROP VIEW IF EXISTS current_character_status;")
     execute <<-SQL

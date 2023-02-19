@@ -31,7 +31,7 @@ class SidebarCategoriesController < ApplicationController
     def update
         @category = SidebarCategory.find( params[:id] )
         if @category.editable
-            if @category.update_attributes( sidebar_category_params )
+            if @category.update( sidebar_category_params )
                 @categories = SidebarCategory.order(:order)
                 render :update_sidebar
             else

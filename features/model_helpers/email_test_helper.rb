@@ -12,7 +12,7 @@ module EmailTestHelper
   end
   
   def count_emails_with_subject(address, subject)
-    ActionMailer::Base.cached_deliveries
+    ActionMailer::Base.deliveries
                       .select{ |m| m.to.include?(address) }
                       .select{ |m| m.subject =~ Regexp.new(Regexp.escape(subject)) }
                       .size

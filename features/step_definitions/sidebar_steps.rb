@@ -84,7 +84,7 @@ Then("the third category should be second") do
     SidebarPage.new.visit_page(edit_sidebar_path).and.check_category_position('Third Category', 2)
 end
 
-Then("the fist category should be last") do
+Then("the first category should be last") do
     SidebarPage.new.visit_page(edit_sidebar_path).and.check_category_position('First Category', 3)
 end
 

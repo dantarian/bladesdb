@@ -1,4 +1,4 @@
-class CreateSidebarEntries < ActiveRecord::Migration
+class CreateSidebarEntries < ActiveRecord::Migration[4.2]
     def self.up
         create_table :sidebar_entries do |t|
             t.references :page,             :null => true

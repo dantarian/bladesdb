@@ -1,4 +1,4 @@
-class CreateDeathThresholdAdjustments < ActiveRecord::Migration
+class CreateDeathThresholdAdjustments < ActiveRecord::Migration[4.2]
   def self.up
     create_table :death_threshold_adjustments do |t|
       t.references :character, :null => false

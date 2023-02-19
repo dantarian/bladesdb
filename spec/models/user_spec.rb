@@ -146,12 +146,12 @@ describe User do
   end
 
   it 'resets password' do
-    users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    users(:quentin).update(:password => 'new password', :password_confirmation => 'new password')
     User.authenticate('quentin', 'new password').should == users(:quentin)
   end
 
   it 'does not rehash password' do
-    users(:quentin).update_attributes(:login => 'quentin2')
+    users(:quentin).update(:login => 'quentin2')
     User.authenticate('quentin2', 'monkey').should == users(:quentin)
   end
 
@@ -233,7 +233,7 @@ describe User do
   it 'registers passive user' do
     user = create_user(:password => nil, :password_confirmation => nil)
     user.should be_passive
-    user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    user.update(:password => 'new password', :password_confirmation => 'new password')
     user.register!
     user.should be_pending
   end

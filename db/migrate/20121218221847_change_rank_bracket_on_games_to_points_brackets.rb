@@ -1,4 +1,4 @@
-class ChangeRankBracketOnGamesToPointsBrackets < ActiveRecord::Migration
+class ChangeRankBracketOnGamesToPointsBrackets < ActiveRecord::Migration[4.2]
   def self.up
     Game.update_all ["lower_rank = lower_rank * 10"]
     Game.update_all ["upper_rank = upper_rank * 10"]

@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
     # PUT /messages/1.xml
     def update
         @message.last_edited_by = current_user
-        if @message.update_attributes(message_params)
+        if @message.update(message_params)
             flash[:notice] = "Message was successfully updated."
             reload_page
         else
@@ -44,7 +44,7 @@ class MessagesController < ApplicationController
     
     def save_move
         @message.last_edited_by = current_user
-        if @message.update_attributes(message_params)
+        if @message.update(message_params)
             flash[:notice] = "Message was successfully updated."
             redirect_by_javascript_to board_path(@message.board)
         else

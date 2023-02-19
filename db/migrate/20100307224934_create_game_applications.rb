@@ -1,4 +1,4 @@
-class CreateGameApplications < ActiveRecord::Migration
+class CreateGameApplications < ActiveRecord::Migration[4.2]
   def self.up
     create_table :game_applications do |t|
       t.references :game, :null => false

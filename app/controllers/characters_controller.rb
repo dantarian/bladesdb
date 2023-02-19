@@ -291,7 +291,7 @@ class CharactersController < ApplicationController
         end
         
         def update_character(parameters, failure_response)
-            if @character.update_attributes(parameters)
+            if @character.update(parameters)
                 flash[:notice] = I18n.t("character.success.updated")
                 reload_page
             else

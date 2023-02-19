@@ -1,4 +1,4 @@
-class AddAllTheIndexes < ActiveRecord::Migration
+class AddAllTheIndexes < ActiveRecord::Migration[4.2]
     def self.up
         add_index :character_point_adjustments, :declared_on, :unique => false
         add_index :character_point_adjustments, :character_id, :unique => false

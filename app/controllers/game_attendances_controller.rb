@@ -67,7 +67,7 @@ class GameAttendancesController < ApplicationController
                 @game_attendance.attend
         end
 
-        if @game_attendance.update_attributes(game_attendance_params)
+        if @game_attendance.update(game_attendance_params)
             @close_dialog = true
             update_game_display
         else

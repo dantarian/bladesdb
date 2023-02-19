@@ -1,4 +1,4 @@
-class AddDebriefStartedToGame < ActiveRecord::Migration
+class AddDebriefStartedToGame < ActiveRecord::Migration[4.2]
     def self.up
         add_column :games, :debrief_started, :boolean, :default => false, :null => false
     end

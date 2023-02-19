@@ -1,4 +1,4 @@
-class CreateMonsterPointAdjustments < ActiveRecord::Migration
+class CreateMonsterPointAdjustments < ActiveRecord::Migration[4.2]
   def self.up
     create_table :monster_point_adjustments do |t|
       t.references :user, :null => false

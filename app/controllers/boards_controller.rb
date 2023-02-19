@@ -84,7 +84,7 @@ class BoardsController < ApplicationController
     def update
         @board = Board.find(params[:id])
         
-        if @board.update_attributes(board_params)
+        if @board.update(board_params)
             update_boards(true)
         else
             respond_to do |format|
