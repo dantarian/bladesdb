@@ -1,4 +1,4 @@
-class CreateDebriefs < ActiveRecord::Migration
+class CreateDebriefs < ActiveRecord::Migration[4.2]
   def self.up
     create_table :debriefs do |t|
       t.references :game, :null => false

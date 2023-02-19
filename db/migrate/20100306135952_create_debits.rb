@@ -1,4 +1,4 @@
-class CreateDebits < ActiveRecord::Migration
+class CreateDebits < ActiveRecord::Migration[4.2]
     def self.up
         create_table :debits do |t|
             t.references :transaction, :null => false

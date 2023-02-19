@@ -1,4 +1,4 @@
-class CreateCharacterPointAdjustments < ActiveRecord::Migration
+class CreateCharacterPointAdjustments < ActiveRecord::Migration[4.2]
     def self.up
         create_table :character_point_adjustments do |t|
             t.references :character, :null => false

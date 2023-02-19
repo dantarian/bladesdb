@@ -1,4 +1,4 @@
-class ChangeFromRestfulAuthenticationToDevise < ActiveRecord::Migration
+class ChangeFromRestfulAuthenticationToDevise < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :users, "login", "username"
     

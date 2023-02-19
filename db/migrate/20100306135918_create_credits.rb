@@ -1,4 +1,4 @@
-class CreateCredits < ActiveRecord::Migration
+class CreateCredits < ActiveRecord::Migration[4.2]
     def self.up
         create_table :credits do |t|
             t.references :transaction, :null => false

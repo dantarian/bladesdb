@@ -1,4 +1,4 @@
-class AddPersonalDetailsToUsers < ActiveRecord::Migration
+class AddPersonalDetailsToUsers < ActiveRecord::Migration[4.2]
   def self.up
     change_table :users do |t|
       t.string :contact_name, :null => true

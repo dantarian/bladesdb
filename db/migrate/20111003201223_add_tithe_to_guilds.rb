@@ -1,4 +1,4 @@
-class AddTitheToGuilds < ActiveRecord::Migration
+class AddTitheToGuilds < ActiveRecord::Migration[4.2]
   def self.up
     change_table :guilds do |t|
       t.integer :tithe_percentage

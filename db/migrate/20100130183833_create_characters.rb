@@ -1,4 +1,4 @@
-class CreateCharacters < ActiveRecord::Migration
+class CreateCharacters < ActiveRecord::Migration[4.2]
   def self.up
     create_table :characters do |t|
       t.references :user, :null => false

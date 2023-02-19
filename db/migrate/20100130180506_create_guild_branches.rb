@@ -1,4 +1,4 @@
-class CreateGuildBranches < ActiveRecord::Migration
+class CreateGuildBranches < ActiveRecord::Migration[4.2]
   def self.up
     create_table :guild_branches do |t|
       t.string :name, :null => false

@@ -1,4 +1,4 @@
-class CreateFoodOptions < ActiveRecord::Migration
+class CreateFoodOptions < ActiveRecord::Migration[4.2]
   def self.up
     create_table :food_options do |t|
       t.references :game, :null => false

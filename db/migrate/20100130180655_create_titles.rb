@@ -1,4 +1,4 @@
-class CreateTitles < ActiveRecord::Migration
+class CreateTitles < ActiveRecord::Migration[4.2]
   def self.up
     create_table :titles do |t|
       t.string :name, :null => false

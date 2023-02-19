@@ -1,4 +1,4 @@
-class CreateFoodChoices < ActiveRecord::Migration
+class CreateFoodChoices < ActiveRecord::Migration[4.2]
   def change
     create_table :food_choices do |t|
       t.references :food_options, index: true

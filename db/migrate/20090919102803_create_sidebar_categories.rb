@@ -1,4 +1,4 @@
-class CreateSidebarCategories < ActiveRecord::Migration
+class CreateSidebarCategories < ActiveRecord::Migration[4.2]
     def self.up
         create_table :sidebar_categories do |t|
             t.string :name
