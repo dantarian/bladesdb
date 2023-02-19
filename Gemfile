@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.1'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
@@ -12,7 +12,7 @@ gem 'sqlite3', '~> 1.4.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 5.0.8'
+gem 'sass-rails', '~> 6.0.0'
 gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
