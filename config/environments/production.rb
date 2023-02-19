@@ -93,6 +93,10 @@ Rails.application.configure do
   # Host for inclusion in e-mails.
   config.action_mailer.default_url_options = { :host => 'bathlarp.co.uk' }
 
+  # Use Sendmail to send e-mails.
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.sendmail_settings = { arguments: ["-i"] }
+
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
   # middleware. The `delay` is used to determine how long to wait after a write
