@@ -32,7 +32,7 @@ class FoodOptionsController < ApplicationController
   
     def update
   
-        if @gfood_option.update_attributes(food_option_params)
+        if @gfood_option.update(food_option_params)
             @close_dialog = true
             update_game_display
         else

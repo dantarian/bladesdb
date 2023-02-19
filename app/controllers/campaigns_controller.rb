@@ -60,7 +60,7 @@ class CampaignsController < ApplicationController
     @campaign = Campaign.find(params[:id])
 
     respond_to do |format|
-      if @campaign.update_attributes(params[:campaign])
+      if @campaign.update(params[:campaign])
         flash[:notice] = 'Campaign was successfully updated.'
         format.html { redirect_to(@campaign) }
         format.xml  { head :ok }

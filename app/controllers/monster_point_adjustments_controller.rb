@@ -45,7 +45,7 @@ class MonsterPointAdjustmentsController < ApplicationController
             @monster_point_adjustment.approved = nil
             @monster_point_adjustment.approved_by = nil
             @monster_point_adjustment.approved_at = nil
-            if @monster_point_adjustment.update_attributes(monster_point_adjustment_params)
+            if @monster_point_adjustment.update(monster_point_adjustment_params)
                 flash[:notice] = I18n.t("user.monster_point_adjustment.success.updated")
                 reload_page
             else

@@ -86,7 +86,7 @@ class PagesController < ApplicationController
             @page = Page.find(params[:id])
 
             respond_to do |format|
-                if @page.update_attributes(page_params)
+                if @page.update(page_params)
                     flash[:notice] = I18n.t("page.success.updated")
                     format.html { redirect_to(@page) }
                     format.xml  { head :ok }

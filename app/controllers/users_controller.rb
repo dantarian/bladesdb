@@ -369,7 +369,7 @@ class UsersController < ApplicationController
     private
         
         def update_user(failure_target)
-            if @user.update_attributes(params.require(:user).permit(:name, :username, :email, :notes, :medical_notes, :food_notes, :emergency_last_updated, :mobile_number, :contact_name, :contact_number))
+            if @user.update(params.require(:user).permit(:name, :username, :email, :notes, :medical_notes, :food_notes, :emergency_last_updated, :mobile_number, :contact_name, :contact_number))
                 if (@user != current_user) && current_user.is_admin_or_committee?
                    flash[:notice] = I18n.t("user.success.other_profile_updated", name: @user.name)
                 else

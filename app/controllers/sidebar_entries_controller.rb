@@ -52,7 +52,7 @@ class SidebarEntriesController < ApplicationController
     def update
         @entry = SidebarEntry.find( params[:id] )
         if @entry.editable
-            if @entry.update_attributes( sidebar_entry_params )
+            if @entry.update( sidebar_entry_params )
                 @categories = SidebarCategory.order(:order)
                 render :update_sidebar
             else

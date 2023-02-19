@@ -196,7 +196,7 @@ class DebriefsController < ApplicationController
         end
         
         def update_gm
-            if @debrief.update_attributes(debrief_monster_params)
+            if @debrief.update(debrief_monster_params)
                 update_game_display
             else
                 respond_to do |format|
@@ -206,7 +206,7 @@ class DebriefsController < ApplicationController
         end
         
         def update_monster
-            if @debrief.update_attributes(debrief_monster_params)
+            if @debrief.update(debrief_monster_params)
                 update_game_display
             else
                 respond_to do |format|
@@ -217,7 +217,7 @@ class DebriefsController < ApplicationController
         
         def update_player
             @debrief.player_debrief = true
-            if @debrief.update_attributes(debrief_player_params)
+            if @debrief.update(debrief_player_params)
                 update_game_display
             else
                 respond_to do |format|

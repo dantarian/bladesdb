@@ -58,7 +58,7 @@ class GameApplicationsController < ApplicationController
         # @game_application defined by check_application_owner().
         @game = @game_application.game
         @game_application.reset
-        if @game_application.update_attributes(game_application_params)
+        if @game_application.update(game_application_params)
             UserMailer.game_application_made(@game_application).deliver_now
             
             render :close_dialog_and_update_game
