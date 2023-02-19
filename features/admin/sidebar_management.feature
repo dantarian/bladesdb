@@ -23,7 +23,7 @@ Feature: Sidebar Management
     And the user moves the last category up
     Then the second category should be first
     And the third category should be second
-    And the fist category should be last
+    And the first category should be last
 
   Scenario: Add a user-defined page to a category
     Given there is a sidebar category
