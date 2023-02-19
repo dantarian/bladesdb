@@ -1,19 +1,19 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.8', '>= 5.2.8.1'
+gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3', '~> 1.3.11'
+gem 'sqlite3', '~> 1.4.0'
 
 
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'sass-rails', '~> 5.0.8'
-gem 'coffee-rails', '~> 4.2.2'
+gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', '~> 0.12.3', :platforms => :ruby
@@ -35,15 +35,18 @@ gem "devise-encryptable", "~> 0.2.0"
 gem 'dynamic_form', '~> 1.1.4'
 gem 'font-awesome-rails', '~> 4.7.0.8'
 gem 'auto_strip_attributes', '~> 2.6.0'
-gem 'schema_plus_foreign_keys', '~> 0.1.8'
+gem 'schema_plus_foreign_keys', '~> 1.1.0'
 gem 'scenic', '~> 1.5.5'
 gem 'scenic_sqlite_adapter', '~> 0.1.0'
-gem 'schema_auto_foreign_keys', '~> 0.1.3'
-gem 'mail_form', '~> 1.8.1'
+gem 'schema_auto_foreign_keys', '~> 1.1.0'
+gem 'mail_form', '~> 1.10.0'
 gem 'validates_timeliness', '~> 4.1.1'
 
 # Simplified logging
 gem "lograge"
+
+# Short term fix to suppress some unnecessary warnings - remove after upgrading to Ruby 3
+gem 'net-http', '~> 0.3.2'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -83,7 +86,6 @@ group :test do
   gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.8.5'
   gem 'email_spec', '~> 2.2.0'
-  gem 'action_mailer_cache_delivery', '~> 0.3.7'
   gem 'poltergeist', '~> 1.18.1'
   gem 'rails-perftest', '~> 0.0.7'
   gem 'ruby-prof', '~> 1.4.2'

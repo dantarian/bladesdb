@@ -2,7 +2,7 @@ development:
   adapter: async
 
 test: &test
-  adapter: async
+  adapter: test
 
 cucumber: 
   <<: *test 
