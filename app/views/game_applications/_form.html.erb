@@ -1,4 +1,4 @@
-<%= form_with model: [@game_application.game, @game_application] do |f| %>
+<%= form_with model: [@game_application.game, @game_application], local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save application details", :message => "The following problems prevented your details from being saved:" %>
 
 	<%= f.hidden_field :user_id %>

@@ -1,4 +1,4 @@
-<%= form_with model: [@character, @monster_point_spend] do |f| %>
+<%= form_with model: [@character, @monster_point_spend], local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save date of monster point spend.", :message => "The following problems prevented your data from being saved:" %>
 
 	<ul class="form">

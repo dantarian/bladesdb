@@ -1,4 +1,4 @@
-<%= form_with model: @game do |f| %>
+<%= form_with model: @game, local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save game details", :message => "The following problems prevented the game from being saved:" %>
 
 	<div class="multicolumnform">

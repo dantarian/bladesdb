@@ -1,4 +1,4 @@
-<%= form_with model: [:character, @guild_membership] do |f| %>
+<%= form_with model: [:character, @guild_membership], local: false do |f| %>
   <%= f.error_messages :header_message => I18n.t("character.guild_membership.dialog_header"), :message => I18n.t("character.guild_membership.dialog_main_change_guild") %>
 
   <ul class="form">

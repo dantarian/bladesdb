@@ -1,4 +1,4 @@
-<%= form_with model: [@game, @debrief] do |f| %>
+<%= form_with model: [@game, @debrief], local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save debrief", :message => "The following problems prevented the debrief from being saved:" %>
     
     <%= hidden_field_tag :debrief_type, "GM" %>

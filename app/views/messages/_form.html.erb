@@ -2,7 +2,7 @@
 <% button_text ||= nil %>
 <% user = @message.user || current_user %>
 <div id="messageform">
-	<%= form_with model: @message do |f| %>
+	<%= form_with model: @message, local: false do |f| %>
 	  	<%= f.error_messages %>
 	
 		<%= f.hidden_field :user_id %>

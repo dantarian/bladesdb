@@ -1,4 +1,4 @@
-<%= form_with model: @game, url: { action: action } do |f| %>
+<%= form_with model: @game, url: { action: action }, local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save Debrief details", :message => "The following problems prevented the Debrief from being saved:" %>
     
     <div class="hidden">

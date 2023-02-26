@@ -1,5 +1,5 @@
 <div id="messageform">
-	<%= form_with model: @message, url: { action: :save_move } do |f| %>
+	<%= form_with model: @message, url: { action: :save_move }, local: false do |f| %>
 	  <%= f.error_messages %>
 	
 		<%= f.hidden_field :user_id %>
