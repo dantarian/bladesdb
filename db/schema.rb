@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_18_232700) do
+ActiveRecord::Schema.define(version: 2023_02_19_181323) do
   create_view "current_character_statuses", sql_definition: <<-SQL
       SELECT c.id AS id,
       c.id AS character_id,
@@ -83,16 +83,24 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   SQL
   
   create_table "acceptables", force: :cascade do |t|
-    t.string   "flavour",    :null=>false
+    t.string   "flavour",    :limit=>255, :null=>false
     t.text     "text",       :null=>false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "acceptances", force: :cascade do |t|
+    t.integer  "acceptable_id", :index=>{:name=>"index_acceptances_on_acceptable_id"}
+    t.integer  "user_id",       :index=>{:name=>"index_acceptances_on_user_id"}
+    t.boolean  "accepted"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "ar_internal_metadata", primary_key: "key", id: :string, force: :cascade do |t|
     t.string   "value"
-    t.datetime "created_at", :precision=>6, :null=>false
-    t.datetime "updated_at", :precision=>6, :null=>false
+    t.datetime "created_at", :null=>false
+    t.datetime "updated_at", :null=>false
   end
 
   create_table "board_visits", force: :cascade do |t|
@@ -104,7 +112,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "boards", force: :cascade do |t|
-    t.string   "name",         :null=>false
+    t.string   "name",         :limit=>255, :null=>false
     t.boolean  "in_character", :default=>false, :null=>false
     t.text     "blurb"
     t.integer  "order",        :null=>false
@@ -122,7 +130,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "campaigns", force: :cascade do |t|
-    t.string   "name",       :null=>false
+    t.string   "name",       :limit=>255, :null=>false
     t.boolean  "current",    :default=>false, :null=>false
     t.date     "start_date", :null=>false
     t.date     "end_date"
@@ -145,19 +153,19 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   create_table "character_point_adjustments", force: :cascade do |t|
     t.integer  "character_id",   :null=>false, :index=>{:name=>"index_character_point_adjustments_on_character_id"}
     t.integer  "points",         :null=>false
-    t.string   "reason",         :null=>false
+    t.string   "reason",         :limit=>255, :null=>false
     t.integer  "approved_by_id"
     t.datetime "approved_at"
     t.boolean  "approved"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on",    :index=>{:name=>"index_character_point_adjustments_on_declared_on"}
-    t.string   "comment"
+    t.string   "comment",        :limit=>255
   end
 
   create_table "characters", force: :cascade do |t|
     t.integer  "user_id",                   :null=>false, :index=>{:name=>"index_characters_on_user_id"}
-    t.string   "name",                      :null=>false
+    t.string   "name",                      :limit=>255, :null=>false
     t.integer  "race_id",                   :null=>false
     t.integer  "guild_id"
     t.integer  "guild_start_points"
@@ -168,10 +176,10 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.date     "date_of_birth"
     t.boolean  "date_of_birth_public"
     t.text     "address"
-    t.string   "title"
-    t.string   "state",                     :default=>"active", :null=>false
+    t.string   "title",                     :limit=>255
+    t.string   "state",                     :limit=>255, :default=>"active", :null=>false
     t.text     "notes"
-    t.date     "declared_on",               :default=>"2023-02-19", :null=>false
+    t.date     "declared_on",               :default=>"2010-04-19", :null=>false
     t.integer  "approved_by_id"
     t.date     "approved_on"
     t.boolean  "approved"
@@ -181,14 +189,14 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.text     "gm_notes"
     t.text     "player_notes"
     t.boolean  "preferred_character",       :default=>false, :null=>false
-    t.string   "comment"
+    t.string   "comment",                   :limit=>255
     t.boolean  "no_title",                  :default=>false, :null=>false
   end
 
   create_table "credits", force: :cascade do |t|
     t.integer  "transaction_id",  :null=>false, :index=>{:name=>"index_credits_on_transaction_id", :unique=>true}
     t.integer  "character_id",    :index=>{:name=>"index_credits_on_character_id"}
-    t.string   "other_recipient"
+    t.string   "other_recipient", :limit=>255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -196,20 +204,20 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   create_table "death_threshold_adjustments", force: :cascade do |t|
     t.integer  "character_id",   :null=>false, :index=>{:name=>"index_death_threshold_adjustments_on_character_id"}
     t.integer  "change",         :null=>false
-    t.string   "reason",         :null=>false
+    t.string   "reason",         :limit=>255, :null=>false
     t.integer  "approved_by_id"
     t.datetime "approved_at"
     t.boolean  "approved"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on",    :index=>{:name=>"index_death_threshold_adjustments_on_declared_on"}
-    t.string   "comment"
+    t.string   "comment",        :limit=>255
   end
 
   create_table "debits", force: :cascade do |t|
     t.integer  "transaction_id", :null=>false, :index=>{:name=>"index_debits_on_transaction_id", :unique=>true}
     t.integer  "character_id",   :index=>{:name=>"index_debits_on_character_id"}
-    t.string   "other_source"
+    t.string   "other_source",   :limit=>255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -229,7 +237,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "food_categories", force: :cascade do |t|
-    t.string "description", :null=>false
+    t.string "description", :limit=>255, :null=>false
   end
 
   create_table "food_choices", force: :cascade do |t|
@@ -239,7 +247,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
 
   create_table "food_options", force: :cascade do |t|
     t.integer  "game_id",              :null=>false
-    t.string   "name",                 :null=>false
+    t.string   "name",                 :limit=>255, :null=>false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "food_category_id",     :index=>{:name=>"index_food_options_on_food_category_id"}
@@ -247,7 +255,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "food_sub_categories", force: :cascade do |t|
-    t.string "description", :null=>false
+    t.string "description", :limit=>255, :null=>false
   end
 
   create_table "game_applications", force: :cascade do |t|
@@ -257,7 +265,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "approved"
-    t.string   "comment"
+    t.string   "comment",    :limit=>255
   end
 
   create_table "game_attendances", force: :cascade do |t|
@@ -265,16 +273,16 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.integer  "user_id",       :null=>false
     t.boolean  "want_food"
     t.integer  "character_id"
-    t.string   "attend_state",  :null=>false
-    t.string   "confirm_state"
+    t.string   "attend_state",  :limit=>255, :null=>false
+    t.string   "confirm_state", :limit=>255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "notes"
-    t.string   "food_notes"
+    t.string   "notes",         :limit=>255
+    t.string   "food_notes",    :limit=>255
   end
 
   create_table "games", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",               :limit=>255
     t.integer  "lower_rank"
     t.integer  "upper_rank"
     t.text     "ic_brief"
@@ -288,14 +296,14 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.date     "end_date"
     t.time     "meet_time"
     t.time     "start_time"
-    t.boolean  "open",                :default=>false, :null=>false
-    t.string   "notes"
+    t.boolean  "open",                :null=>false
+    t.string   "notes",               :limit=>255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "debrief_started",     :default=>false, :null=>false
     t.boolean  "non_stats",           :default=>false, :null=>false
     t.boolean  "attendance_only",     :default=>false, :null=>false
-    t.string   "food_notes"
+    t.string   "food_notes",          :limit=>255
     t.datetime "food_cutoff"
   end
 
@@ -307,11 +315,11 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "guild_branches", force: :cascade do |t|
-    t.string   "name",         :null=>false
+    t.string   "name",         :limit=>255, :null=>false
     t.integer  "guild_id",     :null=>false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "branch_title"
+    t.string   "branch_title", :limit=>255
   end
 
   create_table "guild_memberships", force: :cascade do |t|
@@ -326,11 +334,11 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.integer  "approved_by_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "comment"
+    t.string   "comment",         :limit=>255
   end
 
   create_table "guilds", force: :cascade do |t|
-    t.string   "name",             :null=>false
+    t.string   "name",             :limit=>255, :null=>false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tithe_percentage"
@@ -340,12 +348,12 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   create_table "messages", force: :cascade do |t|
     t.integer  "board_id",          :null=>false
     t.integer  "user_id",           :null=>false
-    t.string   "name"
+    t.string   "name",              :limit=>255
     t.text     "message",           :null=>false
     t.integer  "character_id"
     t.integer  "last_edited_by_id"
     t.boolean  "deleted",           :default=>false, :null=>false
-    t.string   "request_uuid",      :null=>false
+    t.string   "request_uuid",      :limit=>255, :null=>false
     t.datetime "created_at",        :index=>{:name=>"index_messages_on_created_at"}
     t.datetime "updated_at"
   end
@@ -353,14 +361,14 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   create_table "monster_point_adjustments", force: :cascade do |t|
     t.integer  "user_id",        :null=>false, :index=>{:name=>"index_monster_point_adjustments_on_user_id"}
     t.integer  "points",         :null=>false
-    t.string   "reason",         :null=>false
+    t.string   "reason",         :limit=>255, :null=>false
     t.integer  "approved_by_id"
     t.datetime "approved_at"
     t.boolean  "approved"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on",    :index=>{:name=>"index_monster_point_adjustments_on_declared_on"}
-    t.string   "comment"
+    t.string   "comment",        :limit=>255
   end
 
   create_table "monster_point_declarations", force: :cascade do |t|
@@ -372,7 +380,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on",    :index=>{:name=>"index_monster_point_declarations_on_declared_on"}
-    t.string   "comment"
+    t.string   "comment",        :limit=>255
   end
 
   create_table "monster_point_spends", force: :cascade do |t|
@@ -400,14 +408,14 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "races", force: :cascade do |t|
-    t.string   "name",             :null=>false
+    t.string   "name",             :limit=>255, :null=>false
     t.integer  "death_thresholds", :null=>false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "rolename"
+    t.string   "rolename",   :limit=>255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin_only", :default=>false, :null=>false
@@ -415,7 +423,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "sidebar_categories", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                      :limit=>255
     t.integer  "order"
     t.boolean  "show_for_non_users"
     t.boolean  "show_for_admin_users_only"
@@ -429,7 +437,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.integer  "page_id"
     t.integer  "sidebar_category_id"
     t.integer  "parent_entry_id"
-    t.string   "url"
+    t.string   "url",                 :limit=>255
     t.integer  "order",               :null=>false
     t.string   "name",                :limit=>50, :null=>false
     t.boolean  "editable",            :default=>true, :null=>false
@@ -438,7 +446,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   end
 
   create_table "titles", force: :cascade do |t|
-    t.string   "name",       :null=>false
+    t.string   "name",       :limit=>255, :null=>false
     t.integer  "guild_id",   :null=>false
     t.integer  "points",     :null=>false
     t.datetime "created_at"
@@ -448,7 +456,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
   create_table "transactions", force: :cascade do |t|
     t.date     "transaction_date", :null=>false, :index=>{:name=>"index_transactions_on_transaction_date"}
     t.integer  "value",            :null=>false
-    t.string   "description",      :null=>false
+    t.string   "description",      :limit=>255, :null=>false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -465,7 +473,7 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.datetime "remember_token_expires_at"
     t.string   "confirmation_token",         :limit=>40, :index=>{:name=>"index_users_on_confirmation_token", :unique=>true}
     t.datetime "confirmed_at"
-    t.string   "state",                      :default=>"passive"
+    t.string   "state",                      :limit=>255, :default=>"passive"
     t.datetime "approved_at"
     t.datetime "deleted_at"
     t.string   "reset_password_token",       :limit=>40, :index=>{:name=>"index_users_on_reset_password_token", :unique=>true}
@@ -473,20 +481,20 @@ ActiveRecord::Schema.define(version: 2023_02_18_232700) do
     t.datetime "last_login"
     t.integer  "starting_monster_points",    :default=>0
     t.datetime "monster_points_declared_at"
-    t.string   "mobile_number"
-    t.string   "contact_name"
-    t.string   "contact_number"
-    t.string   "medical_notes"
-    t.string   "notes"
+    t.string   "mobile_number",              :limit=>255
+    t.string   "contact_name",               :limit=>255
+    t.string   "contact_number",             :limit=>255
+    t.string   "medical_notes",              :limit=>255
+    t.string   "notes",                      :limit=>255
     t.datetime "confirmation_sent_at"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.integer  "sign_in_count",              :default=>0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "food_notes"
+    t.string   "current_sign_in_ip",         :limit=>255
+    t.string   "last_sign_in_ip",            :limit=>255
+    t.string   "food_notes",                 :limit=>255
     t.datetime "emergency_last_updated"
   end
 

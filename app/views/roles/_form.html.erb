@@ -1,4 +1,4 @@
-<%= form_with model: [@user, @roles], as: :post, url: user_roles_path, action: :update do |f| %>
+<%= form_with model: [@user, @roles], as: :post, url: user_roles_path, action: :update, local: false do |f| %>
     <%= f.error_messages :header_message => I18n.t("user.roles.dialog_header"), :message => I18n.t("user.roles.dialog_main") %>
 	
 	<ul class="form">

@@ -36,6 +36,12 @@ en:
         over18: "" # Stops the field name getting prepended to the validation message.
         accept_terms_and_conditions: ""
     errors:
+      template:
+        header:
+          one:    "1 error prevented this %{model} from being saved"
+          other:  "%{count} errors prevented this %{model} from being saved"
+        # The variable :count is also available
+        body: "There were problems with the following fields:"
       models:
         user:
           attributes:

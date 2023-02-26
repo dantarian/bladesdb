@@ -1,4 +1,4 @@
-<%= form_with model: [:character, @death_threshold_adjustment] do |f| %>
+<%= form_with model: [:character, @death_threshold_adjustment], local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save Death Threshold adjustment request.", :message => "The following problems prevented your request from being saved:" %>
 
 	<ul class="form">

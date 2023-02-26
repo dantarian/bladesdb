@@ -1,4 +1,4 @@
-<%= form_with model: [:user, @monster_point_declaration], url: user_monster_point_declaration_path do |f| %>
+<%= form_with model: [:user, @monster_point_declaration], url: user_monster_point_declaration_path, local: false do |f| %>
     <%= f.error_messages :header_message => I18n.t("user.monster_point_declaration.dialog_header"), :message => I18n.t("user.monster_point_declaration.dialog_main") %>
 
 	<ul class="form">

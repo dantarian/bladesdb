@@ -1,4 +1,4 @@
-<%= form_with model: [@game, @user, @character], url: { action: "create_player" }, method: :patch do |f| %>
+<%= form_with model: [@game, @user, @character], url: { action: "create_player" }, method: :patch, local: false do |f| %>
     <%= f.error_messages :header_message => "Failed to save user", :message => "The following problems prevented the user from being saved:" %>
     
     <ul class="form">

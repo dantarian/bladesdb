@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.2'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
@@ -30,9 +30,8 @@ gem "test-unit", '~> 3.3.8'
 gem "recaptcha", '~> 5.6.0'
 gem "custom_error_message", '~> 1.1.1'
 gem "aasm", '~> 5.1.1'
-gem "devise", "~> 4.7.3"
+gem "devise", "~> 4.8.0"
 gem "devise-encryptable", "~> 0.2.0"
-gem 'dynamic_form', '~> 1.1.4'
 gem 'font-awesome-rails', '~> 4.7.0.8'
 gem 'auto_strip_attributes', '~> 2.6.0'
 gem 'schema_plus_foreign_keys', '~> 1.1.0'
@@ -76,7 +75,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'faker', '~> 1.6.2'
+  gem 'faker', '~> 2.22.0'
   gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot', '>= 1.0.26'
   gem 'guard-rspec', '~> 4.7.3'

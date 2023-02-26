@@ -1,4 +1,4 @@
-<%= form_with model: @board do |f| %>
+<%= form_with model: @board, local: false do |f| %>
   	<%= f.error_messages %>
 
 	<ul class="form">

@@ -3,7 +3,7 @@
 <% elsif @monster_point_spend.max_character_points == 0 %>
     <p>You cannot buy any more character points for this character on the selected date.</p>
 <% else %>
-	<%= form_with model: [@character, @monster_point_spend] do |f| %>
+	<%= form_with model: [@character, @monster_point_spend], local: false do |f| %>
 	    <%= f.error_messages :header_message => "Failed to save details of monster point spend.", :message => "The following problems prevented your data from being saved:" %>
 		
 		<%= hidden_field_tag :commit, "points" %>
