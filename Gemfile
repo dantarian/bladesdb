@@ -32,7 +32,6 @@ gem "custom_error_message", '~> 1.1.1'
 gem "aasm", '~> 5.1.1'
 gem "devise", "~> 4.8.0"
 gem "devise-encryptable", "~> 0.2.0"
-gem 'dynamic_form', '~> 1.1.4'
 gem 'font-awesome-rails', '~> 4.7.0.8'
 gem 'auto_strip_attributes', '~> 2.6.0'
 gem 'schema_plus_foreign_keys', '~> 1.1.0'
