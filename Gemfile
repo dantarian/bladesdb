@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.7', '>= 6.1.7.2'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.5.0'
 
@@ -12,7 +12,7 @@ gem 'sqlite3', '~> 1.4.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 5.0.8'
+gem 'sass-rails', '~> 6.0.0'
 gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -30,7 +30,7 @@ gem "test-unit", '~> 3.3.8'
 gem "recaptcha", '~> 5.6.0'
 gem "custom_error_message", '~> 1.1.1'
 gem "aasm", '~> 5.1.1'
-gem "devise", "~> 4.8.0"
+gem "devise", "~> 4.8.1"
 gem "devise-encryptable", "~> 0.2.0"
 gem 'font-awesome-rails', '~> 4.7.0.8'
 gem 'auto_strip_attributes', '~> 2.6.0'
