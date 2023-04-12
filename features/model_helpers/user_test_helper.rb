@@ -88,4 +88,8 @@ module UserTestHelper
     mpa.save!
   end
 
+  def clear_monster_point_adjustments(user)
+    user.monster_point_adjustments.delete_all(:delete_all)
+  end
+
 end

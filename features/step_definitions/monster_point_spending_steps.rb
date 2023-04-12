@@ -189,7 +189,7 @@ Then(/^there should be no option for spending monster points$/) do
 end
 
 Then(/^the user should have (-?\d+) monster points$/) do |points|
-  CharacterPage.new.visit_page(character_path(Character.first)).and.check_monster_points(points)
+  CharacterPage.new.visit_page("/").and.check_monster_points(points)
 end
 
 Then(/^the monster point spend should be deleted$/) do

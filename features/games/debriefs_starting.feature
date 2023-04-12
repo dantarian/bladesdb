@@ -6,6 +6,7 @@ Feature: Debriefs - Starting
 
   Background:
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And there is a game in the past
     And the user is a GM for the game
     And the user is logged in

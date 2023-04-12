@@ -6,6 +6,7 @@ Feature: Spends changing in cost after a game debrief update
   
   Background:
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And the user has 10 monster points available
     And the user has a character
     And there is a game in the past

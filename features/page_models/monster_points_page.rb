@@ -40,7 +40,7 @@ class MonsterPointsPage < BladesDBPage
     def check_for_adjustment(points, display: true, state: "approved")
       page.should have_css("tr.provisional") if state == "provisional"
       page.should have_css("tr.rejected") if state == "rejected"
-      row = page.find("tr", :text => 'Adjustment: ')
+      row = page.find("tr", :text => 'Adjustment:')
       if display
         row.find("td.points").should have_text(points.to_s)
       else
