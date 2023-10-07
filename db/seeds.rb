@@ -48,7 +48,9 @@ FoodSubCategory.create(id: 10, description: "Other") unless FoodSubCategory.exis
  {id: 24, name: "Amazons", tithe_percentage: 0, proscribed: false},
  {id: 25, name: "Barbarians", tithe_percentage: 0, proscribed: false},
  {id: 26, name: "Bounty Hunters", tithe_percentage: 0, proscribed: false},
- {id: 27, name: "Foresters", tithe_percentage: 10, proscribed: false}].each { |guild|
+ {id: 27, name: "Foresters", tithe_percentage: 10, proscribed: false},
+ {id: 28, name: "Dark Druids", tithe_percentage: 0, proscribed: true},
+ {id: 29, name: "Demon Hunters", tithe_percentage: 10, proscribed: false}].each { |guild|
    g = Guild.find_or_initialize_by(id: guild[:id])
    g.name = guild[:name]
    g.tithe_percentage = guild[:tithe_percentage]
@@ -91,8 +93,8 @@ Page.create(id: 1, title: "Welcome to BLADES", show_to_non_users: true, content:
 
 # Races
 [{id: 1, name: "Human", death_thresholds: 10},
- {id: 2, name: "Elf", death_thresholds: 3},
- {id: 3, name: "Half Elf", death_thresholds: 6},
+ {id: 2, name: "Elf", death_thresholds: 5},
+ {id: 3, name: "Half Elf", death_thresholds: 7},
  {id: 4, name: "Half Orc", death_thresholds: 7},
  {id: 5, name: "Half Ogre", death_thresholds: 7}].each{|race|
    r = Race.find_or_initialize_by(id: race[:id])
@@ -178,7 +180,12 @@ end
  {id: 35, guild_id: 16, name: "BRANCH", points: 0},
  {id: 36, guild_id: 24, name: "BRANCH", points: 0},
  {id: 37, guild_id: 25, name: "BRANCH", points: 0},
- {id: 38, guild_id: 26, name: "Bounty Hunter", points: 0}].each{|title|
+ {id: 38, guild_id: 26, name: "Bounty Hunter", points: 0},
+ {id: 39, guild_id: 27, name: "Forester", points: 0},
+ {id: 40, guild_id: 28, name: "Acolyte", points: 0},
+ {id: 41, guild_id: 28, name: "Druid", points: 100},
+ {id: 42, guild_id: 28, name: "Hierophant", points: 1000},
+ {id: 43, guild_id: 29, name: "Demon Hunter", points: 0}].each{|title|
    t = Title.find_or_initialize_by(id: title[:id])
    t.guild_id = title[:guild_id]
    t.name = title[:name]
