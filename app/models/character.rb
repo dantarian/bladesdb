@@ -363,7 +363,7 @@ class Character < ApplicationRecord
                     if adjustment.approved_by.nil?
                         event.comment = "Reason: #{adjustment.reason}"
                     else
-                        event.comment = "Reason: #{adjustment.reason}\nRejected by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
+                        event.comment = "Reason: #{adjustment.reason}\nRejected by #{adjustment.approved_by&.name || 'system'} at #{adjustment.approved_at}."
                     end
                 else
                     event.provisional = false
@@ -371,7 +371,7 @@ class Character < ApplicationRecord
                     if adjustment.approved_by.nil?
                         event.comment = "Reason: #{adjustment.reason}"
                     else
-                        event.comment = "Reason: #{adjustment.reason}\nApproved by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
+                        event.comment = "Reason: #{adjustment.reason}\nApproved by #{adjustment.approved_by&.name || 'system'} at #{adjustment.approved_at}."
                     end
                 end
                 event.source_object = adjustment
@@ -394,7 +394,7 @@ class Character < ApplicationRecord
                     if adjustment.approved_by.nil?
                         event.comment = "Reason: #{adjustment.reason}"
                     else
-                        event.comment = "Reason: #{adjustment.reason}\nRejected by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
+                        event.comment = "Reason: #{adjustment.reason}\nRejected by #{adjustment.approved_by&.name || 'system'} at #{adjustment.approved_at}."
                     end
                 else
                     event.provisional = false
@@ -402,7 +402,7 @@ class Character < ApplicationRecord
                     if adjustment.approved_by.nil?
                         event.comment = "Reason: #{adjustment.reason}"
                     else
-                        event.comment = "Reason: #{adjustment.reason}\nApproved by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
+                        event.comment = "Reason: #{adjustment.reason}\nApproved by #{adjustment.approved_by&.name || 'system'} at #{adjustment.approved_at}."
                     end
                 end
                 event.source_object = adjustment
@@ -500,12 +500,12 @@ class Character < ApplicationRecord
                     if approved_by.nil?
                         event.comment = "Declared as a new character on #{approved_on}."
                     else
-                        event.comment = "Approved by #{approved_by.name} on #{approved_on}."
+                        event.comment = "Approved by #{approved_by&.name || 'system'} on #{approved_on}."
                     end
                 elsif not approved.nil?
                     event.provisional = false
                     event.rejected = true
-                    event.comment = "Rejected by #{approved_by.name} on #{approved_on}."
+                    event.comment = "Rejected by #{approved_by&.name || 'system'} on #{approved_on}."
                 else
                     event.provisional = true
                     event.rejected = false
