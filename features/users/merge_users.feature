@@ -10,6 +10,7 @@ Feature: Merge Users
 		Given there is a user
 		And the user has a character
 		And there is another user
+    And the other user has no joining bonus monster point adjustment
 		And the other user has a character
 		And there is an admin user
 		And the admin user is logged in
@@ -173,8 +174,10 @@ Feature: Merge Users
 	@javascript
 	Scenario: Merge does not give monster point adjustments if the user has any
 		Given there is a user
+    And the user has no joining bonus monster point adjustment
 		And the user has a monster point adjustment
 		And there is another user
+    And the other user has no joining bonus monster point adjustment
 		And the other user has a monster point adjustment
 		And there is an admin user
 		And the admin user is logged in
@@ -186,7 +189,9 @@ Feature: Merge Users
 	@javascript
 	Scenario: Merge does give monster point adjustments if the user has none
 		Given there is a user
+    And the user has no joining bonus monster point adjustment
 		And there is another user
+    And the other user has no joining bonus monster point adjustment
 		And the other user has a monster point adjustment
 		And there is an admin user
 		And the admin user is logged in

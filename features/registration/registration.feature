@@ -55,6 +55,7 @@ Feature: Registration
     When the user logs in
     Then the home page should be displayed
     And the user should see a successful sign-in message
+    And the user should have 80 monster points
 
   Scenario: Logged in user cannot visit registration page
     Given there is a user

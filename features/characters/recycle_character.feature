@@ -6,6 +6,7 @@ Feature: Recycle character
 
   Background:
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And the user has a character
     And the user is logged in
 

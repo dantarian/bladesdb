@@ -439,9 +439,9 @@ class User < ApplicationRecord
                 change.rejected = (adjustment.approved == false)
                 change.historical = (adjustment.declared_on < declaration_date)
                 if adjustment.approved
-                    change.approval = "Approved by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
+                    change.approval = "Approved by #{adjustment.approved_by&.name || 'system'} at #{adjustment.approved_at}."
                 elsif adjustment.approved == false
-                    change.approval = "Rejected by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
+                    change.approval = "Rejected by #{adjustment.approved_by&.name || 'system'} at #{adjustment.approved_at}."
                 end
                 @changes.push(change)
             end
@@ -505,8 +505,20 @@ class User < ApplicationRecord
 
         def do_activate
             @activated = true
-            self.confirmed_at = Time.now.utc
+            time = Time.now.utc
+            self.confirmed_at = time
             self.deleted_at = self.confirmation_token = nil
+
+            # Grant a bonus 80 monster points
+            freebie = monster_point_adjustments.create(
+                points: 80, 
+                reason: 'New joiner bonus',
+                declared_on: time)
+            freebie.approved = true
+            freebie.approved_at = time
+            freebie.save(validate: false)
+
+            self
         end
 
         def do_delete

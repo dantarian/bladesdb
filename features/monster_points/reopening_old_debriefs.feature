@@ -9,6 +9,7 @@ Feature: Reopening and closing old debriefs
 
   Scenario: Reopened debrief is before January 7th 2017 and the character has a MP spend before January 7th 2017
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And the user has a character declared one month before the monster spend cut-off
     And the character has 100 monster points available two weeks before the monster spend cut-off
     And there is a game before the monster spend cut-off
@@ -28,6 +29,7 @@ Feature: Reopening and closing old debriefs
 
   Scenario: Reopened debrief is before January 7th 2017 and the character has a MP spend after January 7th 2017
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And the user has a character declared one month before the monster spend cut-off
     And the character has 100 monster points available two weeks before the monster spend cut-off
     And there is a game after the monster spend cut-off
@@ -47,6 +49,7 @@ Feature: Reopening and closing old debriefs
 
   Scenario: Reopened debrief has a following closed debrief
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And the user has a character declared one month before the monster spend cut-off
     And the character has 100 monster points available two weeks before the monster spend cut-off
     And there is a game after the monster spend cut-off

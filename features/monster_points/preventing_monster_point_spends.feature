@@ -6,6 +6,7 @@ Feature: Preventing monster point spends
   
   Background:
     Given there is a user
+    And the user has no joining bonus monster point adjustment
     And the user is logged in
     And the user has a character
 

@@ -1,5 +1,13 @@
 # Set-ups
 
+Given(/^the user has no joining bonus monster point adjustment$/) do
+  UserTestHelper.clear_monster_point_adjustments(User.first)
+end
+
+Given(/^the other user has no joining bonus monster point adjustment$/) do
+  UserTestHelper.clear_monster_point_adjustments(User.all.second)
+end
+
 Given(/^the user has a monster point adjustment$/) do
   UserTestHelper.add_monster_point_adjustment(User.first, 20)
 end
