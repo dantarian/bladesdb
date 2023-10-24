@@ -54,22 +54,22 @@
             <div class="container">
                 <!-- Show any warnings, errors or other messages. -->
                 <% if flash[ :notice ] %>
-                    <div class="success"><%= flash[ :notice ] %></div>
+                    <div class="success non-printing"><%= flash[ :notice ] %></div>
                 <% end %>
                 <% if flash[ :warning ] %>
-                    <div class="notice"><%= flash[ :warning ] %></div>
+                    <div class="notice non-printing"><%= flash[ :warning ] %></div>
                 <% end %>
                 <% if flash[ :alert ] %>
-                    <div class="notice"><%= flash[ :alert ] %></div>
+                    <div class="notice non-printing"><%= flash[ :alert ] %></div>
                 <% end %>
                 <% if flash[ :error ] %>
-                    <div class="error"><%= flash[ :error ] %></div>
+                    <div class="error non-printing"><%= flash[ :error ] %></div>
                 <% end %>
 
                 <!-- Show any admin notifications. -->
                 <% admin_notifications = render :partial => "shared/admin_notifications" %>
                 <% if admin_notifications.present? %>
-                    <div class="admin_notifications">
+                    <div class="admin_notifications non-printing">
                         <%= admin_notifications %>
                     </div>
                 <% end %>
