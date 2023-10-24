@@ -6,7 +6,7 @@
 
 	<p>You are applying to run the game on <%= @game_application.game.date_range %>.</p>
 		<%= f.label :details, "Please enter any supporting details for your application." %>
-    Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+    Click <%= link_to "here", "/pages/196", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
 		<%= f.text_area :details, id: :game_application_details %>
 	</p>
 <% end %>

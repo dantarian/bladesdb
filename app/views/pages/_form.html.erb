@@ -6,7 +6,7 @@
         This will appear at the top of the page. Plain text.<br />
         <%= f.text_field :title, size: 50, id: :page_title %><br />
         <%= f.label :content, "Page content:" %>
-        Click <%= link_to "here", "http://redcloth.org/textile", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+        Click <%= link_to "here", "/pages/196", { :target => '_new' } %> to view markup options. Raw HTML is prohibited.<br />
         <%= f.text_area :content, class: 'fullwidtharea pagearea', id: :page_content %><br />
         <%= f.check_box :show_to_non_users, id: :page_show_to_non_users %><%= f.label :show_to_non_users, "Allow non-users to view this page" %><br />
     </p>
