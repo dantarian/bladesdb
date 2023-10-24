@@ -10,7 +10,7 @@
 				<% if field[:field_type] == "text" %>
 					<%= f.text_field field[:field], id: "character_#{field[:field]}" %>
 				<% elsif field[:field_type] == "text_area" %>
-			    Click <%= link_to "here", "http://redcloth.org/textile", { target: '_new' } %> to view markup options. Raw HTML is prohibited.<br />
+			    Click <%= link_to "here", "/pages/196", { target: '_new' } %> to view markup options. Raw HTML is prohibited.<br />
 					<%= f.text_area field[:field], class: "messagearea", id: "character_#{field[:field]}" %>
 				<% elsif field[:field_type] == "date" %>
           <%= f.text_field field[:field], class: "datepicker", data: { yearRange: "c-50:c+50", maxDate: "#{Date.today}", value: @character.send(field[:field]).to_s}, readonly: true, id: "character_#{field[:field]}" %>
