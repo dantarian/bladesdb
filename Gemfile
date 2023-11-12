@@ -23,7 +23,7 @@ gem 'uglifier', '>= 4.2.0'
 gem 'jquery-rails', '~> 4.4.0'
 gem 'jquery-ui-rails', '~> 6.0.1'
 gem 'jquery-datatables-rails', '~> 3.4.0'
-gem "RedCloth", '~> 4.3.2'
+gem "RedCloth", '~> 4.3.3'
 gem "rdoc", '~> 6.3.0'
 gem "seed-fu", "~> 2.3.9"
 gem "test-unit", '~> 3.3.8'
