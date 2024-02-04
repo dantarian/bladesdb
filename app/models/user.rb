@@ -85,7 +85,7 @@ class User < ApplicationRecord
     aasm :column => 'state' do
         state :passive, :initial => true
         state :pending
-        state :active,  :before_enter => :do_activate
+        state :active
         state :suspended
         state :deleted, :before_enter => :do_delete
 
@@ -94,6 +94,9 @@ class User < ApplicationRecord
         end
 
         event :activate do
+            before do
+                do_activate
+            end
             transitions :from => :pending, :to => :active
         end
 
