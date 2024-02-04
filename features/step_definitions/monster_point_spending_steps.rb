@@ -192,6 +192,12 @@ Then(/^the user should have (-?\d+) monster points$/) do |points|
   CharacterPage.new.visit_page("/").and.check_monster_points(points)
 end
 
+Then(/^the other user should have (-?\d+) monster points$/) do |points|
+  BladesDBPage.new.visit_page("/").and.log_out
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.last.username, UserTestHelper::DEFAULT_PASSWORD
+  CharacterPage.new.visit_page("/").and.check_monster_points(points)
+end
+
 Then(/^the monster point spend should be deleted$/) do
   CharacterPage.new.visit_page(character_path(Character.first)).and.check_no_monster_point_spend
 end

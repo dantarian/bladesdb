@@ -4,26 +4,26 @@ Feature: Member List - Committee
   So I can manage the membership properly
 
   Background:
-  	Given there is a committee user
-  	And the user is logged in
+    Given there is a committee user
+    And the user is logged in
 
   Scenario: All members page - Committee
     Given there is a web-only user
-  	And there is a suspended user
-  	And there is a deleted user
-  	And there is an unconfirmed user
-  	And there is an unapproved user
-  	When the user goes to the members page
+    And there is a suspended user
+    And there is a deleted user
+    And there is an unconfirmed user
+    And there is an unapproved user
+    When the user goes to the members page
     Then the user should be in the Active Members table
     And the other user should be in the Web-only Members table
     And the user should see all other tables
     And the user should see committee user management links
     And the user should not see admin user management links
     And the user should not see a merge users link
-    
+
   Scenario: Accessing other profile
-  	Given there is another user
-  	And the user is on the members page
+    Given there is another user
+    And the user is on the members page
     When the user clicks on the other user's name
     Then the other user's profile should be displayed
 
@@ -39,7 +39,8 @@ Feature: Member List - Committee
     And the user is on the members page
     When the user unsuspends the other user
     Then the other user should be in the Active Members table
-    
+    And the other user should have 80 monster points
+
   Scenario: User deletion
     Given there is another user
     And the user is on the members page
