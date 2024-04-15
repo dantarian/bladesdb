@@ -60,11 +60,11 @@ class MonsterPointDeclarationsController < ApplicationController
     end
     
     def approve
-        approve_or_reject_declaration true, I18n.t("user.monster_point_declaration.success.approved"), I18n.t("user.monster_point_declaration.failure.approved")
+        resolve_request true, I18n.t("user.monster_point_declaration.success.approved"), I18n.t("user.monster_point_declaration.failure.approved")
     end
     
     def reject
-        approve_or_reject_declaration false, I18n.t("user.monster_point_declaration.success.rejected"), I18n.t("user.monster_point_declaration.failure.rejected")
+        resolve_request false, I18n.t("user.monster_point_declaration.success.rejected"), I18n.t("user.monster_point_declaration.failure.rejected")
     end
     
     protected
@@ -100,9 +100,9 @@ class MonsterPointDeclarationsController < ApplicationController
             end
         end
         
-        def approve_or_reject_declaration(state, success_message, failure_message)
+        def resolve_request(approve, success_message, failure_message)
             if @monster_point_declaration.is_provisional?
-                (state ? @monster_point_declaration.approve(current_user) : @monster_point_declaration.reject(current_user))
+                (approve ? @monster_point_declaration.approve(current_user) : @monster_point_declaration.reject(current_user))
                 if @monster_point_declaration.save
                     UserMailer.monster_point_declaration_approval(@monster_point_declaration).deliver_now
                     flash[:notice] = success_message

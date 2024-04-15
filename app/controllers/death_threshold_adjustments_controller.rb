@@ -63,11 +63,11 @@ class DeathThresholdAdjustmentsController < ApplicationController
     end
     
     def approve
-        approve_or_reject_adjustment :state => true
+        resolve_request(approve: true)
     end
     
     def reject
-        approve_or_reject_adjustment :state => false
+        resolve_request(approve: false)
     end
     
     protected
@@ -106,14 +106,14 @@ class DeathThresholdAdjustmentsController < ApplicationController
             end
         end
         
-        def approve_or_reject_adjustment(state)
+        def resolve_request(approve: false)
             if @death_threshold_adjustment.is_provisional?
-                (state ? @death_threshold_adjustment.approve(current_user) : @death_threshold_adjustment.reject(current_user))
+                (approve ? @death_threshold_adjustment.approve(current_user) : @death_threshold_adjustment.reject(current_user))
                 if @death_threshold_adjustment.save
                     UserMailer.death_threshold_adjustment_approval(@death_threshold_adjustment).deliver_now
-                    flash[:notice] = "Death Threshold adjustment #{state ? "approved" : "rejected"}."
+                    flash[:notice] = "Death Threshold adjustment #{approve ? "approved" : "rejected"}."
                 else
-                    flash[:error] = "Death Threshold adjustment #{state ? "approval" : "rejection"} failed."
+                    flash[:error] = "Death Threshold adjustment #{approve ? "approval" : "rejection"} failed."
                 end
             else
                 flash[:error] = "Adjustment has already been #{@death_threshold_adjustment.approved ? "approved" : "rejected"}."

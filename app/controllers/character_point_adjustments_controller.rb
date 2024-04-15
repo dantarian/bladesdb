@@ -63,11 +63,11 @@ class CharacterPointAdjustmentsController < ApplicationController
     end
     
     def approve
-        resolve_request :approved => true
+        resolve_request approve: true
     end
     
     def reject
-        resolve_request :approved => false
+        resolve_request approve: false
     end
     
     protected
@@ -106,14 +106,14 @@ class CharacterPointAdjustmentsController < ApplicationController
             end
         end
         
-        def resolve_request(approved: false)
+        def resolve_request(approve: false)
             if @character_point_adjustment.is_provisional?
-                approved ? @character_point_adjustment.approve(current_user) : @character_point_adjustment.reject(current_user)
+                approve ? @character_point_adjustment.approve(current_user) : @character_point_adjustment.reject(current_user)
                 if @character_point_adjustment.save
                     UserMailer.character_point_adjustment_approval(@character_point_adjustment).deliver_now
-                    flash[:notice] = "Character Point adjustment #{approved ? "approved" : "rejected"}."
+                    flash[:notice] = "Character Point adjustment #{approve ? "approved" : "rejected"}."
                 else
-                    flash[:error] = "Character Point adjustment #{approved ? "approval" : "rejection"} failed."
+                    flash[:error] = "Character Point adjustment #{approve ? "approval" : "rejection"} failed."
                 end
             else
                 flash[:notice] = "Adjustment has already been #{@character_point_adjustment.approved ? "approved" : "rejected"}."
