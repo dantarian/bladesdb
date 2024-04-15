@@ -60,11 +60,11 @@ class MonsterPointAdjustmentsController < ApplicationController
     end
     
     def approve
-        approve_or_reject_adjustment true, I18n.t("user.monster_point_adjustment.success.approved"), I18n.t("user.monster_point_adjustment.failure.approved")
+        resolve_request true, I18n.t("user.monster_point_adjustment.success.approved"), I18n.t("user.monster_point_adjustment.failure.approved")
     end
     
     def reject
-        approve_or_reject_adjustment false, I18n.t("user.monster_point_adjustment.success.rejected"), I18n.t("user.monster_point_adjustment.failure.rejected")
+        resolve_request false, I18n.t("user.monster_point_adjustment.success.rejected"), I18n.t("user.monster_point_adjustment.failure.rejected")
     end
     
     protected
@@ -100,9 +100,9 @@ class MonsterPointAdjustmentsController < ApplicationController
             end
         end
         
-        def approve_or_reject_adjustment(state, success_message, failure_message)
+        def resolve_request(approve, success_message, failure_message)
             if @monster_point_adjustment.is_provisional?
-                (state ? @monster_point_adjustment.approve(current_user) : @monster_point_adjustment.reject(current_user))
+                (approve ? @monster_point_adjustment.approve(current_user) : @monster_point_adjustment.reject(current_user))
                 if @monster_point_adjustment.save
                     UserMailer.monster_point_adjustment_approval(@monster_point_adjustment).deliver_now
                     flash[:notice] = success_message
