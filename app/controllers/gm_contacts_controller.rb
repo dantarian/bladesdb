@@ -9,7 +9,7 @@ class GmContactsController < ApplicationController
 
     def create
         @email = ContactForm.new(email_params)
-        @email.from_user = current_user.email
+        @email.from_user = current_user.name + " <no-reply@bathlarp.co.uk>"
         @email.to_user = @game.gamesmasters.collect(&:email).join(", ")
         @email.subject = "[BathLARP] " + @email.subject
 
