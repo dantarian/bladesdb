@@ -16,7 +16,7 @@ gem 'sass-rails', '~> 5.0.8'
 gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', '~> 0.12.3', :platforms => :ruby
+gem 'mini_racer', '~> 0.16.0', :platforms => :ruby
 
 gem 'uglifier', '>= 4.2.0'
 
@@ -66,6 +66,7 @@ gem 'capistrano-rvm', '~> 0.1.2'
 
 
 group :development, :test do
+  gem 'puma'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'factory_bot_rails', '~> 5.0.2'
   gem 'foreman', '~> 0.87.2'
@@ -76,7 +77,7 @@ end
 
 group :test do
   gem 'faker', '~> 2.22.0'
-  gem 'capybara', '~> 2.18.0'
+  gem 'capybara', '~> 3.40.0'
   gem 'capybara-screenshot', '>= 1.0.26'
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
