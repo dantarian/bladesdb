@@ -6,6 +6,7 @@ jobs:
         steps:
             - name: Install PhantomJS
               run: |
+                export OPENSSL_CONF=/dev/null
                 sudo apt-get update
                 sudo apt-get install build-essential chrpath libssl-dev libxft-dev -y
                 sudo apt-get install libfreetype6 libfreetype6-dev -y
