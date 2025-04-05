@@ -57,7 +57,7 @@ gem 'net-http', '~> 0.3.2'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano', '~> 3.4.0', require: false, group: :development
+gem 'capistrano', '~> 3.19', '>= 3.19.2', require: false, group: :development
 gem 'capistrano-rvm', '~> 0.1.2'
 
 # To use debugger
@@ -70,8 +70,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.2'
   gem 'factory_bot_rails', '~> 5.0.2'
   gem 'foreman', '~> 0.87.2'
-  gem 'capistrano-rails', '~> 1.1.6', require: false
-  gem 'capistrano-bundler', '~> 1.1.4', require: false
+  gem 'capistrano-rails', '~> 1.7.0', require: false
+  gem 'capistrano-bundler', '~> 2.1.1', require: false
   gem 'byebug', '~> 11.1.3'
 end
 
