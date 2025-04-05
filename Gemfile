@@ -39,7 +39,7 @@ gem 'scenic', '~> 1.7.0'
 gem 'scenic_sqlite_adapter', '~> 0.1.0'
 gem 'schema_auto_foreign_keys', '~> 1.1.0'
 gem 'mail_form', '~> 1.10.0'
-gem 'validates_timeliness', '~> 4.1.1'
+gem 'validates_timeliness', '~> 6.0.1'
 
 # Simplified logging
 gem "lograge"
