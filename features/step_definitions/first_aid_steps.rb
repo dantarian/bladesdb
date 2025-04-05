@@ -28,7 +28,7 @@ end
 # Validations
 
 Then(/^the first aid report should be displayed in a new tab$/) do
-  page.driver.browser.switch_to_window(page.driver.browser.window_handles.last)
+  page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
   page.find("h1").should have_text("First Aid Report for New Game")
 end
 

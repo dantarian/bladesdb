@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 6.1.7', '>= 6.1.7.2'
 gem 'rake', '~>12.3.0'
-gem 'bootsnap', '~>1.5.0'
+gem 'bootsnap', '~>1.18.4'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -16,7 +16,7 @@ gem 'sass-rails', '~> 5.0.8'
 gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', '~> 0.12.3', :platforms => :ruby
+gem 'mini_racer', '~> 0.16.0', :platforms => :ruby
 
 gem 'uglifier', '>= 4.2.0'
 
@@ -39,7 +39,7 @@ gem 'scenic', '~> 1.7.0'
 gem 'scenic_sqlite_adapter', '~> 0.1.0'
 gem 'schema_auto_foreign_keys', '~> 1.1.0'
 gem 'mail_form', '~> 1.10.0'
-gem 'validates_timeliness', '~> 4.1.1'
+gem 'validates_timeliness', '~> 6.0.1'
 
 # Simplified logging
 gem "lograge"
@@ -66,6 +66,7 @@ gem 'capistrano-rvm', '~> 0.1.2'
 
 
 group :development, :test do
+  gem 'puma'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'factory_bot_rails', '~> 5.0.2'
   gem 'foreman', '~> 0.87.2'
@@ -76,16 +77,15 @@ end
 
 group :test do
   gem 'faker', '~> 2.22.0'
-  gem 'capybara', '~> 2.18.0'
+  gem 'capybara', '~> 3.40.0'
   gem 'capybara-screenshot', '>= 1.0.26'
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
-  gem 'selenium-webdriver', '~> 3.142.7'
+  gem 'selenium-webdriver', '~> 4.31.0'
   gem 'cucumber-rails', '~> 2.2.0', require: false
   gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.8.5'
   gem 'email_spec', '~> 2.2.0'
-  gem 'poltergeist', '~> 1.18.1'
   gem 'rails-perftest', '~> 0.0.7'
   gem 'ruby-prof', '~> 1.4.2'
 end

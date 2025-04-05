@@ -215,7 +215,7 @@ class CharacterPage < BladesDBPage
 
     def check_for_guild(guild, branch: nil, state: nil)
       guild_section = page.find("li#guild")
-      unless branch.nil?
+      if branch.nil?
         guild_section.should have_content(guild)
       else
         guild_section.should have_content(guild)
@@ -273,7 +273,7 @@ class CharacterPage < BladesDBPage
     end
 
     def confirm_absence_of_spend_monster_points_link
-        page.find("li#rank").find("div.fieldactions").should have_no_link "Spend monster points" if page.has_selector?("li#rank")
+        page.find("li#rank").find("div.fieldcontents").should have_no_link "Spend monster points" if page.has_selector?("li#rank")
     end
 
     def confirm_absence_of_recycle_link
