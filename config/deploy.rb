@@ -19,7 +19,7 @@ set :deploy_to, '/var/www/bladesdb'
 #set :copy_exclude, ['.git']
 
 set :rvm_type, :system
-set :rvm_ruby_version, '2.6.10@blades'
+set :rvm_ruby_version, '3.1.6@blades'
 
 set :bundle_path, nil
 set :bundle_binstubs, nil
