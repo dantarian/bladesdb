@@ -17,12 +17,12 @@ class SidebarPage < BladesDBPage
     end
 
     def move_category_up(id)
-        page.find("#category#{id}").find_link('🡅').trigger(:click)
+        page.find("#category#{id}").find_link('🡅').click()
         self
     end
 
     def move_category_down(id)
-        page.find("#category#{id}").find_link('🡇').trigger(:click)
+        page.find("#category#{id}").find_link('🡇').click()
         self
     end
 
@@ -54,12 +54,12 @@ class SidebarPage < BladesDBPage
     end
 
     def move_entry_up(id)
-        page.find("#entry#{id}_and_subentries").find_link('🡅').trigger(:click)
+        page.find("#entry#{id}_and_subentries").find_link('🡅').click()
         self
     end
 
     def move_entry_down(id)
-        page.find("#entry#{id}_and_subentries").find_link('🡇').trigger(:click)
+        page.find("#entry#{id}_and_subentries").find_link('🡇').click()
         self
     end
 
@@ -69,7 +69,7 @@ class SidebarPage < BladesDBPage
     end
 
     def click_sidebar_link(name)
-        page.find('#menu').find("a", text: name, visible: false).trigger(:click)
+        page.find('#menu').find("a", text: name, visible: false).click()
         sleep 0.1
         self
     end

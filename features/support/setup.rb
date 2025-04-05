@@ -14,8 +14,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../config/initializers/da
 
 require 'email_spec/cucumber'
 
-require 'capybara/poltergeist'
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :selenium_headless
 
 Capybara.default_driver = :rack_test
 Capybara.default_max_wait_time = 10
@@ -31,3 +30,7 @@ end
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 require 'capybara-screenshot/cucumber'
+Capybara::Screenshot.register_driver(:selenium_headless) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+

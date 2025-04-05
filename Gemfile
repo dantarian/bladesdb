@@ -81,12 +81,11 @@ group :test do
   gem 'capybara-screenshot', '>= 1.0.26'
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
-  gem 'selenium-webdriver', '~> 3.142.7'
+  gem 'selenium-webdriver', '~> 4.31.0'
   gem 'cucumber-rails', '~> 2.2.0', require: false
   gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.8.5'
   gem 'email_spec', '~> 2.2.0'
-  gem 'poltergeist', '~> 1.18.1'
   gem 'rails-perftest', '~> 0.0.7'
   gem 'ruby-prof', '~> 1.4.2'
 end

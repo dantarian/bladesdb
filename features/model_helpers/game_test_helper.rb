@@ -126,7 +126,7 @@ module GameTestHelper
   end
 
   def make_game_start_later_today(game)
-    date_time = DateTime.now + 1.minute
+    date_time = DateTime.now + 61.minutes
     set_date(date_time.to_date, of: game)
     set_start_time(date_time.to_time, of: game)
   end
