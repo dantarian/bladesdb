@@ -6,7 +6,7 @@ lock '3.19.2'
 
 set :application, 'bladesdb'
 set :repo_url, 'git@github.com:dantarian/bladesdb'
-set :branch, :master
+set :branch, :main
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
