@@ -545,7 +545,7 @@ class Character < ApplicationRecord
 
     protected
         def add_monster_point_adjustment_for_recycling
-            if recycled? and state_was == Active
+            if recycled? and (state_was == Active or state_was == Retired)
                 mp_spends = monster_point_spends.to_a
                 mp_regained = mp_spends.map(&:monster_points_spent).sum
                 earned_points = points - 20 - mp_spends.map(&:character_points_gained).sum
