@@ -46,3 +46,10 @@ Feature: Recycle character
     Given the character has played 4 games
     When the user tries to recycle the character
     Then the user should be unable to recycle the character
+
+  Scenario: Character can be recycled from a Retired state
+    Given the character has played 2 games, earning 10 character points per game
+    And the character is retired
+    When the user recycles the character
+    Then the user should have a pending monster point adjustment for 20 monster points
+
