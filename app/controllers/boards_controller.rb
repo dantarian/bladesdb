@@ -3,6 +3,7 @@ require 'securerandom'
 class BoardsController < ApplicationController
     before_action :check_admin_or_committee_role, :only => [:admin, :new, :create, :update, :destroy ]
     before_action :authenticate_user!, :only => [:index, :show]
+    before_action :check_active_member, :only => [:show]
         
     # GET /boards
     # GET /boards.xml
