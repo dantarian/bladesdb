@@ -2,9 +2,15 @@
 
 <p>Boards in <span>italics</span> are In Character (IC) boards.</p>
 
+<% unless current_user.approved? %>
+Your account must be approved before you can access the boards.
+<% end %>
+
 <h2 class="alt">Open Boards</h2>
 
-<p>[ <%= link_to "Mark all boards read", mark_read_boards_path %> ]</p>
+<% if current_user.approved? %>
+	<p>[ <%= link_to "Mark all boards read", mark_read_boards_path %> ]</p>
+<% end %>
 
 <% if Board.open_boards.empty? %>
 	<p><i>No open boards found.</i></p>
@@ -19,7 +25,13 @@
 		<tbody>
 			<% Board.open_boards.sort_by {|board| board.order }.each do |board| %>
 				<tr class="<%= cycle('odd', 'even') %>">
-					<td><%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %></td>
+					<td>
+						<% if current_user.approved? %>
+							<%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %>
+						<% else %>
+							<span class="<%= board.ic? ? 'icboard' : 'oocboard' %>"><%=h board.name %></p>
+						<% end %>
+					</td>
 					<td><%= board.unread_messages(current_user) %></td>
 				</tr>
 			<% end %>
@@ -40,7 +52,13 @@
 		<tbody>
 			<% Board.closed_boards.sort_by {|board| board.order }.each do |board| %>
 				<tr class="<%= cycle('odd', 'even') %>">
-					<td><%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %></td>
+					<td>
+						<% if current_user.approved? %>
+							<%= link_to (h board.name), board, class: board.ic? ? 'icboard' : 'oocboard' %>
+						<% else %>
+							<span class="<%= board.ic? ? 'icboard' : 'oocboard' %>"><%=h board.name %></p>
+						<% end %>
+					</td>
 				</tr>
 			<% end %>
 		</tbody>

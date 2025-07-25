@@ -1,6 +1,7 @@
 class CharactersController < ApplicationController
     
     before_action :authenticate_user!
+    before_action :check_active_member, :except => [:my_characters, :index, :show_all]
     before_action :new_character, :only => [:new]
     before_action :find_character, :except => [:my_characters, :index, :new, :create, :new_player, :create_player, :show_all]
     before_action :check_ajax, :except => [:my_characters, :index, :new, :create, :show, :show_all]

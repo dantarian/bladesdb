@@ -35,13 +35,21 @@
 			<% @characters.select{|character| character.undeclared? }.each do |character| %>
 	  			<tr class="<%= cycle('odd', 'even') %>">
 					<td>
-					    <%= link_to character do %>
-					        <%=h character.name_and_title %>
-					    <% end %>
+						<% if current_user.approved? %>
+							<%= link_to character do %>
+								<%=h character.name_and_title %>
+							<% end %>
+						<% else %>
+							<%=h character.name_and_title %>
+						<% end %>
 					</td>
 					<td>
 						[
-							<%= link_to "Declare Character", declare_character_path(character.id), :method => :get, :remote => true %>
+							<% if current_user.approved? %>
+								<%= link_to "Declare Character", declare_character_path(character.id), :method => :get, :remote => true %>
+							<% else %>
+								Get your account approved to declare a character
+							<% end %>
 						]
 					</td>
 	  			</tr>
@@ -50,15 +58,17 @@
 	</table>
 <% end %>
 
-<p align="right">
-    [
-        <%= link_to "New Character", new_character_path, :method => :get, :remote => true %>
-    ]
-</p>
-<p>
-	<ul>
-		<li>If you want to create a character with fewer DTs, create as New then request an adjustment.</li>
-		<li>If you want to create a character above rank 2.0, create as New then spend monster points.</li>
-		<li>If you want your character to join a Guild after rank 2.0, create as New with no Guild, spend monster points then request to join.</li>
-	</ul>
-</p>
+<% if current_user.approved? %>
+	<p align="right">
+		[
+			<%= link_to "New Character", new_character_path, :method => :get, :remote => true %>
+		]
+	</p>
+	<p>
+		<ul>
+			<li>If you want to create a character with fewer DTs, create as New then request an adjustment.</li>
+			<li>If you want to create a character above rank 2.0, create as New then spend monster points.</li>
+			<li>If you want your character to join a Guild after rank 2.0, create as New with no Guild, spend monster points then request to join.</li>
+		</ul>
+	</p>
+<% end %>
