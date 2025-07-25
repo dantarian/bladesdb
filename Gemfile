@@ -73,6 +73,8 @@ group :development, :test do
   gem 'capistrano-rails', '~> 1.7.0', require: false
   gem 'capistrano-bundler', '~> 2.1.1', require: false
   gem 'byebug', '~> 11.1.3'
+  gem 'ed25519', '~> 1.2', require: false
+  gem 'bcrypt_pbkdf', '~> 1.0', require: false
 end
 
 group :test do
