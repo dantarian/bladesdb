@@ -23,7 +23,7 @@ Feature: Unapproved User Access
     Given there is another user
     And the other user has a character
     When the user goes to the characters page
-    Then the user should see a short user name and character link on the character
+    Then the user should see a short user name and no character link on the character
   
   @javascript
   Scenario: View event calendar as unapproved user

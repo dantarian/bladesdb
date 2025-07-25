@@ -300,7 +300,7 @@ end
 
 # Validations
 
-Then(/^the user should see a short user name and character link on the character$/) do
+Then(/^the user should see a short user name and no character link on the character$/) do
   CharactersPage.new.check_for_character(User.all.second, Character.first)
 end
 
