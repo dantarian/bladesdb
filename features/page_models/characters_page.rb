@@ -8,6 +8,7 @@ class CharactersPage < BladesDBPage
         else
             page.find("tbody").should have_text("AO")
             page.find("tbody").should have_text(character.name)
+            page.find("tbody").should have_no_link(character.name)
         end
     end
 
