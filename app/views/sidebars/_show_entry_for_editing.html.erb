@@ -1,6 +1,6 @@
 <div class="entry" id="entry<%= entry.id %>_and_subentries">
-    <%= link_to "🡅", move_up_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
-    <%= link_to "🡇", move_down_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
+    <%= link_to "⬆", move_up_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
+    <%= link_to "⬇", move_down_sidebar_entry_path( entry.id ), method: :patch, remote: true %>
     <%= entry.name %>
     [
         <%= link_to "Edit", edit_sidebar_entry_path( entry.id ), :method => :get, :remote => true %> |

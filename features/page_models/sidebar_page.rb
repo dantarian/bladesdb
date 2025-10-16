@@ -17,12 +17,12 @@ class SidebarPage < BladesDBPage
     end
 
     def move_category_up(id)
-        page.find("#category#{id}").find_link('🡅').click()
+        page.find("#category#{id}").find_link('⬆').click()
         self
     end
 
     def move_category_down(id)
-        page.find("#category#{id}").find_link('🡇').click()
+        page.find("#category#{id}").find_link('⬇').click()
         self
     end
 
@@ -54,12 +54,12 @@ class SidebarPage < BladesDBPage
     end
 
     def move_entry_up(id)
-        page.find("#entry#{id}_and_subentries").find_link('🡅').click()
+        page.find("#entry#{id}_and_subentries").find_link('⬆').click()
         self
     end
 
     def move_entry_down(id)
-        page.find("#entry#{id}_and_subentries").find_link('🡇').click()
+        page.find("#entry#{id}_and_subentries").find_link('⬇').click()
         self
     end
 
