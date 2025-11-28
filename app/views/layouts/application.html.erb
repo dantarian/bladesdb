@@ -13,7 +13,7 @@
         <%= stylesheet_link_tag 'application', media: 'all' %>
         <%= stylesheet_link_tag 'application', media: 'screen, projection' %>
         <%= stylesheet_link_tag 'application', media: 'print' %>
-        <% if @content_for_title %>
+        <% if content_for?(:title) %>
             <title>BathLARP - <%= yield :title %></title>
         <% else %>
             <title>BathLARP</title>
