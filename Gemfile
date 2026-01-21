@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.7', '>= 6.1.7.2'
+gem 'rails', '~> 7.0.0'
 gem 'rake', '~>12.3.0'
 gem 'bootsnap', '~>1.18.4'
 
@@ -12,7 +12,7 @@ gem 'sqlite3', '~> 1.4.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 5.0.8'
+gem 'sass-rails', '~> 6.0.0'
 gem 'coffee-rails', '~> 5.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -84,7 +84,7 @@ group :test do
   gem 'guard-rspec', '~> 4.7.3'
   gem 'launchy', '~> 2.5.0'
   gem 'selenium-webdriver', '~> 4.31.0'
-  gem 'cucumber-rails', '~> 2.2.0', require: false
+  gem 'cucumber-rails', '~> 2.3.0', require: false
   gem 'simplecov', '~> 0.18.5', require: false
   gem 'database_cleaner', '~> 1.8.5'
   gem 'email_spec', '~> 2.2.0'
